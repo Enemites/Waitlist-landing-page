@@ -136,7 +136,11 @@ const AboutUsPage = () => {
           </div>
         </section>
 
-        <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8" data-scroll="fade-up">
+        <section
+          id="our-mission"
+          className="scroll-mt-28 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
+          data-scroll="fade-up"
+        >
           <div className="mx-auto max-w-4xl text-center">
             <p className="nova-display mb-5 text-lg font-medium uppercase text-[#0F1117] sm:text-xl">
               One Mission

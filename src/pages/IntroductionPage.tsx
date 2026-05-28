@@ -275,6 +275,25 @@ const IntroductionPage = () => {
             </div>
           </div>
         </div>
+
+        <div className="absolute inset-x-0 bottom-7 z-20 px-4 sm:bottom-10">
+          <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-normal text-[rgba(157,163,180,0.62)] [text-shadow:0_2px_14px_rgba(0,0,0,0.82)] sm:text-sm">
+            <Link
+              to="/about-us#our-mission"
+              className="underline decoration-[rgba(157,163,180,0.36)] underline-offset-[3px] transition-colors hover:text-[rgba(157,163,180,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[rgba(157,163,180,0.6)]"
+            >
+              our mission
+            </Link>
+            <a
+              href="https://research.novaxarena.tech"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-[rgba(157,163,180,0.36)] underline-offset-[3px] transition-colors hover:text-[rgba(157,163,180,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[rgba(157,163,180,0.6)]"
+            >
+              our research
+            </a>
+          </div>
+        </div>
       </section>
 
       <section className="bg-[var(--nova-void)] px-4 py-20 text-[var(--nova-bone)] sm:px-6 sm:py-28">
