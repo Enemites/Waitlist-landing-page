@@ -14,8 +14,8 @@ const studentSquad = [
   {
     role: "Secondary Founder",
     name: "Enosh",
-    tagline: "How can fun and seriousness coexist? Like a competitive game.",
-    focus: "Game energy, community, student research, learning experience",
+    tagline: "How can we shape the next generation of learner communities through NovaX?",
+    focus: "Early adopters, feedback loops, learner communities, student participation",
     photo: "/assets/enosh.png",
   },
 ];
