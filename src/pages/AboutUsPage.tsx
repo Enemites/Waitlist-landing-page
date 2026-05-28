@@ -8,7 +8,7 @@ const studentSquad = [
     role: "Founder",
     name: "Nafis",
     tagline: "Are we able to discover a god-level learning method that also creates unfalsified credentials?",
-    focus: "Learning systems, brain research, capability proof, product direction",
+    focus: "Learning systems, brain research, capability proof, product direction, human behavior",
     photo: "/assets/senku.jpg",
   },
   {
