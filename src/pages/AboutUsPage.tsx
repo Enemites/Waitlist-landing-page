@@ -5,14 +5,12 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const studentSquad = [
   {
-    role: "Founder",
     name: "Nafis",
     tagline: "Are we able to discover a god-level learning method that also creates unfalsified credentials?",
     focus: "Learning systems, brain research, capability proof, product direction, human behavior",
     photo: "/assets/senku.jpg",
   },
   {
-    role: "Secondary Founder",
     name: "Enosh",
     tagline: "How can we shape the next generation of learner communities through NovaX?",
     focus: "Early adopters, feedback loops, learner communities, student participation",
@@ -32,7 +30,7 @@ const questTimeline = [
     label: "Quest 02",
     title: "Turning the question into research",
     description:
-      "The question turned into R&D and experiments: developing the idea, researching it, running surveys, and searching for a learning loop that felt serious without becoming lifeless.",
+      "The question turned into research: experimenting, developing the idea, running surveys, and looking for a learning loop that felt serious without becoming lifeless.",
     period: "June 2025",
   },
   {
@@ -44,9 +42,9 @@ const questTimeline = [
   },
   {
     label: "Quest 04",
-    title: "The concept became testable",
+    title: "The concept found its shape",
     description:
-      "The idea moved from frustration into a prototype: problem-based learning, world simulation, mentor reflection, and capability evidence in one short run.",
+      "Through prototyping and experimentation, the idea crystallized into a clear concept: problem-based learning, world simulation, mentor reflection, and capability evidence in one short run.",
     period: "October 2025",
   },
   {
@@ -193,7 +191,6 @@ const AboutUsPage = () => {
                     />
                   </div>
                   <div className="mt-5 flex flex-1 flex-col">
-                    <p className="nova-gradient-text nova-gradient-process text-xs font-semibold">{member.role}</p>
                     <h3 className="mt-2 text-2xl font-medium text-white">{member.name}</h3>
                     <p className="mt-3 text-sm leading-[1.6] text-[#E8E4D9]/74">{member.tagline}</p>
                     <p className="nova-mono mt-auto border-t border-[#333849] pt-4 text-xs text-[#9DA3B4]">
