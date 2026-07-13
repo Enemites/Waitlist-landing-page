@@ -30,20 +30,27 @@ const questTimeline = [
   },
   {
     label: "Quest 02",
-    title: "Gathering students as a team",
+    title: "Turning the question into research",
     description:
-      "Nafis met Enosh in a community. They shared the same concern, researched it together, ran surveys, and looked for a learning loop that felt serious without becoming lifeless.",
+      "The question turned into R&D and experiments: developing the idea, researching it, running surveys, and searching for a learning loop that felt serious without becoming lifeless.",
     period: "June 2025",
   },
   {
     label: "Quest 03",
+    title: "Meeting a collaborator",
+    description:
+      "I needed a few people to help, and I met Enosh, who happened to want to spend his free time contributing to certain projects voluntarily for the experience.",
+    period: "July 2025",
+  },
+  {
+    label: "Quest 04",
     title: "The concept became testable",
     description:
       "The idea moved from frustration into a prototype: problem-based learning, world simulation, mentor reflection, and capability evidence in one short run.",
     period: "October 2025",
   },
   {
-    label: "Quest 04",
+    label: "Quest 05",
     title: "Building an arena for everyone",
     description:
       "The next step is a deeper prototype and a broader beta. NovaX is being shaped with students who want learning to feel responsive, visible, and worth returning to.",
