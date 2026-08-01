@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, Navigate } from "react-router-dom";
 import IntroductionPage from "@/pages/IntroductionPage";
 import AboutUsPage from "@/pages/AboutUsPage";
 import HowItWorksPage from "@/pages/HowItWorksPage";
@@ -45,14 +45,15 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<IntroductionPage />} />
-        <Route path="/how-it-works" element={<HowItWorksPage />} />
-        <Route path="/about-us" element={<AboutUsPage />} />
-        <Route path="/contact" element={<NotAvailablePage title="Contact" />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-        <Route path="/login" element={<Placeholder title="Login" />} />
-        <Route path="/pricing" element={<Placeholder title="Pricing" />} />
+        <Route path="/" element={<Navigate to="/arena" replace />} />
+        <Route path="/arena" element={<IntroductionPage />} />
+        <Route path="/arena/how-it-works" element={<HowItWorksPage />} />
+        <Route path="/arena/about-us" element={<AboutUsPage />} />
+        <Route path="/arena/contact" element={<NotAvailablePage title="Contact" />} />
+        <Route path="/arena/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/arena/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="/arena/login" element={<Placeholder title="Login" />} />
+        <Route path="/arena/pricing" element={<Placeholder title="Pricing" />} />
       </Routes>
     </BrowserRouter>
   );

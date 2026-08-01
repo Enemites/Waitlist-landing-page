@@ -11,19 +11,19 @@ export type ResponsiveNavItem = {
 export const novaGlobalNavItems: ResponsiveNavItem[] = [
   {
     label: "Home",
-    to: "/",
+    to: "/arena",
   },
   {
     iconPath:
       "M8 5.14v13.72L18.78 12 8 5.14Zm2 3.63L15.02 12 10 15.23V8.77Z",
     label: "How It Works",
-    to: "/how-it-works",
+    to: "/arena/how-it-works",
   },
   {
     iconPath:
       "M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z",
     label: "About Us",
-    to: "/about-us",
+    to: "/arena/about-us",
   },
   {
     iconPath:
@@ -37,19 +37,26 @@ type ResponsiveHeaderProps = {
   className?: string;
   desktopItems?: ResponsiveNavItem[];
   mobileItems?: ResponsiveNavItem[];
+  theme?: "dark" | "light";
 };
 
-const baseHeaderClass =
-  "fixed left-1/2 z-50 flex w-[calc(100%-1rem)] max-w-4xl -translate-x-1/2 items-center justify-between rounded-xl border border-white/[0.08] bg-[rgba(15,17,23,0.74)] px-3 py-2 shadow-[0_18px_60px_rgba(15,17,23,0.18)] backdrop-blur-xl sm:w-[calc(100%-2rem)] sm:px-4 sm:py-3 md:w-[calc(100%-3rem)]";
+const getHeaderClasses = (className: string) => {
+  const baseLayout = "fixed left-1/2 z-50 flex w-[calc(100%-1rem)] max-w-4xl -translate-x-1/2 items-center justify-between rounded-xl px-3 py-2 sm:w-[calc(100%-2rem)] sm:px-4 sm:py-3 md:w-[calc(100%-3rem)]";
+  // Universal neutral glass for BOTH light and dark themes
+  const universalGlass = "backdrop-blur-xl bg-neutral-500/10 border border-neutral-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)]";
+  return `${baseLayout} ${universalGlass} ${className}`;
+};
 
 const ResponsiveHeader = ({
   className = "",
   desktopItems = novaGlobalNavItems,
   mobileItems = desktopItems,
+  theme = "dark",
 }: ResponsiveHeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuId = useId();
   const location = useLocation();
+  const isDark = theme === "dark";
 
   useEffect(() => {
     setIsOpen(false);
@@ -72,17 +79,24 @@ const ResponsiveHeader = ({
 
   const renderNavItem = (item: ResponsiveNavItem, isMobile = false) => {
     const active = isActive(item);
-    const itemClass = isMobile
-      ? `flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${
-          active
-            ? "bg-white/[0.1] text-[#E8E4D9]"
-            : "text-[rgba(232,228,217,0.78)] hover:bg-white/[0.08] hover:text-[#E8E4D9]"
-        }`
-      : `inline-flex h-9 items-center justify-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors ${
-          active
-            ? "border border-white/15 bg-white/[0.08] text-[#E8E4D9]"
-            : "text-[rgba(232,228,217,0.78)] hover:bg-white/[0.08] hover:text-[#E8E4D9]"
-        }`;
+    let itemClass = "";
+    
+    // Text colors still adapt to theme so they are readable
+    if (isMobile) {
+      if (active) {
+         itemClass = isDark ? "bg-white/[0.1] text-[#E8E4D9]" : "bg-black/[0.05] text-[#111317]";
+      } else {
+         itemClass = isDark ? "text-[rgba(232,228,217,0.78)] hover:bg-white/[0.08] hover:text-[#E8E4D9]" : "text-[#4A4F5E] hover:bg-black/[0.04] hover:text-[#111317]";
+      }
+      itemClass = `flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors ${itemClass}`;
+    } else {
+      if (active) {
+         itemClass = isDark ? "border border-white/15 bg-white/[0.08] text-[#E8E4D9]" : "border border-black/10 bg-black/[0.03] text-[#111317]";
+      } else {
+         itemClass = isDark ? "text-[rgba(232,228,217,0.78)] hover:bg-white/[0.08] hover:text-[#E8E4D9]" : "text-[#4A4F5E] hover:bg-black/[0.04] hover:text-[#111317]";
+      }
+      itemClass = `inline-flex h-9 items-center justify-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors ${itemClass}`;
+    }
 
     const content = (
       <>
@@ -128,10 +142,10 @@ const ResponsiveHeader = ({
   };
 
   return (
-    <header className={`${baseHeaderClass} ${className}`} style={{ top: "env(safe-area-inset-top, 0.5rem)" }}>
+    <header className={getHeaderClasses(className)} style={{ top: "env(safe-area-inset-top, 0.5rem)" }}>
       <Link
-        to="/"
-        className="nova-display text-lg font-semibold tracking-normal text-[#E8E4D9] sm:text-xl"
+        to="/arena"
+        className={`nova-display text-lg font-semibold tracking-normal sm:text-xl ${isDark ? 'text-[#E8E4D9]' : 'text-[#111317]'}`}
       >
         NovaX
       </Link>
@@ -146,7 +160,11 @@ const ResponsiveHeader = ({
           aria-controls={menuId}
           aria-expanded={isOpen}
           aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.08] text-[#E8E4D9] transition-colors hover:bg-white/[0.12]"
+          className={`inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors ${
+            isDark 
+              ? 'border-white/10 bg-white/[0.08] text-[#E8E4D9] hover:bg-white/[0.12]' 
+              : 'border-black/10 bg-black/[0.03] text-[#111317] hover:bg-black/[0.06]'
+          }`}
           onClick={() => setIsOpen((current) => !current)}
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -171,7 +189,7 @@ const ResponsiveHeader = ({
         {isOpen ? (
           <nav
             id={menuId}
-            className="absolute right-0 top-11 w-56 rounded-xl border border-white/10 bg-[rgba(15,17,23,0.96)] p-2 shadow-[0_18px_50px_rgba(0,0,0,0.34)] backdrop-blur-xl"
+            className="absolute right-0 top-11 w-56 rounded-xl border border-neutral-500/20 bg-neutral-500/10 p-2 shadow-[0_18px_50px_rgba(0,0,0,0.34)] backdrop-blur-2xl"
             aria-label="Mobile navigation"
           >
             {mobileItems.map((item) => renderNavItem(item, true))}
