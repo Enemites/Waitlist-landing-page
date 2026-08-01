@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import ResponsiveHeader, { novaGlobalNavItems } from "@/components/ResponsiveHeader";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useRef } from "react";
+import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 
 const WAITLIST_FORM_URL = "https://tally.so/r/zxDAyZ";
 const YOUTUBE_DEMO_VIDEO_ID = "sga8QDniKls";
@@ -535,25 +536,13 @@ const IntroductionPage = () => {
 
             <div
               ref={videoDemoRef}
-              className="py-20 opacity-0 transform translate-y-8 transition-all duration-1000 ease-out sm:py-28"
+              className="opacity-0 transform translate-y-8 transition-all duration-1000 ease-out"
               data-scroll="fade-up"
             >
-              <div className="mx-auto max-w-6xl">
-                <div
-                  className="nova-media mx-auto aspect-video w-full max-w-5xl bg-[var(--nova-void)] opacity-0 transform translate-y-8 transition-all duration-1000 ease-out"
-                  data-scroll="fade-up"
-                  style={{ animationDelay: "0.2s" }}
-                >
-                  <iframe
-                    className="h-full w-full"
-                    src={`https://www.youtube.com/embed/${YOUTUBE_DEMO_VIDEO_ID}?rel=0&modestbranding=1`}
-                    title="NovaX Demo Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
+              <ScrollExpandMedia
+                mediaType="video"
+                mediaSrc={`https://www.youtube.com/embed/${YOUTUBE_DEMO_VIDEO_ID}`}
+              />
             </div>
           </div>
         </div>
