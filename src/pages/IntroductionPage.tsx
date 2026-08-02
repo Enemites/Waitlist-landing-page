@@ -126,12 +126,9 @@ const IntroductionPage = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: { 
-      opacity: 1, y: 0, 
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } 
-    }
-  };
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+  } as any;
 
   return (
     <div className="bg-[#0F1117] text-[#E8E4D9]">

@@ -93,7 +93,7 @@ const AboutUsPage = () => {
       opacity: 1, y: 0, 
       transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } 
     }
-  };
+  } as any;
 
   return (
     <div className="min-h-screen bg-[#F7F5F0] text-[#4A4F5E]">

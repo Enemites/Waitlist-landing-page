@@ -97,7 +97,7 @@ const HowItWorksPage = () => {
       opacity: 1, y: 0, 
       transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } 
     }
-  };
+  } as any;
 
   return (
     <div className="min-h-screen overflow-hidden bg-[#0F1117] text-[#E8E4D9]">
