@@ -8,6 +8,7 @@ interface ScrollExpandMediaProps {
   mediaSrc: string;
   posterSrc?: string;
   children?: ReactNode;
+  [key: string]: any;
 }
 
 const ScrollExpandMedia = ({
