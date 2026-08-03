@@ -5,6 +5,7 @@ import AboutUsPage from "@/pages/AboutUsPage";
 import HowItWorksPage from "@/pages/HowItWorksPage";
 import TermsOfServicePage from "@/pages/TermsOfServicePage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
+import HomePage from "@/pages/HomePage";
 
 const Placeholder = ({ title }: { title: string }) => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-900">
@@ -46,6 +47,7 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Navigate to="/arena" replace />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/arena" element={<IntroductionPage />} />
         <Route path="/arena/how-it-works" element={<HowItWorksPage />} />
         <Route path="/arena/about-us" element={<AboutUsPage />} />

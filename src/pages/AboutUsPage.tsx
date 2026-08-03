@@ -153,12 +153,12 @@ const AboutUsPage = () => {
             >
               <div className="relative min-h-[400px]">
                 <img
-                  src="/assets/cosmic-planet-background.jpg"
-                  alt="Dark spatial NovaX arena atmosphere"
-                  className="absolute inset-0 h-full w-full object-cover mix-blend-multiply filter grayscale opacity-40"
+                  src="/assets/feedback-loop-sculpture.jpg"
+                  alt="Abstract continuous feedback loop sculpture representing learning"
+                  className="absolute inset-0 h-full w-full object-cover mix-blend-multiply opacity-95 transition-transform duration-1000 hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <p className="nova-mono text-[11px] uppercase tracking-wider text-[#D97757]">ORIGIN SIGNAL</p>
                   <h2 className="nova-display mt-3 text-3xl font-medium leading-[1.15] text-[#111317]">
