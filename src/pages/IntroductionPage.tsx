@@ -131,7 +131,7 @@ const IntroductionPage = () => {
   } as any;
 
   return (
-    <div className="bg-[#0F1117] text-[#E8E4D9]">
+    <div className="bg-[#000000] text-[#E8E4D9]">
       <style>{`
         @keyframes novaXGradientMorph {
           0%, 100% { color: #D97757; -webkit-text-fill-color: #D97757; }
@@ -147,20 +147,20 @@ const IntroductionPage = () => {
       `}</style>
 
       <ResponsiveHeader
-        className="border-b border-white/10 bg-[rgba(15,17,23,0.8)] backdrop-blur-md shadow-none"
+        className="border-b border-white/10 bg-black/80 backdrop-blur-md shadow-none"
         desktopItems={introDesktopNavItems}
         mobileItems={novaGlobalNavItems}
       />
 
       <main className="relative">
         {/* HERO SECTION */}
-        <section className="relative min-h-[100dvh] overflow-hidden bg-[#0F1117] flex items-center pt-24 px-4 sm:px-6 lg:px-8">
+        <section className="relative min-h-[100dvh] overflow-hidden bg-[#000000] flex items-center pt-24 px-4 sm:px-6 lg:px-8">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.85] mix-blend-screen"
             style={{ backgroundImage: "url(/assets/introduction-arena-bg.jpg)" }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0F1117] via-[#0F1117]/80 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0F1117] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#000000] via-[#000000]/80 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#000000] to-transparent" />
 
           <motion.div 
             className="relative z-10 mx-auto w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
@@ -212,7 +212,7 @@ const IntroductionPage = () => {
         </section>
 
         {/* FUN LIKE A GAME SECTION - BENTO GRID */}
-        <section className="bg-[#0F1117] px-4 py-24 sm:px-6 lg:px-8 border-t border-[#1C2030]">
+        <section className="bg-[#050505] px-4 py-24 sm:px-6 lg:px-8 border-t border-white/5">
           <div className="mx-auto max-w-6xl">
             <motion.div 
               className="mb-16 text-center max-w-3xl mx-auto"
@@ -228,7 +228,7 @@ const IntroductionPage = () => {
             </motion.div>
 
             <motion.div 
-              className="relative nova-media mx-auto aspect-video md:aspect-[21/9] w-full bg-[#1C2030] overflow-hidden rounded-[20px] border border-[#333849] group cursor-pointer"
+              className="relative nova-media mx-auto aspect-video md:aspect-[21/9] w-full bg-[#000000] overflow-hidden rounded-[20px] border border-white/5 group cursor-pointer shadow-2xl"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
@@ -238,9 +238,10 @@ const IntroductionPage = () => {
               <img
                 src="/assets/work.png"
                 alt="NovaX experience preview"
-                className="h-full w-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-1000 ease-out"
+                className="h-full w-full object-cover opacity-50 group-hover:opacity-70 transition-opacity duration-1000 ease-out mix-blend-screen"
                 loading="lazy"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-80" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <Button
                   variant="outline"
@@ -256,33 +257,77 @@ const IntroductionPage = () => {
             </motion.div>
 
             <motion.div 
-              className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4"
+              className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-4"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
             >
-              {valueCards.map((card, index) => (
-                <motion.div 
-                  key={card.title} 
-                  variants={itemVariants}
-                  className={`flex flex-col overflow-hidden rounded-[20px] border border-[#333849] bg-[#1C2030] ${index === 0 ? 'md:col-span-3 lg:col-span-1' : ''}`}
-                >
-                  <div className="aspect-[4/3] w-full overflow-hidden bg-[#0A0B0E] border-b border-[#333849]">
-                    <img src={card.image} alt={card.alt} className="h-full w-full object-cover opacity-80 mix-blend-screen" loading="lazy" />
-                  </div>
-                  <div className="flex flex-col justify-between p-6 sm:p-8 flex-grow">
-                    <h3 className="nova-display text-2xl font-medium leading-[1.2] text-white">{card.title}</h3>
-                    <p className="mt-4 text-[15px] font-normal leading-[1.6] text-[#E8E4D9]/72">{card.copy}</p>
-                  </div>
-                </motion.div>
-              ))}
+              {/* Card 1: 7 Columns (Text Left, Image Right) */}
+              <motion.div 
+                variants={itemVariants}
+                className="md:col-span-7 flex flex-col sm:flex-row overflow-hidden rounded-[24px] border border-white/5 bg-[#000000] group"
+              >
+                <div className="flex flex-col justify-center p-8 sm:p-10 w-full sm:w-1/2 z-10">
+                  <h3 className="nova-display text-2xl md:text-3xl font-medium leading-[1.2] text-white">
+                    {valueCards[0].title}
+                  </h3>
+                  <p className="mt-4 text-[15px] md:text-base leading-relaxed text-[#E8E4D9]/70">
+                    {valueCards[0].copy}
+                  </p>
+                </div>
+                <div className="w-full sm:w-1/2 min-h-[240px] bg-black relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000] opacity-90 z-10 hidden sm:block" />
+                  <img src={valueCards[0].image} alt={valueCards[0].alt} className="h-full w-full object-cover opacity-70 mix-blend-screen transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                </div>
+              </motion.div>
+
+              {/* Card 2: 5 Columns (Text Top, Image Bottom) */}
+              <motion.div 
+                variants={itemVariants}
+                className="md:col-span-5 flex flex-col overflow-hidden rounded-[24px] border border-white/5 bg-gradient-to-b from-[#000000] to-black group"
+              >
+                <div className="flex flex-col justify-start p-8 sm:p-10 pb-4 z-10">
+                  <h3 className="nova-display text-2xl md:text-3xl font-medium leading-[1.2] text-white">
+                    {valueCards[1].title}
+                  </h3>
+                  <p className="mt-4 text-[15px] leading-relaxed text-[#E8E4D9]/70">
+                    {valueCards[1].copy}
+                  </p>
+                </div>
+                <div className="flex-1 w-full min-h-[220px] bg-transparent relative overflow-hidden mt-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10" />
+                  <img src={valueCards[1].image} alt={valueCards[1].alt} className="absolute bottom-0 left-0 h-full w-full object-cover object-bottom opacity-70 mix-blend-screen transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                </div>
+              </motion.div>
+
+              {/* Card 3: 12 Columns (Image Left, Text Right) */}
+              <motion.div 
+                variants={itemVariants}
+                className="md:col-span-12 flex flex-col md:flex-row-reverse overflow-hidden rounded-[24px] border border-white/5 bg-[#050505] group relative shadow-2xl"
+              >
+                <div className="absolute inset-0 bg-[#D97757]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                
+                <div className="flex flex-col justify-center p-8 sm:p-10 md:p-14 w-full md:w-5/12 z-10">
+                  <h3 className="nova-display text-2xl md:text-3xl lg:text-4xl font-medium leading-[1.2] text-white">
+                    {valueCards[2].title}
+                  </h3>
+                  <p className="mt-4 text-[15px] md:text-base leading-relaxed text-[#E8E4D9]/70 max-w-sm">
+                    {valueCards[2].copy}
+                  </p>
+                </div>
+                <div className="w-full md:w-7/12 min-h-[300px] bg-black relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#050505] opacity-90 z-10 hidden md:block" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent opacity-80 z-10 md:hidden" />
+                  <img src={valueCards[2].image} alt={valueCards[2].alt} className="h-full w-full object-cover object-center opacity-70 mix-blend-screen transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </section>
 
         {/* SIMULATION FEATURES - STICKY STACK */}
-        <section className="bg-[#0A0B0E] px-4 py-24 sm:px-6 lg:px-8 border-y border-[#1C2030]">
+        <section className="bg-[#050505] px-4 py-24 sm:px-6 lg:px-8 border-y border-white/5">
           <div className="mx-auto max-w-6xl">
             <motion.div 
               className="mb-20 max-w-2xl"
@@ -304,27 +349,33 @@ const IntroductionPage = () => {
               {simulationFeatures.map((feature, index) => (
                 <div 
                   key={feature.title}
-                  className="sticky top-24 flex min-h-[60vh] md:min-h-[70vh] items-center pt-8 pb-16"
+                  className="sticky top-24 flex min-h-[75vh] items-center pt-8 pb-16 bg-[#050505]"
                   style={{ zIndex: index }}
                 >
-                  <div className="w-full rounded-[24px] border border-white/10 bg-[rgba(28,32,48,0.95)] p-6 md:p-12 backdrop-blur-xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-16 items-center">
-                    <div>
-                      <p className="nova-mono mb-4 text-[13px] font-medium text-[#D97757]">0{index + 1}</p>
-                      <h3 className="nova-display text-3xl md:text-4xl font-medium leading-[1.1] text-white">
+                  <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-20 items-center">
+                    <div className="pr-4">
+                      <div className="mb-6 inline-flex items-center gap-4">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-[#D97757]">
+                          <span className="nova-mono text-[12px] font-medium">0{index + 1}</span>
+                        </span>
+                        <span className="nova-mono text-[12px] font-medium tracking-[0.2em] text-[#D97757] uppercase">Phase</span>
+                      </div>
+                      <h3 className="nova-display text-4xl md:text-5xl font-medium leading-[1.1] text-white tracking-tight">
                         {feature.title}
                       </h3>
-                      <p className="mt-6 text-[15px] md:text-base leading-[1.6] text-[#E8E4D9]/80 max-w-[40ch]">
+                      <p className="mt-6 text-lg leading-relaxed text-[#E8E4D9]/70 max-w-[40ch]">
                         {feature.copy}
                       </p>
                     </div>
-                    <div className="aspect-[16/10] overflow-hidden rounded-[16px] border border-white/10 bg-[#0F1117] shadow-inner">
+                    <div className="aspect-[16/10] overflow-hidden rounded-[24px] border border-white/10 bg-[#000000] shadow-2xl relative">
                       <video
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover opacity-90"
                         autoPlay loop muted playsInline
                         poster="/assets/introduction-arena-bg.jpg"
                       >
                         <source src={feature.video} type="video/mp4" />
                       </video>
+                      <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] rounded-[24px] pointer-events-none" />
                     </div>
                   </div>
                 </div>
@@ -334,35 +385,48 @@ const IntroductionPage = () => {
         </section>
 
         {/* PROBLEM SOLVING MATTERS */}
-        <section className="bg-[#0F1117] px-4 py-32 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl text-center">
+        <section className="bg-[#000000] px-4 py-32 sm:px-6 lg:px-8 border-y border-white/5 relative overflow-hidden">
+          {/* Subtle background glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-[#D97757]/5 blur-[120px] pointer-events-none" />
+          
+          <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-start relative z-10">
             <motion.div
+              className="lg:col-span-5 lg:sticky lg:top-32"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={itemVariants}
             >
-              <h2 className="nova-display text-3xl font-medium leading-[1.1] text-white sm:text-4xl md:text-5xl">
-                Problem solving <span className="text-[#D97757]">matters</span>.
+              <h2 className="nova-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl md:text-6xl tracking-tight">
+                The market has <br />
+                <span className="text-[#D97757]">spoken.</span>
               </h2>
+              <p className="mt-6 text-lg leading-relaxed text-[#E8E4D9]/60 max-w-[36ch]">
+                The era of automation and AI orchestration demands a new baseline. Problem-solving is no longer just an asset—it's the only currency that matters.
+              </p>
             </motion.div>
 
             <motion.div 
-              className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4"
+              className="lg:col-span-6 lg:col-start-7 flex flex-col"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
             >
-              {problemSignals.map((signal) => (
+              {problemSignals.map((signal, index) => (
                 <motion.div
                   key={signal.title}
                   variants={itemVariants}
-                  className="rounded-[20px] border border-[#333849] bg-[#1C2030] p-8 md:p-10 text-left"
+                  className={`flex flex-col gap-6 py-10 ${index === 0 ? 'border-b border-white/10' : ''}`}
                 >
-                  <h3 className="nova-display text-xl font-medium text-white">{signal.title}</h3>
-                  <p className="mt-4 text-[15px] leading-[1.6] text-[#E8E4D9]/72">
-                    {signal.copy}
+                  <div className="flex items-center gap-4">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[rgba(255,255,255,0.02)] text-[#D97757]">
+                      <span className="nova-mono text-[11px] font-medium tracking-widest">0{index + 1}</span>
+                    </span>
+                    <h3 className="nova-mono text-[13px] font-medium tracking-[0.15em] uppercase text-white/80">{signal.title}</h3>
+                  </div>
+                  <p className="text-2xl leading-relaxed text-[#E8E4D9] sm:text-3xl font-light tracking-tight">
+                    "{signal.copy}"
                   </p>
                 </motion.div>
               ))}
@@ -371,7 +435,7 @@ const IntroductionPage = () => {
         </section>
 
         {/* PROOF FEATURES - EDITORIAL LAYOUT */}
-        <section className="bg-[#0A0B0E] px-4 py-32 sm:px-6 lg:px-8 border-t border-[#1C2030]">
+        <section className="bg-[#050505] px-4 py-32 sm:px-6 lg:px-8 border-t border-white/5">
           <div className="mx-auto max-w-[1400px]">
             <motion.div 
               className="mb-32 text-center max-w-3xl mx-auto"
@@ -409,8 +473,8 @@ const IntroductionPage = () => {
                     {proofFeatures[0].copy}
                   </p>
                 </div>
-                <div className="lg:col-span-5 lg:col-start-7 flex justify-center">
-                  <div className="relative w-full max-w-md aspect-[5/4] rounded-[24px] overflow-hidden border border-white/5 bg-[#0A0B0E] shadow-2xl drop-shadow-[0_0_40px_rgba(217,119,87,0.1)] hover:scale-105 hover:shadow-[0_0_60px_rgba(217,119,87,0.15)] transition-all duration-700 ease-out">
+                <div className="lg:col-span-6 lg:col-start-7 flex justify-start">
+                  <div className="relative w-full max-w-xl aspect-[16/10] rounded-[24px] overflow-hidden border border-white/5 bg-[#050505] shadow-2xl drop-shadow-[0_0_40px_rgba(217,119,87,0.1)] hover:scale-105 hover:shadow-[0_0_60px_rgba(217,119,87,0.15)] transition-all duration-700 ease-out">
                     <img
                       src={proofFeatures[0].image}
                       alt={proofFeatures[0].alt}
@@ -449,7 +513,7 @@ const IntroductionPage = () => {
                     className="w-full h-auto max-h-[70vh] object-contain mix-blend-screen opacity-80 hover:opacity-100 transition-opacity duration-700"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0E] via-transparent to-transparent z-10 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10 pointer-events-none" />
                 </div>
               </motion.div>
             </div>
@@ -499,7 +563,7 @@ const IntroductionPage = () => {
 
       <footer
         id="about-us"
-        className="bg-[#0F1117] px-4 py-16 text-[#E8E4D9] sm:px-6 sm:py-20 border-t border-[#1C2030]"
+        className="bg-[#000000] px-4 py-16 text-[#E8E4D9] sm:px-6 sm:py-20 border-t border-white/5"
       >
         <div className="mx-auto max-w-6xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
@@ -521,7 +585,7 @@ const IntroductionPage = () => {
                     key={link.href}
                     href={link.href}
                     aria-label={link.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#1C2030] text-[#E8E4D9] transition-colors hover:bg-[#333849] hover:text-white"
+                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-[#E8E4D9] transition-colors hover:bg-white/10 hover:text-white"
                   >
                     <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
                       <path d={link.path} />
@@ -573,7 +637,7 @@ const IntroductionPage = () => {
             </div>
           </div>
 
-          <div className="mt-12 border-t border-[#1C2030] pt-8">
+          <div className="mt-12 border-t border-white/5 pt-8">
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
               <p className="text-[13px] text-[#9DA3B4]">
                 (c) 2025 NovaX. All rights reserved.

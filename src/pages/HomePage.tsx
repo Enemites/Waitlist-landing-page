@@ -22,6 +22,7 @@ const LabHeader = () => {
         
         <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium tracking-wide text-[#4A4F5E]">
           <a href="#research" className="hover:text-[#111317] transition-colors">Research</a>
+          <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#111317] transition-colors">News</a>
           <a href="mailto:novaniansupp@gmail.com" className="hover:text-[#111317] transition-colors">Contact</a>
           <Link 
             to="/arena" 
@@ -196,6 +197,9 @@ const HomePage = () => {
           <div className="flex flex-wrap gap-8 font-medium">
             <a href="#research" className="hover:text-[#111317] transition-colors">
               Research
+            </a>
+            <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#111317] transition-colors">
+              News
             </a>
             <a href="mailto:novaniansupp@gmail.com" className="hover:text-[#111317] transition-colors">
               Contact
