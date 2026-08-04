@@ -131,7 +131,7 @@ const AboutUsPage = () => {
               <motion.h1 variants={itemVariants} className="nova-display text-5xl font-semibold leading-[1.05] tracking-tight text-[#111317] md:text-6xl lg:text-7xl">
                 Built by students who needed a <span className="nova-gradient-x">better arena</span>.
               </motion.h1>
-              <motion.p variants={itemVariants} className="mt-8 text-base font-normal leading-[1.6] text-[#4A4F5E] sm:text-xl max-w-xl">
+              <motion.p variants={itemVariants} className="mt-8 text-sm font-normal leading-[1.6] text-[#4A4F5E] sm:text-xl max-w-xl">
                 NovaX began from a student fear: AI makes knowledge feel cheap, while learning still feels heavy. We are building the arena we wanted, where effort becomes visible capability.
               </motion.p>
 
