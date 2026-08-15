@@ -611,7 +611,7 @@ const IntroductionPage = () => {
                   </Link>
                 </li>
                 <li>
-                  <a href="mailto:novaniansupp@gmail.com" className="transition-colors hover:text-white">
+                  <a href="mailto:support@novaxarena.tech" className="transition-colors hover:text-white">
                     Contact
                   </a>
                 </li>

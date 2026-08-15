@@ -140,7 +140,7 @@ const AboutUsPage = () => {
                   <Link to="/arena/how-it-works">See how it works</Link>
                 </Button>
                 <Button asChild variant="outline" className="h-12 rounded-lg border border-[#E2DCD0] bg-transparent px-8 text-[15px] font-medium text-[#111317] hover:bg-white hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
-                  <a href="mailto:novaniansupp@gmail.com">Contact the team</a>
+                  <a href="mailto:support@novaxarena.tech">Contact the team</a>
                 </Button>
               </motion.div>
             </motion.div>
@@ -334,7 +334,7 @@ const AboutUsPage = () => {
                   If you care about capability, simulation, or better learning loops, this is the moment to help shape the early product.
                 </p>
                 <Button asChild className="h-12 shrink-0 rounded-lg bg-[#111317] px-8 text-[15px] font-medium text-white hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform">
-                  <a href="mailto:novaniansupp@gmail.com">Write to us</a>
+                  <a href="mailto:support@novaxarena.tech">Write to us</a>
                 </Button>
               </div>
             </div>
