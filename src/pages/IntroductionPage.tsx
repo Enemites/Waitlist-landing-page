@@ -402,7 +402,7 @@ const IntroductionPage = () => {
                 <span className="text-[#D97757]">spoken.</span>
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-[#E8E4D9]/60 max-w-[36ch]">
-                The era of automation and AI orchestration demands a new baseline. Problem-solving is no longer just an asset—it's the only currency that matters.
+                The era of automation and AI orchestration demands a new baseline.
               </p>
             </motion.div>
 
