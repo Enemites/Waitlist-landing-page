@@ -17,7 +17,7 @@ const LabHeader = () => {
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#F7F5F0]/90 backdrop-blur-md border-b border-[#E2DCD0] py-4' : 'bg-transparent py-6'}`}>
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <Link to="/home" className="nova-display text-xl font-medium tracking-tight text-[#111317] flex items-center">
-          <img src="/assets/logo.png" alt="Enemites" className="h-6" />
+          <img src="/assets/logo.png" alt="Enemites" className="h-10" />
         </Link>
         
         <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium tracking-wide text-[#4A4F5E]">

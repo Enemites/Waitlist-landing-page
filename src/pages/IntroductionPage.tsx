@@ -185,7 +185,13 @@ const IntroductionPage = () => {
                   asChild
                   className="h-12 rounded-lg bg-[#D97757] px-8 text-[15px] font-medium text-white hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
                 >
-                  <a href="#join-waitlist">
+                  <a 
+                    href="#join-waitlist" 
+                    onClick={(e) => { 
+                      e.preventDefault(); 
+                      document.getElementById('join-waitlist')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+                    }}
+                  >
                     Join Waitlist
                   </a>
                 </Button>
