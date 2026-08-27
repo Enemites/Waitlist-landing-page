@@ -93,7 +93,7 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
         message: "Enemites form created successfully.",
         form: {
           ...form,
-          public_url: `/form/${form.slug}`,
+          public_url: `https://enemites.com/form/${form.slug}`,
           is_endless: !form.expires_at,
         },
       },
@@ -244,7 +244,7 @@ export async function handleListForms(authHeader?: string | string[]) {
     const now = new Date();
     const forms = res.rows.map((row) => ({
       ...row,
-      public_url: `/form/${row.slug}`,
+      public_url: `https://enemites.com/form/${row.slug}`,
       is_endless: !row.expires_at,
       is_expired: row.expires_at ? new Date(row.expires_at) < now : false,
     }));

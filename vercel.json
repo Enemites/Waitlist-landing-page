@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/api/forms/:slug/submissions",
+      "destination": "/api/forms/[slug]/submissions"
+    },
+    {
+      "source": "/api/forms/:slug",
+      "destination": "/api/forms/[slug]"
+    },
+    {
+      "source": "/api/forms",
+      "destination": "/api/forms"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     },

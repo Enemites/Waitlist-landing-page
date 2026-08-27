@@ -12,7 +12,7 @@ dotenv.config();
 const API_BASE_URL =
   process.env.ENEMITES_API_URL ||
   process.env.NEXT_PUBLIC_APP_URL ||
-  "http://localhost:5173/api/forms";
+  "https://enemites.com/api/forms";
 
 const API_KEY =
   process.env.ENEMITES_API_KEY ||

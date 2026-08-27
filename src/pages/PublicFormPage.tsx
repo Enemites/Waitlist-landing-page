@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
-  CheckCircle2,
+  Check,
   AlertCircle,
   Clock,
-  Send,
-  Loader2,
-  HelpCircle,
-  Star,
+  ArrowRight,
+  Shield,
+  CornerDownLeft,
   ChevronRight,
-  ShieldCheck,
+  HelpCircle,
 } from "lucide-react";
 
 interface Question {
@@ -34,6 +33,7 @@ interface FormData {
   expires_at?: string | null;
   is_expired?: boolean;
   is_endless?: boolean;
+  created_at?: string;
 }
 
 export default function PublicFormPage() {
@@ -59,23 +59,23 @@ export default function PublicFormPage() {
         const json = await res.json();
 
         if (!res.ok || !json.success) {
-          setError(json.message || "Form tidak ditemukan atau telah dihapus.");
+          setError(json.message || "Form tidak ditemukan atau telah dinonaktifkan.");
           return;
         }
 
         setForm(json.form);
 
-        // Pre-initialize checkbox responses as empty arrays
-        const initialResponses: Record<string, any> = {};
+        // Pre-populate checkbox types as arrays
+        const initial: Record<string, any> = {};
         json.form.questions.forEach((q: Question) => {
           if (q.type === "checkbox") {
-            initialResponses[q.id] = [];
+            initial[q.id] = [];
           }
         });
-        setResponses(initialResponses);
+        setResponses(initial);
       } catch (err: any) {
         console.error("Error loading form:", err);
-        setError("Gagal memuat form. Silakan periksa koneksi internet Anda.");
+        setError("Gagal memuat form. Silakan periksa jaringan Anda atau coba muat ulang halaman.");
       } finally {
         setLoading(false);
       }
@@ -104,6 +104,28 @@ export default function PublicFormPage() {
     handleInputChange(questionId, nextList);
   };
 
+  // Progress Calculation
+  const progress = useMemo(() => {
+    if (!form || !form.questions.length) return 0;
+    const answeredCount = form.questions.filter((q) => {
+      const val = responses[q.id];
+      if (val === undefined || val === null || val === "") return false;
+      if (Array.isArray(val) && val.length === 0) return false;
+      return true;
+    }).length;
+    return Math.round((answeredCount / form.questions.length) * 100);
+  }, [form, responses]);
+
+  const answeredCount = useMemo(() => {
+    if (!form) return 0;
+    return form.questions.filter((q) => {
+      const val = responses[q.id];
+      if (val === undefined || val === null || val === "") return false;
+      if (Array.isArray(val) && val.length === 0) return false;
+      return true;
+    }).length;
+  }, [form, responses]);
+
   const validate = () => {
     if (!form) return false;
     const errors: Record<string, string> = {};
@@ -117,14 +139,14 @@ export default function PublicFormPage() {
           (typeof val === "string" && val.trim() === "") ||
           (Array.isArray(val) && val.length === 0)
         ) {
-          errors[q.id] = "Pertanyaan ini wajib diisi.";
+          errors[q.id] = "Wajib diisi";
         }
       }
 
       if (q.type === "email" && responses[q.id]) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(responses[q.id])) {
-          errors[q.id] = "Masukkan alamat email yang valid.";
+          errors[q.id] = "Format email tidak valid";
         }
       }
     });
@@ -135,7 +157,14 @@ export default function PublicFormPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate() || !slug) return;
+    if (!validate() || !slug) {
+      // Scroll to first error
+      const firstErrorKey = Object.keys(validationErrors)[0];
+      if (firstErrorKey) {
+        document.getElementById(`question-${firstErrorKey}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
 
     try {
       setSubmitting(true);
@@ -146,7 +175,7 @@ export default function PublicFormPage() {
           responses,
           respondent_info: {
             userAgent: navigator.userAgent,
-            submittedAt: new Date().toISOString(),
+            timestamp: new Date().toISOString(),
           },
         }),
       });
@@ -154,7 +183,7 @@ export default function PublicFormPage() {
       const json = await res.json();
 
       if (!res.ok || !json.success) {
-        alert(json.message || "Gagal mengirim jawaban. Silakan coba lagi.");
+        alert(json.message || "Gagal mengirim formulir. Silakan coba kembali.");
         return;
       }
 
@@ -162,40 +191,58 @@ export default function PublicFormPage() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       console.error("Submission error:", err);
-      alert("Terjadi kesalahan saat mengirim jawaban.");
+      alert("Terjadi kendala jaringan saat mengirimkan respon.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  // 1. Loading State
+  // 1. Sleek Skeleton Loading
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#090b10] text-white flex flex-col items-center justify-center p-4">
-        <div className="flex items-center space-x-3 text-cyan-400">
-          <Loader2 className="w-8 h-8 animate-spin" />
-          <span className="text-lg font-medium tracking-wide">Memuat kuesioner enemites...</span>
+      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-300 font-sans flex flex-col justify-between p-6 sm:p-12">
+        <div className="max-w-xl w-full mx-auto space-y-8 animate-pulse pt-8">
+          <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+            <div className="h-5 w-24 bg-zinc-800 rounded" />
+            <div className="h-5 w-16 bg-zinc-800 rounded-full" />
+          </div>
+          <div className="space-y-3">
+            <div className="h-8 w-3/4 bg-zinc-800 rounded" />
+            <div className="h-4 w-full bg-zinc-800/60 rounded" />
+            <div className="h-4 w-2/3 bg-zinc-800/40 rounded" />
+          </div>
+          <div className="space-y-4 pt-4">
+            <div className="h-28 bg-zinc-900 border border-zinc-800 rounded-xl" />
+            <div className="h-28 bg-zinc-900 border border-zinc-800 rounded-xl" />
+          </div>
         </div>
+        <div className="text-center text-xs text-zinc-600 font-mono">enemites · secure infrastructure</div>
       </div>
     );
   }
 
-  // 2. Error / Not Found State
+  // 2. Error / Not Found View
   if (error || !form) {
     return (
-      <div className="min-h-screen bg-[#090b10] text-white flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center backdrop-blur-xl shadow-2xl">
-          <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center mx-auto mb-5 text-red-400">
-            <AlertCircle className="w-8 h-8" />
+      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-zinc-800 bg-zinc-900/50 rounded-2xl p-8 backdrop-blur-md">
+          <div className="flex items-center space-x-3 text-red-400 mb-4">
+            <AlertCircle className="w-5 h-5" />
+            <span className="font-mono text-xs uppercase tracking-wider text-red-400">404 · Not Found</span>
           </div>
-          <h2 className="text-2xl font-bold mb-2">Form Tidak Ditemukan</h2>
-          <p className="text-white/60 mb-6 text-sm leading-relaxed">{error || "Form kuesioner ini tidak aktif atau telah dihapus."}</p>
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium transition text-sm"
-          >
-            Kembali ke Beranda
-          </Link>
+          <h1 className="text-xl font-semibold text-white mb-2">Formulir Tidak Ditemukan</h1>
+          <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+            {error || "Tautan yang Anda tuju tidak valid, belum dipublikasikan, atau telah dihapus."}
+          </p>
+          <div className="flex items-center justify-between pt-4 border-t border-zinc-800/80">
+            <Link
+              to="/"
+              className="inline-flex items-center space-x-2 text-xs font-mono text-zinc-300 hover:text-white transition"
+            >
+              <span>← Kembali ke beranda</span>
+            </Link>
+            <span className="text-[11px] font-mono text-zinc-600">enemites</span>
+          </div>
         </div>
       </div>
     );
@@ -204,137 +251,191 @@ export default function PublicFormPage() {
   // 3. Expired State
   if (form.is_expired) {
     return (
-      <div className="min-h-screen bg-[#090b10] text-white flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center backdrop-blur-xl shadow-2xl">
-          <div className="w-16 h-16 bg-amber-500/10 border border-amber-500/20 rounded-full flex items-center justify-center mx-auto mb-5 text-amber-400">
-            <Clock className="w-8 h-8" />
+      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-zinc-800 bg-zinc-900/40 rounded-2xl p-8">
+          <div className="flex items-center space-x-2 text-amber-400 mb-4">
+            <Clock className="w-4 h-4" />
+            <span className="font-mono text-xs uppercase tracking-wider">Periode Berakhir</span>
           </div>
-          <h2 className="text-2xl font-bold mb-2">Periode Kuesioner Telah Berakhir</h2>
-          <p className="text-white/60 mb-4 text-sm leading-relaxed">
-            Form <span className="text-white font-semibold">"{form.title}"</span> sudah ditutup dan tidak lagi menerima respons baru.
+          <h1 className="text-xl font-semibold text-white mb-2">{form.title}</h1>
+          <p className="text-sm text-zinc-400 leading-relaxed mb-4">
+            Formulir kuesioner ini sudah ditutup dan tidak lagi menerima respons baru.
           </p>
           {form.expires_at && (
-            <p className="text-xs text-amber-400/80 bg-amber-500/10 py-1.5 px-3 rounded-lg inline-block mb-6">
-              Berakhir pada: {new Date(form.expires_at).toLocaleString("id-ID", { dateStyle: "long", timeStyle: "short" })}
-            </p>
+            <div className="text-xs font-mono text-zinc-500 bg-zinc-900 border border-zinc-800 rounded-lg p-3 mb-6">
+              Batas waktu: {new Date(form.expires_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })}
+            </div>
           )}
-          <div>
-            <span className="text-xs text-white/40 block">Powered by enemites</span>
+          <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 font-mono">
+            <span>Terima kasih atas minat Anda</span>
+            <span>enemites</span>
           </div>
         </div>
       </div>
     );
   }
 
-  // 4. Success State
+  // 4. Success State (Clean Completion Receipt)
   if (submitted) {
     return (
-      <div className="min-h-screen bg-[#090b10] text-white flex items-center justify-center p-4">
-        <div className="max-w-lg w-full bg-white/[0.03] border border-emerald-500/20 rounded-2xl p-8 sm:p-10 text-center backdrop-blur-xl shadow-2xl animate-fade-in">
-          <div className="w-18 h-18 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto mb-6 text-emerald-400">
-            <CheckCircle2 className="w-10 h-10" />
+      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-zinc-800 bg-zinc-900/60 rounded-2xl p-8 backdrop-blur-md">
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6">
+            <Check className="w-5 h-5" />
           </div>
-          <h2 className="text-3xl font-bold mb-3 tracking-tight">Terima Kasih!</h2>
-          <p className="text-white/70 mb-6 text-base leading-relaxed">
-            Jawaban kuesioner Anda untuk <strong className="text-white font-semibold">"{form.title}"</strong> telah berhasil kami terima.
-          </p>
-          <div className="inline-flex items-center space-x-2 text-xs text-emerald-400/80 bg-emerald-500/10 px-3.5 py-2 rounded-full mb-8">
-            <ShieldCheck className="w-4 h-4" />
-            <span>Respons tersimpan secara aman di sistem enemites</span>
+          <div className="space-y-1 mb-6">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400">Response Recorded</span>
+            <h1 className="text-2xl font-semibold text-white tracking-tight">Terima Kasih</h1>
+            <p className="text-sm text-zinc-400 leading-relaxed pt-1">
+              Jawaban Anda untuk <strong className="text-zinc-200 font-medium">"{form.title}"</strong> telah tersimpan dengan aman.
+            </p>
           </div>
-          <div>
-            <span className="text-xs text-white/40 block">enemites intelligent forms</span>
+
+          <div className="bg-zinc-950/70 border border-zinc-800/80 rounded-xl p-4 space-y-2 mb-6 font-mono text-xs text-zinc-400">
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Form ID:</span>
+              <span className="text-zinc-300 font-medium">{form.slug}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Timestamp:</span>
+              <span className="text-zinc-300">{new Date().toLocaleTimeString("id-ID")}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-zinc-500">Security:</span>
+              <span className="text-emerald-400/90 flex items-center gap-1">
+                <Shield className="w-3 h-3 inline" /> Encrypted
+              </span>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500">
+            <span className="font-mono">enemites platform</span>
+            <button
+              onClick={() => window.location.reload()}
+              className="text-zinc-400 hover:text-white transition font-mono underline"
+            >
+              Kirim tanggapan lain
+            </button>
           </div>
         </div>
       </div>
     );
   }
 
-  // 5. Active Form Questionnaire Screen
+  // 5. Active Questionnaire Screen (Anti-Slop, High-Craft Editorial Layout)
   return (
-    <div className="min-h-screen bg-[#08090d] text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-cyan-500/10 blur-[120px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-0 right-10 w-[400px] h-[300px] bg-indigo-500/10 blur-[140px] pointer-events-none rounded-full" />
-
-      <div className="max-w-2xl mx-auto relative z-10">
-        {/* Header Branding */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-          <div className="flex items-center space-x-2">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-500 flex items-center justify-center font-bold text-black text-sm">
+    <div className="min-h-[100dvh] bg-[#07080a] text-zinc-200 selection:bg-zinc-800 selection:text-white font-sans antialiased flex flex-col justify-between">
+      {/* Top Navbar */}
+      <header className="sticky top-0 z-30 bg-[#07080a]/90 backdrop-blur-md border-b border-zinc-800/80">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-5 h-5 rounded-md bg-white text-black font-mono font-bold text-xs flex items-center justify-center">
               e
             </div>
-            <span className="font-semibold tracking-wider text-base uppercase text-white/90">enemites</span>
+            <span className="text-sm font-semibold tracking-tight text-white font-mono">enemites</span>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
+              <span>{answeredCount}/{form.questions.length} dijawab</span>
+              <div className="w-16 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-zinc-200 transition-all duration-300 ease-out"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+
             {form.is_endless ? (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-zinc-700/60 bg-zinc-900 text-zinc-300">
                 Active
               </span>
             ) : form.expires_at ? (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center space-x-1 font-medium">
-                <Clock className="w-3 h-3 inline mr-1" />
-                <span>Hingga {new Date(form.expires_at).toLocaleDateString("id-ID")}</span>
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-zinc-700/60 bg-zinc-900 text-zinc-400 flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {new Date(form.expires_at).toLocaleDateString("id-ID")}
               </span>
             ) : null}
           </div>
         </div>
+      </header>
 
-        {/* Form Title & Description Card */}
-        <div className="bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-xl mb-6 shadow-xl">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">{form.title}</h1>
+      {/* Main Container */}
+      <main className="max-w-2xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-14 flex-1">
+        {/* Form Title & Introduction Header */}
+        <div className="mb-10 space-y-3 pb-8 border-b border-zinc-800/80">
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">{form.title}</h1>
           {form.description && (
-            <p className="text-white/70 text-sm sm:text-base leading-relaxed whitespace-pre-line">{form.description}</p>
+            <p className="text-sm sm:text-base text-zinc-400 leading-relaxed whitespace-pre-line font-normal">
+              {form.description}
+            </p>
           )}
-          <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-white/40">
+          <div className="flex items-center gap-2 pt-2 text-xs font-mono text-zinc-500">
             <span>{form.questions.length} Pertanyaan</span>
-            <span className="flex items-center gap-1 text-emerald-400">
-              <ShieldCheck className="w-3.5 h-3.5" /> Respons Rahasia & Aman
+            <span>•</span>
+            <span className="flex items-center gap-1 text-zinc-400">
+              <Shield className="w-3.5 h-3.5 inline" /> Terenkripsi
             </span>
           </div>
         </div>
 
-        {/* Questionnaire Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Questions Form */}
+        <form onSubmit={handleSubmit} className="space-y-8">
           {form.questions.map((q, idx) => {
             const hasError = Boolean(validationErrors[q.id]);
             const errorMsg = validationErrors[q.id];
+            const isAnswered =
+              responses[q.id] !== undefined &&
+              responses[q.id] !== null &&
+              responses[q.id] !== "" &&
+              (!Array.isArray(responses[q.id]) || responses[q.id].length > 0);
 
             return (
-              <div
+              <section
                 key={q.id || idx}
-                className={`bg-white/[0.03] border rounded-2xl p-5 sm:p-6 backdrop-blur-lg transition duration-200 ${
-                  hasError ? "border-red-500/60 bg-red-500/[0.02]" : "border-white/10 hover:border-white/20"
+                id={`question-${q.id}`}
+                className={`transition duration-150 rounded-xl p-5 sm:p-6 border ${
+                  hasError
+                    ? "border-red-500/50 bg-red-950/10"
+                    : isAnswered
+                    ? "border-zinc-800 bg-zinc-900/30"
+                    : "border-zinc-800/80 bg-zinc-900/20"
                 }`}
               >
-                {/* Question Label */}
-                <div className="flex items-start justify-between mb-3">
-                  <label className="block text-base font-medium text-white/90">
-                    <span className="text-cyan-400 font-semibold mr-1.5">{idx + 1}.</span>
-                    {q.label}
-                    {q.required && <span className="text-red-400 ml-1.5 font-bold" title="Wajib diisi">*</span>}
+                {/* Header of Question */}
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <label className="text-base font-medium text-zinc-100 flex items-start gap-2.5">
+                    <span className="font-mono text-xs text-zinc-500 mt-1 select-none">
+                      {String(idx + 1).padStart(2, "0")}.
+                    </span>
+                    <span>
+                      {q.label}
+                      {q.required && (
+                        <span className="text-zinc-500 text-xs font-mono ml-2 select-none" title="Wajib">
+                          *wajib
+                        </span>
+                      )}
+                    </span>
                   </label>
                 </div>
 
-                {/* Helper text */}
                 {q.helperText && (
-                  <p className="text-xs text-white/50 mb-3 flex items-center space-x-1">
-                    <HelpCircle className="w-3.5 h-3.5 mr-1 inline shrink-0" />
+                  <p className="text-xs text-zinc-400 pl-7 mb-4 flex items-center gap-1.5 font-sans">
+                    <HelpCircle className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
                     <span>{q.helperText}</span>
                   </p>
                 )}
 
-                {/* Question Inputs by Type */}
-                <div className="mt-2">
+                {/* Input Fields */}
+                <div className="pl-7 mt-3">
                   {/* 1. Text / Email / Phone / Number */}
                   {["text", "email", "phone", "number"].includes(q.type) && (
                     <input
                       type={q.type === "email" ? "email" : q.type === "number" ? "number" : "text"}
-                      placeholder={q.placeholder || "Ketik jawaban Anda di sini..."}
+                      placeholder={q.placeholder || "Ketik jawaban..."}
                       value={responses[q.id] || ""}
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
-                      className="w-full bg-black/40 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition"
                     />
                   )}
 
@@ -342,10 +443,10 @@ export default function PublicFormPage() {
                   {q.type === "textarea" && (
                     <textarea
                       rows={4}
-                      placeholder={q.placeholder || "Tuliskan tanggapan Anda secara mendalam..."}
+                      placeholder={q.placeholder || "Tuliskan tanggapan Anda secara detail..."}
                       value={responses[q.id] || ""}
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
-                      className="w-full bg-black/40 border border-white/15 rounded-xl px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition resize-y"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition resize-y font-sans leading-relaxed"
                     />
                   )}
 
@@ -359,23 +460,23 @@ export default function PublicFormPage() {
                             type="button"
                             key={optIdx}
                             onClick={() => handleInputChange(q.id, opt)}
-                            className={`w-full text-left flex items-center justify-between p-3.5 rounded-xl border text-sm transition ${
+                            className={`w-full text-left flex items-center justify-between px-4 py-3 rounded-lg border text-sm transition active:scale-[0.99] ${
                               isSelected
-                                ? "bg-cyan-500/15 border-cyan-400/80 text-white font-medium"
-                                : "bg-black/20 border-white/10 hover:border-white/20 text-white/80 hover:bg-white/[0.02]"
+                                ? "bg-zinc-800/80 border-zinc-500 text-white font-medium shadow-sm"
+                                : "bg-zinc-950 border-zinc-800 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-900/60"
                             }`}
                           >
-                            <div className="flex items-center space-x-3">
-                              <div
+                            <span className="flex items-center gap-3">
+                              <span
                                 className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                                  isSelected ? "border-cyan-400 bg-cyan-400" : "border-white/30"
+                                  isSelected ? "border-white bg-white" : "border-zinc-600"
                                 }`}
                               >
-                                {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-black" />}
-                              </div>
+                                {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-black" />}
+                              </span>
                               <span>{opt}</span>
-                            </div>
-                            {isSelected && <ChevronRight className="w-4 h-4 text-cyan-400" />}
+                            </span>
+                            {isSelected && <ChevronRight className="w-4 h-4 text-zinc-400" />}
                           </button>
                         );
                       })}
@@ -393,139 +494,121 @@ export default function PublicFormPage() {
                             type="button"
                             key={optIdx}
                             onClick={() => handleCheckboxToggle(q.id, opt)}
-                            className={`w-full text-left flex items-center justify-between p-3.5 rounded-xl border text-sm transition ${
+                            className={`w-full text-left flex items-center justify-between px-4 py-3 rounded-lg border text-sm transition active:scale-[0.99] ${
                               isChecked
-                                ? "bg-indigo-500/15 border-indigo-400/80 text-white font-medium"
-                                : "bg-black/20 border-white/10 hover:border-white/20 text-white/80 hover:bg-white/[0.02]"
+                                ? "bg-zinc-800/80 border-zinc-500 text-white font-medium shadow-sm"
+                                : "bg-zinc-950 border-zinc-800 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-900/60"
                             }`}
                           >
-                            <div className="flex items-center space-x-3">
-                              <div
+                            <span className="flex items-center gap-3">
+                              <span
                                 className={`w-4 h-4 rounded border flex items-center justify-center ${
-                                  isChecked ? "border-indigo-400 bg-indigo-500 text-white" : "border-white/30"
+                                  isChecked ? "border-white bg-white text-black" : "border-zinc-600"
                                 }`}
                               >
-                                {isChecked && <CheckCircle2 className="w-3.5 h-3.5" />}
-                              </div>
+                                {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                              </span>
                               <span>{opt}</span>
-                            </div>
+                            </span>
                           </button>
                         );
                       })}
                     </div>
                   )}
 
-                  {/* 5. Rating Scale (1-5 or 1-10) */}
+                  {/* 5. Rating Scale (Segmented Pills 1-5 or 1-10) */}
                   {q.type === "rating" && (
-                    <div className="pt-2">
-                      {q.max && q.max > 5 ? (
-                        // 1 to 10 Scale
-                        <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
-                          {Array.from({ length: q.max || 10 }, (_, i) => i + 1).map((val) => {
-                            const isSelected = responses[q.id] === val;
-                            return (
-                              <button
-                                type="button"
-                                key={val}
-                                onClick={() => handleInputChange(q.id, val)}
-                                className={`py-3 rounded-xl border text-sm font-semibold transition flex flex-col items-center justify-center ${
-                                  isSelected
-                                    ? "bg-cyan-500 text-black border-cyan-400 shadow-lg shadow-cyan-500/20"
-                                    : "bg-black/30 border-white/10 hover:border-white/30 text-white/80"
-                                }`}
-                              >
-                                {val}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        // 1 to 5 Stars Rating
-                        <div className="flex items-center space-x-2">
-                          {[1, 2, 3, 4, 5].map((starVal) => {
-                            const isFilled = (responses[q.id] || 0) >= starVal;
-                            return (
-                              <button
-                                type="button"
-                                key={starVal}
-                                onClick={() => handleInputChange(q.id, starVal)}
-                                className="p-2 rounded-xl hover:bg-white/10 transition group"
-                              >
-                                <Star
-                                  className={`w-7 h-7 sm:w-8 sm:h-8 transition ${
-                                    isFilled
-                                      ? "text-amber-400 fill-amber-400 scale-110"
-                                      : "text-white/20 group-hover:text-amber-400/50"
-                                  }`}
-                                />
-                              </button>
-                            );
-                          })}
-                          {responses[q.id] && (
-                            <span className="text-sm font-medium text-amber-400 ml-2">
-                              {responses[q.id]} / 5
-                            </span>
-                          )}
+                    <div className="space-y-2 pt-1">
+                      <div className={`grid gap-1.5 ${q.max && q.max > 5 ? "grid-cols-5 sm:grid-cols-10" : "grid-cols-5"}`}>
+                        {Array.from({ length: q.max || 5 }, (_, i) => i + 1).map((val) => {
+                          const isSelected = responses[q.id] === val;
+                          return (
+                            <button
+                              type="button"
+                              key={val}
+                              onClick={() => handleInputChange(q.id, val)}
+                              className={`py-3 rounded-lg border font-mono text-sm font-medium transition active:scale-[0.97] ${
+                                isSelected
+                                  ? "bg-white text-black border-white font-bold shadow-md"
+                                  : "bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-white hover:bg-zinc-900"
+                              }`}
+                            >
+                              {val}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {q.max && q.max > 5 && (
+                        <div className="flex justify-between text-[11px] font-mono text-zinc-500 px-1 pt-1">
+                          <span>1: Sangat Rendah</span>
+                          <span>10: Sangat Tinggi</span>
                         </div>
                       )}
                     </div>
                   )}
 
-                  {/* 6. Select / Dropdown */}
+                  {/* 6. Select Dropdown */}
                   {q.type === "select" && (
                     <select
                       value={responses[q.id] || ""}
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
-                      className="w-full bg-black/40 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition"
                     >
-                      <option value="" disabled className="bg-[#12141c] text-white/50">
-                        -- Pilih Opsi --
+                      <option value="" disabled className="bg-zinc-900 text-zinc-500">
+                        -- Pilih opsi --
                       </option>
                       {(q.options || []).map((opt, optIdx) => (
-                        <option key={optIdx} value={opt} className="bg-[#12141c] text-white">
+                        <option key={optIdx} value={opt} className="bg-zinc-900 text-zinc-200">
                           {opt}
                         </option>
                       ))}
                     </select>
                   )}
-                </div>
 
-                {/* Error message */}
-                {hasError && (
-                  <p className="mt-2 text-xs text-red-400 flex items-center space-x-1">
-                    <AlertCircle className="w-3.5 h-3.5 inline mr-1 shrink-0" />
-                    <span>{errorMsg}</span>
-                  </p>
-                )}
-              </div>
+                  {/* Error Indicator */}
+                  {hasError && (
+                    <p className="mt-2 text-xs font-mono text-red-400 flex items-center gap-1.5">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errorMsg}</span>
+                    </p>
+                  )}
+                </div>
+              </section>
             );
           })}
 
-          {/* Submit Button Card */}
-          <div className="pt-4">
+          {/* Submit Action */}
+          <div className="pt-6 border-t border-zinc-800/80 space-y-4">
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-black font-bold text-base flex items-center justify-center space-x-2 transition shadow-lg shadow-cyan-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto min-w-[200px] inline-flex items-center justify-center px-6 py-3 rounded-lg bg-white text-black hover:bg-zinc-200 active:scale-[0.98] font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               {submitting ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Mengirimkan Jawaban...</span>
-                </>
+                <span className="font-mono text-xs">Mengirimkan respon...</span>
               ) : (
-                <>
-                  <span>Kirim Kuesioner</span>
-                  <Send className="w-4 h-4" />
-                </>
+                <span className="flex items-center gap-2">
+                  <span>Kirim Jawaban</span>
+                  <ArrowRight className="w-4 h-4" />
+                </span>
               )}
             </button>
-            <p className="text-center text-xs text-white/40 mt-4">
-              Ditenagai oleh <span className="text-white/70 font-medium">enemites platform</span>
-            </p>
+
+            <div className="flex items-center justify-between text-xs font-mono text-zinc-500 pt-2">
+              <span className="flex items-center gap-1.5">
+                <CornerDownLeft className="w-3.5 h-3.5" /> Tekan tombol untuk menyelesaikan
+              </span>
+              <span>enemites dynamic engine</span>
+            </div>
           </div>
         </form>
-      </div>
+      </main>
+
+      {/* Subtle Footer */}
+      <footer className="border-t border-zinc-900 py-6 text-center text-xs font-mono text-zinc-600">
+        enemites.com · private questionnaire infrastructure
+      </footer>
     </div>
   );
 }

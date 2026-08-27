@@ -9,7 +9,7 @@ Enemites Model Context Protocol (MCP) Server enables AI Agents to create, manage
 Use the following credential in your Agent or MCP configuration:
 
 - **Enemites Secret Key:** `enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481`
-- **Default API Base URL:** `http://localhost:5173/api/forms` (or your deployed domain: `https://your-domain.com/api/forms`)
+- **Production API Base URL:** `https://enemites.com/api/forms`
 
 ---
 
@@ -38,7 +38,7 @@ Add the following to your `claude_desktop_config.json` or Antigravity MCP settin
       "command": "npx",
       "args": ["-y", "tsx", "c:/Users/user/Waitlist-landing-page/mcp/server.ts"],
       "env": {
-        "ENEMITES_API_URL": "http://localhost:5173/api/forms",
+        "ENEMITES_API_URL": "https://enemites.com/api/forms",
         "ENEMITES_API_KEY": "enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481"
       }
     }
@@ -52,6 +52,6 @@ Add the following to your `claude_desktop_config.json` or Antigravity MCP settin
 
 Forms created by the agent are immediately accessible at:
 ```
-https://your-domain.com/form/:slug
+https://enemites.com/form/:slug
 ```
-(e.g., `http://localhost:5173/form/customer-feedback-2026`)
+(e.g., `https://enemites.com/form/customer-feedback`)
