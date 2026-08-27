@@ -106,6 +106,12 @@ export default function WaitlistForm({
           email: formData.email.trim(),
           age_group: formData.age_group,
           receive_updates: formData.receive_updates,
+          client_meta: {
+            userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+            timezone: typeof Intl !== "undefined" ? Intl.DateTimeFormat().resolvedOptions().timeZone : "",
+            language: typeof navigator !== "undefined" ? navigator.language : "",
+            screenResolution: typeof window !== "undefined" ? `${window.screen.width}x${window.screen.height}` : "",
+          },
         }),
       });
 

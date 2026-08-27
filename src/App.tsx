@@ -6,6 +6,7 @@ import HowItWorksPage from "@/pages/HowItWorksPage";
 import TermsOfServicePage from "@/pages/TermsOfServicePage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import HomePage from "@/pages/HomePage";
+import PublicFormPage from "@/pages/PublicFormPage";
 
 const Placeholder = ({ title }: { title: string }) => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-900">
@@ -59,6 +60,9 @@ export default function App() {
         <Route path="/arena/terms-of-service" element={<TermsOfServicePage />} />
         <Route path="/arena/login" element={<Placeholder title="Login" />} />
         <Route path="/arena/pricing" element={<Placeholder title="Pricing" />} />
+        
+        {/* Dynamic Questionnaire Form Route */}
+        <Route path="/form/:slug" element={<PublicFormPage />} />
       </Routes>
     </BrowserRouter>
   );
