@@ -11,14 +11,23 @@ export const ENEMITES_API_KEY =
 
 let pool: pg.Pool | null = null;
 
+function getConnectionString(): string {
+  const envDb = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.SUPABASE || "";
+  if (envDb.startsWith("postgres://") || envDb.startsWith("postgresql://")) {
+    return envDb;
+  }
+  return defaultDbUrl;
+}
+
 export function getDbPool(): pg.Pool {
   if (!pool) {
-    const connectionString = process.env.SUPABASE || defaultDbUrl;
+    const connectionString = getConnectionString();
     pool = new Pool({
       connectionString,
       ssl: { rejectUnauthorized: false },
-      max: 10,
-      idleTimeoutMillis: 30000,
+      max: 5,
+      idleTimeoutMillis: 10000,
+      connectionTimeoutMillis: 10000,
     });
   }
   return pool;
