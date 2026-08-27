@@ -562,6 +562,28 @@ const IntroductionPage = () => {
             </motion.div>
           </div>
         </section>
+
+        {/* LARGE AMBIENT WATERMARK LOGO SECTION */}
+        <section className="relative overflow-hidden bg-[#000000] py-28 sm:py-40 lg:py-52 flex items-center justify-center border-t border-white/[0.04]">
+          {/* Subtle ambient backglow */}
+          <div className="absolute h-72 w-72 sm:h-[450px] sm:w-[450px] rounded-full bg-white/[0.015] blur-3xl pointer-events-none" />
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative flex items-center justify-center w-full px-4"
+          >
+            <img
+              src="/assets/logo.png"
+              alt=""
+              aria-hidden="true"
+              className="w-56 sm:w-80 md:w-[440px] lg:w-[580px] xl:w-[680px] max-w-[85vw] h-auto object-contain select-none pointer-events-none invert opacity-[0.08] blur-[1px] md:blur-[1.5px] transition-all duration-1000"
+              loading="lazy"
+            />
+          </motion.div>
+        </section>
       </main>
 
       <footer
