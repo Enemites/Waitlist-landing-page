@@ -205,7 +205,7 @@ export default function WaitlistForm({
                 You are on the list, {submittedData.name}.
               </h3>
               <p className="mt-4 text-[15px] leading-[1.7] text-[#9DA3B4] max-w-lg">
-                Your entry has been recorded for the upcoming NovaX Arena simulation batch. We will deliver your private access key directly to your email and WhatsApp when onboarding begins.
+                Your entry has been recorded for the upcoming Enemites Arena simulation batch. We will deliver your private access key directly to your email and WhatsApp when onboarding begins.
               </p>
             </div>
 

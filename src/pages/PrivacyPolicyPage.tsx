@@ -26,7 +26,7 @@ const PrivacyPolicyPage = () => {
                   Privacy Policy
                 </h1>
                 <p className="mt-5 max-w-3xl text-base leading-[1.7] text-[#464B58] sm:text-lg">
-                  This Privacy Policy explains how NovaX collects, uses, and protects information
+                  This Privacy Policy explains how Enemites collects, uses, and protects information
                   when you join the waitlist, request early access, explore demos, or use available
                   learning simulations and AI mentor experiences.
                 </p>
@@ -35,7 +35,7 @@ const PrivacyPolicyPage = () => {
               <div className="rounded-xl border border-[var(--nova-void)]/10 bg-white/45 p-5 text-sm leading-[1.6] text-[#464B58]">
                 <p className="font-semibold text-[var(--nova-void)]">Current product status</p>
                 <p className="mt-2">
-                  NovaX is in a waitlist and private beta stage. Data practices may become more
+                  Enemites is in a waitlist and private beta stage. Data practices may become more
                   detailed as more features, simulations, and account systems become available.
                 </p>
               </div>
@@ -49,7 +49,7 @@ const PrivacyPolicyPage = () => {
                   Summary
                 </p>
                 <p>We do not sell personal information.</p>
-                <p>We use data to run and improve NovaX.</p>
+                <p>We use data to run and improve Enemites.</p>
                 <p>You can contact us about your data.</p>
               </div>
             </aside>
@@ -60,7 +60,7 @@ const PrivacyPolicyPage = () => {
                   1. Information We Collect
                 </h2>
                 <p className="mt-3">
-                  The information we collect depends on how you interact with NovaX. It may include:
+                  The information we collect depends on how you interact with Enemites. It may include:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>
@@ -71,7 +71,7 @@ const PrivacyPolicyPage = () => {
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">Site usage data</span>{" "}
                     such as pages visited, buttons clicked, device/browser information, and basic
-                    analytics that help us understand how people explore NovaX.
+                    analytics that help us understand how people explore Enemites.
                   </li>
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">
@@ -88,7 +88,7 @@ const PrivacyPolicyPage = () => {
                   2. How We Use Information
                 </h2>
                 <p className="mt-3">
-                  We use information to operate, test, and improve NovaX. This includes:
+                  We use information to operate, test, and improve Enemites. This includes:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>Managing the waitlist, private beta, and early access invitations.</li>
@@ -103,7 +103,7 @@ const PrivacyPolicyPage = () => {
                   3. Cookies and Similar Technologies
                 </h2>
                 <p className="mt-3">
-                  NovaX may use cookies or similar technologies for basic site functionality,
+                  Enemites may use cookies or similar technologies for basic site functionality,
                   analytics, remembering preferences, and understanding how people navigate the
                   product. Browser settings may allow you to limit or block some of these
                   technologies, although parts of the experience may not work as intended.
@@ -145,9 +145,9 @@ const PrivacyPolicyPage = () => {
                   6. Students and Young Users
                 </h2>
                 <p className="mt-3">
-                  NovaX is designed for students and learners. If you are under the age required to
-                  consent to online services in your region, use NovaX only with appropriate parent,
-                  guardian, school, or institutional permission. As NovaX expands, additional
+                  Enemites is designed for students and learners. If you are under the age required to
+                  consent to online services in your region, use Enemites only with appropriate parent,
+                  guardian, school, or institutional permission. As Enemites expands, additional
                   controls may be added for school, campus, or organization-based use.
                 </p>
               </section>
@@ -180,7 +180,7 @@ const PrivacyPolicyPage = () => {
                   9. Third-Party Services
                 </h2>
                 <p className="mt-3">
-                  NovaX may use third-party services such as waitlist forms, hosting providers,
+                  Enemites may use third-party services such as waitlist forms, hosting providers,
                   analytics tools, video embeds, or email systems. These providers process
                   information according to their own terms and privacy policies.
                 </p>
@@ -191,9 +191,9 @@ const PrivacyPolicyPage = () => {
                   10. Changes to This Privacy Policy
                 </h2>
                 <p className="mt-3">
-                  As NovaX evolves, we may update this Privacy Policy. If we make material changes,
+                  As Enemites evolves, we may update this Privacy Policy. If we make material changes,
                   we will update the last updated date and, where appropriate, provide additional
-                  notice. Continued use of NovaX after changes take effect means you accept the
+                  notice. Continued use of Enemites after changes take effect means you accept the
                   updated policy.
                 </p>
               </section>
@@ -201,14 +201,14 @@ const PrivacyPolicyPage = () => {
               <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[var(--nova-void)] p-5 text-[var(--nova-bone)] sm:p-7">
                 <h2 className="nova-display text-xl font-medium">11. Contact</h2>
                 <p className="mt-3 text-[rgba(232,228,217,0.75)]">
-                  If you have questions about this Privacy Policy or how NovaX handles data,
+                  If you have questions about this Privacy Policy or how Enemites handles data,
                   contact us at:
                 </p>
                 <a
-                  href="mailto:support@novaxarena.tech"
+                  href="mailto:support@enemitesarena.tech"
                   className="mt-3 inline-flex text-[var(--nova-bone)] underline decoration-[var(--nova-brand)] decoration-2 underline-offset-4 transition-colors hover:text-[var(--nova-brand)]"
                 >
-                  support@novaxarena.tech
+                  support@enemitesarena.tech
                 </a>
               </section>
 

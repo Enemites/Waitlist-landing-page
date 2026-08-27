@@ -29,7 +29,7 @@ export const novaGlobalNavItems: ResponsiveNavItem[] = [
     iconPath:
       "M5 4h14v2H5V4Zm0 4h14v2H5V8Zm0 4h9v2H5v-2Zm0 4h9v2H5v-2Zm12.4-3.2a3.2 3.2 0 1 0-2.26 5.46l-1.57 1.57L15 21.24l1.57-1.57a3.2 3.2 0 0 0 .83-6.87Zm0 1.8a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8Z",
     label: "Research",
-    href: "https://research.novaxarena.tech",
+    href: "https://research.enemitesarena.tech",
   },
 ];
 
@@ -147,7 +147,7 @@ const ResponsiveHeader = ({
         to="/arena"
         className={`nova-display text-lg font-semibold tracking-normal sm:text-xl ${isDark ? 'text-[#E8E4D9]' : 'text-[#111317]'}`}
       >
-        NovaX
+        Enemites
       </Link>
 
       <nav className="hidden items-center gap-1 sm:flex" aria-label="Primary navigation">

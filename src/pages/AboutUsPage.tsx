@@ -13,7 +13,7 @@ const studentSquad = [
   },
   {
     name: "Enosh",
-    tagline: "How can we shape the next generation of learner communities through NovaX?",
+    tagline: "How can we shape the next generation of learner communities through Enemites?",
     focus: "Early adopters, feedback loops, learner communities, student participation",
     photo: "/assets/enosh.png",
   },
@@ -52,7 +52,7 @@ const questTimeline = [
     label: "Quest 05",
     title: "Building an arena for everyone",
     description:
-      "The next step is a deeper prototype and a broader beta. NovaX is being shaped with students who want learning to feel responsive, visible, and worth returning to.",
+      "The next step is a deeper prototype and a broader beta. Enemites is being shaped with students who want learning to feel responsive, visible, and worth returning to.",
     period: "December 2025",
   },
 ];
@@ -71,7 +71,7 @@ const values = [
   {
     title: "Proof over performance theater",
     description:
-      "NovaX should show how a person thinks under constraint, not just decorate a profile with empty activity.",
+      "Enemites should show how a person thinks under constraint, not just decorate a profile with empty activity.",
   },
 ];
 
@@ -98,7 +98,7 @@ const AboutUsPage = () => {
   return (
     <div className="min-h-screen bg-[#F7F5F0] text-[#4A4F5E]">
       <style>{`
-        @keyframes novaXGradientMorph {
+        @keyframes enemitesGradientMorph {
           0%, 100% { color: #D97757; -webkit-text-fill-color: #D97757; }
           50% { color: #111317; -webkit-text-fill-color: #111317; }
         }
@@ -106,7 +106,7 @@ const AboutUsPage = () => {
           display: inline-block;
           color: #D97757;
           -webkit-text-fill-color: #D97757;
-          animation: novaXGradientMorph 4.8s ease-in-out infinite;
+          animation: enemitesGradientMorph 4.8s ease-in-out infinite;
           will-change: color;
         }
       `}</style>
@@ -126,13 +126,13 @@ const AboutUsPage = () => {
                className="max-w-3xl py-12"
             >
               <motion.p variants={itemVariants} className="nova-mono mb-6 text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#788094]">
-                About NovaX
+                About Enemites
               </motion.p>
               <motion.h1 variants={itemVariants} className="nova-display text-5xl font-semibold leading-[1.05] tracking-tight text-[#111317] md:text-6xl lg:text-7xl">
                 Built by students who needed a <span className="nova-gradient-x">better arena</span>.
               </motion.h1>
               <motion.p variants={itemVariants} className="mt-8 text-sm font-normal leading-[1.6] text-[#4A4F5E] sm:text-xl max-w-xl">
-                NovaX began from a student fear: AI makes knowledge feel cheap, while learning still feels heavy. We are building the arena we wanted, where effort becomes visible capability.
+                Enemites began from a student fear: AI makes knowledge feel cheap, while learning still feels heavy. We are building the arena we wanted, where effort becomes visible capability.
               </motion.p>
 
               <motion.div variants={itemVariants} className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
@@ -140,7 +140,7 @@ const AboutUsPage = () => {
                   <Link to="/arena/how-it-works">See how it works</Link>
                 </Button>
                 <Button asChild variant="outline" className="h-12 rounded-lg border border-[#E2DCD0] bg-transparent px-8 text-[15px] font-medium text-[#111317] hover:bg-white hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
-                  <a href="mailto:support@novaxarena.tech">Contact the team</a>
+                  <a href="mailto:support@enemitesarena.tech">Contact the team</a>
                 </Button>
               </motion.div>
             </motion.div>
@@ -192,7 +192,7 @@ const AboutUsPage = () => {
               </motion.p>
               <motion.div variants={itemVariants} className="mt-12">
                 <Button asChild className="h-12 rounded-lg bg-[#111317] px-8 text-[15px] font-medium text-white hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
-                  <a href="https://research.novaxarena.tech" target="_blank" rel="noreferrer">
+                  <a href="https://research.enemitesarena.tech" target="_blank" rel="noreferrer">
                     Read our research
                   </a>
                 </Button>
@@ -327,14 +327,14 @@ const AboutUsPage = () => {
             <div className="relative z-10">
               <p className="nova-mono mb-6 text-[11.5px] font-medium uppercase tracking-wider text-[#D97757]">Still building</p>
               <h2 className="nova-display max-w-3xl text-4xl font-medium leading-[1.15] text-[#111317] sm:text-5xl">
-                NovaX is not a finished monument. It is an arena being tested with real students.
+                Enemites is not a finished monument. It is an arena being tested with real students.
               </h2>
               <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-[#E2DCD0] pt-10">
                 <p className="max-w-xl text-base leading-[1.6] text-[#4A4F5E]">
                   If you care about capability, simulation, or better learning loops, this is the moment to help shape the early product.
                 </p>
                 <Button asChild className="h-12 shrink-0 rounded-lg bg-[#111317] px-8 text-[15px] font-medium text-white hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform">
-                  <a href="mailto:support@novaxarena.tech">Write to us</a>
+                  <a href="mailto:support@enemitesarena.tech">Write to us</a>
                 </Button>
               </div>
             </div>
@@ -344,7 +344,7 @@ const AboutUsPage = () => {
 
       <footer className="bg-white px-4 pb-12 pt-12 sm:px-6 lg:px-8 border-t border-[#E2DCD0]">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 text-[13px] text-[#788094] sm:flex-row sm:items-center sm:justify-between">
-          <p>Copyright 2025 NovaX. All rights reserved.</p>
+          <p>Copyright 2025 Enemites. All rights reserved.</p>
           <div className="flex flex-wrap gap-6">
             <Link to="/arena/how-it-works" className="hover:text-[#111317] transition-colors">
               How it works

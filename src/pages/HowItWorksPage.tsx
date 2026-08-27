@@ -10,7 +10,7 @@ const steps = [
     label: "Step 01",
     title: "Enter a living arena",
     description:
-      "NovaX starts with a short mission brief, then shapes the simulation around your field, level, and decision context.",
+      "Enemites starts with a short mission brief, then shapes the simulation around your field, level, and decision context.",
     metric: "03 min",
     metricLabel: "briefing",
     span: "col-span-1 md:col-span-2 md:row-span-2",
@@ -67,7 +67,7 @@ const journey = [
     phase: "After",
     title: "Your thinking becomes readable",
     description:
-      "NovaX turns the run into a map of choices, missed paths, and capability growth that can be discussed or shared.",
+      "Enemites turns the run into a map of choices, missed paths, and capability growth that can be discussed or shared.",
     items: ["Decision map", "Growth summary", "Reusable capability artifact"],
   },
 ];
@@ -124,12 +124,12 @@ const HowItWorksPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="mb-4 text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#9DA3B4]">How NovaX works</p>
+              <p className="mb-4 text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#9DA3B4]">How Enemites works</p>
               <h1 className="nova-display text-5xl font-semibold leading-[1.05] text-[#E8E4D9] md:text-6xl lg:text-[4rem]">
                 From confusion to <span className="nova-gradient-text nova-gradient-process">capability</span> in one run.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-[1.6] text-[#E8E4D9]/78 sm:text-lg">
-                NovaX turns problem-based learning into a responsive world. You enter a scenario, make decisions,
+                Enemites turns problem-based learning into a responsive world. You enter a scenario, make decisions,
                 observe consequences, then leave with a readable trace of how you think.
               </p>
 
@@ -372,7 +372,7 @@ const HowItWorksPage = () => {
                 Proof that explains the path, not only the score.
               </h2>
               <p className="mt-6 text-[15px] leading-[1.6] text-[#E8E4D9]/72">
-                After each run, NovaX records the moments that matter: what you chose, how you acted, what changed, how you explained
+                After each run, Enemites records the moments that matter: what you chose, how you acted, what changed, how you explained
                 it, and which capability improved.
               </p>
               <div className="mt-10">
@@ -387,7 +387,7 @@ const HowItWorksPage = () => {
             <div className="relative min-h-[300px] lg:min-h-[450px] bg-[#000000] border-t lg:border-t-0 lg:border-l border-[#222222]">
               <img
                 src="/assets/capability-proof-abstract.png"
-                alt="Abstract NovaX capability path in a dark spatial environment"
+                alt="Abstract Enemites capability path in a dark spatial environment"
                 className="absolute inset-0 h-full w-full object-cover mix-blend-screen opacity-60"
                 loading="lazy"
               />

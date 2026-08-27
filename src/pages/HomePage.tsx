@@ -23,7 +23,7 @@ const LabHeader = () => {
         <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium tracking-wide text-[#4A4F5E]">
           <a href="#research" className="hover:text-[#111317] transition-colors">Research</a>
           <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#111317] transition-colors">News</a>
-          <a href="mailto:support@novaxarena.tech" className="hover:text-[#111317] transition-colors">Contact</a>
+          <a href="mailto:support@enemitesarena.tech" className="hover:text-[#111317] transition-colors">Contact</a>
           <Link 
             to="/arena" 
             className="bg-[#111317] text-white px-5 py-2 rounded-lg hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
@@ -201,7 +201,7 @@ const HomePage = () => {
             <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#111317] transition-colors">
               News
             </a>
-            <a href="mailto:support@novaxarena.tech" className="hover:text-[#111317] transition-colors">
+            <a href="mailto:support@enemitesarena.tech" className="hover:text-[#111317] transition-colors">
               Contact
             </a>
           </div>

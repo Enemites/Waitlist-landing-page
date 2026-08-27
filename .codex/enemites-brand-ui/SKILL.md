@@ -1,9 +1,9 @@
 ---
-name: novax-landing
-description: Design system for NovaX landing pages and marketing pages. Read this fully before writing any HTML, CSS, JSX, or Tailwind for NovaX landing pages.
+name: enemites-landing
+description: Design system for Enemites landing pages and marketing pages. Read this fully before writing any HTML, CSS, JSX, or Tailwind for Enemites landing pages.
 ---
 
-# NovaX — Landing Page Design System
+# Enemites — Landing Page Design System
 
 ---
 
