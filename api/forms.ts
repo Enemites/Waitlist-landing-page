@@ -57,6 +57,7 @@ export async function ensureEnemitesSchema() {
       );
 
       CREATE INDEX IF NOT EXISTS idx_enemites_forms_slug ON public.enemites_forms(slug);
+      ALTER TABLE public.enemites_forms ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ NULL;
     `);
 
     // 2. enemites_form_submissions table
@@ -328,7 +329,7 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
   }
 }
 
-// 2. Get Form by Slug (Public - Case Insensitive)
+// 2. Get Form by Slug (Public - Only active non-archived forms)
 export async function handleGetFormBySlug(slug: string) {
   await ensureEnemitesSchema();
   const cleanSlug = (slug || "").trim();
@@ -338,7 +339,7 @@ export async function handleGetFormBySlug(slug: string) {
 
   try {
     const res = await client.query(
-      `SELECT id, slug, title, description, questions, is_active, expires_at, created_at
+      `SELECT id, slug, title, description, questions, is_active, expires_at, deleted_at, created_at
        FROM public.enemites_forms
        WHERE LOWER(slug) = LOWER($1)
        LIMIT 1`,
@@ -350,6 +351,12 @@ export async function handleGetFormBySlug(slug: string) {
     }
 
     const form = res.rows[0];
+
+    // If archived/soft-deleted or inactive, hidden from public
+    if (form.deleted_at || !form.is_active) {
+      return { status: 404, data: { success: false, message: "Form has been closed or is no longer available." } };
+    }
+
     const now = new Date();
     const isExpired = form.expires_at ? new Date(form.expires_at) < now : false;
 
@@ -388,7 +395,7 @@ export async function handleSubmitForm(slug: string, payload: SubmitFormPayload,
 
   try {
     const formRes = await client.query(
-      "SELECT id, slug, is_active, expires_at, questions FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) LIMIT 1",
+      "SELECT id, slug, is_active, expires_at, deleted_at, questions FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) LIMIT 1",
       [cleanSlug]
     );
 
@@ -398,8 +405,8 @@ export async function handleSubmitForm(slug: string, payload: SubmitFormPayload,
 
     const form = formRes.rows[0];
 
-    if (!form.is_active) {
-      return { status: 403, data: { success: false, message: "This form is currently disabled." } };
+    if (!form.is_active || form.deleted_at) {
+      return { status: 403, data: { success: false, message: "This form has been closed and is no longer accepting responses." } };
     }
 
     if (form.expires_at && new Date(form.expires_at) < new Date()) {
@@ -480,6 +487,7 @@ export async function handleListForms(authHeader?: string | string[]) {
         f.description, 
         f.is_active, 
         f.expires_at, 
+        f.deleted_at,
         f.created_at,
         COUNT(s.id)::int AS submission_count
       FROM public.enemites_forms f
@@ -494,6 +502,7 @@ export async function handleListForms(authHeader?: string | string[]) {
       public_url: `https://enemites.com/form/${row.slug}`,
       is_endless: !row.expires_at,
       is_expired: row.expires_at ? new Date(row.expires_at) < now : false,
+      is_archived: Boolean(row.deleted_at || !row.is_active),
     }));
 
     return { status: 200, data: { success: true, count: forms.length, forms } };
@@ -505,7 +514,7 @@ export async function handleListForms(authHeader?: string | string[]) {
   }
 }
 
-// 5. Delete Form (Agent Only - Auth Required - Case Insensitive)
+// 5. Delete Form (Soft Delete / Archive - Preserves Submissions Safely in Supabase)
 export async function handleDeleteForm(slug: string, authHeader?: string | string[]) {
   if (!checkEnemitesAuth(authHeader)) {
     return { status: 401, data: { success: false, message: "Unauthorized." } };
@@ -518,25 +527,42 @@ export async function handleDeleteForm(slug: string, authHeader?: string | strin
   const client = await db.connect();
 
   try {
-    const deleteRes = await client.query(
-      "DELETE FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) RETURNING id, slug, title",
+    const checkRes = await client.query(
+      "SELECT id, slug, title, is_active, deleted_at FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1)",
       [cleanSlug]
     );
 
-    if (deleteRes.rows.length === 0) {
+    if (checkRes.rows.length === 0) {
       return { status: 404, data: { success: false, message: `Form with slug '${cleanSlug}' not found.` } };
     }
+
+    const form = checkRes.rows[0];
+
+    if (form.deleted_at || !form.is_active) {
+      return {
+        status: 200,
+        data: {
+          success: true,
+          message: `Form '${form.title}' (${cleanSlug}) is already archived/closed. All past submissions are safely preserved in Supabase.`,
+        },
+      };
+    }
+
+    const updateRes = await client.query(
+      "UPDATE public.enemites_forms SET is_active = false, deleted_at = NOW(), updated_at = NOW() WHERE LOWER(slug) = LOWER($1) RETURNING id, slug, title, deleted_at",
+      [cleanSlug]
+    );
 
     return {
       status: 200,
       data: {
         success: true,
-        message: `Form '${deleteRes.rows[0].title}' (${cleanSlug}) and its submissions have been deleted successfully.`,
+        message: `Form '${updateRes.rows[0].title}' (${cleanSlug}) has been closed & archived. Public access is disabled, and all submission records remain safely preserved in Supabase.`,
       },
     };
   } catch (err: any) {
-    console.error("Error deleting form:", err);
-    return { status: 500, data: { success: false, message: "Failed to delete form." } };
+    console.error("Error archiving form:", err);
+    return { status: 500, data: { success: false, message: "Failed to archive form." } };
   } finally {
     client.release();
   }
