@@ -219,7 +219,7 @@ export default function PublicFormPage() {
             <div className="h-28 bg-zinc-900 border border-zinc-800 rounded-xl" />
           </div>
         </div>
-        <div className="text-center text-xs text-zinc-600 font-mono">ENEMITES · secure infrastructure</div>
+        <div className="text-center text-xs text-zinc-600 font-mono">Enemites · secure infrastructure</div>
       </div>
     );
   }
@@ -244,7 +244,7 @@ export default function PublicFormPage() {
             >
               <span>← Back to Home</span>
             </Link>
-            <span className="text-[11px] font-mono tracking-wider font-semibold text-zinc-500">ENEMITES</span>
+            <span className="text-xs font-medium text-zinc-500">Enemites</span>
           </div>
         </div>
       </div>
@@ -271,7 +271,7 @@ export default function PublicFormPage() {
           )}
           <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 font-mono">
             <span>Thank you for your interest</span>
-            <span className="font-semibold tracking-wider">ENEMITES</span>
+            <span className="font-medium text-zinc-400">Enemites</span>
           </div>
         </div>
       </div>
@@ -312,7 +312,7 @@ export default function PublicFormPage() {
           </div>
 
           <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500">
-            <span className="font-mono tracking-wider font-semibold">ENEMITES</span>
+            <span className="font-medium text-zinc-400">Enemites platform</span>
             <button
               onClick={() => window.location.reload()}
               className="text-zinc-400 hover:text-white transition font-mono underline"
@@ -332,10 +332,10 @@ export default function PublicFormPage() {
       <header className="sticky top-0 z-30 bg-[#07080a]/90 backdrop-blur-md border-b border-zinc-800/80">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center space-x-2.5">
-            <div className="w-6 h-6 rounded-md bg-white text-black font-mono font-bold text-xs flex items-center justify-center tracking-tighter">
+            <div className="w-6 h-6 rounded-md bg-white text-black font-sans font-bold text-xs flex items-center justify-center tracking-tighter">
               E
             </div>
-            <span className="text-sm font-bold tracking-wider text-white font-mono uppercase">ENEMITES</span>
+            <span className="text-sm font-semibold tracking-tight text-white">Enemites</span>
           </div>
 
           <div className="flex items-center space-x-4">
@@ -607,15 +607,15 @@ export default function PublicFormPage() {
               <span className="flex items-center gap-1.5">
                 <CornerDownLeft className="w-3.5 h-3.5" /> Click button to complete
               </span>
-              <span className="uppercase tracking-wider text-zinc-500">ENEMITES DYNAMIC ENGINE</span>
+              <span className="text-zinc-500">Enemites dynamic engine</span>
             </div>
           </div>
         </form>
       </main>
 
       {/* Subtle Footer */}
-      <footer className="border-t border-zinc-900 py-6 text-center text-xs font-mono text-zinc-500 uppercase tracking-wider">
-        ENEMITES.COM · PRIVATE QUESTIONNAIRE INFRASTRUCTURE
+      <footer className="border-t border-zinc-900 py-6 text-center text-xs font-mono text-zinc-500">
+        enemites.com · private questionnaire infrastructure
       </footer>
     </div>
   );
