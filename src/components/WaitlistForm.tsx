@@ -1,6 +1,6 @@
 import { useState, useId } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Check, ArrowRight, Loader2, AlertCircle, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Loader2, AlertCircle } from "lucide-react";
 
 interface FormData {
   name: string;
@@ -19,9 +19,9 @@ interface FormErrors {
 }
 
 const AGE_OPTIONS = [
-  { value: "<10", label: "< 10" },
-  { value: "10-18", label: "10 - 18" },
-  { value: "18-20", label: "18 - 20" },
+  { value: "<10", label: "<10" },
+  { value: "10-18", label: "10–18" },
+  { value: "18-20", label: "18–20" },
   { value: "20+", label: "20+" },
 ];
 
@@ -43,7 +43,11 @@ export default function WaitlistForm({
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [submittedName, setSubmittedName] = useState("");
+  const [submittedData, setSubmittedData] = useState<{ name: string; email: string; timestamp: string }>({
+    name: "",
+    email: "",
+    timestamp: "",
+  });
 
   const nameId = useId();
   const numberId = useId();
@@ -59,20 +63,20 @@ export default function WaitlistForm({
     }
 
     if (!formData.number.trim()) {
-      newErrors.number = "Phone or WhatsApp number is required";
+      newErrors.number = "Phone number is required";
     } else if (formData.number.replace(/\D/g, "").length < 6) {
       newErrors.number = "Please enter a valid phone number";
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
-      newErrors.email = "Email address is required";
+      newErrors.email = "Email is required";
     } else if (!emailRegex.test(formData.email.trim())) {
       newErrors.email = "Please enter a valid email address";
     }
 
     if (!formData.age_group) {
-      newErrors.age_group = "Please select your age group";
+      newErrors.age_group = "Please select an age group";
     }
 
     setErrors(newErrors);
@@ -109,7 +113,6 @@ export default function WaitlistForm({
 
       if (!response.ok) {
         if (response.status === 409) {
-          // Already registered duplicate rejection
           if (data.field === "email") {
             setErrors({
               email: data.message || "This email is already registered on the waitlist.",
@@ -129,20 +132,24 @@ export default function WaitlistForm({
         }
 
         setErrors({
-          general: data.message || "Unable to join waitlist. Please verify your details and try again.",
+          general: data.message || "Unable to process registration. Please try again.",
         });
         return;
       }
 
       // Success
-      setSubmittedName(formData.name.trim());
+      setSubmittedData({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        timestamp: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+      });
       setIsSuccess(true);
       if (onSuccessCallback) {
         onSuccessCallback();
       }
-    } catch (err: any) {
+    } catch {
       setErrors({
-        general: "Connection failed. Please check your internet network and try again.",
+        general: "Connection failed. Please check your network and try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -162,251 +169,251 @@ export default function WaitlistForm({
   };
 
   return (
-    <div
-      className={`relative w-full max-w-xl mx-auto rounded-2xl border border-white/10 bg-[#0A0C10]/95 p-6 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl transition-all ${className}`}
-    >
-      {/* Decorative subtle ambient backdrop glow */}
-      <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-72 bg-[#D97757]/10 rounded-full blur-3xl -z-10" />
-
+    <div className={`w-full max-w-2xl mx-auto ${className}`}>
       <AnimatePresence mode="wait">
         {isSuccess ? (
           <motion.div
-            key="success"
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="py-6 text-center"
+            key="success-state"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="border border-[#222222] bg-[#0A0B0E] p-8 sm:p-12 text-left"
           >
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#10B981]/30 bg-[#10B981]/10 text-[#10B981] shadow-[0_0_30px_rgba(16,185,129,0.2)]">
-              <CheckCircle2 className="h-8 w-8" />
+            {/* Header / Monospace Status */}
+            <div className="flex items-center justify-between pb-6 border-b border-[#1A1C23]">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[#10B981]" />
+                <span className="nova-mono text-[11px] uppercase tracking-[0.2em] text-[#10B981] font-medium">
+                  Entry Confirmed
+                </span>
+              </div>
+              <span className="nova-mono text-[11px] tracking-wider text-[#686E7D]">
+                TIME {submittedData.timestamp || "REC"}
+              </span>
             </div>
 
-            <span className="nova-mono inline-flex items-center gap-1.5 rounded-full border border-[#10B981]/30 bg-[#10B981]/10 px-3 py-1 text-xs font-medium text-[#10B981]">
-              <Sparkles className="h-3 w-3" /> Waitlist Confirmed
-            </span>
+            {/* Main Headline */}
+            <div className="pt-8 pb-6">
+              <h3 className="nova-display text-3xl sm:text-4xl font-medium tracking-tight text-white">
+                You are on the list, {submittedData.name}.
+              </h3>
+              <p className="mt-4 text-[15px] leading-[1.7] text-[#9DA3B4] max-w-lg">
+                Your entry has been recorded for the upcoming NovaX Arena simulation batch. We will deliver your private access key directly to your email and WhatsApp when onboarding begins.
+              </p>
+            </div>
 
-            <h3 className="nova-display mt-4 text-2xl sm:text-3xl font-medium tracking-tight text-white">
-              You're on the list{submittedName ? `, ${submittedName}` : ""}!
-            </h3>
-
-            <p className="mx-auto mt-3 max-w-md text-sm sm:text-base leading-relaxed text-[#E8E4D9]/75">
-              Thank you for signing up. We're rolling out access in batches. You will receive priority invitation details directly via email and WhatsApp.
-            </p>
-
-            <div className="mt-8 rounded-xl border border-white/5 bg-white/[0.03] p-4 text-left">
-              <div className="flex items-center gap-3 text-xs text-[#E8E4D9]/60">
-                <div className="h-2 w-2 rounded-full bg-[#10B981] animate-pulse" />
-                <span>Priority Access Status: <strong className="text-white">Active Queue</strong></span>
+            {/* Spec / Data Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#1F222C] border border-[#1F222C] my-6">
+              <div className="bg-[#0D0E12] p-4">
+                <p className="nova-mono text-[10px] uppercase tracking-wider text-[#686E7D]">Registry Status</p>
+                <p className="nova-mono text-sm text-[#E8E4D9] mt-1 font-medium">Active · Priority Queue</p>
+              </div>
+              <div className="bg-[#0D0E12] p-4">
+                <p className="nova-mono text-[10px] uppercase tracking-wider text-[#686E7D]">Dispatch Channel</p>
+                <p className="nova-mono text-sm text-[#E8E4D9] mt-1 truncate">{submittedData.email}</p>
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={resetForm}
-              className="mt-8 text-xs font-medium uppercase tracking-wider text-[#D97757] hover:text-[#e48b6e] transition-colors"
-            >
-              Add another response
-            </button>
+            {/* Action */}
+            <div className="pt-4 flex items-center justify-between border-t border-[#1A1C23]">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="nova-mono text-xs text-[#9DA3B4] hover:text-white transition-colors flex items-center gap-2 group"
+              >
+                <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
+                <span>Submit another response</span>
+              </button>
+            </div>
           </motion.div>
         ) : (
           <motion.form
-            key="form"
+            key="form-state"
             onSubmit={handleSubmit}
             noValidate
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="space-y-6 text-left"
+            className="border border-[#222222] bg-[#07080A] p-8 sm:p-12 text-left space-y-8"
           >
-            {/* Header */}
-            <div>
-              <div className="flex items-center justify-between">
-                <h3 className="nova-display text-xl sm:text-2xl font-medium tracking-tight text-white">
+            {/* Form Title & Context */}
+            <div className="pb-6 border-b border-[#1A1C23] flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+              <div>
+                <h3 className="nova-display text-2xl font-medium tracking-tight text-white">
                   Your information
                 </h3>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#E8E4D9]/40">
-                  Step 1 of 1
-                </span>
+                <p className="mt-1 text-sm text-[#888E9E]">
+                  Complete this form to reserve your position in the next cohort.
+                </p>
               </div>
-              <p className="mt-1 text-xs sm:text-sm text-[#E8E4D9]/60">
-                Reserve your spot in the next NovaX Arena simulation batch.
-              </p>
+              <span className="nova-mono text-[11px] uppercase tracking-wider text-[#D97757]">
+                Required Fields *
+              </span>
             </div>
 
-            {/* General Banner Error (e.g. Duplication or Server issue) */}
+            {/* Error Notification Banner */}
             <AnimatePresence>
               {errors.general && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0, y: -8 }}
-                  animate={{ opacity: 1, height: "auto", y: 0 }}
-                  exit={{ opacity: 0, height: 0, y: -8 }}
-                  className="rounded-xl border border-red-500/30 bg-red-500/10 p-3.5 text-sm text-red-200 flex items-start gap-3"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="border border-red-500/40 bg-red-950/30 p-4 text-sm text-red-200 flex items-start gap-3"
                 >
-                  <AlertCircle className="h-5 w-5 shrink-0 text-red-400 mt-0.5" />
-                  <div className="flex-1">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-red-400 mt-0.5" />
+                  <div className="flex-1 text-xs sm:text-sm">
                     <p className="font-medium text-red-100">{errors.general}</p>
-                    <p className="text-xs text-red-300/80 mt-0.5">
-                      If you have already registered, you do not need to submit again.
-                    </p>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Field: Name */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor={nameId}
-                  className="text-xs sm:text-sm font-medium text-[#E8E4D9]/90 flex items-center gap-1"
-                >
-                  Name <span className="text-[#D97757]">*</span>
-                </label>
-                {errors.name && (
-                  <span className="text-[11px] font-medium text-red-400">{errors.name}</span>
-                )}
-              </div>
-              <div className="relative group">
-                <input
-                  id={nameId}
-                  type="text"
-                  placeholder="Your full name"
-                  value={formData.name}
-                  onChange={(e) => {
-                    setFormData({ ...formData, name: e.target.value });
-                    if (errors.name || errors.general) setErrors({ ...errors, name: undefined, general: undefined });
-                  }}
-                  className={`w-full rounded-xl border bg-black/40 px-4 py-3 pr-12 text-sm text-white placeholder-[#E8E4D9]/30 shadow-inner transition-all outline-none focus:ring-2 focus:ring-[#D97757]/40 ${
-                    errors.name
-                      ? "border-red-500/50 focus:border-red-500"
-                      : "border-white/10 group-hover:border-white/20 focus:border-[#D97757]"
-                  }`}
-                />
-                <div className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 select-none text-xs font-semibold text-[#E8E4D9]/40 tracking-wider">
-                  Aa
+            {/* Input Grid */}
+            <div className="space-y-6">
+              {/* Field: Name */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor={nameId}
+                    className="nova-mono text-xs font-medium text-[#C2BDB0] tracking-wide"
+                  >
+                    NAME <span className="text-[#D97757]">*</span>
+                  </label>
+                  {errors.name && (
+                    <span className="nova-mono text-[11px] text-red-400">{errors.name}</span>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
+                    id={nameId}
+                    type="text"
+                    placeholder="Enter your name"
+                    value={formData.name}
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (errors.name || errors.general) setErrors({ ...errors, name: undefined, general: undefined });
+                    }}
+                    className={`w-full rounded-none border bg-[#0F1117] px-4 py-3.5 text-sm text-white placeholder-[#5A6070] transition-colors outline-none focus:ring-0 ${
+                      errors.name
+                        ? "border-red-500"
+                        : "border-[#222634] focus:border-[#D97757]"
+                    }`}
+                  />
+                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 nova-mono text-[11px] text-[#4A5060]">
+                    Aa
+                  </span>
                 </div>
               </div>
-            </div>
 
-            {/* Field: Number */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor={numberId}
-                  className="text-xs sm:text-sm font-medium text-[#E8E4D9]/90 flex items-center gap-1"
-                >
-                  Number <span className="text-[#D97757]">*</span>
-                </label>
-                {errors.number && (
-                  <span className="text-[11px] font-medium text-red-400">{errors.number}</span>
-                )}
-              </div>
-              <div className="relative group">
-                <input
-                  id={numberId}
-                  type="tel"
-                  placeholder="e.g. +628123456789 or 0812..."
-                  value={formData.number}
-                  onChange={(e) => {
-                    setFormData({ ...formData, number: e.target.value });
-                    if (errors.number || errors.general) setErrors({ ...errors, number: undefined, general: undefined });
-                  }}
-                  className={`w-full rounded-xl border bg-black/40 px-4 py-3 pr-12 text-sm text-white placeholder-[#E8E4D9]/30 shadow-inner transition-all outline-none focus:ring-2 focus:ring-[#D97757]/40 ${
-                    errors.number
-                      ? "border-red-500/50 focus:border-red-500"
-                      : "border-white/10 group-hover:border-white/20 focus:border-[#D97757]"
-                  }`}
-                />
-                <div className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 select-none text-xs font-semibold text-[#E8E4D9]/40 tracking-wider">
-                  Aa
+              {/* Field: Number */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor={numberId}
+                    className="nova-mono text-xs font-medium text-[#C2BDB0] tracking-wide"
+                  >
+                    NUMBER (PHONE / WHATSAPP) <span className="text-[#D97757]">*</span>
+                  </label>
+                  {errors.number && (
+                    <span className="nova-mono text-[11px] text-red-400">{errors.number}</span>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
+                    id={numberId}
+                    type="tel"
+                    placeholder="+62 8..."
+                    value={formData.number}
+                    onChange={(e) => {
+                      setFormData({ ...formData, number: e.target.value });
+                      if (errors.number || errors.general) setErrors({ ...errors, number: undefined, general: undefined });
+                    }}
+                    className={`w-full rounded-none border bg-[#0F1117] px-4 py-3.5 text-sm text-white placeholder-[#5A6070] transition-colors outline-none focus:ring-0 ${
+                      errors.number
+                        ? "border-red-500"
+                        : "border-[#222634] focus:border-[#D97757]"
+                    }`}
+                  />
+                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 nova-mono text-[11px] text-[#4A5060]">
+                    Aa
+                  </span>
                 </div>
               </div>
-            </div>
 
-            {/* Field: Email */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor={emailId}
-                  className="text-xs sm:text-sm font-medium text-[#E8E4D9]/90 flex items-center gap-1"
-                >
-                  Email <span className="text-[#D97757]">*</span>
-                </label>
-                {errors.email && (
-                  <span className="text-[11px] font-medium text-red-400">{errors.email}</span>
-                )}
-              </div>
-              <div className="relative group">
-                <input
-                  id={emailId}
-                  type="email"
-                  placeholder="name@example.com"
-                  value={formData.email}
-                  onChange={(e) => {
-                    setFormData({ ...formData, email: e.target.value });
-                    if (errors.email || errors.general) setErrors({ ...errors, email: undefined, general: undefined });
-                  }}
-                  className={`w-full rounded-xl border bg-black/40 px-4 py-3 pr-12 text-sm text-white placeholder-[#E8E4D9]/30 shadow-inner transition-all outline-none focus:ring-2 focus:ring-[#D97757]/40 ${
-                    errors.email
-                      ? "border-red-500/50 focus:border-red-500"
-                      : "border-white/10 group-hover:border-white/20 focus:border-[#D97757]"
-                  }`}
-                />
-                <div className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 select-none text-sm font-medium text-[#E8E4D9]/40">
-                  @
+              {/* Field: Email */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor={emailId}
+                    className="nova-mono text-xs font-medium text-[#C2BDB0] tracking-wide"
+                  >
+                    EMAIL <span className="text-[#D97757]">*</span>
+                  </label>
+                  {errors.email && (
+                    <span className="nova-mono text-[11px] text-red-400">{errors.email}</span>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
+                    id={emailId}
+                    type="email"
+                    placeholder="name@example.com"
+                    value={formData.email}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      if (errors.email || errors.general) setErrors({ ...errors, email: undefined, general: undefined });
+                    }}
+                    className={`w-full rounded-none border bg-[#0F1117] px-4 py-3.5 text-sm text-white placeholder-[#5A6070] transition-colors outline-none focus:ring-0 ${
+                      errors.email
+                        ? "border-red-500"
+                        : "border-[#222634] focus:border-[#D97757]"
+                    }`}
+                  />
+                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 nova-mono text-xs text-[#4A5060]">
+                    @
+                  </span>
                 </div>
               </div>
-            </div>
 
-            {/* Field: Age Range Selector */}
-            <div className="space-y-2 pt-1">
-              <div className="flex items-center justify-between">
-                <span className="text-xs sm:text-sm font-medium text-[#E8E4D9]/90 flex items-center gap-1">
-                  Age Range <span className="text-[#D97757]">*</span>
-                </span>
-                {errors.age_group && (
-                  <span className="text-[11px] font-medium text-red-400">{errors.age_group}</span>
-                )}
-              </div>
+              {/* Field: Age Cohort */}
+              <div className="space-y-2.5 pt-2">
+                <div className="flex items-center justify-between">
+                  <span className="nova-mono text-xs font-medium text-[#C2BDB0] tracking-wide">
+                    AGE COHORT <span className="text-[#D97757]">*</span>
+                  </span>
+                  {errors.age_group && (
+                    <span className="nova-mono text-[11px] text-red-400">{errors.age_group}</span>
+                  )}
+                </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                {AGE_OPTIONS.map((opt) => {
-                  const isSelected = formData.age_group === opt.value;
-                  return (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => {
-                        setFormData({ ...formData, age_group: opt.value });
-                        if (errors.age_group) setErrors({ ...errors, age_group: undefined });
-                      }}
-                      className={`relative flex items-center justify-center gap-2 rounded-xl border px-3.5 py-3 text-xs sm:text-sm font-medium transition-all duration-200 select-none ${
-                        isSelected
-                          ? "border-[#D97757] bg-[#D97757]/15 text-white shadow-[0_0_15px_rgba(217,119,87,0.25)]"
-                          : "border-white/10 bg-white/[0.02] text-[#E8E4D9]/70 hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
-                      }`}
-                    >
-                      <div
-                        className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-colors ${
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {AGE_OPTIONS.map((opt) => {
+                    const isSelected = formData.age_group === opt.value;
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => {
+                          setFormData({ ...formData, age_group: opt.value });
+                          if (errors.age_group) setErrors({ ...errors, age_group: undefined });
+                        }}
+                        className={`flex items-center justify-center py-3 px-4 border text-xs font-mono transition-colors select-none ${
                           isSelected
-                            ? "border-[#D97757] bg-[#D97757] text-white"
-                            : "border-white/20 bg-black/40 text-transparent"
+                            ? "border-[#D97757] bg-[#D97757] text-white font-semibold"
+                            : "border-[#222634] bg-[#0F1117] text-[#9DA3B4] hover:border-[#383E54] hover:text-white"
                         }`}
                       >
-                        <Check className="h-2.5 w-2.5 stroke-[3]" />
-                      </div>
-                      <span>{opt.label}</span>
-                    </button>
-                  );
-                })}
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            {/* Checkbox: Receive updates */}
-            <div className="pt-2">
-              <label className="flex items-start gap-3 cursor-pointer select-none group">
-                <div className="relative flex items-center mt-0.5">
+              {/* Checkbox: Consent */}
+              <div className="pt-3">
+                <label className="flex items-start gap-3 cursor-pointer select-none group">
                   <input
                     type="checkbox"
                     checked={formData.receive_updates}
@@ -416,46 +423,45 @@ export default function WaitlistForm({
                     className="sr-only"
                   />
                   <div
-                    className={`flex h-5 w-5 items-center justify-center rounded-md border transition-all ${
+                    className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border transition-colors ${
                       formData.receive_updates
-                        ? "border-[#D97757] bg-[#D97757] text-white shadow-[0_0_10px_rgba(217,119,87,0.3)]"
-                        : "border-white/20 bg-black/40 group-hover:border-white/40"
+                        ? "border-[#D97757] bg-[#D97757] text-white"
+                        : "border-[#333849] bg-[#0F1117] group-hover:border-[#555C75]"
                     }`}
                   >
-                    {formData.receive_updates && <Check className="h-3.5 w-3.5 stroke-[3]" />}
+                    {formData.receive_updates && (
+                      <svg className="h-3 w-3 stroke-white" viewBox="0 0 24 24" fill="none" strokeWidth="3.5">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
                   </div>
-                </div>
-                <span className="text-xs sm:text-sm leading-snug text-[#E8E4D9]/80 group-hover:text-[#E8E4D9] transition-colors">
-                  Want to receive updates from us beyond the launch?
-                </span>
-              </label>
+                  <span className="text-xs sm:text-[13px] leading-relaxed text-[#9DA3B4] group-hover:text-[#C2BDB0] transition-colors">
+                    Want to receive updates from us beyond the launch?
+                  </span>
+                </label>
+              </div>
             </div>
 
             {/* Submit Button */}
-            <div className="pt-3">
+            <div className="pt-4 border-t border-[#1A1C23]">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full relative flex items-center justify-center gap-2.5 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-black hover:bg-[#F2EDE4] active:scale-[0.99] disabled:opacity-70 disabled:pointer-events-none transition-all shadow-[0_4px_20px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_25px_rgba(255,255,255,0.25)]"
+                className="w-full flex items-center justify-center gap-3 bg-white px-8 py-4 text-xs font-mono uppercase tracking-[0.15em] font-semibold text-black hover:bg-[#D97757] hover:text-white transition-all disabled:opacity-50 disabled:pointer-events-none active:scale-[0.99]"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin text-black" />
-                    <span>Verifying and Joining...</span>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>Processing Submission...</span>
                   </>
                 ) : (
                   <>
                     <span>Submit</span>
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="h-4 w-4" />
                   </>
                 )}
               </button>
             </div>
-
-            {/* Security note */}
-            <p className="text-center text-[11px] text-[#E8E4D9]/40">
-              🔒 No spam, ever. Your information is securely stored and never shared.
-            </p>
           </motion.form>
         )}
       </AnimatePresence>
