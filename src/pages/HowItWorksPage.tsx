@@ -4,7 +4,6 @@ import ResponsiveHeader from "@/components/ResponsiveHeader";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion, useReducedMotion } from "motion/react";
 
-const WAITLIST_FORM_URL = "https://tally.so/r/zxDAyZ";
 
 const steps = [
   {
@@ -139,9 +138,9 @@ const HowItWorksPage = () => {
                   asChild
                   className="h-12 rounded-lg bg-[#D97757] px-6 text-[15px] font-medium text-[#E8E4D9] hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
                 >
-                  <a href={WAITLIST_FORM_URL} target="_blank" rel="noreferrer">
+                  <Link to="/arena#join-waitlist">
                     Join waitlist
-                  </a>
+                  </Link>
                 </Button>
                 <Button
                   asChild

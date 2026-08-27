@@ -5,8 +5,8 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useRef } from "react";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { motion, useReducedMotion } from "motion/react";
+import WaitlistForm from "@/components/WaitlistForm";
 
-const WAITLIST_FORM_URL = "https://tally.so/r/zxDAyZ";
 const YOUTUBE_DEMO_VIDEO_ID = "sga8QDniKls";
 
 const introDesktopNavItems = novaGlobalNavItems.filter((item) => item.label !== "Home");
@@ -185,7 +185,7 @@ const IntroductionPage = () => {
                   asChild
                   className="h-12 rounded-lg bg-[#D97757] px-8 text-[15px] font-medium text-white hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
                 >
-                  <a href={WAITLIST_FORM_URL} target="_blank" rel="noreferrer">
+                  <a href="#join-waitlist">
                     Join Waitlist
                   </a>
                 </Button>
@@ -533,29 +533,26 @@ const IntroductionPage = () => {
             </motion.div>
 
             <motion.div
-              className="mt-32 text-center"
+              id="join-waitlist"
+              className="mt-32 scroll-mt-24 text-center"
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.15 }}
               variants={itemVariants}
             >
-              <h2 className="nova-display text-3xl font-medium leading-[1.1] text-white sm:text-4xl md:text-5xl">
-                Ready to <span className="text-[#D97757]">join</span>?
-              </h2>
-              <p className="mx-auto mt-6 max-w-xl text-base font-normal leading-[1.6] text-[#E8E4D9]/72">
-                Join thousands of students and train your problem-solving skills
-                collaboratively.
-              </p>
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button
-                  asChild
-                  className="h-12 rounded-lg bg-[#D97757] px-8 text-[15px] font-medium text-white hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
-                >
-                  <a href={WAITLIST_FORM_URL} target="_blank" rel="noreferrer">
-                    Join Waitlist
-                  </a>
-                </Button>
+              <div className="mb-8">
+                <span className="nova-mono inline-block text-[11.5px] font-medium uppercase tracking-[0.2em] text-[#D97757] mb-3">
+                  Early Access Registration
+                </span>
+                <h2 className="nova-display text-3xl font-medium leading-[1.1] text-white sm:text-4xl md:text-5xl">
+                  Ready to <span className="text-[#D97757]">join</span>?
+                </h2>
+                <p className="mx-auto mt-4 max-w-xl text-base font-normal leading-[1.6] text-[#E8E4D9]/72">
+                  Join thousands of learners and problem solvers in the next generation NovaX Arena simulation.
+                </p>
               </div>
+
+              <WaitlistForm className="mt-8" />
             </motion.div>
           </div>
         </section>
