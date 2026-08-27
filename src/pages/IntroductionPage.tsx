@@ -183,7 +183,7 @@ const IntroductionPage = () => {
               <div className="mt-8 sm:mt-10 flex flex-col items-start gap-3.5 sm:gap-4 sm:flex-row sm:items-center">
                 <Button
                   asChild
-                  className="h-11 sm:h-12 rounded-lg bg-[#C3532C] hover:bg-[#D96338] text-white font-medium px-6 sm:px-8 text-sm sm:text-[15px] shadow-[0_0_20px_rgba(195,83,44,0.45)] hover:shadow-[0_0_30px_rgba(217,99,56,0.65)] border border-[#D97757]/40 hover:-translate-y-[1px] transition-all active:scale-[0.98]"
+                  className="h-11 sm:h-12 rounded-lg bg-[#D97757] hover:bg-[#c8684a] text-white font-medium px-6 sm:px-8 text-sm sm:text-[15px] shadow-lg shadow-[#D97757]/20 hover:-translate-y-[1px] transition-all active:scale-[0.98]"
                 >
                   <a 
                     href="#join-waitlist" 
