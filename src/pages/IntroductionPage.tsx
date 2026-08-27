@@ -168,22 +168,22 @@ const IntroductionPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="max-w-2xl py-12">
-              <p className="nova-mono mb-6 text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#9DA3B4]">
+            <div className="max-w-2xl py-8 sm:py-12">
+              <p className="nova-mono mb-4 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#9DA3B4]">
                 Problem-based learning, rebuilt as simulation
               </p>
-              <h1 className="nova-display text-6xl font-semibold leading-[1.05] tracking-tight text-white md:text-7xl lg:text-[6rem]">
+              <h1 className="nova-display text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-semibold leading-[1.1] sm:leading-[1.05] tracking-tight text-white">
                 Enem<span className="nova-gradient-x">ites</span>
               </h1>
               
-              <p className="mt-8 text-lg font-normal leading-[1.6] text-[#E8E4D9]/80 sm:text-xl max-w-xl">
+              <p className="mt-5 sm:mt-8 text-sm sm:text-lg lg:text-xl font-normal leading-relaxed text-[#E8E4D9]/80 max-w-xl">
                 The first problem-based learning environment built on world simulations and a superhuman mentor.
               </p>
 
-              <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <div className="mt-8 sm:mt-10 flex flex-col items-start gap-3.5 sm:gap-4 sm:flex-row sm:items-center">
                 <Button
                   asChild
-                  className="h-12 rounded-lg bg-[#D97757] px-8 text-[15px] font-medium text-white hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
+                  className="h-11 sm:h-12 rounded-lg bg-[#D97757] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
                 >
                   <a 
                     href="#join-waitlist" 
@@ -196,7 +196,7 @@ const IntroductionPage = () => {
                   </a>
                 </Button>
                 
-                <div className="inline-flex h-12 items-center justify-center gap-2.5 rounded-lg border border-white/10 bg-[rgba(255,255,255,0.06)] px-6 text-sm font-medium text-[#E8E4D9]/90 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+                <div className="inline-flex h-11 sm:h-12 items-center justify-center gap-2.5 rounded-lg border border-white/10 bg-[rgba(255,255,255,0.06)] px-5 sm:px-6 text-xs sm:text-sm font-medium text-[#E8E4D9]/90 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
                   <span className="relative flex h-2 w-2 shrink-0">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#10B981]/50" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-[#10B981]" />
@@ -205,7 +205,7 @@ const IntroductionPage = () => {
                 </div>
               </div>
               
-              <div className="mt-12 flex items-center gap-6 text-[13px] font-medium text-[#9DA3B4]">
+              <div className="mt-8 sm:mt-12 flex items-center gap-6 text-xs sm:text-[13px] font-medium text-[#9DA3B4]">
                 <Link to="/arena/about-us#our-mission" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/20">
                   Our mission
                 </Link>
@@ -218,16 +218,16 @@ const IntroductionPage = () => {
         </section>
 
         {/* FUN LIKE A GAME SECTION - BENTO GRID */}
-        <section className="bg-[#050505] px-4 py-24 sm:px-6 lg:px-8 border-t border-white/5">
+        <section className="bg-[#050505] px-4 py-16 sm:py-24 sm:px-6 lg:px-8 border-t border-white/5">
           <div className="mx-auto max-w-6xl">
             <motion.div 
-              className="mb-16 text-center max-w-3xl mx-auto"
+              className="mb-12 sm:mb-16 text-center max-w-3xl mx-auto"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={itemVariants}
             >
-              <h2 className="nova-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-white">
                 Fun like a game.<br/>
                 <span className="text-[#D97757]">Effective like work.</span>
               </h2>
@@ -252,9 +252,9 @@ const IntroductionPage = () => {
                 <Button
                   variant="outline"
                   onClick={(e) => { e.stopPropagation(); scrollToVideoDemo(); }}
-                  className="h-14 rounded-full border border-white/20 bg-black/50 px-8 text-[15px] font-medium text-white backdrop-blur-md hover:bg-[#D97757] hover:border-[#D97757] hover:scale-105 transition-all shadow-2xl flex items-center gap-2"
+                  className="h-11 sm:h-14 rounded-full border border-white/20 bg-black/50 px-5 sm:px-8 text-xs sm:text-[15px] font-medium text-white backdrop-blur-md hover:bg-[#D97757] hover:border-[#D97757] hover:scale-105 transition-all shadow-2xl flex items-center gap-2"
                 >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                   Watch Intro Video
@@ -274,15 +274,15 @@ const IntroductionPage = () => {
                 variants={itemVariants}
                 className="md:col-span-7 flex flex-col sm:flex-row overflow-hidden rounded-[24px] border border-white/5 bg-[#000000] group"
               >
-                <div className="flex flex-col justify-center p-8 sm:p-10 w-full sm:w-1/2 z-10">
-                  <h3 className="nova-display text-2xl md:text-3xl font-medium leading-[1.2] text-white">
+                <div className="flex flex-col justify-center p-6 sm:p-10 w-full sm:w-1/2 z-10">
+                  <h3 className="nova-display text-lg sm:text-2xl md:text-3xl font-medium leading-[1.2] text-white">
                     {valueCards[0].title}
                   </h3>
-                  <p className="mt-4 text-[15px] md:text-base leading-relaxed text-[#E8E4D9]/70">
+                  <p className="mt-3 sm:mt-4 text-xs sm:text-[15px] md:text-base leading-relaxed text-[#E8E4D9]/70">
                     {valueCards[0].copy}
                   </p>
                 </div>
-                <div className="w-full sm:w-1/2 min-h-[240px] bg-black relative overflow-hidden">
+                <div className="w-full sm:w-1/2 min-h-[200px] sm:min-h-[240px] bg-black relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000] opacity-90 z-10 hidden sm:block" />
                   <img src={valueCards[0].image} alt={valueCards[0].alt} className="h-full w-full object-cover opacity-70 mix-blend-screen transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 </div>
@@ -293,15 +293,15 @@ const IntroductionPage = () => {
                 variants={itemVariants}
                 className="md:col-span-5 flex flex-col overflow-hidden rounded-[24px] border border-white/5 bg-gradient-to-b from-[#000000] to-black group"
               >
-                <div className="flex flex-col justify-start p-8 sm:p-10 pb-4 z-10">
-                  <h3 className="nova-display text-2xl md:text-3xl font-medium leading-[1.2] text-white">
+                <div className="flex flex-col justify-start p-6 sm:p-10 pb-4 z-10">
+                  <h3 className="nova-display text-lg sm:text-2xl md:text-3xl font-medium leading-[1.2] text-white">
                     {valueCards[1].title}
                   </h3>
-                  <p className="mt-4 text-[15px] leading-relaxed text-[#E8E4D9]/70">
+                  <p className="mt-3 sm:mt-4 text-xs sm:text-[15px] leading-relaxed text-[#E8E4D9]/70">
                     {valueCards[1].copy}
                   </p>
                 </div>
-                <div className="flex-1 w-full min-h-[220px] bg-transparent relative overflow-hidden mt-4">
+                <div className="flex-1 w-full min-h-[180px] sm:min-h-[220px] bg-transparent relative overflow-hidden mt-2 sm:mt-4">
                   <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10" />
                   <img src={valueCards[1].image} alt={valueCards[1].alt} className="absolute bottom-0 left-0 h-full w-full object-cover object-bottom opacity-70 mix-blend-screen transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                 </div>
@@ -314,15 +314,15 @@ const IntroductionPage = () => {
               >
                 <div className="absolute inset-0 bg-[#D97757]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 
-                <div className="flex flex-col justify-center p-8 sm:p-10 md:p-14 w-full md:w-5/12 z-10">
-                  <h3 className="nova-display text-2xl md:text-3xl lg:text-4xl font-medium leading-[1.2] text-white">
+                <div className="flex flex-col justify-center p-6 sm:p-10 md:p-14 w-full md:w-5/12 z-10">
+                  <h3 className="nova-display text-lg sm:text-2xl md:text-3xl lg:text-4xl font-medium leading-[1.2] text-white">
                     {valueCards[2].title}
                   </h3>
-                  <p className="mt-4 text-[15px] md:text-base leading-relaxed text-[#E8E4D9]/70 max-w-sm">
+                  <p className="mt-3 sm:mt-4 text-xs sm:text-[15px] md:text-base leading-relaxed text-[#E8E4D9]/70 max-w-sm">
                     {valueCards[2].copy}
                   </p>
                 </div>
-                <div className="w-full md:w-7/12 min-h-[300px] bg-black relative overflow-hidden">
+                <div className="w-full md:w-7/12 min-h-[240px] sm:min-h-[300px] bg-black relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#050505] opacity-90 z-10 hidden md:block" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050505] to-transparent opacity-80 z-10 md:hidden" />
                   <img src={valueCards[2].image} alt={valueCards[2].alt} className="h-full w-full object-cover object-center opacity-70 mix-blend-screen transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />
@@ -333,20 +333,20 @@ const IntroductionPage = () => {
         </section>
 
         {/* SIMULATION FEATURES - STICKY STACK */}
-        <section className="bg-[#050505] px-4 py-24 sm:px-6 lg:px-8 border-y border-white/5">
+        <section className="bg-[#050505] px-4 py-16 sm:py-24 sm:px-6 lg:px-8 border-y border-white/5">
           <div className="mx-auto max-w-6xl">
             <motion.div 
-              className="mb-20 max-w-2xl"
+              className="mb-12 sm:mb-20 max-w-2xl"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={itemVariants}
             >
-              <h2 className="nova-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-white">
                 Transform your mind<br/>
                 in 10 <span className="text-[#D97757]">minutes</span>.
               </h2>
-              <p className="mt-6 text-lg font-normal leading-[1.6] text-[#E8E4D9]/72">
+              <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg font-normal leading-relaxed text-[#E8E4D9]/72">
                 Experience learning from a dynamic world simulation with adaptive AI.
               </p>
             </motion.div>
@@ -355,25 +355,25 @@ const IntroductionPage = () => {
               {simulationFeatures.map((feature, index) => (
                 <div 
                   key={feature.title}
-                  className="sticky top-24 flex min-h-[75vh] items-center pt-8 pb-16 bg-[#050505]"
+                  className="sticky top-20 sm:top-24 flex min-h-[60vh] sm:min-h-[75vh] items-center pt-6 sm:pt-8 pb-12 sm:pb-16 bg-[#050505]"
                   style={{ zIndex: index }}
                 >
-                  <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-20 items-center">
-                    <div className="pr-4">
-                      <div className="mb-6 inline-flex items-center gap-4">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-[#D97757]">
-                          <span className="nova-mono text-[12px] font-medium">0{index + 1}</span>
+                  <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-20 items-center">
+                    <div className="pr-0 sm:pr-4">
+                      <div className="mb-4 sm:mb-6 inline-flex items-center gap-3 sm:gap-4">
+                        <span className="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-[#D97757]">
+                          <span className="nova-mono text-[11px] sm:text-[12px] font-medium">0{index + 1}</span>
                         </span>
-                        <span className="nova-mono text-[12px] font-medium tracking-[0.2em] text-[#D97757] uppercase">Phase</span>
+                        <span className="nova-mono text-[10px] sm:text-[12px] font-medium tracking-[0.2em] text-[#D97757] uppercase">Phase</span>
                       </div>
-                      <h3 className="nova-display text-4xl md:text-5xl font-medium leading-[1.1] text-white tracking-tight">
+                      <h3 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-white tracking-tight">
                         {feature.title}
                       </h3>
-                      <p className="mt-6 text-lg leading-relaxed text-[#E8E4D9]/70 max-w-[40ch]">
+                      <p className="mt-3 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-[#E8E4D9]/70 max-w-[40ch]">
                         {feature.copy}
                       </p>
                     </div>
-                    <div className="aspect-[16/10] overflow-hidden rounded-[24px] border border-white/10 bg-[#000000] shadow-2xl relative">
+                    <div className="aspect-[16/10] overflow-hidden rounded-[20px] sm:rounded-[24px] border border-white/10 bg-[#000000] shadow-2xl relative">
                       <video
                         className="h-full w-full object-cover opacity-90"
                         autoPlay loop muted playsInline
@@ -381,7 +381,7 @@ const IntroductionPage = () => {
                       >
                         <source src={feature.video} type="video/mp4" />
                       </video>
-                      <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] rounded-[24px] pointer-events-none" />
+                      <div className="absolute inset-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] rounded-[20px] sm:rounded-[24px] pointer-events-none" />
                     </div>
                   </div>
                 </div>
@@ -391,11 +391,11 @@ const IntroductionPage = () => {
         </section>
 
         {/* PROBLEM SOLVING MATTERS */}
-        <section className="bg-[#000000] px-4 py-32 sm:px-6 lg:px-8 border-y border-white/5 relative overflow-hidden">
+        <section className="bg-[#000000] px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-y border-white/5 relative overflow-hidden">
           {/* Subtle background glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-[#D97757]/5 blur-[120px] pointer-events-none" />
           
-          <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-start relative z-10">
+          <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start relative z-10">
             <motion.div
               className="lg:col-span-5 lg:sticky lg:top-32"
               initial="hidden"
@@ -403,11 +403,11 @@ const IntroductionPage = () => {
               viewport={{ once: true, amount: 0.2 }}
               variants={itemVariants}
             >
-              <h2 className="nova-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl md:text-6xl tracking-tight">
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-white tracking-tight">
                 The market has <br />
                 <span className="text-[#D97757]">spoken.</span>
               </h2>
-              <p className="mt-6 text-lg leading-relaxed text-[#E8E4D9]/60 max-w-[36ch]">
+              <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-[#E8E4D9]/60 max-w-[36ch]">
                 The era of automation and AI orchestration demands a new baseline.
               </p>
             </motion.div>
@@ -423,15 +423,15 @@ const IntroductionPage = () => {
                 <motion.div
                   key={signal.title}
                   variants={itemVariants}
-                  className={`flex flex-col gap-6 py-10 ${index === 0 ? 'border-b border-white/10' : ''}`}
+                  className={`flex flex-col gap-4 sm:gap-6 py-6 sm:py-10 ${index === 0 ? 'border-b border-white/10' : ''}`}
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[rgba(255,255,255,0.02)] text-[#D97757]">
-                      <span className="nova-mono text-[11px] font-medium tracking-widest">0{index + 1}</span>
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <span className="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-[rgba(255,255,255,0.02)] text-[#D97757]">
+                      <span className="nova-mono text-[10px] sm:text-[11px] font-medium tracking-widest">0{index + 1}</span>
                     </span>
-                    <h3 className="nova-mono text-[13px] font-medium tracking-[0.15em] uppercase text-white/80">{signal.title}</h3>
+                    <h3 className="nova-mono text-[11px] sm:text-[13px] font-medium tracking-[0.15em] uppercase text-white/80">{signal.title}</h3>
                   </div>
-                  <p className="text-2xl leading-relaxed text-[#E8E4D9] sm:text-3xl font-light tracking-tight">
+                  <p className="text-lg sm:text-2xl lg:text-3xl font-light leading-snug sm:leading-relaxed text-[#E8E4D9] tracking-tight">
                     "{signal.copy}"
                   </p>
                 </motion.div>
@@ -441,46 +441,46 @@ const IntroductionPage = () => {
         </section>
 
         {/* PROOF FEATURES - EDITORIAL LAYOUT */}
-        <section className="bg-[#050505] px-4 py-32 sm:px-6 lg:px-8 border-t border-white/5">
+        <section className="bg-[#050505] px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-t border-white/5">
           <div className="mx-auto max-w-[1400px]">
             <motion.div 
-              className="mb-32 text-center max-w-3xl mx-auto"
+              className="mb-16 sm:mb-32 text-center max-w-3xl mx-auto"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={itemVariants}
             >
-              <h2 className="nova-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl lg:text-6xl tracking-tight">
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-white tracking-tight">
                 A new way to prove your abilities.
               </h2>
-              <p className="mt-8 text-xl font-normal leading-relaxed text-[#E8E4D9]/60 max-w-2xl mx-auto">
+              <p className="mt-4 sm:mt-8 text-sm sm:text-base lg:text-xl font-normal leading-relaxed text-[#E8E4D9]/60 max-w-2xl mx-auto">
                 We're reinventing proof of ability: real evidence of what you can solve, not just what you memorized.
               </p>
             </motion.div>
 
-            <div className="space-y-40">
+            <div className="space-y-24 sm:space-y-40">
               {/* Feature 1: AI Transcendent (Left text, Right floating image) */}
               <motion.div
-                className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={itemVariants}
               >
                 <div className="lg:col-span-5 lg:col-start-2">
-                  <div className="inline-flex items-center gap-3 mb-8">
-                    <span className="h-[1px] w-8 bg-[#D97757]"></span>
-                    <span className="text-sm font-medium tracking-widest text-[#D97757] uppercase">01</span>
+                  <div className="inline-flex items-center gap-3 mb-4 sm:mb-8">
+                    <span className="h-[1px] w-6 sm:w-8 bg-[#D97757]"></span>
+                    <span className="text-xs sm:text-sm font-medium tracking-widest text-[#D97757] uppercase">01</span>
                   </div>
-                  <h3 className="nova-display text-4xl sm:text-5xl font-medium leading-[1.1] text-white tracking-tight">
+                  <h3 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-white tracking-tight">
                     {proofFeatures[0].title}
                   </h3>
-                  <p className="mt-6 text-lg leading-relaxed text-[#E8E4D9]/70 max-w-[36ch]">
+                  <p className="mt-3 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-[#E8E4D9]/70 max-w-[36ch]">
                     {proofFeatures[0].copy}
                   </p>
                 </div>
                 <div className="lg:col-span-6 lg:col-start-7 flex justify-start">
-                  <div className="relative w-full max-w-xl aspect-[16/10] rounded-[24px] overflow-hidden border border-white/5 bg-[#050505] shadow-2xl drop-shadow-[0_0_40px_rgba(217,119,87,0.1)] hover:scale-105 hover:shadow-[0_0_60px_rgba(217,119,87,0.15)] transition-all duration-700 ease-out">
+                  <div className="relative w-full max-w-xl aspect-[16/10] rounded-[20px] sm:rounded-[24px] overflow-hidden border border-white/5 bg-[#050505] shadow-2xl drop-shadow-[0_0_40px_rgba(217,119,87,0.1)] hover:scale-105 hover:shadow-[0_0_60px_rgba(217,119,87,0.15)] transition-all duration-700 ease-out">
                     <img
                       src={proofFeatures[0].image}
                       alt={proofFeatures[0].alt}
@@ -493,26 +493,26 @@ const IntroductionPage = () => {
 
               {/* Feature 2: Real Proof (Center text, massive image below) */}
               <motion.div
-                className="flex flex-col items-center text-center pt-12"
+                className="flex flex-col items-center text-center pt-8 sm:pt-12"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={itemVariants}
               >
-                <div className="max-w-2xl mb-16">
-                  <div className="inline-flex items-center justify-center gap-3 mb-8 w-full">
-                    <span className="h-[1px] w-8 bg-[#10B981]"></span>
-                    <span className="text-sm font-medium tracking-widest text-[#10B981] uppercase">02</span>
-                    <span className="h-[1px] w-8 bg-[#10B981]"></span>
+                <div className="max-w-2xl mb-10 sm:mb-16">
+                  <div className="inline-flex items-center justify-center gap-3 mb-4 sm:mb-8 w-full">
+                    <span className="h-[1px] w-6 sm:w-8 bg-[#10B981]"></span>
+                    <span className="text-xs sm:text-sm font-medium tracking-widest text-[#10B981] uppercase">02</span>
+                    <span className="h-[1px] w-6 sm:w-8 bg-[#10B981]"></span>
                   </div>
-                  <h3 className="nova-display text-4xl sm:text-5xl font-medium leading-[1.1] text-white tracking-tight">
+                  <h3 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-white tracking-tight">
                     {proofFeatures[1].title}
                   </h3>
-                  <p className="mt-6 text-lg leading-relaxed text-[#E8E4D9]/70 mx-auto max-w-[42ch]">
+                  <p className="mt-3 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-[#E8E4D9]/70 mx-auto max-w-[42ch]">
                     {proofFeatures[1].copy}
                   </p>
                 </div>
-                <div className="w-full max-w-5xl relative px-4">
+                <div className="w-full max-w-5xl relative px-2 sm:px-4">
                   <img
                     src={proofFeatures[1].image}
                     alt={proofFeatures[1].alt}
@@ -526,7 +526,7 @@ const IntroductionPage = () => {
 
             <motion.div
               ref={videoDemoRef}
-              className="mt-24"
+              className="mt-16 sm:mt-24"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
@@ -540,25 +540,25 @@ const IntroductionPage = () => {
 
             <motion.div
               id="join-waitlist"
-              className="mt-32 scroll-mt-24 text-center"
+              className="mt-20 sm:mt-32 scroll-mt-24 text-center"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
               variants={itemVariants}
             >
-              <div className="mb-8">
-                <span className="nova-mono inline-block text-[11.5px] font-medium uppercase tracking-[0.2em] text-[#D97757] mb-3">
+              <div className="mb-6 sm:mb-8">
+                <span className="nova-mono inline-block text-[10px] sm:text-[11.5px] font-medium uppercase tracking-[0.2em] text-[#D97757] mb-2 sm:mb-3">
                   Early Access Registration
                 </span>
-                <h2 className="nova-display text-3xl font-medium leading-[1.1] text-white sm:text-4xl md:text-5xl">
+                <h2 className="nova-display text-2xl sm:text-3xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-white">
                   Ready to <span className="text-[#D97757]">join</span>?
                 </h2>
-                <p className="mx-auto mt-4 max-w-xl text-base font-normal leading-[1.6] text-[#E8E4D9]/72">
+                <p className="mx-auto mt-3 sm:mt-4 max-w-xl text-xs sm:text-sm md:text-base font-normal leading-relaxed text-[#E8E4D9]/72">
                   Join thousands of learners and problem solvers in the next generation Enemites Arena simulation.
                 </p>
               </div>
 
-              <WaitlistForm className="mt-8" />
+              <WaitlistForm className="mt-6 sm:mt-8" />
             </motion.div>
           </div>
         </section>
@@ -588,32 +588,32 @@ const IntroductionPage = () => {
 
       <footer
         id="about-us"
-        className="bg-[#000000] px-4 py-16 text-[#E8E4D9] sm:px-6 sm:py-20 border-t border-white/5"
+        className="bg-[#000000] px-4 py-12 text-[#E8E4D9] sm:px-6 sm:py-20 border-t border-white/5"
       >
         <div className="mx-auto max-w-6xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
             <div className="lg:col-span-2">
               <div className="mb-6">
-                <h3 className="nova-display mb-4 text-2xl font-medium tracking-normal text-white flex items-center gap-2.5">
-                  <img src="/assets/logo.png" alt="" className="h-7 w-auto invert" />
+                <h3 className="nova-display mb-3 sm:mb-4 text-xl sm:text-2xl font-medium tracking-normal text-white flex items-center gap-2.5">
+                  <img src="/assets/logo.png" alt="" className="h-6 sm:h-7 w-auto invert" />
                   <span>Enemites</span>
                 </h3>
-                <p className="max-w-md text-[15px] font-normal leading-[1.6] text-[#E8E4D9]/72">
+                <p className="max-w-md text-xs sm:text-sm md:text-[15px] font-normal leading-relaxed text-[#E8E4D9]/72">
                   Empowering the next generation of problem solvers and truth
                   seekers with AI-powered learning experiences that adapt to your
                   unique thought.
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5 sm:gap-3">
                 {socialLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
                     aria-label={link.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-[#E8E4D9] transition-colors hover:bg-white/10 hover:text-white"
+                    className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-white/5 text-[#E8E4D9] transition-colors hover:bg-white/10 hover:text-white"
                   >
-                    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
                       <path d={link.path} />
                     </svg>
                   </a>
@@ -622,10 +622,10 @@ const IntroductionPage = () => {
             </div>
 
             <div>
-              <h4 className="nova-display mb-4 text-lg font-medium tracking-normal text-white">
+              <h4 className="nova-display mb-3 sm:mb-4 text-base sm:text-lg font-medium tracking-normal text-white">
                 Quick Links
               </h4>
-              <ul className="space-y-3 text-[15px] text-[#E8E4D9]/72">
+              <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm md:text-[15px] text-[#E8E4D9]/72">
                 <li>
                   <Link to="/arena/about-us" className="transition-colors hover:text-white">
                     About Us
@@ -645,10 +645,10 @@ const IntroductionPage = () => {
             </div>
 
             <div>
-              <h4 className="nova-display mb-4 text-lg font-medium tracking-normal text-white">
+              <h4 className="nova-display mb-3 sm:mb-4 text-base sm:text-lg font-medium tracking-normal text-white">
                 Support
               </h4>
-              <ul className="space-y-3 text-[15px] text-[#E8E4D9]/72">
+              <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm md:text-[15px] text-[#E8E4D9]/72">
                 <li>
                   <button type="button" onClick={handleUnavailable} className="transition-colors hover:text-white">
                     Privacy Policy
@@ -663,12 +663,12 @@ const IntroductionPage = () => {
             </div>
           </div>
 
-          <div className="mt-12 border-t border-white/5 pt-8">
+          <div className="mt-8 sm:mt-12 border-t border-white/5 pt-6 sm:pt-8">
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-              <p className="text-[13px] text-[#9DA3B4]">
+              <p className="text-xs sm:text-[13px] text-[#9DA3B4]">
                 (c) 2025 Enemites. All rights reserved.
               </p>
-              <div className="flex gap-6 text-[13px]">
+              <div className="flex gap-6 text-xs sm:text-[13px]">
                 <button type="button" onClick={handleUnavailable} className="text-[#9DA3B4] transition-colors hover:text-white">
                   Privacy Policy
                 </button>

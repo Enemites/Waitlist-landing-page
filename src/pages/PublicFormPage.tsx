@@ -366,24 +366,24 @@ export default function PublicFormPage() {
       {/* Main Container */}
       <main className="max-w-2xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-14 flex-1">
         {/* Form Title & Introduction Header */}
-        <div className="mb-10 space-y-3 pb-8 border-b border-zinc-800/80">
-          <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">{form.title}</h1>
+        <div className="mb-8 sm:mb-10 space-y-2 sm:space-y-3 pb-6 sm:pb-8 border-b border-zinc-800/80">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-white">{form.title}</h1>
           {form.description && (
-            <p className="text-sm sm:text-base text-zinc-400 leading-relaxed whitespace-pre-line font-normal">
+            <p className="text-xs sm:text-sm md:text-base text-zinc-400 leading-relaxed whitespace-pre-line font-normal">
               {form.description}
             </p>
           )}
-          <div className="flex items-center gap-2 pt-2 text-xs font-mono text-zinc-500">
+          <div className="flex items-center gap-2 pt-1.5 sm:pt-2 text-[11px] sm:text-xs font-mono text-zinc-500">
             <span>{form.questions.length} Questions</span>
             <span>•</span>
             <span className="flex items-center gap-1 text-zinc-400">
-              <Shield className="w-3.5 h-3.5 inline" /> Confidential & Encrypted
+              <Shield className="w-3 sm:w-3.5 h-3 sm:h-3.5 inline" /> Confidential & Encrypted
             </span>
           </div>
         </div>
 
         {/* Questions Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
           {form.questions.map((q, idx) => {
             const hasError = Boolean(validationErrors[q.id]);
             const errorMsg = validationErrors[q.id];
@@ -397,7 +397,7 @@ export default function PublicFormPage() {
               <section
                 key={q.id || idx}
                 id={`question-${q.id}`}
-                className={`transition duration-150 rounded-xl p-5 sm:p-6 border ${
+                className={`transition duration-150 rounded-xl p-4 sm:p-6 border ${
                   hasError
                     ? "border-red-500/50 bg-red-950/10"
                     : isAnswered
@@ -407,14 +407,14 @@ export default function PublicFormPage() {
               >
                 {/* Header of Question */}
                 <div className="flex items-start justify-between gap-3 mb-2">
-                  <label className="text-base font-medium text-zinc-100 flex items-start gap-2.5">
-                    <span className="font-mono text-xs text-zinc-500 mt-1 select-none">
+                  <label className="text-sm sm:text-base font-medium text-zinc-100 flex items-start gap-2 sm:gap-2.5">
+                    <span className="font-mono text-[11px] sm:text-xs text-zinc-500 mt-0.5 sm:mt-1 select-none">
                       {String(idx + 1).padStart(2, "0")}.
                     </span>
                     <span>
                       {q.label}
                       {q.required && (
-                        <span className="text-zinc-500 text-xs font-mono ml-2 select-none" title="Required">
+                        <span className="text-zinc-500 text-[10px] sm:text-xs font-mono ml-1.5 sm:ml-2 select-none" title="Required">
                           *required
                         </span>
                       )}
@@ -423,8 +423,8 @@ export default function PublicFormPage() {
                 </div>
 
                 {q.helperText && (
-                  <p className="text-xs text-zinc-400 pl-7 mb-4 flex items-center gap-1.5 font-sans">
-                    <HelpCircle className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+                  <p className="text-[11px] sm:text-xs text-zinc-400 pl-5 sm:pl-7 mb-3 sm:mb-4 flex items-center gap-1.5 font-sans">
+                    <HelpCircle className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-zinc-500 shrink-0" />
                     <span>{q.helperText}</span>
                   </p>
                 )}

@@ -13,28 +13,28 @@ const TermsOfServicePage = () => {
           className="mx-auto max-w-5xl opacity-0 transform translate-y-8 transition-all duration-1000 ease-out"
           data-scroll="fade-up"
         >
-          <div className="border-b border-[var(--nova-void)]/15 pb-8 sm:pb-10">
-            <p className="nova-mono text-xs font-medium uppercase tracking-[0.24em] text-[var(--nova-brand)]">
+          <div className="border-b border-[var(--nova-void)]/15 pb-6 sm:pb-10">
+            <p className="nova-mono text-[10px] sm:text-xs font-medium uppercase tracking-[0.24em] text-[var(--nova-brand)]">
               Legal / Terms of Service
             </p>
-            <div className="mt-5 grid gap-6 lg:grid-cols-[0.9fr_0.55fr] lg:items-end">
+            <div className="mt-4 sm:mt-5 grid gap-6 lg:grid-cols-[0.9fr_0.55fr] lg:items-end">
               <div>
                 <h1
-                  className="nova-display font-medium leading-[1.05] tracking-normal"
-                  style={{ fontSize: "clamp(2.5rem, 7vw, 5rem)" }}
+                  className="nova-display font-medium leading-[1.1] sm:leading-[1.05] tracking-normal"
+                  style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)" }}
                 >
                   Terms of Service
                 </h1>
-                <p className="mt-5 max-w-3xl text-base leading-[1.7] text-[#464B58] sm:text-lg">
+                <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#464B58] md:text-lg">
                   These Terms govern your access to Enemites, a private beta learning environment
                   that turns problem-based learning into adaptive world simulations with an AI
                   mentor.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[var(--nova-void)]/10 bg-white/45 p-5 text-sm leading-[1.6] text-[#464B58]">
+              <div className="rounded-xl border border-[var(--nova-void)]/10 bg-white/45 p-4 sm:p-5 text-xs sm:text-sm leading-relaxed sm:leading-[1.6] text-[#464B58]">
                 <p className="font-semibold text-[var(--nova-void)]">Current product status</p>
-                <p className="mt-2">
+                <p className="mt-1.5 sm:mt-2">
                   Enemites is currently offered through a waitlist and early access experience.
                   Features, simulations, and mentor behavior may change while the product is being
                   tested.

@@ -88,10 +88,10 @@ const HomePage = () => {
               variants={containerVariants}
               className="lg:col-span-8"
             >
-              <motion.p variants={itemVariants} className="nova-mono mb-8 text-[11.5px] font-medium uppercase tracking-[0.2em] text-[#D97757]">
+              <motion.p variants={itemVariants} className="nova-mono mb-6 sm:mb-8 text-[11px] sm:text-[11.5px] font-medium uppercase tracking-[0.2em] text-[#D97757]">
                 Enemites Independent Research
               </motion.p>
-              <motion.h1 variants={itemVariants} className="nova-display text-5xl font-medium leading-[1.05] tracking-tight text-[#111317] md:text-6xl lg:text-[84px]">
+              <motion.h1 variants={itemVariants} className="nova-display text-3xl sm:text-4xl md:text-6xl lg:text-[84px] font-medium leading-[1.1] sm:leading-[1.05] tracking-tight text-[#111317]">
                 We shape the future by seeking the <span className="text-[#D97757]">ground truth</span>.
               </motion.h1>
             </motion.div>
@@ -102,20 +102,20 @@ const HomePage = () => {
               variants={containerVariants}
               className="lg:col-span-4 lg:pt-20"
             >
-              <motion.p variants={itemVariants} className="text-lg md:text-[19px] leading-[1.6] text-[#4A4F5E]">
+              <motion.p variants={itemVariants} className="text-sm sm:text-base md:text-[19px] leading-relaxed text-[#4A4F5E]">
                 We are a research-driven collective focused on the next generation of tech and cognitive infrastructure. Our work spans from foundational world models to applied educational environments.
               </motion.p>
-              <motion.div variants={itemVariants} className="mt-10">
+              <motion.div variants={itemVariants} className="mt-8 sm:mt-10">
                 <a 
                   href="#projects" 
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }}
-                  className="inline-flex items-center text-[13px] font-medium tracking-wide uppercase text-[#111317] hover:text-[#D97757] transition-colors group"
+                  className="inline-flex items-center text-xs sm:text-[13px] font-medium tracking-wide uppercase text-[#111317] hover:text-[#D97757] transition-colors group"
                 >
                   <span className="border-b border-[#111317] group-hover:border-[#D97757] pb-1">View our work</span>
-                  <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="ml-2 w-3.5 sm:w-4 h-3.5 sm:h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </a>
@@ -128,19 +128,19 @@ const HomePage = () => {
 
         {/* ONGOING PROJECTS SECTION - Clean Academic/Editorial Grid */}
         <section id="projects" className="px-4 sm:px-6 lg:px-8">
-          <div className="max-w-[1400px] mx-auto pt-24 lg:pt-32">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants} className="mb-16 lg:mb-24 max-w-4xl">
-              <h2 className="nova-display text-xl font-medium leading-[1.1] text-[#788094] md:text-2xl mb-6">
+          <div className="max-w-[1400px] mx-auto pt-16 sm:pt-24 lg:pt-32">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants} className="mb-12 sm:mb-16 lg:mb-24 max-w-4xl">
+              <h2 className="nova-display text-base sm:text-xl md:text-2xl font-medium leading-[1.1] text-[#788094] mb-3 sm:mb-6">
                 Active Initiatives
               </h2>
-              <p className="nova-display text-4xl md:text-5xl lg:text-[56px] font-medium leading-[1.05] text-[#111317] tracking-tight">
+              <p className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-[56px] font-medium leading-[1.15] sm:leading-[1.05] text-[#111317] tracking-tight">
                 We build intelligent environments for <span className="text-[#8c93a3]">human capability</span>.
               </p>
             </motion.div>
 
             <motion.div 
               initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={containerVariants}
-              className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16"
+              className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-12 lg:gap-16"
             >
               {projects.map((project) => (
                 <motion.article 
@@ -148,7 +148,7 @@ const HomePage = () => {
                   variants={itemVariants} 
                   className="group relative flex flex-col"
                 >
-                  <div className="w-full aspect-[4/3] bg-[#E2DCD0] mb-8 overflow-hidden rounded-sm">
+                  <div className="w-full aspect-[4/3] bg-[#E2DCD0] mb-6 sm:mb-8 overflow-hidden rounded-sm">
                     <img 
                       src={project.image} 
                       alt={project.title} 
@@ -158,11 +158,11 @@ const HomePage = () => {
                   </div>
                   
                   <div className="flex flex-col flex-1">
-                    <div className="mb-4">
-                      <p className="nova-mono text-[11px] uppercase tracking-wider font-medium text-[#D97757]">{project.id}</p>
+                    <div className="mb-3 sm:mb-4">
+                      <p className="nova-mono text-[10px] sm:text-[11px] uppercase tracking-wider font-medium text-[#D97757]">{project.id}</p>
                     </div>
                     
-                    <h3 className="nova-display text-2xl lg:text-3xl font-medium text-[#111317] mb-4 group-hover:text-[#D97757] transition-colors">
+                    <h3 className="nova-display text-xl sm:text-2xl lg:text-3xl font-medium text-[#111317] mb-3 sm:mb-4 group-hover:text-[#D97757] transition-colors">
                       {project.link ? (
                         <Link to={project.link}>{project.title}</Link>
                       ) : (
@@ -170,13 +170,13 @@ const HomePage = () => {
                       )}
                     </h3>
                     
-                    <p className="text-base leading-[1.65] text-[#4A4F5E] max-w-xl">
+                    <p className="text-xs sm:text-sm md:text-base leading-relaxed sm:leading-[1.65] text-[#4A4F5E] max-w-xl">
                       {project.description}
                     </p>
                     
                     {project.link && (
-                      <div className="mt-8">
-                        <Link to={project.link} className="inline-flex items-center text-[13px] font-medium text-[#111317] border-b border-[#E2DCD0] pb-1 hover:border-[#111317] transition-colors">
+                      <div className="mt-6 sm:mt-8">
+                        <Link to={project.link} className="inline-flex items-center text-xs sm:text-[13px] font-medium text-[#111317] border-b border-[#E2DCD0] pb-1 hover:border-[#111317] transition-colors">
                           Explore applied product
                           <svg className="ml-1.5 w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />

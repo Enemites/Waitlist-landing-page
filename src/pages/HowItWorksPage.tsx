@@ -124,19 +124,19 @@ const HowItWorksPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="mb-4 text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#9DA3B4]">How Enemites works</p>
-              <h1 className="nova-display text-5xl font-semibold leading-[1.05] text-[#E8E4D9] md:text-6xl lg:text-[4rem]">
+              <p className="mb-3 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#9DA3B4]">How Enemites works</p>
+              <h1 className="nova-display text-3xl sm:text-4xl md:text-6xl lg:text-[4rem] font-semibold leading-[1.1] sm:leading-[1.05] text-[#E8E4D9]">
                 From confusion to <span className="nova-gradient-text nova-gradient-process">capability</span> in one run.
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-[1.6] text-[#E8E4D9]/78 sm:text-lg">
+              <p className="mt-4 sm:mt-6 max-w-2xl text-xs sm:text-base md:text-lg leading-relaxed sm:leading-[1.6] text-[#E8E4D9]/78">
                 Enemites turns problem-based learning into a responsive world. You enter a scenario, make decisions,
                 observe consequences, then leave with a readable trace of how you think.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
-                  className="h-12 rounded-lg bg-[#D97757] px-6 text-[15px] font-medium text-[#E8E4D9] hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
+                  className="h-11 sm:h-12 rounded-lg bg-[#D97757] px-6 text-sm sm:text-[15px] font-medium text-[#E8E4D9] hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
                 >
                   <Link to="/arena#join-waitlist">
                     Join waitlist
@@ -145,7 +145,7 @@ const HowItWorksPage = () => {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-12 rounded-lg border border-[#222222] bg-transparent px-6 text-[15px] font-medium text-[#E8E4D9] hover:bg-[#111111] hover:text-white hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
+                  className="h-11 sm:h-12 rounded-lg border border-[#222222] bg-transparent px-6 text-sm sm:text-[15px] font-medium text-[#E8E4D9] hover:bg-[#111111] hover:text-white hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
                 >
                   <Link to="/arena">Back to intro</Link>
                 </Button>
@@ -153,54 +153,54 @@ const HowItWorksPage = () => {
             </motion.div>
 
             <motion.aside 
-              className="relative w-full rounded-[24px] bg-[rgba(28,32,48,0.4)] p-2 backdrop-blur-xl shadow-2xl mt-12 lg:mt-0 border border-white/5"
+              className="relative w-full rounded-[20px] sm:rounded-[24px] bg-[rgba(28,32,48,0.4)] p-1.5 sm:p-2 backdrop-blur-xl shadow-2xl mt-8 sm:mt-12 lg:mt-0 border border-white/5"
               initial={reduce ? false : { opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="absolute inset-0 rounded-[24px] bg-gradient-to-b from-[#D97757]/10 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 rounded-[20px] sm:rounded-[24px] bg-gradient-to-b from-[#D97757]/10 to-transparent pointer-events-none" />
               
-              <div className="relative rounded-[20px] bg-[#000000]/90 px-5 py-6 sm:px-8 sm:py-8 border border-white/5 overflow-hidden flex flex-col h-full">
+              <div className="relative rounded-[16px] sm:rounded-[20px] bg-[#000000]/90 px-4 py-5 sm:px-8 sm:py-8 border border-white/5 overflow-hidden flex flex-col h-full">
                 {/* Header */}
-                <div className="flex items-start justify-between mb-8">
+                <div className="flex items-start justify-between mb-6 sm:mb-8">
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="h-2 w-2 rounded-full bg-[#D97757] animate-pulse shadow-[0_0_8px_#D97757]" />
-                      <p className="nova-mono text-[10px] font-medium uppercase tracking-[0.15em] text-[#D97757]">Live Scenario</p>
+                    <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+                      <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#D97757] animate-pulse shadow-[0_0_8px_#D97757]" />
+                      <p className="nova-mono text-[9px] sm:text-[10px] font-medium uppercase tracking-[0.15em] text-[#D97757]">Live Scenario</p>
                     </div>
-                    <h2 className="nova-display text-2xl font-medium text-white">Market Crash</h2>
+                    <h2 className="nova-display text-lg sm:text-2xl font-medium text-white">Market Crash</h2>
                   </div>
                   <div className="text-right">
-                    <p className="nova-mono text-[10px] text-[#9DA3B4] mb-1">Elapsed</p>
-                    <p className="nova-mono text-lg text-white">03:42</p>
+                    <p className="nova-mono text-[9px] sm:text-[10px] text-[#9DA3B4] mb-0.5 sm:mb-1">Elapsed</p>
+                    <p className="nova-mono text-sm sm:text-lg text-white">03:42</p>
                   </div>
                 </div>
 
                 {/* Event Feed */}
-                <div className="space-y-4 mb-8">
-                  <div className="rounded-xl bg-[#111111] p-4 sm:p-5 border border-[#222222]/60 shadow-lg mr-4 sm:mr-8 relative group hover:border-[#222222] transition-colors">
-                    <p className="nova-mono text-[10px] uppercase tracking-wider text-[#9DA3B4] mb-2">1. Your Decision</p>
-                    <p className="text-[14px] sm:text-[15px] leading-[1.5] text-white">Prioritize the supplier risk before discount pressure.</p>
+                <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                  <div className="rounded-xl bg-[#111111] p-3.5 sm:p-5 border border-[#222222]/60 shadow-lg mr-2 sm:mr-8 relative group hover:border-[#222222] transition-colors">
+                    <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#9DA3B4] mb-1.5 sm:mb-2">1. Your Decision</p>
+                    <p className="text-xs sm:text-[14px] md:text-[15px] leading-relaxed text-white">Prioritize the supplier risk before discount pressure.</p>
                   </div>
 
-                  <div className="rounded-xl bg-[#050505] p-4 sm:p-5 border border-[#222222]/60 shadow-lg ml-4 sm:ml-8 relative group hover:border-[#222222] transition-colors">
+                  <div className="rounded-xl bg-[#050505] p-3.5 sm:p-5 border border-[#222222]/60 shadow-lg ml-2 sm:ml-8 relative group hover:border-[#222222] transition-colors">
                     <div className="absolute -left-[17px] top-1/2 -translate-y-1/2 w-4 h-[2px] bg-[#222222]/50 hidden sm:block group-hover:bg-[#D97757] transition-colors" />
-                    <p className="nova-mono text-[10px] uppercase tracking-wider text-[#D97757]/80 mb-2">2. World Reaction</p>
-                    <p className="text-[14px] sm:text-[15px] leading-[1.5] text-[#E8E4D9]/80">Cash flow stabilizes, but customer trust drops for 2 turns.</p>
+                    <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#D97757]/80 mb-1.5 sm:mb-2">2. World Reaction</p>
+                    <p className="text-xs sm:text-[14px] md:text-[15px] leading-relaxed text-[#E8E4D9]/80">Cash flow stabilizes, but customer trust drops for 2 turns.</p>
                   </div>
 
-                  <div className="rounded-xl bg-gradient-to-br from-[#D97757]/10 to-[#111111]/20 p-4 sm:p-5 border border-[#D97757]/30 shadow-[0_0_20px_rgba(217,119,87,0.05)] hover:border-[#D97757]/60 transition-colors">
-                    <p className="nova-mono text-[10px] uppercase tracking-wider text-[#D97757] mb-2">3. Mentor Insight</p>
-                    <p className="text-[14px] sm:text-[15px] leading-[1.5] text-white font-medium">You protected operations while under-explaining the customer cost.</p>
+                  <div className="rounded-xl bg-gradient-to-br from-[#D97757]/10 to-[#111111]/20 p-3.5 sm:p-5 border border-[#D97757]/30 shadow-[0_0_20px_rgba(217,119,87,0.05)] hover:border-[#D97757]/60 transition-colors">
+                    <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#D97757] mb-1.5 sm:mb-2">3. Mentor Insight</p>
+                    <p className="text-xs sm:text-[14px] md:text-[15px] leading-relaxed text-white font-medium">You protected operations while under-explaining the customer cost.</p>
                   </div>
                 </div>
 
                 {/* Metrics */}
-                <div className="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-6">
+                <div className="mt-auto grid grid-cols-3 gap-2 border-t border-white/10 pt-4 sm:pt-6">
                   {["Risk Level", "Clarity", "Pace"].map((signal, index) => (
                     <div key={signal} className="flex flex-col">
-                      <p className="nova-mono text-[10px] uppercase tracking-wider text-[#555D6D] mb-1">{signal}</p>
-                      <p className="nova-mono text-xl sm:text-2xl text-white">
+                      <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#555D6D] mb-0.5 sm:mb-1">{signal}</p>
+                      <p className="nova-mono text-base sm:text-xl lg:text-2xl text-white">
                         {index === 0 ? "82" : index === 1 ? "71" : "4.2s"}
                       </p>
                     </div>
@@ -212,7 +212,7 @@ const HowItWorksPage = () => {
         </section>
 
         {/* DYNAMIC ARENA PROGRESSION */}
-        <section className="relative overflow-hidden bg-[#000000] px-4 py-32 sm:px-6 lg:px-8 border-t border-[#111111]">
+        <section className="relative overflow-hidden bg-[#000000] px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-t border-[#111111]">
           {/* Background grid for arena feel */}
           <div 
             className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" 
@@ -220,14 +220,14 @@ const HowItWorksPage = () => {
           />
 
           <div className="mx-auto max-w-6xl relative z-10">
-            <div className="mb-12 max-w-2xl">
-              <p className="nova-mono mb-4 text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#D97757]">The Core Loop</p>
-              <h2 className="nova-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+            <div className="mb-8 sm:mb-12 max-w-2xl">
+              <p className="nova-mono mb-3 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#D97757]">The Core Loop</p>
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-white">
                 Four moves, one capability signal.
               </h2>
             </div>
 
-            <div className="relative mt-24">
+            <div className="relative mt-12 sm:mt-24">
               {/* Horizontal laser line on desktop */}
               <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D97757]/80 to-transparent shadow-[0_0_20px_rgba(217,119,87,0.8)] -translate-y-1/2" />
               
@@ -235,7 +235,7 @@ const HowItWorksPage = () => {
               <div className="block lg:hidden absolute top-4 bottom-4 left-[27px] w-[2px] bg-gradient-to-b from-transparent via-[#D97757]/80 to-transparent shadow-[0_0_20px_rgba(217,119,87,0.8)]" />
 
               <motion.div 
-                className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-6 relative z-10"
+                className="grid grid-cols-1 lg:grid-cols-4 gap-8 sm:gap-12 lg:gap-6 relative z-10"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -247,10 +247,10 @@ const HowItWorksPage = () => {
                     <motion.article 
                       key={step.title} 
                       variants={itemVariants}
-                      className="group relative flex flex-col pl-16 lg:pl-0 lg:h-[480px]"
+                      className="group relative flex flex-col pl-14 sm:pl-16 lg:pl-0 lg:h-[480px]"
                     >
                       {/* Node circle mobile */}
-                      <div className="lg:hidden absolute left-[21px] top-6 h-3 w-3 rounded-full bg-[#D97757] shadow-[0_0_15px_#D97757] group-hover:scale-150 transition-transform duration-500" />
+                      <div className="lg:hidden absolute left-[22px] top-4 h-2.5 w-2.5 rounded-full bg-[#D97757] shadow-[0_0_15px_#D97757] group-hover:scale-150 transition-transform duration-500" />
                       
                       {/* Node circle desktop */}
                       <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-[#000000] border-2 border-[#D97757] items-center justify-center shadow-[0_0_20px_#D97757] group-hover:bg-[#D97757] group-hover:scale-[1.7] transition-all duration-500 z-20">
@@ -259,18 +259,18 @@ const HowItWorksPage = () => {
 
                       {/* Content Mobile */}
                       <div className="block lg:hidden">
-                        <p className="nova-mono text-[3.5rem] leading-[0.8] font-bold text-[#111111] group-hover:text-[#D97757]/30 transition-colors duration-500 mb-6">
+                        <p className="nova-mono text-[2.5rem] sm:text-[3.5rem] leading-[0.8] font-bold text-[#111111] group-hover:text-[#D97757]/30 transition-colors duration-500 mb-4 sm:mb-6">
                           0{index + 1}
                         </p>
-                        <h3 className="nova-display text-2xl font-medium text-white mb-3">
+                        <h3 className="nova-display text-lg sm:text-2xl font-medium text-white mb-2 sm:mb-3">
                           {step.title}
                         </h3>
-                        <p className="text-[15px] leading-[1.6] text-[#E8E4D9]/60 group-hover:text-[#E8E4D9]/90 transition-colors duration-500">
+                        <p className="text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#E8E4D9]/60 group-hover:text-[#E8E4D9]/90 transition-colors duration-500">
                           {step.description}
                         </p>
-                        <div className="mt-6 flex items-baseline gap-2 border-l-2 border-[#D97757]/30 pl-4 group-hover:border-[#D97757] transition-colors duration-500">
-                          <span className="nova-mono text-2xl text-white">{step.metric}</span>
-                          <span className="text-[11px] uppercase tracking-widest text-[#D97757]">{step.metricLabel}</span>
+                        <div className="mt-4 sm:mt-6 flex items-baseline gap-2 border-l-2 border-[#D97757]/30 pl-3 sm:pl-4 group-hover:border-[#D97757] transition-colors duration-500">
+                          <span className="nova-mono text-lg sm:text-2xl text-white">{step.metric}</span>
+                          <span className="text-[10px] sm:text-[11px] uppercase tracking-widest text-[#D97757]">{step.metricLabel}</span>
                         </div>
                       </div>
 
@@ -301,20 +301,20 @@ const HowItWorksPage = () => {
         </section>
 
         {/* SESSION JOURNEY - STICKY SCROLL */}
-        <section className="px-4 py-24 sm:px-6 lg:px-8 border-y border-[#111111] bg-[#050505]">
+        <section className="px-4 py-16 sm:py-24 sm:px-6 lg:px-8 border-y border-[#111111] bg-[#050505]">
           <div className="mx-auto max-w-6xl">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-24">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 sm:gap-12 lg:gap-24">
               <div className="lg:sticky lg:top-32 h-fit">
-                <h2 className="nova-display text-4xl font-medium leading-[1.1] text-white sm:text-5xl">
+                <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-white">
                   Before, during, and after the arena.
                 </h2>
-                <p className="mt-6 text-lg leading-[1.6] text-[#E8E4D9]/72">
+                <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-[#E8E4D9]/72">
                   The session doesn't end when the simulation stops. The real value is the reflection loop that follows.
                 </p>
               </div>
 
               <motion.div 
-                className="space-y-16"
+                className="space-y-10 sm:space-y-16"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -322,16 +322,16 @@ const HowItWorksPage = () => {
               >
                 {journey.map((item, index) => (
                   <motion.article key={item.phase} variants={itemVariants} className="relative group">
-                    <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-10">
+                    <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-10">
                       
                       {/* The Hub Node */}
-                      <div className="relative shrink-0 flex items-center justify-center h-16 w-16 rounded-[12px] border border-[#222222] bg-[#111111] z-10 group-hover:border-[#D97757] transition-colors duration-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+                      <div className="relative shrink-0 flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-[10px] sm:rounded-[12px] border border-[#222222] bg-[#111111] z-10 group-hover:border-[#D97757] transition-colors duration-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
                         {/* Glow Core */}
-                        <div className="h-3 w-3 rounded-sm bg-[#D97757] shadow-[0_0_15px_#D97757] group-hover:shadow-[0_0_25px_#D97757] transition-shadow duration-500" />
+                        <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-sm bg-[#D97757] shadow-[0_0_15px_#D97757] group-hover:shadow-[0_0_25px_#D97757] transition-shadow duration-500" />
                         
                         {/* Vertical connection to next node */}
                         {index !== journey.length - 1 && (
-                          <div className="absolute top-[63px] -bottom-[4rem] sm:-bottom-[6rem] left-1/2 -translate-x-1/2 w-px bg-[linear-gradient(to_bottom,#D97757_0%,#222222_30%,#222222_70%,#D97757_100%)] opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute top-[47px] sm:top-[63px] -bottom-[2.5rem] sm:-bottom-[6rem] left-1/2 -translate-x-1/2 w-px bg-[linear-gradient(to_bottom,#D97757_0%,#222222_30%,#222222_70%,#D97757_100%)] opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
                         )}
                         
                         {/* Horizontal trace to content */}
@@ -340,18 +340,18 @@ const HowItWorksPage = () => {
                       
                       {/* Interactive Panel Content */}
                       <div className="flex-1 sm:pt-2">
-                        <div className="flex items-center gap-4 mb-4">
-                           <p className="nova-mono text-[13px] font-medium uppercase tracking-wider text-[#D97757]">{item.phase}</p>
+                        <div className="flex items-center gap-3 sm:gap-4 mb-2 sm:mb-4">
+                           <p className="nova-mono text-xs sm:text-[13px] font-medium uppercase tracking-wider text-[#D97757]">{item.phase}</p>
                            <div className="h-px flex-1 bg-gradient-to-r from-[#222222] to-transparent group-hover:from-[#D97757]/30 transition-colors duration-500" />
                         </div>
-                        <h3 className="text-2xl font-medium text-white">{item.title}</h3>
-                        <p className="mt-4 text-[15px] leading-[1.6] text-[#E8E4D9]/72 max-w-[55ch]">{item.description}</p>
+                        <h3 className="text-lg sm:text-2xl font-medium text-white">{item.title}</h3>
+                        <p className="mt-2 sm:mt-4 text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#E8E4D9]/72 max-w-[55ch]">{item.description}</p>
                         
-                        <div className="mt-8 flex flex-wrap gap-3">
+                        <div className="mt-4 sm:mt-8 flex flex-wrap gap-2 sm:gap-3">
                           {item.items.map((line) => (
-                            <div key={line} className="flex items-center gap-2 rounded-[8px] border border-[#222222] bg-[#111111] px-4 py-2.5 transition-colors duration-500 group-hover:border-[#D97757]/40">
+                            <div key={line} className="flex items-center gap-2 rounded-[8px] border border-[#222222] bg-[#111111] px-3 sm:px-4 py-2 sm:py-2.5 transition-colors duration-500 group-hover:border-[#D97757]/40">
                               <span className="h-1.5 w-1.5 rounded-full bg-[#D97757]/60 group-hover:bg-[#D97757] transition-colors duration-500" />
-                              <span className="text-[13px] font-medium text-[#E8E4D9]">{line}</span>
+                              <span className="text-xs sm:text-[13px] font-medium text-[#E8E4D9]">{line}</span>
                             </div>
                           ))}
                         </div>
@@ -365,26 +365,26 @@ const HowItWorksPage = () => {
         </section>
 
         {/* WHAT YOU KEEP - SPLIT */}
-        <section className="px-4 py-24 sm:px-6 lg:px-8">
+        <section className="px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-6xl grid-cols-1 overflow-hidden rounded-[20px] border border-[#222222] bg-[#111111] lg:grid-cols-[1fr_1.2fr]">
-            <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
-              <h2 className="nova-display text-3xl font-medium leading-[1.1] text-white sm:text-4xl">
+            <div className="flex flex-col justify-center p-6 sm:p-12 lg:p-16">
+              <h2 className="nova-display text-xl sm:text-3xl lg:text-4xl font-medium leading-[1.15] sm:leading-[1.1] text-white">
                 Proof that explains the path, not only the score.
               </h2>
-              <p className="mt-6 text-[15px] leading-[1.6] text-[#E8E4D9]/72">
+              <p className="mt-4 sm:mt-6 text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#E8E4D9]/72">
                 After each run, Enemites records the moments that matter: what you chose, how you acted, what changed, how you explained
                 it, and which capability improved.
               </p>
-              <div className="mt-10">
+              <div className="mt-6 sm:mt-10">
                 <Button
                   asChild
-                  className="h-12 rounded-lg bg-white px-6 text-[15px] font-medium text-[#000000] hover:bg-white/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
+                  className="h-11 sm:h-12 rounded-lg bg-white px-6 text-sm sm:text-[15px] font-medium text-[#000000] hover:bg-white/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
                 >
                   <Link to="/arena/about-us">Meet the builders</Link>
                 </Button>
               </div>
             </div>
-            <div className="relative min-h-[300px] lg:min-h-[450px] bg-[#000000] border-t lg:border-t-0 lg:border-l border-[#222222]">
+            <div className="relative min-h-[220px] sm:min-h-[300px] lg:min-h-[450px] bg-[#000000] border-t lg:border-t-0 lg:border-l border-[#222222]">
               <img
                 src="/assets/capability-proof-abstract.png"
                 alt="Abstract Enemites capability path in a dark spatial environment"
