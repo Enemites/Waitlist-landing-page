@@ -183,7 +183,7 @@ const IntroductionPage = () => {
               <div className="mt-8 sm:mt-10 flex flex-col items-start gap-3.5 sm:gap-4 sm:flex-row sm:items-center">
                 <Button
                   asChild
-                  className="h-11 sm:h-12 rounded-lg bg-[#FF5500] hover:bg-[#FF661A] text-white font-medium px-6 sm:px-8 text-sm sm:text-[15px] shadow-[0_0_24px_rgba(255,85,0,0.45)] hover:shadow-[0_0_35px_rgba(255,85,0,0.7)] border-t border-[#FFA066]/40 hover:-translate-y-[1px] transition-all active:scale-[0.98]"
+                  className="h-11 sm:h-12 rounded-lg bg-[#D97757] hover:bg-[#E08567] text-white font-medium px-6 sm:px-8 text-sm sm:text-[15px] shadow-[0_0_25px_rgba(217,119,87,0.55)] hover:shadow-[0_0_35px_rgba(217,119,87,0.8)] border border-[#E89278]/40 hover:-translate-y-[1px] transition-all active:scale-[0.98]"
                 >
                   <a 
                     href="#join-waitlist" 
@@ -229,7 +229,7 @@ const IntroductionPage = () => {
             >
               <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-white">
                 Fun like a game.<br/>
-                <span className="text-[#FF5500]">Effective like work.</span>
+                <span className="text-[#D97757]">Effective like work.</span>
               </h2>
             </motion.div>
 
@@ -252,7 +252,7 @@ const IntroductionPage = () => {
                 <Button
                   variant="outline"
                   onClick={(e) => { e.stopPropagation(); scrollToVideoDemo(); }}
-                  className="h-11 sm:h-14 rounded-full border border-white/20 bg-black/50 px-5 sm:px-8 text-xs sm:text-[15px] font-medium text-white backdrop-blur-md hover:bg-[#FF5500] hover:border-[#FF5500] hover:shadow-[0_0_30px_rgba(255,85,0,0.6)] hover:scale-105 transition-all shadow-2xl flex items-center gap-2"
+                  className="h-11 sm:h-14 rounded-full border border-white/20 bg-black/50 px-5 sm:px-8 text-xs sm:text-[15px] font-medium text-white backdrop-blur-md hover:bg-[#D97757] hover:border-[#D97757] hover:shadow-[0_0_25px_rgba(217,119,87,0.6)] hover:scale-105 transition-all shadow-2xl flex items-center gap-2"
                 >
                   <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />

@@ -136,7 +136,7 @@ const HowItWorksPage = () => {
               <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
-                  className="h-11 sm:h-12 rounded-lg bg-[#FF5500] hover:bg-[#FF661A] text-white font-medium px-6 text-sm sm:text-[15px] shadow-[0_0_24px_rgba(255,85,0,0.45)] hover:shadow-[0_0_35px_rgba(255,85,0,0.7)] border-t border-[#FFA066]/40 hover:-translate-y-[1px] transition-all active:scale-[0.98]"
+                  className="h-11 sm:h-12 rounded-lg bg-[#D97757] hover:bg-[#E08567] text-white font-medium px-6 text-sm sm:text-[15px] shadow-[0_0_25px_rgba(217,119,87,0.55)] hover:shadow-[0_0_35px_rgba(217,119,87,0.8)] border border-[#E89278]/40 hover:-translate-y-[1px] transition-all active:scale-[0.98]"
                 >
                   <Link to="/arena#join-waitlist">
                     Join waitlist
