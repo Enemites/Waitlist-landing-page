@@ -205,10 +205,10 @@ const PrivacyPolicyPage = () => {
                   contact us at:
                 </p>
                 <a
-                  href="mailto:support@enemitesarena.tech"
+                  href="mailto:support@enemites.com"
                   className="mt-3 inline-flex text-[var(--nova-bone)] underline decoration-[var(--nova-brand)] decoration-2 underline-offset-4 transition-colors hover:text-[var(--nova-brand)]"
                 >
-                  support@enemitesarena.tech
+                  support@enemites.com
                 </a>
               </section>
 

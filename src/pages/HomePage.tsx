@@ -16,14 +16,14 @@ const LabHeader = () => {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#F7F5F0]/90 backdrop-blur-md border-b border-[#E2DCD0] py-4' : 'bg-transparent py-6'}`}>
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <Link to="/home" className="nova-display text-xl font-medium tracking-tight text-[#111317]">
-          Enemites
+        <Link to="/home" className="nova-display text-xl font-medium tracking-tight text-[#111317] flex items-center">
+          <img src="/assets/logo.png" alt="Enemites" className="h-6" />
         </Link>
         
         <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium tracking-wide text-[#4A4F5E]">
           <a href="#research" className="hover:text-[#111317] transition-colors">Research</a>
           <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#111317] transition-colors">News</a>
-          <a href="mailto:support@enemitesarena.tech" className="hover:text-[#111317] transition-colors">Contact</a>
+          <a href="mailto:support@enemites.com" className="hover:text-[#111317] transition-colors">Contact</a>
           <Link 
             to="/arena" 
             className="bg-[#111317] text-white px-5 py-2 rounded-lg hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
@@ -189,8 +189,8 @@ const HomePage = () => {
       <footer className="px-4 pb-12 pt-24 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 text-[12px] text-[#788094] sm:flex-row sm:items-end sm:justify-between border-t border-[#E2DCD0] pt-8">
           <div>
-            <Link to="/home" className="nova-display text-lg font-medium tracking-tight text-[#111317] block mb-2">
-              Enemites
+            <Link to="/home" className="nova-display text-lg font-medium tracking-tight text-[#111317] block mb-2 flex items-center">
+              <img src="/assets/logo.png" alt="Enemites" className="h-6" />
             </Link>
             <p>© {new Date().getFullYear()} Enemites. All rights reserved.</p>
           </div>
@@ -201,7 +201,7 @@ const HomePage = () => {
             <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#111317] transition-colors">
               News
             </a>
-            <a href="mailto:support@enemitesarena.tech" className="hover:text-[#111317] transition-colors">
+            <a href="mailto:support@enemites.com" className="hover:text-[#111317] transition-colors">
               Contact
             </a>
           </div>
