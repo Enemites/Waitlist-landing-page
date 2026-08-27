@@ -33,7 +33,7 @@ export function getDbPool(): pg.Pool {
   return pool;
 }
 
-// Auto-initialize enemites tables if they do not exist
+// Auto-initialize and migrate Enemites tables
 let schemaInitialized = false;
 
 export async function ensureEnemitesSchema() {
@@ -67,8 +67,23 @@ export async function ensureEnemitesSchema() {
         form_slug VARCHAR(255) NOT NULL,
         responses JSONB NOT NULL DEFAULT '{}'::jsonb,
         respondent_info JSONB NULL DEFAULT '{}'::jsonb,
+        ip_address VARCHAR(100),
+        country VARCHAR(150),
+        city VARCHAR(150),
+        region VARCHAR(150),
+        device_type VARCHAR(50),
+        browser VARCHAR(100),
+        os VARCHAR(100),
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
+
+      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS ip_address VARCHAR(100);
+      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS country VARCHAR(150);
+      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS city VARCHAR(150);
+      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS region VARCHAR(150);
+      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS device_type VARCHAR(50);
+      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS browser VARCHAR(100);
+      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS os VARCHAR(100);
 
       CREATE INDEX IF NOT EXISTS idx_enemites_submissions_form_slug ON public.enemites_form_submissions(form_slug);
     `);
@@ -108,8 +123,134 @@ export interface SubmitFormPayload {
     name?: string;
     email?: string;
     userAgent?: string;
-    ip?: string;
+    timezone?: string;
+    screenResolution?: string;
+    language?: string;
     [key: string]: any;
+  };
+}
+
+export interface RequestMeta {
+  headers?: Record<string, string | string[] | undefined>;
+  socket?: { remoteAddress?: string };
+}
+
+// Device & Geolocation parser (IP, Country, City, Region, OS, Browser, Device Type)
+export function parseDeviceAndGeo(payload: SubmitFormPayload, meta?: RequestMeta) {
+  const headers = meta?.headers || {};
+
+  // 1. User Agent
+  const rawUa =
+    (typeof headers["user-agent"] === "string" ? headers["user-agent"] : "") ||
+    payload.respondent_info?.userAgent ||
+    "";
+
+  let device_type = "Desktop";
+  let os = "Unknown OS";
+  let browser = "Unknown Browser";
+
+  if (rawUa) {
+    // Device Type
+    if (/ipad|tablet|(android(?!.*mobile))/i.test(rawUa)) {
+      device_type = "Tablet";
+    } else if (/mobile|iphone|ipod|android|blackberry|opera mini|iemobile|wpdesktop/i.test(rawUa)) {
+      device_type = "Mobile";
+    }
+
+    // OS
+    if (/iphone|ipad|ipod/i.test(rawUa)) {
+      const match = rawUa.match(/OS (\d+[._]\d+)/i);
+      os = match ? `iOS ${match[1].replace(/_/g, ".")}` : "iOS";
+    } else if (/android/i.test(rawUa)) {
+      const match = rawUa.match(/Android (\d+(\.\d+)?)/i);
+      os = match ? `Android ${match[1]}` : "Android";
+    } else if (/windows nt 10\.0/i.test(rawUa)) {
+      os = "Windows 10/11";
+    } else if (/windows nt 6\.3/i.test(rawUa)) {
+      os = "Windows 8.1";
+    } else if (/windows nt 6\.1/i.test(rawUa)) {
+      os = "Windows 7";
+    } else if (/windows/i.test(rawUa)) {
+      os = "Windows";
+    } else if (/mac os x (\d+[._]\d+)/i.test(rawUa)) {
+      const match = rawUa.match(/Mac OS X (\d+[._]\d+)/i);
+      os = match ? `macOS ${match[1].replace(/_/g, ".")}` : "macOS";
+    } else if (/macintosh/i.test(rawUa)) {
+      os = "macOS";
+    } else if (/cros/i.test(rawUa)) {
+      os = "Chrome OS";
+    } else if (/linux/i.test(rawUa)) {
+      os = "Linux";
+    }
+
+    // Browser
+    if (/samsungbrowser/i.test(rawUa)) {
+      browser = "Samsung Internet";
+    } else if (/edg([ea])?/i.test(rawUa)) {
+      browser = "Microsoft Edge";
+    } else if (/opr|opera/i.test(rawUa)) {
+      browser = "Opera";
+    } else if (/chrome|crios/i.test(rawUa) && !/edg/i.test(rawUa) && !/opr/i.test(rawUa)) {
+      browser = "Google Chrome";
+    } else if (/firefox|fxios/i.test(rawUa)) {
+      browser = "Mozilla Firefox";
+    } else if (/safari/i.test(rawUa) && !/chrome|crios/i.test(rawUa)) {
+      browser = "Apple Safari";
+    }
+  }
+
+  // 2. IP Address
+  const forwardedFor =
+    (typeof headers["x-forwarded-for"] === "string" ? headers["x-forwarded-for"] : "") ||
+    (typeof headers["x-real-ip"] === "string" ? headers["x-real-ip"] : "") ||
+    meta?.socket?.remoteAddress ||
+    "";
+
+  const ip_address = forwardedFor ? forwardedFor.split(",")[0].trim() : null;
+
+  // 3. Country & City Geolocation (Vercel & Cloudflare Edge Headers)
+  const rawCountry =
+    (typeof headers["x-vercel-ip-country"] === "string" ? headers["x-vercel-ip-country"] : "") ||
+    (typeof headers["cf-ipcountry"] === "string" ? headers["cf-ipcountry"] : "") ||
+    "";
+
+  const rawCity =
+    typeof headers["x-vercel-ip-city"] === "string" ? headers["x-vercel-ip-city"] : "";
+  const rawRegion =
+    typeof headers["x-vercel-ip-country-region"] === "string"
+      ? headers["x-vercel-ip-country-region"]
+      : "";
+
+  let country: string | null = null;
+  if (rawCountry) {
+    try {
+      const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+      const fullName = regionNames.of(rawCountry.toUpperCase());
+      country = fullName ? `${fullName} (${rawCountry.toUpperCase()})` : rawCountry.toUpperCase();
+    } catch {
+      country = rawCountry.toUpperCase();
+    }
+  } else if (payload.respondent_info?.timezone) {
+    country = `Local (${payload.respondent_info.timezone})`;
+  }
+
+  let city: string | null = null;
+  if (rawCity) {
+    try {
+      city = decodeURIComponent(rawCity);
+    } catch {
+      city = rawCity;
+    }
+  }
+
+  return {
+    ip_address,
+    country,
+    city,
+    region: rawRegion || null,
+    device_type,
+    browser,
+    os,
   };
 }
 
@@ -129,7 +270,7 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
   await ensureEnemitesSchema();
 
   const title = (payload.title || "").trim();
-  let slug = (payload.slug || "").trim().toLowerCase().replace(/[^a-z0-9_-]/g, "-").replace(/-+/g, "-");
+  let slug = (payload.slug || "").trim().replace(/[^a-zA-Z0-9_-]/g, "-").replace(/-+/g, "-");
   const description = (payload.description || "").trim();
   const questions = Array.isArray(payload.questions) ? payload.questions : [];
   const expiresAt = payload.expires_at ? new Date(payload.expires_at).toISOString() : null;
@@ -140,7 +281,7 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
   }
 
   if (!slug) {
-    slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 50);
+    slug = title.replace(/[^a-zA-Z0-9]+/g, "-").slice(0, 50);
   }
 
   if (questions.length === 0) {
@@ -151,7 +292,7 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
   const client = await db.connect();
 
   try {
-    const checkSlug = await client.query("SELECT id FROM public.enemites_forms WHERE slug = $1", [slug]);
+    const checkSlug = await client.query("SELECT id FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1)", [slug]);
     if (checkSlug.rows.length > 0) {
       return {
         status: 409,
@@ -187,10 +328,10 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
   }
 }
 
-// 2. Get Form by Slug (Public)
+// 2. Get Form by Slug (Public - Case Insensitive)
 export async function handleGetFormBySlug(slug: string) {
   await ensureEnemitesSchema();
-  const cleanSlug = (slug || "").trim().toLowerCase();
+  const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
   const client = await db.connect();
@@ -199,7 +340,7 @@ export async function handleGetFormBySlug(slug: string) {
     const res = await client.query(
       `SELECT id, slug, title, description, questions, is_active, expires_at, created_at
        FROM public.enemites_forms
-       WHERE slug = $1
+       WHERE LOWER(slug) = LOWER($1)
        LIMIT 1`,
       [cleanSlug]
     );
@@ -237,17 +378,17 @@ export async function handleGetFormBySlug(slug: string) {
   }
 }
 
-// 3. Submit Response (Public)
-export async function handleSubmitForm(slug: string, payload: SubmitFormPayload) {
+// 3. Submit Response (Public - Geolocation and Device Detection)
+export async function handleSubmitForm(slug: string, payload: SubmitFormPayload, meta?: RequestMeta) {
   await ensureEnemitesSchema();
-  const cleanSlug = (slug || "").trim().toLowerCase();
+  const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
   const client = await db.connect();
 
   try {
     const formRes = await client.query(
-      "SELECT id, is_active, expires_at, questions FROM public.enemites_forms WHERE slug = $1 LIMIT 1",
+      "SELECT id, slug, is_active, expires_at, questions FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) LIMIT 1",
       [cleanSlug]
     );
 
@@ -269,21 +410,46 @@ export async function handleSubmitForm(slug: string, payload: SubmitFormPayload)
     }
 
     const responses = payload.responses || {};
-    const respondentInfo = payload.respondent_info || {};
+    const geo = parseDeviceAndGeo(payload, meta);
+
+    const respondentInfo = {
+      ...(payload.respondent_info || {}),
+      ...geo,
+    };
 
     const insertRes = await client.query(
-      `INSERT INTO public.enemites_form_submissions (form_id, form_slug, responses, respondent_info, created_at)
-       VALUES ($1, $2, $3, $4, NOW())
-       RETURNING id, created_at`,
-      [form.id, cleanSlug, JSON.stringify(responses), JSON.stringify(respondentInfo)]
+      `INSERT INTO public.enemites_form_submissions 
+        (form_id, form_slug, responses, respondent_info, ip_address, country, city, region, device_type, browser, os, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())
+       RETURNING id, created_at, country, city, device_type`,
+      [
+        form.id,
+        form.slug,
+        JSON.stringify(responses),
+        JSON.stringify(respondentInfo),
+        geo.ip_address,
+        geo.country,
+        geo.city,
+        geo.region,
+        geo.device_type,
+        geo.browser,
+        geo.os,
+      ]
     );
+
+    const row = insertRes.rows[0];
 
     return {
       status: 201,
       data: {
         success: true,
         message: "Thank you! Your response has been submitted successfully.",
-        submission_id: insertRes.rows[0].id,
+        submission_id: row.id,
+        submission_meta: {
+          country: row.country,
+          city: row.city,
+          device: row.device_type,
+        },
       },
     };
   } catch (err: any) {
@@ -339,21 +505,21 @@ export async function handleListForms(authHeader?: string | string[]) {
   }
 }
 
-// 5. Delete Form (Agent Only - Auth Required)
+// 5. Delete Form (Agent Only - Auth Required - Case Insensitive)
 export async function handleDeleteForm(slug: string, authHeader?: string | string[]) {
   if (!checkEnemitesAuth(authHeader)) {
     return { status: 401, data: { success: false, message: "Unauthorized." } };
   }
 
   await ensureEnemitesSchema();
-  const cleanSlug = (slug || "").trim().toLowerCase();
+  const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
   const client = await db.connect();
 
   try {
     const deleteRes = await client.query(
-      "DELETE FROM public.enemites_forms WHERE slug = $1 RETURNING id, slug, title",
+      "DELETE FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) RETURNING id, slug, title",
       [cleanSlug]
     );
 
@@ -365,7 +531,7 @@ export async function handleDeleteForm(slug: string, authHeader?: string | strin
       status: 200,
       data: {
         success: true,
-        message: `Form '${deleteRes.rows[0].title}' (${cleanSlug}) and its submissions have been deleted.`,
+        message: `Form '${deleteRes.rows[0].title}' (${cleanSlug}) and its submissions have been deleted successfully.`,
       },
     };
   } catch (err: any) {
@@ -376,21 +542,21 @@ export async function handleDeleteForm(slug: string, authHeader?: string | strin
   }
 }
 
-// 6. Get Form Submissions / Responses (Agent Only - Auth Required)
+// 6. Get Form Submissions with Geo Metadata (Agent Only - Auth Required)
 export async function handleGetFormSubmissions(slug: string, authHeader?: string | string[]) {
   if (!checkEnemitesAuth(authHeader)) {
     return { status: 401, data: { success: false, message: "Unauthorized." } };
   }
 
   await ensureEnemitesSchema();
-  const cleanSlug = (slug || "").trim().toLowerCase();
+  const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
   const client = await db.connect();
 
   try {
     const formRes = await client.query(
-      "SELECT id, slug, title, questions, created_at, expires_at FROM public.enemites_forms WHERE slug = $1 LIMIT 1",
+      "SELECT id, slug, title, questions, created_at, expires_at FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) LIMIT 1",
       [cleanSlug]
     );
 
@@ -401,7 +567,21 @@ export async function handleGetFormSubmissions(slug: string, authHeader?: string
     const form = formRes.rows[0];
 
     const subsRes = await client.query(
-      "SELECT id, responses, respondent_info, created_at FROM public.enemites_form_submissions WHERE form_id = $1 ORDER BY created_at DESC",
+      `SELECT 
+        id, 
+        responses, 
+        respondent_info, 
+        ip_address, 
+        country, 
+        city, 
+        region, 
+        device_type, 
+        browser, 
+        os, 
+        created_at 
+       FROM public.enemites_form_submissions 
+       WHERE form_id = $1 
+       ORDER BY created_at DESC`,
       [form.id]
     );
 
@@ -494,7 +674,10 @@ export default async function handler(req: any, res: any) {
     }
 
     if (req.method === "POST") {
-      const result = await handleSubmitForm(slug, body);
+      const result = await handleSubmitForm(slug, body, {
+        headers: req.headers,
+        socket: req.socket,
+      });
       res.status(result.status).json(result.data);
       return;
     }
