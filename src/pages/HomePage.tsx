@@ -16,8 +16,9 @@ const LabHeader = () => {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#F7F5F0]/90 backdrop-blur-md border-b border-[#E2DCD0] py-4' : 'bg-transparent py-6'}`}>
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <Link to="/home" className="nova-display text-xl font-medium tracking-tight text-[#111317] flex items-center">
-          <img src="/assets/logo.png" alt="Enemites" className="h-10" />
+        <Link to="/home" className="nova-display text-xl font-medium tracking-tight text-[#111317] flex items-center gap-2.5">
+          <img src="/assets/logo.png" alt="" className="h-7 w-auto" />
+          <span>Enemites</span>
         </Link>
         
         <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium tracking-wide text-[#4A4F5E]">
@@ -105,7 +106,14 @@ const HomePage = () => {
                 We are a research-driven collective focused on the next generation of tech and cognitive infrastructure. Our work spans from foundational world models to applied educational environments.
               </motion.p>
               <motion.div variants={itemVariants} className="mt-10">
-                <a href="#projects" className="inline-flex items-center text-[13px] font-medium tracking-wide uppercase text-[#111317] hover:text-[#D97757] transition-colors group">
+                <a 
+                  href="#projects" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                  className="inline-flex items-center text-[13px] font-medium tracking-wide uppercase text-[#111317] hover:text-[#D97757] transition-colors group"
+                >
                   <span className="border-b border-[#111317] group-hover:border-[#D97757] pb-1">View our work</span>
                   <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -189,8 +197,9 @@ const HomePage = () => {
       <footer className="px-4 pb-12 pt-24 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 text-[12px] text-[#788094] sm:flex-row sm:items-end sm:justify-between border-t border-[#E2DCD0] pt-8">
           <div>
-            <Link to="/home" className="nova-display text-lg font-medium tracking-tight text-[#111317] block mb-2 flex items-center">
-              <img src="/assets/logo.png" alt="Enemites" className="h-6" />
+            <Link to="/home" className="nova-display text-lg font-medium tracking-tight text-[#111317] mb-3 flex items-center gap-2">
+              <img src="/assets/logo.png" alt="" className="h-5 w-auto" />
+              <span>Enemites</span>
             </Link>
             <p>© {new Date().getFullYear()} Enemites. All rights reserved.</p>
           </div>

@@ -145,9 +145,10 @@ const ResponsiveHeader = ({
     <header className={getHeaderClasses(className)} style={{ top: "env(safe-area-inset-top, 0.5rem)" }}>
       <Link
         to="/home"
-        className={`nova-display text-lg font-semibold tracking-normal sm:text-xl flex items-center ${isDark ? 'text-[#E8E4D9]' : 'text-[#111317]'}`}
+        className={`nova-display text-lg font-semibold tracking-normal sm:text-xl flex items-center gap-2.5 ${isDark ? 'text-[#E8E4D9]' : 'text-[#111317]'}`}
       >
-        <img src="/assets/logo.png" alt="Enemites" className={`h-10 ${isDark ? 'invert' : ''}`} />
+        <img src="/assets/logo.png" alt="" className={`h-7 w-auto ${isDark ? 'invert' : ''}`} />
+        <span>Enemites</span>
       </Link>
 
       <nav className="hidden items-center gap-1 sm:flex" aria-label="Primary navigation">

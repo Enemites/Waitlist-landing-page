@@ -572,8 +572,9 @@ const IntroductionPage = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
             <div className="lg:col-span-2">
               <div className="mb-6">
-                <h3 className="nova-display mb-4 text-2xl font-medium tracking-normal text-white flex items-center">
-                  <img src="/assets/logo.png" alt="Enemites" className="h-8 invert" />
+                <h3 className="nova-display mb-4 text-2xl font-medium tracking-normal text-white flex items-center gap-2.5">
+                  <img src="/assets/logo.png" alt="" className="h-7 w-auto invert" />
+                  <span>Enemites</span>
                 </h3>
                 <p className="max-w-md text-[15px] font-normal leading-[1.6] text-[#E8E4D9]/72">
                   Empowering the next generation of problem solvers and truth
