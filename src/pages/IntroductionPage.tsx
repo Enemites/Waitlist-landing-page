@@ -564,9 +564,9 @@ const IntroductionPage = () => {
         </section>
 
         {/* LARGE AMBIENT WATERMARK LOGO SECTION */}
-        <section className="relative overflow-hidden bg-[#000000] py-28 sm:py-40 lg:py-52 flex items-center justify-center border-t border-white/[0.04]">
+        <section className="relative overflow-hidden bg-[#000000] py-8 sm:py-12 md:py-16 flex items-center justify-center border-t border-white/[0.04]">
           {/* Subtle ambient backglow */}
-          <div className="absolute h-72 w-72 sm:h-[450px] sm:w-[450px] rounded-full bg-white/[0.015] blur-3xl pointer-events-none" />
+          <div className="absolute h-48 w-48 sm:h-72 sm:w-72 rounded-full bg-white/[0.015] blur-2xl pointer-events-none" />
 
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
