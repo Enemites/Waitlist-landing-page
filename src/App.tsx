@@ -30,12 +30,15 @@ const ScrollToTop = () => {
       const target = document.getElementById(decodeURIComponent(hash.slice(1)));
 
       if (target) {
-        target.scrollIntoView({ behavior: "auto", block: "start" });
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
     }
 
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    // Instantly jump to top on page change without animation
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [hash, pathname]);
 
   return null;
