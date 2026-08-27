@@ -1,71 +1,74 @@
-import { handleCreateForm } from "../api/forms.js";
+import { handleCreateForm, handleDeleteForm } from "../api/forms.js";
 import { getDbPool } from "../api/db.js";
 
-async function createEnemitesSampleForm() {
+async function createEnemitesEnglishSampleForm() {
   const authHeader = "Bearer enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481";
 
+  // First delete previous version if exists
+  await handleDeleteForm("customer-feedback", authHeader).catch(() => {});
+
   const formPayload = {
-    title: "Survei Kepuasan & Kebutuhan Pengguna enemites",
+    title: "enemites User Discovery & Product Feedback",
     description:
-      "Selamat datang di survei resmi enemites! Masukan Anda sangat berharga untuk membantu kami menyempurnakan fitur otomasi cerdas dan pengalaman penggunaan platform.",
+      "Help us shape the future of autonomous agent forms and survey automation. This feedback survey takes approximately 2 minutes to complete.",
     slug: "customer-feedback",
     expires_at: null, // endless
     questions: [
       {
         id: "name_and_role",
-        label: "Nama Lengkap & Role / Posisi Anda",
+        label: "Your Full Name and Role / Title",
         type: "text",
-        placeholder: "Contoh: Budi Santoso - Product Manager",
+        placeholder: "e.g. Alex Rivera, Lead Product Designer",
         required: true,
       },
       {
         id: "nps_score",
-        label: "Seberapa besar kemungkinan Anda merekomendasikan enemites ke rekan kerja atau startup lain?",
+        label: "How likely are you to recommend enemites to your colleagues or engineering team?",
         type: "rating",
         min: 1,
         max: 10,
         required: true,
-        helperText: "Skala 1 (Sangat Tidak Mungkin) hingga 10 (Sangat Mungkin)",
+        helperText: "Scale from 1 (Extremely Unlikely) to 10 (Extremely Likely)",
       },
       {
-        id: "favorite_features",
-        label: "Fitur apa yang paling penting bagi alur kerja Anda?",
+        id: "priority_features",
+        label: "Which capabilities are most crucial for your workflow?",
         type: "checkbox",
         required: false,
         options: [
-          "Otomasi Pembuatan Form via AI Agent",
-          "Integrasi MCP Server untuk Agent",
-          "Analisis Sentimen & Insight Otomatis",
-          "Custom Branding & Dynamic Links",
-          "Pengaturan Masa Berlaku Form (Endless / Expiring)",
+          "Autonomous Agent Form Generation via MCP",
+          "Automated Sentiment Analysis & AI Synthesis",
+          "Custom Branding & Dynamic URL Slugs",
+          "Configurable Expiration Windows & Lifetime Rules",
+          "Instant Webhook & Real-time Integrations",
         ],
       },
       {
-        id: "current_pain_points",
-        label: "Tantangan atau kendala terbesar yang Anda hadapi saat membuat survei atau mengumpulkan feedback customer saat ini?",
+        id: "primary_challenges",
+        label: "What is your biggest bottleneck or frustration with current customer feedback tools?",
         type: "textarea",
-        placeholder: "Ceritakan kendala atau kebutuhan spesifik Anda di sini...",
+        placeholder: "Share your thoughts or specific use-cases...",
         required: false,
       },
       {
-        id: "email",
-        label: "Email Aktif Anda",
+        id: "work_email",
+        label: "Work Email Address",
         type: "email",
-        placeholder: "nama@domain.com",
+        placeholder: "you@company.com",
         required: true,
-        helperText: "Kami akan mengirimkan ringkasan perkembangan fitur terbaru ke email ini.",
+        helperText: "We'll keep you posted on core product updates and feature releases.",
       },
     ],
   };
 
   const result = await handleCreateForm(formPayload as any, authHeader);
-  console.log("Creation Result:", JSON.stringify(result, null, 2));
+  console.log("English Form Created Result:", JSON.stringify(result, null, 2));
 
   const pool = getDbPool();
   await pool.end();
 }
 
-createEnemitesSampleForm().catch((err) => {
+createEnemitesEnglishSampleForm().catch((err) => {
   console.error("Error creating sample form:", err);
   process.exit(1);
 });

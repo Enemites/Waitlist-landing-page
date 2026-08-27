@@ -59,13 +59,13 @@ export default function PublicFormPage() {
         const json = await res.json();
 
         if (!res.ok || !json.success) {
-          setError(json.message || "Form tidak ditemukan atau telah dinonaktifkan.");
+          setError(json.message || "Form not found or has been disabled.");
           return;
         }
 
         setForm(json.form);
 
-        // Pre-populate checkbox types as arrays
+        // Pre-populate checkbox types as empty arrays
         const initial: Record<string, any> = {};
         json.form.questions.forEach((q: Question) => {
           if (q.type === "checkbox") {
@@ -75,7 +75,7 @@ export default function PublicFormPage() {
         setResponses(initial);
       } catch (err: any) {
         console.error("Error loading form:", err);
-        setError("Gagal memuat form. Silakan periksa jaringan Anda atau coba muat ulang halaman.");
+        setError("Unable to load form. Please check your network connection or try again.");
       } finally {
         setLoading(false);
       }
@@ -107,13 +107,13 @@ export default function PublicFormPage() {
   // Progress Calculation
   const progress = useMemo(() => {
     if (!form || !form.questions.length) return 0;
-    const answeredCount = form.questions.filter((q) => {
+    const answered = form.questions.filter((q) => {
       const val = responses[q.id];
       if (val === undefined || val === null || val === "") return false;
       if (Array.isArray(val) && val.length === 0) return false;
       return true;
     }).length;
-    return Math.round((answeredCount / form.questions.length) * 100);
+    return Math.round((answered / form.questions.length) * 100);
   }, [form, responses]);
 
   const answeredCount = useMemo(() => {
@@ -139,14 +139,14 @@ export default function PublicFormPage() {
           (typeof val === "string" && val.trim() === "") ||
           (Array.isArray(val) && val.length === 0)
         ) {
-          errors[q.id] = "Wajib diisi";
+          errors[q.id] = "This field is required";
         }
       }
 
       if (q.type === "email" && responses[q.id]) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(responses[q.id])) {
-          errors[q.id] = "Format email tidak valid";
+          errors[q.id] = "Please enter a valid email address";
         }
       }
     });
@@ -158,7 +158,6 @@ export default function PublicFormPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate() || !slug) {
-      // Scroll to first error
       const firstErrorKey = Object.keys(validationErrors)[0];
       if (firstErrorKey) {
         document.getElementById(`question-${firstErrorKey}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -183,7 +182,7 @@ export default function PublicFormPage() {
       const json = await res.json();
 
       if (!res.ok || !json.success) {
-        alert(json.message || "Gagal mengirim formulir. Silakan coba kembali.");
+        alert(json.message || "Failed to submit form. Please try again.");
         return;
       }
 
@@ -191,7 +190,7 @@ export default function PublicFormPage() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       console.error("Submission error:", err);
-      alert("Terjadi kendala jaringan saat mengirimkan respon.");
+      alert("A network error occurred while submitting your response.");
     } finally {
       setSubmitting(false);
     }
@@ -221,7 +220,7 @@ export default function PublicFormPage() {
     );
   }
 
-  // 2. Error / Not Found View
+  // 2. Error / Not Found View (English)
   if (error || !form) {
     return (
       <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
@@ -230,16 +229,16 @@ export default function PublicFormPage() {
             <AlertCircle className="w-5 h-5" />
             <span className="font-mono text-xs uppercase tracking-wider text-red-400">404 · Not Found</span>
           </div>
-          <h1 className="text-xl font-semibold text-white mb-2">Formulir Tidak Ditemukan</h1>
+          <h1 className="text-xl font-semibold text-white mb-2">Form Not Found</h1>
           <p className="text-sm text-zinc-400 leading-relaxed mb-6">
-            {error || "Tautan yang Anda tuju tidak valid, belum dipublikasikan, atau telah dihapus."}
+            {error || "The questionnaire you are looking for does not exist, has expired, or is currently unavailable."}
           </p>
           <div className="flex items-center justify-between pt-4 border-t border-zinc-800/80">
             <Link
               to="/"
               className="inline-flex items-center space-x-2 text-xs font-mono text-zinc-300 hover:text-white transition"
             >
-              <span>← Kembali ke beranda</span>
+              <span>← Back to Home</span>
             </Link>
             <span className="text-[11px] font-mono text-zinc-600">enemites</span>
           </div>
@@ -248,26 +247,26 @@ export default function PublicFormPage() {
     );
   }
 
-  // 3. Expired State
+  // 3. Expired State (English)
   if (form.is_expired) {
     return (
       <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
         <div className="max-w-md w-full border border-zinc-800 bg-zinc-900/40 rounded-2xl p-8">
           <div className="flex items-center space-x-2 text-amber-400 mb-4">
             <Clock className="w-4 h-4" />
-            <span className="font-mono text-xs uppercase tracking-wider">Periode Berakhir</span>
+            <span className="font-mono text-xs uppercase tracking-wider">Form Closed</span>
           </div>
           <h1 className="text-xl font-semibold text-white mb-2">{form.title}</h1>
           <p className="text-sm text-zinc-400 leading-relaxed mb-4">
-            Formulir kuesioner ini sudah ditutup dan tidak lagi menerima respons baru.
+            This questionnaire is no longer accepting new submissions.
           </p>
           {form.expires_at && (
             <div className="text-xs font-mono text-zinc-500 bg-zinc-900 border border-zinc-800 rounded-lg p-3 mb-6">
-              Batas waktu: {new Date(form.expires_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })}
+              Closed at: {new Date(form.expires_at).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
             </div>
           )}
           <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 font-mono">
-            <span>Terima kasih atas minat Anda</span>
+            <span>Thank you for your interest</span>
             <span>enemites</span>
           </div>
         </div>
@@ -275,7 +274,7 @@ export default function PublicFormPage() {
     );
   }
 
-  // 4. Success State (Clean Completion Receipt)
+  // 4. Success State (Clean English Completion Receipt)
   if (submitted) {
     return (
       <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
@@ -285,20 +284,20 @@ export default function PublicFormPage() {
           </div>
           <div className="space-y-1 mb-6">
             <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400">Response Recorded</span>
-            <h1 className="text-2xl font-semibold text-white tracking-tight">Terima Kasih</h1>
+            <h1 className="text-2xl font-semibold text-white tracking-tight">Thank You</h1>
             <p className="text-sm text-zinc-400 leading-relaxed pt-1">
-              Jawaban Anda untuk <strong className="text-zinc-200 font-medium">"{form.title}"</strong> telah tersimpan dengan aman.
+              Your submission for <strong className="text-zinc-200 font-medium">"{form.title}"</strong> has been securely received.
             </p>
           </div>
 
           <div className="bg-zinc-950/70 border border-zinc-800/80 rounded-xl p-4 space-y-2 mb-6 font-mono text-xs text-zinc-400">
             <div className="flex justify-between">
-              <span className="text-zinc-500">Form ID:</span>
+              <span className="text-zinc-500">Form Slug:</span>
               <span className="text-zinc-300 font-medium">{form.slug}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-zinc-500">Timestamp:</span>
-              <span className="text-zinc-300">{new Date().toLocaleTimeString("id-ID")}</span>
+              <span className="text-zinc-300">{new Date().toLocaleTimeString("en-US")}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-zinc-500">Security:</span>
@@ -314,7 +313,7 @@ export default function PublicFormPage() {
               onClick={() => window.location.reload()}
               className="text-zinc-400 hover:text-white transition font-mono underline"
             >
-              Kirim tanggapan lain
+              Submit another response
             </button>
           </div>
         </div>
@@ -322,7 +321,7 @@ export default function PublicFormPage() {
     );
   }
 
-  // 5. Active Questionnaire Screen (Anti-Slop, High-Craft Editorial Layout)
+  // 5. Active Questionnaire Screen (English, Anti-Slop, High-Craft Editorial Layout)
   return (
     <div className="min-h-[100dvh] bg-[#07080a] text-zinc-200 selection:bg-zinc-800 selection:text-white font-sans antialiased flex flex-col justify-between">
       {/* Top Navbar */}
@@ -337,7 +336,7 @@ export default function PublicFormPage() {
 
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
-              <span>{answeredCount}/{form.questions.length} dijawab</span>
+              <span>{answeredCount} of {form.questions.length} answered</span>
               <div className="w-16 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-zinc-200 transition-all duration-300 ease-out"
@@ -353,7 +352,7 @@ export default function PublicFormPage() {
             ) : form.expires_at ? (
               <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-zinc-700/60 bg-zinc-900 text-zinc-400 flex items-center gap-1">
                 <Clock className="w-3 h-3" />
-                {new Date(form.expires_at).toLocaleDateString("id-ID")}
+                {new Date(form.expires_at).toLocaleDateString("en-US")}
               </span>
             ) : null}
           </div>
@@ -371,10 +370,10 @@ export default function PublicFormPage() {
             </p>
           )}
           <div className="flex items-center gap-2 pt-2 text-xs font-mono text-zinc-500">
-            <span>{form.questions.length} Pertanyaan</span>
+            <span>{form.questions.length} Questions</span>
             <span>•</span>
             <span className="flex items-center gap-1 text-zinc-400">
-              <Shield className="w-3.5 h-3.5 inline" /> Terenkripsi
+              <Shield className="w-3.5 h-3.5 inline" /> Confidential & Encrypted
             </span>
           </div>
         </div>
@@ -411,8 +410,8 @@ export default function PublicFormPage() {
                     <span>
                       {q.label}
                       {q.required && (
-                        <span className="text-zinc-500 text-xs font-mono ml-2 select-none" title="Wajib">
-                          *wajib
+                        <span className="text-zinc-500 text-xs font-mono ml-2 select-none" title="Required">
+                          *required
                         </span>
                       )}
                     </span>
@@ -432,7 +431,7 @@ export default function PublicFormPage() {
                   {["text", "email", "phone", "number"].includes(q.type) && (
                     <input
                       type={q.type === "email" ? "email" : q.type === "number" ? "number" : "text"}
-                      placeholder={q.placeholder || "Ketik jawaban..."}
+                      placeholder={q.placeholder || "Type your response..."}
                       value={responses[q.id] || ""}
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
                       className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition"
@@ -443,7 +442,7 @@ export default function PublicFormPage() {
                   {q.type === "textarea" && (
                     <textarea
                       rows={4}
-                      placeholder={q.placeholder || "Tuliskan tanggapan Anda secara detail..."}
+                      placeholder={q.placeholder || "Write your detailed feedback here..."}
                       value={responses[q.id] || ""}
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
                       className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition resize-y font-sans leading-relaxed"
@@ -541,8 +540,8 @@ export default function PublicFormPage() {
 
                       {q.max && q.max > 5 && (
                         <div className="flex justify-between text-[11px] font-mono text-zinc-500 px-1 pt-1">
-                          <span>1: Sangat Rendah</span>
-                          <span>10: Sangat Tinggi</span>
+                          <span>1: Extremely Unlikely</span>
+                          <span>10: Extremely Likely</span>
                         </div>
                       )}
                     </div>
@@ -556,7 +555,7 @@ export default function PublicFormPage() {
                       className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition"
                     >
                       <option value="" disabled className="bg-zinc-900 text-zinc-500">
-                        -- Pilih opsi --
+                        -- Select an option --
                       </option>
                       {(q.options || []).map((opt, optIdx) => (
                         <option key={optIdx} value={opt} className="bg-zinc-900 text-zinc-200">
@@ -586,10 +585,10 @@ export default function PublicFormPage() {
               className="w-full sm:w-auto min-w-[200px] inline-flex items-center justify-center px-6 py-3 rounded-lg bg-white text-black hover:bg-zinc-200 active:scale-[0.98] font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               {submitting ? (
-                <span className="font-mono text-xs">Mengirimkan respon...</span>
+                <span className="font-mono text-xs">Submitting response...</span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <span>Kirim Jawaban</span>
+                  <span>Submit Response</span>
                   <ArrowRight className="w-4 h-4" />
                 </span>
               )}
@@ -597,7 +596,7 @@ export default function PublicFormPage() {
 
             <div className="flex items-center justify-between text-xs font-mono text-zinc-500 pt-2">
               <span className="flex items-center gap-1.5">
-                <CornerDownLeft className="w-3.5 h-3.5" /> Tekan tombol untuk menyelesaikan
+                <CornerDownLeft className="w-3.5 h-3.5" /> Click button to complete
               </span>
               <span>enemites dynamic engine</span>
             </div>

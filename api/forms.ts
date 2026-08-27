@@ -364,7 +364,15 @@ export default async function handler(req: any, res: any) {
   const authHeader = req.headers["authorization"] || req.headers["x-api-key"];
   const url = req.url || "";
   const query = req.query || {};
-  const slug = (query.slug as string) || (url.split("/api/forms/")[1] || "").split("?")[0].split("/")[0];
+
+  let rawSlug = (query.slug as string) || "";
+  if (!rawSlug) {
+    const afterPrefix = (url.split("/api/forms")[1] || "").split("?")[0].replace(/^\/+/, "");
+    rawSlug = afterPrefix;
+  }
+
+  const isSubmissions = rawSlug.endsWith("/submissions") || url.includes("/submissions");
+  const slug = rawSlug.replace(/\/submissions.*/, "").replace(/^\/+/, "").replace(/\/+$/, "").trim();
 
   try {
     let body = req.body;
@@ -374,50 +382,51 @@ export default async function handler(req: any, res: any) {
       } catch {}
     }
 
-    // Router
-    if (req.method === "POST" && (!slug || slug === "index" || slug === "")) {
-      // Create Form
-      const result = await handleCreateForm(body, authHeader);
-      res.status(result.status).json(result.data);
-      return;
-    }
-
-    if (req.method === "GET" && (!slug || slug === "index" || slug === "")) {
-      // List Forms
-      const result = await handleListForms(authHeader);
-      res.status(result.status).json(result.data);
-      return;
-    }
-
-    if (req.method === "GET" && slug) {
-      if (url.includes("/submissions")) {
-        const result = await handleGetFormSubmissions(slug, authHeader);
+    // 1. Root /api/forms routes
+    if (!slug || slug === "index") {
+      if (req.method === "POST") {
+        const result = await handleCreateForm(body, authHeader);
         res.status(result.status).json(result.data);
         return;
       }
-      // Get single form
+      if (req.method === "GET") {
+        const result = await handleListForms(authHeader);
+        res.status(result.status).json(result.data);
+        return;
+      }
+      res.status(405).json({ success: false, message: "Method not allowed." });
+      return;
+    }
+
+    // 2. Submissions route: /api/forms/:slug/submissions
+    if (isSubmissions && req.method === "GET") {
+      const result = await handleGetFormSubmissions(slug, authHeader);
+      res.status(result.status).json(result.data);
+      return;
+    }
+
+    // 3. Single Form Operations: /api/forms/:slug
+    if (req.method === "GET") {
       const result = await handleGetFormBySlug(slug);
       res.status(result.status).json(result.data);
       return;
     }
 
-    if (req.method === "POST" && slug) {
-      // Submit response
+    if (req.method === "POST") {
       const result = await handleSubmitForm(slug, body);
       res.status(result.status).json(result.data);
       return;
     }
 
-    if (req.method === "DELETE" && slug) {
-      // Delete form
+    if (req.method === "DELETE") {
       const result = await handleDeleteForm(slug, authHeader);
       res.status(result.status).json(result.data);
       return;
     }
 
-    res.status(404).json({ success: false, message: "Endpoint not found." });
+    res.status(405).json({ success: false, message: "Method not allowed." });
   } catch (err: any) {
     console.error("Unhandled handler error in /api/forms:", err);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.status(500).json({ success: false, message: err?.message || "Internal server error." });
   }
 }
