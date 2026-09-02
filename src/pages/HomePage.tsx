@@ -89,7 +89,7 @@ const HomePage = () => {
               className="lg:col-span-8"
             >
               <motion.p variants={itemVariants} className="nova-mono mb-6 sm:mb-8 text-[11px] sm:text-[11.5px] font-medium uppercase tracking-[0.2em] text-[#D97757]">
-                Enemites Independent Research
+                Enemites Research Lab
               </motion.p>
               <motion.h1 variants={itemVariants} className="nova-display text-3xl sm:text-4xl md:text-6xl lg:text-[84px] font-medium leading-[1.1] sm:leading-[1.05] tracking-tight text-[#111317]">
                 We shape the future by seeking the <span className="text-[#D97757]">ground truth</span>.
