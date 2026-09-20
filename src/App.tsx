@@ -50,7 +50,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Navigate to="/arena" replace />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/arena" element={<IntroductionPage />} />
         <Route path="/arena/how-it-works" element={<HowItWorksPage />} />
