@@ -1,0 +1,69 @@
+/* Three learning instruments, presented as one open exhibition. */
+.value-transformations { margin-top:12px;scroll-margin-top:104px; }
+.value-transformation { position:relative;padding-block:30px 40px; }
+.transformation-guide { display:flex;align-items:center;gap:24px; }
+.transformation-rule { height:1px;flex:1;background:#8faa6d22;overflow:hidden; }
+.transformation-rule i { display:block;width:100%;height:100%;background:#c4ed6c;transform-origin:left; }
+.transformation-marker { display:flex;gap:7px; }
+.transformation-marker i { width:5px;height:5px;border-radius:50%;border:1px solid #71876c; }
+.transformation-marker i[data-current="true"] { background:#c4ed6c;border-color:#c4ed6c; }
+.transformation-composition { display:grid;grid-template-columns:.87fr 1.3fr;gap:30px;align-items:center;min-height:590px; }
+.transformation-copy { position:relative;z-index:1;padding:48px 0; }
+.product-site .transformation-copy h3 { font-size:clamp(43px,4.7vw,68px);line-height:1.04;font-weight:500;letter-spacing:-.058em;max-width:500px; }
+.transformation-copy p { font-size:15px;margin-top:30px;max-width:350px;line-height:1.85; }
+.transformation-apparatus { position:relative;min-width:0;height:560px;isolation:isolate; }
+.kinetic-sculpture { position:relative;z-index:2;width:100%;height:100%;display:block;touch-action:pan-y; }
+.apparatus-grid { position:absolute;inset:11% 1%;background-image:radial-gradient(#9cbd983d .65px,transparent .65px);background-size:27px 27px;mask-image:radial-gradient(ellipse,#0006 5%,transparent 65%);pointer-events:none; }
+.apparatus-aura { position:absolute;inset:17% 13%;background:radial-gradient(ellipse,#a9d07110,transparent 67%);pointer-events:none; }
+.apparatus-brackets { position:absolute;inset:16% 7%;pointer-events:none; }
+.apparatus-brackets i { position:absolute;width:12px;height:12px;border-color:#758d663f; }
+.apparatus-brackets i:nth-child(1) { left:0;top:0;border-left:1px solid;border-top:1px solid; }
+.apparatus-brackets i:nth-child(2) { right:0;top:0;border-right:1px solid;border-top:1px solid; }
+.apparatus-brackets i:nth-child(3) { left:0;bottom:0;border-left:1px solid;border-bottom:1px solid; }
+.apparatus-brackets i:nth-child(4) { right:0;bottom:0;border-right:1px solid;border-bottom:1px solid; }
+.transformation-clarity .transformation-composition { grid-template-columns:1.3fr .87fr; }
+.transformation-clarity .transformation-copy { grid-column:2;grid-row:1;padding-left:35px; }
+.transformation-clarity .transformation-apparatus { grid-column:1;grid-row:1; }
+.transformation-clarity .apparatus-aura { inset:8%;background:radial-gradient(ellipse,#bcd6ad0d,transparent 64%); }
+.transformation-evidence .transformation-copy { max-width:510px; }
+.transformation-evidence .transformation-apparatus { height:600px; }
+.transformation-evidence .apparatus-grid { background-size:20px 20px;opacity:.5; }
+.product-values { padding-bottom:48px; }
+
+/* An intimate invitation, with its own image and silhouette. */
+.registration-threshold { aspect-ratio:1.5;margin-top:24px;mask-image:linear-gradient(0deg,transparent,#000 14%,#000 88%,transparent); }
+.registration-threshold img { object-fit:contain;object-position:center; }
+
+@media (hover:hover) and (pointer:fine) {
+  .kinetic-sculpture { cursor:crosshair; }
+}
+@media (max-width:1100px) {
+  .transformation-composition { min-height:520px;gap:10px; }
+  .transformation-apparatus { height:480px; }
+  .transformation-evidence .transformation-apparatus { height:520px; }
+  .product-site .transformation-copy h3 { font-size:49px; }
+  .transformation-copy p { font-size:14px;max-width:310px; }
+  .transformation-clarity .transformation-copy { padding-left:10px; }
+}
+@media (max-width:767px) {
+  .value-transformations { margin-top:0; }
+  .value-transformation { padding-block:24px 16px; }
+  .transformation-guide { gap:18px; }
+  .transformation-composition,.transformation-clarity .transformation-composition { display:flex;flex-direction:column;gap:0;align-items:stretch;min-height:0; }
+  .transformation-copy,.transformation-clarity .transformation-copy { padding:30px 0 0; }
+  .product-site .transformation-copy h3 { font-size:43px;max-width:340px; }
+  .transformation-copy p { margin-top:20px;max-width:370px;font-size:14px; }
+  .transformation-apparatus { height:330px;margin-top:3px;margin-inline:-15px; }
+  .transformation-evidence .transformation-apparatus { height:370px; }
+  .transformation-evidence { padding-bottom:0; }
+  .apparatus-brackets { inset:12% 9%; }
+  .product-values { padding-bottom:38px; }
+  .registration-threshold { display:block;aspect-ratio:1.7;max-width:480px;margin-top:12px;margin-bottom:-8px; }
+}
+@media (max-width:374px) {
+  .product-site .transformation-copy h3 { font-size:39px; }
+  .transformation-apparatus { height:315px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .transformation-copy { transform:none!important; }
+}

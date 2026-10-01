@@ -5,8 +5,8 @@ const TermsOfServicePage = () => {
   useScrollAnimation();
 
   return (
-    <div className="min-h-screen bg-[var(--nova-bone)] text-[var(--nova-void)]">
-      <ResponsiveHeader />
+    <div className="product-site legal-product min-h-screen bg-[var(--nova-bone)] text-[var(--nova-void)]">
+      <ResponsiveHeader theme="dark" />
 
       <main className="px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-32">
         <section
@@ -25,14 +25,14 @@ const TermsOfServicePage = () => {
                 >
                   Terms of Service
                 </h1>
-                <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#464B58] md:text-lg">
+                <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
                   These Terms govern your access to Enemites, a private beta learning environment
                   that turns problem-based learning into adaptive world simulations with an AI
                   mentor.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[var(--nova-void)]/10 bg-white/45 p-4 sm:p-5 text-xs sm:text-sm leading-relaxed sm:leading-[1.6] text-[#464B58]">
+              <div className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/45 p-4 sm:p-5 text-xs sm:text-sm leading-relaxed sm:leading-[1.6] text-[#AFBAB6]">
                 <p className="font-semibold text-[var(--nova-void)]">Current product status</p>
                 <p className="mt-1.5 sm:mt-2">
                   Enemites is currently offered through a waitlist and early access experience.
@@ -45,7 +45,7 @@ const TermsOfServicePage = () => {
 
           <div className="mt-10 grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
             <aside className="hidden lg:block">
-              <div className="sticky top-28 space-y-3 rounded-xl border border-[var(--nova-void)]/10 bg-white/40 p-4 text-sm text-[#464B58]">
+              <div className="sticky top-28 space-y-3 rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/40 p-4 text-sm text-[#AFBAB6]">
                 <p className="nova-mono text-xs uppercase tracking-[0.18em] text-[var(--nova-brand)]">
                   Summary
                 </p>
@@ -55,8 +55,8 @@ const TermsOfServicePage = () => {
               </div>
             </aside>
 
-            <div className="space-y-5 text-sm leading-[1.7] text-[#464B58] sm:text-base">
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+            <div className="space-y-5 text-sm leading-[1.7] text-[#AFBAB6] sm:text-base">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   1. Acceptance of Terms
                 </h2>
@@ -67,7 +67,7 @@ const TermsOfServicePage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   2. Who Enemites Is For
                 </h2>
@@ -79,7 +79,7 @@ const TermsOfServicePage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   3. Waitlist and Early Access
                 </h2>
@@ -97,7 +97,7 @@ const TermsOfServicePage = () => {
                 </ul>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   4. Responsible Use
                 </h2>
@@ -115,7 +115,7 @@ const TermsOfServicePage = () => {
                 </ul>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   5. Learning Data and Experience Logs
                 </h2>
@@ -130,7 +130,7 @@ const TermsOfServicePage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   6. No Guaranteed Outcomes
                 </h2>
@@ -142,7 +142,7 @@ const TermsOfServicePage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   7. Intellectual Property
                 </h2>
@@ -159,7 +159,7 @@ const TermsOfServicePage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   8. Experimental AI Mentor
                 </h2>
@@ -171,7 +171,7 @@ const TermsOfServicePage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   9. Limitation of Liability
                 </h2>
@@ -183,7 +183,7 @@ const TermsOfServicePage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   10. Changes to These Terms
                 </h2>

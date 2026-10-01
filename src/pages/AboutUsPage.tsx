@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ResponsiveHeader from "@/components/ResponsiveHeader";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion, useReducedMotion } from "motion/react";
+import HistoryTimeline from "@/components/product/HistoryTimeline";
 
 const studentSquad = [
   {
@@ -76,7 +76,6 @@ const values = [
 ];
 
 const AboutUsPage = () => {
-  useScrollAnimation();
   const reduce = useReducedMotion();
 
   const containerVariants = {
@@ -96,16 +95,16 @@ const AboutUsPage = () => {
   } as any;
 
   return (
-    <div className="min-h-screen bg-[#F7F5F0] text-[#4A4F5E]">
+    <div className="design-site about-page min-h-screen bg-[#F5F2EB] text-[#62675E]">
       <style>{`
         @keyframes enemitesGradientMorph {
-          0%, 100% { color: #D97757; -webkit-text-fill-color: #D97757; }
-          50% { color: #111317; -webkit-text-fill-color: #111317; }
+          0%, 100% { color: #B8593B; -webkit-text-fill-color: #B8593B; }
+          50% { color: #272C27; -webkit-text-fill-color: #272C27; }
         }
         .nova-gradient-x {
           display: inline-block;
-          color: #D97757;
-          -webkit-text-fill-color: #D97757;
+          color: #B8593B;
+          -webkit-text-fill-color: #B8593B;
           animation: enemitesGradientMorph 4.8s ease-in-out infinite;
           will-change: color;
         }
@@ -115,8 +114,8 @@ const AboutUsPage = () => {
 
       <main className="relative">
         {/* HERO SECTION */}
-        <section className="relative min-h-[90dvh] flex items-center pt-20 sm:pt-24 px-4 sm:px-6 lg:px-8 border-b border-[#E2DCD0]">
-          <div className="absolute inset-0 bg-[#F7F5F0]" />
+        <section className="about-hero relative min-h-[90dvh] flex items-center pt-20 sm:pt-24 px-4 sm:px-6 lg:px-8 border-b border-[#DAD6CB]">
+          <div className="absolute inset-0 bg-[#F5F2EB]" />
           
           <div className="relative z-10 mx-auto max-w-6xl w-full grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 sm:gap-12 items-center">
             <motion.div 
@@ -125,21 +124,21 @@ const AboutUsPage = () => {
                variants={containerVariants}
                className="max-w-3xl py-8 sm:py-12"
             >
-              <motion.p variants={itemVariants} className="nova-mono mb-4 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#788094]">
+              <motion.p variants={itemVariants} className="nova-mono mb-4 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#73776E]">
                 About Enemites
               </motion.p>
-              <motion.h1 variants={itemVariants} className="nova-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] sm:leading-[1.05] tracking-tight text-[#111317]">
+              <motion.h1 variants={itemVariants} className="nova-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] sm:leading-[1.05] tracking-tight text-[#272C27]">
                 Built by students who needed a <span className="nova-gradient-x">better arena</span>.
               </motion.h1>
-              <motion.p variants={itemVariants} className="mt-5 sm:mt-8 text-xs sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed text-[#4A4F5E] max-w-xl">
+              <motion.p variants={itemVariants} className="mt-5 sm:mt-8 text-xs sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed text-[#62675E] max-w-xl">
                 Enemites began from a student fear: AI makes knowledge feel cheap, while learning still feels heavy. We are building the arena we wanted, where effort becomes visible capability.
               </motion.p>
 
               <motion.div variants={itemVariants} className="mt-6 sm:mt-10 flex flex-col items-start gap-3 sm:gap-4 sm:flex-row sm:items-center">
-                <Button asChild className="h-11 sm:h-12 rounded-lg bg-[#D97757] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#D97757]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
+                <Button asChild className="h-11 sm:h-12 rounded-lg bg-[#B8593B] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#B8593B]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
                   <Link to="/arena/how-it-works">See how it works</Link>
                 </Button>
-                <Button asChild variant="outline" className="h-11 sm:h-12 rounded-lg border border-[#E2DCD0] bg-transparent px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-[#111317] hover:bg-white hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
+                <Button asChild variant="outline" className="h-11 sm:h-12 rounded-lg border border-[#DAD6CB] bg-transparent px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-[#272C27] hover:bg-white hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
                   <a href="mailto:support@enemites.com">Contact the team</a>
                 </Button>
               </motion.div>
@@ -149,7 +148,7 @@ const AboutUsPage = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="overflow-hidden rounded-[24px] border border-[#E2DCD0] bg-white shadow-[0_24px_40px_rgba(0,0,0,0.05)] hidden lg:block"
+              className="overflow-hidden rounded-[24px] border border-[#DAD6CB] bg-white shadow-[0_24px_40px_rgba(0,0,0,0.05)] hidden lg:block"
             >
               <div className="relative min-h-[400px]">
                 <img
@@ -160,16 +159,16 @@ const AboutUsPage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <p className="nova-mono text-[11px] uppercase tracking-wider text-[#D97757]">ORIGIN SIGNAL</p>
-                  <h2 className="nova-display mt-3 text-3xl font-medium leading-[1.15] text-[#111317]">
+                  <p className="nova-mono text-[11px] uppercase tracking-wider text-[#B8593B]">ORIGIN SIGNAL</p>
+                  <h2 className="nova-display mt-3 text-3xl font-medium leading-[1.15] text-[#272C27]">
                     Serious learning with the feedback loop of a game.
                   </h2>
                 </div>
               </div>
-              <div className="grid grid-cols-3 border-t border-[#E2DCD0] bg-white/50 backdrop-blur-md">
+              <div className="grid grid-cols-3 border-t border-[#DAD6CB] bg-white/50 backdrop-blur-md">
                 {["student-led", "scenario-first", "proof-ready"].map((item) => (
-                  <div key={item} className="border-r border-[#E2DCD0] p-5 last:border-r-0 text-center">
-                    <p className="nova-mono text-[11px] font-medium uppercase tracking-wider text-[#788094]">{item}</p>
+                  <div key={item} className="border-r border-[#DAD6CB] p-5 last:border-r-0 text-center">
+                    <p className="nova-mono text-[11px] font-medium uppercase tracking-wider text-[#73776E]">{item}</p>
                   </div>
                 ))}
               </div>
@@ -181,18 +180,18 @@ const AboutUsPage = () => {
         <section id="our-mission" className="px-4 py-20 sm:py-32 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
-              <motion.p variants={itemVariants} className="nova-mono mb-4 sm:mb-6 text-[10px] sm:text-[12px] font-medium uppercase tracking-[0.18em] text-[#D97757]">
+              <motion.p variants={itemVariants} className="nova-mono mb-4 sm:mb-6 text-[10px] sm:text-[12px] font-medium uppercase tracking-[0.18em] text-[#B8593B]">
                 One Mission
               </motion.p>
-              <motion.h2 variants={itemVariants} className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-[#111317]">
+              <motion.h2 variants={itemVariants} className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-[#272C27]">
                 Train the human abilities AI has not replaced.
               </motion.h2>
-              <motion.p variants={itemVariants} className="mx-auto mt-4 sm:mt-8 max-w-2xl text-xs sm:text-base md:text-lg lg:text-xl leading-relaxed text-[#4A4F5E]">
+              <motion.p variants={itemVariants} className="mx-auto mt-4 sm:mt-8 max-w-2xl text-xs sm:text-base md:text-lg lg:text-xl leading-relaxed text-[#62675E]">
                 Our mission is to help humans stay valuable longer in a world where AI keeps making knowledge cheaper.
               </motion.p>
               <motion.div variants={itemVariants} className="mt-8 sm:mt-12">
-                <Button asChild className="h-11 sm:h-12 rounded-lg bg-[#111317] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
-                  <a href="https://research.enemitesarena.tech" target="_blank" rel="noreferrer">
+                <Button asChild className="h-11 sm:h-12 rounded-lg bg-[#272C27] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
+                  <a href="https://research.enemites.com" target="_blank" rel="noreferrer">
                     Read our research
                   </a>
                 </Button>
@@ -202,18 +201,18 @@ const AboutUsPage = () => {
         </section>
 
         {/* STUDENT SQUAD */}
-        <section className="bg-white px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-y border-[#E2DCD0]">
+        <section className="bg-white px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-y border-[#DAD6CB]">
           <div className="mx-auto max-w-6xl">
             <motion.div className="mb-10 sm:mb-16 max-w-2xl" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
-              <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#788094]">Student squad</p>
-              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-[#111317]">
+              <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#73776E]">Student squad</p>
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-[#272C27]">
                 The people shaping the first arena.
               </h2>
             </motion.div>
 
-            <motion.div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
+            <motion.div className="company-team-grid grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8" initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
               {studentSquad.map((member) => (
-                <motion.article key={member.name} variants={itemVariants} className="flex flex-col rounded-[20px] sm:rounded-[24px] border border-[#E2DCD0] bg-[#F7F5F0] overflow-hidden group shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+                <motion.article key={member.name} variants={itemVariants} className="flex flex-col rounded-[20px] sm:rounded-[24px] border border-[#DAD6CB] bg-[#F5F2EB] overflow-hidden group shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
                   <div className="aspect-[4/3] overflow-hidden bg-white">
                     <img
                       src={member.photo}
@@ -223,11 +222,11 @@ const AboutUsPage = () => {
                     />
                   </div>
                   <div className="flex flex-1 flex-col p-6 sm:p-10">
-                    <h3 className="nova-display text-xl sm:text-2xl md:text-3xl font-medium text-[#111317]">{member.name}</h3>
-                    <p className="mt-2.5 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-[#4A4F5E] italic">"{member.tagline}"</p>
+                    <h3 className="nova-display text-xl sm:text-2xl md:text-3xl font-medium text-[#272C27]">{member.name}</h3>
+                    <p className="mt-2.5 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-[#62675E] italic">"{member.tagline}"</p>
                     <div className="mt-auto pt-6 sm:pt-8">
-                      <p className="nova-mono text-[9px] sm:text-[11px] uppercase tracking-wider text-[#D97757] mb-1.5 sm:mb-2">Focus Area</p>
-                      <p className="text-xs sm:text-sm leading-relaxed text-[#788094]">
+                      <p className="nova-mono text-[9px] sm:text-[11px] uppercase tracking-wider text-[#B8593B] mb-1.5 sm:mb-2">Focus Area</p>
+                      <p className="text-xs sm:text-sm leading-relaxed text-[#73776E]">
                         {member.focus}
                       </p>
                     </div>
@@ -239,17 +238,16 @@ const AboutUsPage = () => {
         </section>
 
         {/* TIMELINE */}
-        <section className="bg-[#F7F5F0] px-4 py-20 sm:py-32 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl">
-            <motion.div className="mb-12 sm:mb-20" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
-              <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#D97757]">Season 0</p>
-              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-[#111317]">
+        <section className="company-history bg-[#F5F2EB] px-4 py-20 sm:py-32 sm:px-6 lg:px-8">
+          <div className="company-history-layout mx-auto max-w-6xl">
+            <motion.div className="company-history-heading mb-12 sm:mb-20" initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
+              <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#B8593B]">Season 0</p>
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-[#272C27]">
                 How a study problem became a product mission.
               </h2>
             </motion.div>
 
-            <div className="relative">
-              <div className="absolute left-[15px] top-0 bottom-0 w-px bg-gradient-to-b from-[#D97757] via-[#E2DCD0] to-transparent md:left-[180px]" />
+            <HistoryTimeline>
               
               <div className="space-y-8 sm:space-y-12">
                 {questTimeline.map((quest) => (
@@ -258,55 +256,55 @@ const AboutUsPage = () => {
                     initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={itemVariants}
                     className="relative grid grid-cols-1 gap-3 sm:gap-6 pl-10 sm:pl-12 md:grid-cols-[160px_1fr] md:pl-0"
                   >
-                    <div className="absolute left-[11px] top-1.5 h-[9px] w-[9px] rounded-full bg-white ring-2 ring-[#D97757] md:left-[176px]" />
+                    <div className="absolute left-[11px] top-1.5 h-[9px] w-[9px] rounded-full bg-white ring-2 ring-[#B8593B] md:left-[176px]" />
                     
                     <div className="md:text-right md:pr-12">
-                      <p className="nova-mono text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-[#788094]">{quest.label}</p>
-                      <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm font-medium text-[#111317]">{quest.period}</p>
+                      <p className="nova-mono text-[10px] sm:text-[11px] font-medium uppercase tracking-wider text-[#73776E]">{quest.label}</p>
+                      <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm font-medium text-[#272C27]">{quest.period}</p>
                     </div>
                     
                     <div className="md:pl-12">
-                      <h3 className="nova-display text-lg sm:text-2xl font-medium text-[#111317]">{quest.title}</h3>
-                      <p className="mt-2 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-[#4A4F5E]">
+                      <h3 className="nova-display text-lg sm:text-2xl font-medium text-[#272C27]">{quest.title}</h3>
+                      <p className="mt-2 sm:mt-4 text-xs sm:text-sm md:text-base leading-relaxed text-[#62675E]">
                         {quest.description}
                       </p>
                     </div>
                   </motion.article>
                 ))}
               </div>
-            </div>
+            </HistoryTimeline>
           </div>
         </section>
 
         {/* OPERATING PRINCIPLES */}
-        <section className="bg-white px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-t border-[#E2DCD0]">
+        <section className="bg-white px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-t border-[#DAD6CB]">
           <div className="mx-auto max-w-6xl">
             <motion.div className="mb-12 sm:mb-20 max-w-2xl" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
-              <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#D97757]">Operating principles</p>
-              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-[#111317]">
+              <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#B8593B]">Operating principles</p>
+              <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-[#272C27]">
                 The rules behind the experience.
               </h2>
             </motion.div>
 
-            <motion.div className="flex flex-col border-b border-[#E2DCD0]" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
+            <motion.div className="flex flex-col border-b border-[#DAD6CB]" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
               {values.map((value, index) => (
                 <motion.article 
                   key={value.title} 
                   variants={itemVariants} 
-                  className="group flex flex-col md:flex-row md:items-start gap-2 sm:gap-4 md:gap-12 border-t border-[#E2DCD0] py-6 sm:py-10 md:py-14"
+                  className="group flex flex-col md:flex-row md:items-start gap-2 sm:gap-4 md:gap-12 border-t border-[#DAD6CB] py-6 sm:py-10 md:py-14"
                 >
                   <div className="md:w-[12%] shrink-0">
-                    <p className="nova-mono text-xl sm:text-3xl font-medium text-[#E2DCD0] transition-colors duration-500 group-hover:text-[#D97757]">
+                    <p className="nova-mono text-xl sm:text-3xl font-medium text-[#DAD6CB] transition-colors duration-500 group-hover:text-[#B8593B]">
                       0{index + 1}
                     </p>
                   </div>
                   <div className="md:w-[43%] shrink-0">
-                    <h3 className="nova-display text-lg sm:text-2xl md:text-4xl font-medium leading-[1.15] text-[#111317] transition-transform duration-500 group-hover:translate-x-2">
+                    <h3 className="nova-display text-lg sm:text-2xl md:text-4xl font-medium leading-[1.15] text-[#272C27] transition-transform duration-500 group-hover:translate-x-2">
                       {value.title}
                     </h3>
                   </div>
                   <div className="md:w-[45%]">
-                    <p className="text-xs sm:text-sm md:text-base lg:text-[19px] leading-relaxed text-[#4A4F5E] transition-colors duration-500 group-hover:text-[#111317] mt-1">
+                    <p className="text-xs sm:text-sm md:text-base lg:text-[19px] leading-relaxed text-[#62675E] transition-colors duration-500 group-hover:text-[#272C27] mt-1">
                       {value.description}
                     </p>
                   </div>
@@ -317,23 +315,23 @@ const AboutUsPage = () => {
         </section>
 
         {/* STILL BUILDING */}
-        <section className="bg-[#F7F5F0] px-4 py-20 sm:py-32 sm:px-6 lg:px-8">
+        <section className="bg-[#F5F2EB] px-4 py-20 sm:py-32 sm:px-6 lg:px-8">
           <motion.div 
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants}
-            className="mx-auto max-w-5xl rounded-[24px] sm:rounded-[32px] border border-[#E2DCD0] bg-white p-6 sm:p-16 text-[#4A4F5E] relative overflow-hidden shadow-[0_24px_40px_rgba(0,0,0,0.03)]"
+            className="mx-auto max-w-5xl rounded-[24px] sm:rounded-[32px] border border-[#DAD6CB] bg-white p-6 sm:p-16 text-[#62675E] relative overflow-hidden shadow-[0_24px_40px_rgba(0,0,0,0.03)]"
           >
-            <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#D97757] rounded-full mix-blend-multiply filter blur-[120px] opacity-10 pointer-events-none" />
+            <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#B8593B] rounded-full mix-blend-multiply filter blur-[120px] opacity-10 pointer-events-none" />
             
             <div className="relative z-10">
-              <p className="nova-mono mb-3 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#D97757]">Still building</p>
-              <h2 className="nova-display max-w-3xl text-xl sm:text-3xl md:text-5xl font-medium leading-[1.15] text-[#111317]">
+              <p className="nova-mono mb-3 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#B8593B]">Still building</p>
+              <h2 className="nova-display max-w-3xl text-xl sm:text-3xl md:text-5xl font-medium leading-[1.15] text-[#272C27]">
                 Enemites is not a finished monument. It is an arena being tested with real students.
               </h2>
-              <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-[#E2DCD0] pt-6 sm:pt-10">
-                <p className="max-w-xl text-xs sm:text-sm md:text-base leading-relaxed text-[#4A4F5E]">
+              <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-[#DAD6CB] pt-6 sm:pt-10">
+                <p className="max-w-xl text-xs sm:text-sm md:text-base leading-relaxed text-[#62675E]">
                   If you care about capability, simulation, or better learning loops, this is the moment to help shape the early product.
                 </p>
-                <Button asChild className="h-11 sm:h-12 shrink-0 rounded-lg bg-[#111317] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform">
+                <Button asChild className="h-11 sm:h-12 shrink-0 rounded-lg bg-[#272C27] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform">
                   <a href="mailto:support@enemites.com">Write to us</a>
                 </Button>
               </div>
@@ -342,17 +340,17 @@ const AboutUsPage = () => {
         </section>
       </main>
 
-      <footer className="bg-white px-4 pb-12 pt-8 sm:pt-12 sm:px-6 lg:px-8 border-t border-[#E2DCD0]">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 text-xs sm:text-[13px] text-[#788094] sm:flex-row sm:items-center sm:justify-between">
+      <footer className="bg-white px-4 pb-12 pt-8 sm:pt-12 sm:px-6 lg:px-8 border-t border-[#DAD6CB]">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 text-xs sm:text-[13px] text-[#73776E] sm:flex-row sm:items-center sm:justify-between">
           <p>Copyright 2025 Enemites. All rights reserved.</p>
           <div className="flex flex-wrap gap-4 sm:gap-6">
-            <Link to="/arena/how-it-works" className="hover:text-[#111317] transition-colors">
+            <Link to="/arena/how-it-works" className="hover:text-[#272C27] transition-colors">
               How it works
             </Link>
-            <Link to="/arena/privacy-policy" className="hover:text-[#111317] transition-colors">
+            <Link to="/arena/privacy-policy" className="hover:text-[#272C27] transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/arena/terms-of-service" className="hover:text-[#111317] transition-colors">
+            <Link to="/arena/terms-of-service" className="hover:text-[#272C27] transition-colors">
               Terms of Service
             </Link>
           </div>

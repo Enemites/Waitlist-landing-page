@@ -203,20 +203,20 @@ export default function PublicFormPage() {
   // 1. Sleek Skeleton Loading
   if (loading) {
     return (
-      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-300 font-sans flex flex-col justify-between p-6 sm:p-12">
+      <div className="product-site product-questionnaire min-h-[100dvh] bg-[#0D1517] text-[#AFBAB6] font-sans flex flex-col justify-between p-6 sm:p-12">
         <div className="max-w-xl w-full mx-auto space-y-8 animate-pulse pt-8">
-          <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
-            <div className="h-5 w-24 bg-zinc-800 rounded" />
-            <div className="h-5 w-16 bg-zinc-800 rounded-full" />
+          <div className="flex items-center justify-between border-b border-[#253632] pb-4">
+            <div className="h-5 w-24 bg-[#182720] rounded" />
+            <div className="h-5 w-16 bg-[#182720] rounded-full" />
           </div>
           <div className="space-y-3">
-            <div className="h-8 w-3/4 bg-zinc-800 rounded" />
-            <div className="h-4 w-full bg-zinc-800/60 rounded" />
-            <div className="h-4 w-2/3 bg-zinc-800/40 rounded" />
+            <div className="h-8 w-3/4 bg-[#182720] rounded" />
+            <div className="h-4 w-full bg-[#182720]/60 rounded" />
+            <div className="h-4 w-2/3 bg-[#182720]/40 rounded" />
           </div>
           <div className="space-y-4 pt-4">
-            <div className="h-28 bg-zinc-900 border border-zinc-800 rounded-xl" />
-            <div className="h-28 bg-zinc-900 border border-zinc-800 rounded-xl" />
+            <div className="h-28 bg-[#111C1E] border border-[#253632] rounded-xl" />
+            <div className="h-28 bg-[#111C1E] border border-[#253632] rounded-xl" />
           </div>
         </div>
         <div className="text-center text-xs text-zinc-600 font-mono">Enemites · secure infrastructure</div>
@@ -227,24 +227,24 @@ export default function PublicFormPage() {
   // 2. Error / Not Found View (English)
   if (error || !form) {
     return (
-      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
-        <div className="max-w-md w-full border border-zinc-800 bg-zinc-900/50 rounded-2xl p-8 backdrop-blur-md">
-          <div className="flex items-center space-x-3 text-red-400 mb-4">
+      <div className="product-site product-questionnaire min-h-[100dvh] bg-[#0D1517] text-[#EDF1EF] flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-[#253632] bg-[#111C1E]/50 rounded-2xl p-8 backdrop-blur-md">
+          <div className="flex items-center space-x-3 text-[#A73328] mb-4">
             <AlertCircle className="w-5 h-5" />
-            <span className="font-mono text-xs uppercase tracking-wider text-red-400">404 · Not Found</span>
+            <span className="font-mono text-xs uppercase tracking-wider text-[#A73328]">404 · Not Found</span>
           </div>
-          <h1 className="text-xl font-semibold text-white mb-2">Form Not Found</h1>
-          <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+          <h1 className="text-xl font-semibold text-[#EDF1EF] mb-2">Form Not Found</h1>
+          <p className="text-sm text-[#AFBAB6] leading-relaxed mb-6">
             {error || "The questionnaire you are looking for does not exist, has expired, or is currently unavailable."}
           </p>
-          <div className="flex items-center justify-between pt-4 border-t border-zinc-800/80">
+          <div className="flex items-center justify-between pt-4 border-t border-[#253632]/80">
             <Link
               to="/"
-              className="inline-flex items-center space-x-2 text-xs font-mono text-zinc-300 hover:text-white transition"
+              className="inline-flex items-center space-x-2 text-xs font-mono text-[#AFBAB6] hover:text-[#EDF1EF] transition"
             >
               <span>← Back to Home</span>
             </Link>
-            <span className="text-xs font-medium text-zinc-500">Enemites</span>
+            <span className="text-xs font-medium text-[#9AA6A4]">Enemites</span>
           </div>
         </div>
       </div>
@@ -254,24 +254,24 @@ export default function PublicFormPage() {
   // 3. Expired State (English)
   if (form.is_expired) {
     return (
-      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
-        <div className="max-w-md w-full border border-zinc-800 bg-zinc-900/40 rounded-2xl p-8">
-          <div className="flex items-center space-x-2 text-amber-400 mb-4">
+      <div className="product-site product-questionnaire min-h-[100dvh] bg-[#0D1517] text-[#EDF1EF] flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-[#253632] bg-[#111C1E]/40 rounded-2xl p-8">
+          <div className="flex items-center space-x-2 text-[#C4ED6C] mb-4">
             <Clock className="w-4 h-4" />
             <span className="font-mono text-xs uppercase tracking-wider">Form Closed</span>
           </div>
-          <h1 className="text-xl font-semibold text-white mb-2">{form.title}</h1>
-          <p className="text-sm text-zinc-400 leading-relaxed mb-4">
+          <h1 className="text-xl font-semibold text-[#EDF1EF] mb-2">{form.title}</h1>
+          <p className="text-sm text-[#AFBAB6] leading-relaxed mb-4">
             This questionnaire is no longer accepting new submissions.
           </p>
           {form.expires_at && (
-            <div className="text-xs font-mono text-zinc-500 bg-zinc-900 border border-zinc-800 rounded-lg p-3 mb-6">
+            <div className="text-xs font-mono text-[#9AA6A4] bg-[#111C1E] border border-[#253632] rounded-lg p-3 mb-6">
               Closed at: {new Date(form.expires_at).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
             </div>
           )}
-          <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500 font-mono">
+          <div className="pt-4 border-t border-[#253632]/80 flex items-center justify-between text-xs text-[#9AA6A4] font-mono">
             <span>Thank you for your interest</span>
-            <span className="font-medium text-zinc-400">Enemites</span>
+            <span className="font-medium text-[#AFBAB6]">Enemites</span>
           </div>
         </div>
       </div>
@@ -281,41 +281,41 @@ export default function PublicFormPage() {
   // 4. Success State (Clean English Completion Receipt)
   if (submitted) {
     return (
-      <div className="min-h-[100dvh] bg-[#07080a] text-zinc-100 flex items-center justify-center p-6">
-        <div className="max-w-md w-full border border-zinc-800 bg-zinc-900/60 rounded-2xl p-8 backdrop-blur-md">
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6">
+      <div className="product-site product-questionnaire min-h-[100dvh] bg-[#0D1517] text-[#EDF1EF] flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-[#253632] bg-[#111C1E]/60 rounded-2xl p-8 backdrop-blur-md">
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-[#C4ED6C] mb-6">
             <Check className="w-5 h-5" />
           </div>
           <div className="space-y-1 mb-6">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400">Response Recorded</span>
-            <h1 className="text-2xl font-semibold text-white tracking-tight">Thank You</h1>
-            <p className="text-sm text-zinc-400 leading-relaxed pt-1">
-              Your submission for <strong className="text-zinc-200 font-medium">"{form.title}"</strong> has been securely received.
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[#C4ED6C]">Response Recorded</span>
+            <h1 className="text-2xl font-semibold text-[#EDF1EF] tracking-tight">Thank You</h1>
+            <p className="text-sm text-[#AFBAB6] leading-relaxed pt-1">
+              Your submission for <strong className="text-[#EDF1EF] font-medium">"{form.title}"</strong> has been securely received.
             </p>
           </div>
 
-          <div className="bg-zinc-950/70 border border-zinc-800/80 rounded-xl p-4 space-y-2 mb-6 font-mono text-xs text-zinc-400">
+          <div className="bg-[#101B1C]/70 border border-[#253632]/80 rounded-xl p-4 space-y-2 mb-6 font-mono text-xs text-[#AFBAB6]">
             <div className="flex justify-between">
-              <span className="text-zinc-500">Form Slug:</span>
-              <span className="text-zinc-300 font-medium">{form.slug}</span>
+              <span className="text-[#9AA6A4]">Form Slug:</span>
+              <span className="text-[#AFBAB6] font-medium">{form.slug}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-zinc-500">Timestamp:</span>
-              <span className="text-zinc-300">{new Date().toLocaleTimeString("en-US")}</span>
+              <span className="text-[#9AA6A4]">Timestamp:</span>
+              <span className="text-[#AFBAB6]">{new Date().toLocaleTimeString("en-US")}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-zinc-500">Security:</span>
-              <span className="text-emerald-400/90 flex items-center gap-1">
+              <span className="text-[#9AA6A4]">Security:</span>
+              <span className="text-[#C4ED6C]/90 flex items-center gap-1">
                 <Shield className="w-3 h-3 inline" /> Encrypted & Geo-Logged
               </span>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-500">
-            <span className="font-medium text-zinc-400">Enemites platform</span>
+          <div className="pt-4 border-t border-[#253632]/80 flex items-center justify-between text-xs text-[#9AA6A4]">
+            <span className="font-medium text-[#AFBAB6]">Enemites platform</span>
             <button
               onClick={() => window.location.reload()}
-              className="text-zinc-400 hover:text-white transition font-mono underline"
+              className="text-[#AFBAB6] hover:text-[#EDF1EF] transition font-mono underline"
             >
               Submit another response
             </button>
@@ -327,34 +327,34 @@ export default function PublicFormPage() {
 
   // 5. Active Questionnaire Screen
   return (
-    <div className="min-h-[100dvh] bg-[#07080a] text-zinc-200 selection:bg-zinc-800 selection:text-white font-sans antialiased flex flex-col justify-between">
+    <div className="product-site product-questionnaire min-h-[100dvh] bg-[#0D1517] text-[#EDF1EF] selection:bg-[#182720] selection:text-[#EDF1EF] font-sans antialiased flex flex-col justify-between">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-30 bg-[#07080a]/90 backdrop-blur-md border-b border-zinc-800/80">
+      <header className="sticky top-0 z-30 bg-[#0D1517]/90 backdrop-blur-md border-b border-[#253632]/80">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center space-x-2.5">
-            <div className="w-6 h-6 rounded-md bg-white text-black font-sans font-bold text-xs flex items-center justify-center tracking-tighter">
+            <div className="w-6 h-6 rounded-md bg-[#C4ED6C] text-[#101B1C] font-sans font-bold text-xs flex items-center justify-center tracking-tighter">
               E
             </div>
-            <span className="text-sm font-semibold tracking-tight text-white">Enemites</span>
+            <span className="text-sm font-semibold tracking-tight text-[#EDF1EF]">Enemites</span>
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-xs font-mono text-zinc-400">
+            <div className="flex items-center space-x-2 text-xs font-mono text-[#AFBAB6]">
               <span>{answeredCount} of {form.questions.length} answered</span>
-              <div className="w-16 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+              <div className="w-16 h-1.5 bg-[#182720] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-zinc-200 transition-all duration-300 ease-out"
+                  className="h-full bg-[#C4ED6C] transition-all duration-300 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
             </div>
 
             {form.is_endless ? (
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-zinc-700/60 bg-zinc-900 text-zinc-300">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-[#2D4035]/60 bg-[#111C1E] text-[#AFBAB6]">
                 Active
               </span>
             ) : form.expires_at ? (
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-zinc-700/60 bg-zinc-900 text-zinc-400 flex items-center gap-1">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-[#2D4035]/60 bg-[#111C1E] text-[#AFBAB6] flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 {new Date(form.expires_at).toLocaleDateString("en-US")}
               </span>
@@ -366,17 +366,17 @@ export default function PublicFormPage() {
       {/* Main Container */}
       <main className="max-w-2xl w-full mx-auto px-4 sm:px-6 py-10 sm:py-14 flex-1">
         {/* Form Title & Introduction Header */}
-        <div className="mb-8 sm:mb-10 space-y-2 sm:space-y-3 pb-6 sm:pb-8 border-b border-zinc-800/80">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-white">{form.title}</h1>
+        <div className="mb-8 sm:mb-10 space-y-2 sm:space-y-3 pb-6 sm:pb-8 border-b border-[#253632]/80">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-[#EDF1EF]">{form.title}</h1>
           {form.description && (
-            <p className="text-xs sm:text-sm md:text-base text-zinc-400 leading-relaxed whitespace-pre-line font-normal">
+            <p className="text-xs sm:text-sm md:text-base text-[#AFBAB6] leading-relaxed whitespace-pre-line font-normal">
               {form.description}
             </p>
           )}
-          <div className="flex items-center gap-2 pt-1.5 sm:pt-2 text-[11px] sm:text-xs font-mono text-zinc-500">
+          <div className="flex items-center gap-2 pt-1.5 sm:pt-2 text-[11px] sm:text-xs font-mono text-[#9AA6A4]">
             <span>{form.questions.length} Questions</span>
             <span>•</span>
-            <span className="flex items-center gap-1 text-zinc-400">
+            <span className="flex items-center gap-1 text-[#AFBAB6]">
               <Shield className="w-3 sm:w-3.5 h-3 sm:h-3.5 inline" /> Confidential & Encrypted
             </span>
           </div>
@@ -401,20 +401,20 @@ export default function PublicFormPage() {
                   hasError
                     ? "border-red-500/50 bg-red-950/10"
                     : isAnswered
-                    ? "border-zinc-800 bg-zinc-900/30"
-                    : "border-zinc-800/80 bg-zinc-900/20"
+                    ? "border-[#253632] bg-[#111C1E]/30"
+                    : "border-[#253632]/80 bg-[#111C1E]/20"
                 }`}
               >
                 {/* Header of Question */}
                 <div className="flex items-start justify-between gap-3 mb-2">
-                  <label className="text-sm sm:text-base font-medium text-zinc-100 flex items-start gap-2 sm:gap-2.5">
-                    <span className="font-mono text-[11px] sm:text-xs text-zinc-500 mt-0.5 sm:mt-1 select-none">
+                  <label className="text-sm sm:text-base font-medium text-[#EDF1EF] flex items-start gap-2 sm:gap-2.5">
+                    <span className="font-mono text-[11px] sm:text-xs text-[#9AA6A4] mt-0.5 sm:mt-1 select-none">
                       {String(idx + 1).padStart(2, "0")}.
                     </span>
                     <span>
                       {q.label}
                       {q.required && (
-                        <span className="text-zinc-500 text-[10px] sm:text-xs font-mono ml-1.5 sm:ml-2 select-none" title="Required">
+                        <span className="text-[#9AA6A4] text-[10px] sm:text-xs font-mono ml-1.5 sm:ml-2 select-none" title="Required">
                           *required
                         </span>
                       )}
@@ -423,8 +423,8 @@ export default function PublicFormPage() {
                 </div>
 
                 {q.helperText && (
-                  <p className="text-[11px] sm:text-xs text-zinc-400 pl-5 sm:pl-7 mb-3 sm:mb-4 flex items-center gap-1.5 font-sans">
-                    <HelpCircle className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-zinc-500 shrink-0" />
+                  <p className="text-[11px] sm:text-xs text-[#AFBAB6] pl-5 sm:pl-7 mb-3 sm:mb-4 flex items-center gap-1.5 font-sans">
+                    <HelpCircle className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-[#9AA6A4] shrink-0" />
                     <span>{q.helperText}</span>
                   </p>
                 )}
@@ -438,7 +438,7 @@ export default function PublicFormPage() {
                       placeholder={q.placeholder || "Type your response..."}
                       value={responses[q.id] || ""}
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition"
+                      className="w-full bg-[#101B1C] border border-[#253632] rounded-lg px-3.5 py-2.5 text-sm text-[#EDF1EF] placeholder-[#71877B] focus:outline-none focus:border-[#C4ED6C] focus:ring-1 focus:ring-zinc-500 transition"
                     />
                   )}
 
@@ -449,7 +449,7 @@ export default function PublicFormPage() {
                       placeholder={q.placeholder || "Write your detailed feedback here..."}
                       value={responses[q.id] || ""}
                       onChange={(e) => handleInputChange(q.id, e.target.value)}
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition resize-y font-sans leading-relaxed"
+                      className="w-full bg-[#101B1C] border border-[#253632] rounded-lg p-3.5 text-sm text-[#EDF1EF] placeholder-[#71877B] focus:outline-none focus:border-[#C4ED6C] focus:ring-1 focus:ring-zinc-500 transition resize-y font-sans leading-relaxed"
                     />
                   )}
 
@@ -465,21 +465,21 @@ export default function PublicFormPage() {
                             onClick={() => handleInputChange(q.id, opt)}
                             className={`w-full text-left flex items-center justify-between px-4 py-3 rounded-lg border text-sm transition active:scale-[0.99] ${
                               isSelected
-                                ? "bg-zinc-800/80 border-zinc-500 text-white font-medium shadow-sm"
-                                : "bg-zinc-950 border-zinc-800 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-900/60"
+                                ? "bg-[#182720]/80 border-[#C4ED6C] text-[#EDF1EF] font-medium shadow-sm"
+                                : "bg-[#101B1C] border-[#253632] text-[#AFBAB6] hover:border-[#2D4035] hover:bg-[#111C1E]/60"
                             }`}
                           >
                             <span className="flex items-center gap-3">
                               <span
                                 className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                                  isSelected ? "border-white bg-white" : "border-zinc-600"
+                                  isSelected ? "border-white bg-[#C4ED6C]" : "border-zinc-600"
                                 }`}
                               >
-                                {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-black" />}
+                                {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#101B1C]" />}
                               </span>
                               <span>{opt}</span>
                             </span>
-                            {isSelected && <ChevronRight className="w-4 h-4 text-zinc-400" />}
+                            {isSelected && <ChevronRight className="w-4 h-4 text-[#AFBAB6]" />}
                           </button>
                         );
                       })}
@@ -499,14 +499,14 @@ export default function PublicFormPage() {
                             onClick={() => handleCheckboxToggle(q.id, opt)}
                             className={`w-full text-left flex items-center justify-between px-4 py-3 rounded-lg border text-sm transition active:scale-[0.99] ${
                               isChecked
-                                ? "bg-zinc-800/80 border-zinc-500 text-white font-medium shadow-sm"
-                                : "bg-zinc-950 border-zinc-800 text-zinc-300 hover:border-zinc-700 hover:bg-zinc-900/60"
+                                ? "bg-[#182720]/80 border-[#C4ED6C] text-[#EDF1EF] font-medium shadow-sm"
+                                : "bg-[#101B1C] border-[#253632] text-[#AFBAB6] hover:border-[#2D4035] hover:bg-[#111C1E]/60"
                             }`}
                           >
                             <span className="flex items-center gap-3">
                               <span
                                 className={`w-4 h-4 rounded border flex items-center justify-center ${
-                                  isChecked ? "border-white bg-white text-black" : "border-zinc-600"
+                                  isChecked ? "border-white bg-[#C4ED6C] text-[#101B1C]" : "border-zinc-600"
                                 }`}
                               >
                                 {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -532,8 +532,8 @@ export default function PublicFormPage() {
                               onClick={() => handleInputChange(q.id, val)}
                               className={`py-3 rounded-lg border font-mono text-sm font-medium transition active:scale-[0.97] ${
                                 isSelected
-                                  ? "bg-white text-black border-white font-bold shadow-md"
-                                  : "bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-white hover:bg-zinc-900"
+                                  ? "bg-[#C4ED6C] text-[#101B1C] border-white font-bold shadow-md"
+                                  : "bg-[#101B1C] border-[#253632] text-[#AFBAB6] hover:border-[#2D4035] hover:text-[#EDF1EF] hover:bg-[#111C1E]"
                               }`}
                             >
                               {val}
@@ -543,7 +543,7 @@ export default function PublicFormPage() {
                       </div>
 
                       {q.max && q.max > 5 && (
-                        <div className="flex justify-between text-[11px] font-mono text-zinc-500 px-1 pt-1">
+                        <div className="flex justify-between text-[11px] font-mono text-[#9AA6A4] px-1 pt-1">
                           <span>1: Extremely Unlikely</span>
                           <span>10: Extremely Likely</span>
                         </div>
@@ -557,18 +557,18 @@ export default function PublicFormPage() {
                       <select
                         value={responses[q.id] || ""}
                         onChange={(e) => handleInputChange(q.id, e.target.value)}
-                        className="w-full appearance-none bg-zinc-950 border border-zinc-800 rounded-lg pl-3.5 pr-10 py-3 text-sm text-zinc-100 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition cursor-pointer"
+                        className="w-full appearance-none bg-[#101B1C] border border-[#253632] rounded-lg pl-3.5 pr-10 py-3 text-sm text-[#EDF1EF] focus:outline-none focus:border-[#C4ED6C] focus:ring-1 focus:ring-zinc-500 transition cursor-pointer"
                       >
-                        <option value="" disabled className="bg-zinc-900 text-zinc-500">
+                        <option value="" disabled className="bg-[#111C1E] text-[#9AA6A4]">
                           {q.placeholder || "-- Select an option --"}
                         </option>
                         {(q.options || []).map((opt, optIdx) => (
-                          <option key={optIdx} value={opt} className="bg-zinc-900 text-zinc-200 py-1">
+                          <option key={optIdx} value={opt} className="bg-[#111C1E] text-[#EDF1EF] py-1">
                             {opt}
                           </option>
                         ))}
                       </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-zinc-400">
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#AFBAB6]">
                         <ChevronDown className="w-4 h-4" />
                       </div>
                     </div>
@@ -576,7 +576,7 @@ export default function PublicFormPage() {
 
                   {/* Error Indicator */}
                   {hasError && (
-                    <p className="mt-2 text-xs font-mono text-red-400 flex items-center gap-1.5">
+                    <p className="mt-2 text-xs font-mono text-[#A73328] flex items-center gap-1.5">
                       <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                       <span>{errorMsg}</span>
                     </p>
@@ -587,11 +587,11 @@ export default function PublicFormPage() {
           })}
 
           {/* Submit Action */}
-          <div className="pt-6 border-t border-zinc-800/80 space-y-4">
+          <div className="pt-6 border-t border-[#253632]/80 space-y-4">
             <button
               type="submit"
               disabled={submitting}
-              className="w-full sm:w-auto min-w-[200px] inline-flex items-center justify-center px-6 py-3 rounded-lg bg-white text-black hover:bg-zinc-200 active:scale-[0.98] font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+              className="w-full sm:w-auto min-w-[200px] inline-flex items-center justify-center px-6 py-3 rounded-lg bg-[#C4ED6C] text-[#101B1C] hover:bg-[#182720] active:scale-[0.98] font-medium text-sm transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               {submitting ? (
                 <span className="font-mono text-xs">Submitting response...</span>
@@ -603,18 +603,18 @@ export default function PublicFormPage() {
               )}
             </button>
 
-            <div className="flex items-center justify-between text-xs font-mono text-zinc-500 pt-2">
+            <div className="flex items-center justify-between text-xs font-mono text-[#9AA6A4] pt-2">
               <span className="flex items-center gap-1.5">
                 <CornerDownLeft className="w-3.5 h-3.5" /> Click button to complete
               </span>
-              <span className="text-zinc-500">Enemites dynamic engine</span>
+              <span className="text-[#9AA6A4]">Enemites dynamic engine</span>
             </div>
           </div>
         </form>
       </main>
 
       {/* Subtle Footer */}
-      <footer className="border-t border-zinc-900 py-6 text-center text-xs font-mono text-zinc-500">
+      <footer className="border-t border-[#253632] py-6 text-center text-xs font-mono text-[#9AA6A4]">
         enemites.com · private questionnaire infrastructure
       </footer>
     </div>

@@ -175,7 +175,7 @@ export default function WaitlistForm({
   };
 
   return (
-    <div className={`w-full max-w-2xl mx-auto ${className}`}>
+    <div className={`waitlist-form w-full max-w-2xl mx-auto ${className}`}>
       <AnimatePresence mode="wait">
         {isSuccess ? (
           <motion.div
@@ -184,49 +184,49 @@ export default function WaitlistForm({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="border border-[#222222] bg-[#0A0B0E] p-6 sm:p-12 text-left"
+            className="border border-[#253632] bg-[#101B1C] p-6 sm:p-12 text-left"
           >
             {/* Header / Monospace Status */}
-            <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-[#1A1C23]">
+            <div className="flex items-center justify-between pb-4 sm:pb-6 border-b border-[#253632]">
               <div className="flex items-center gap-2 sm:gap-2.5">
-                <span className="h-2 w-2 rounded-full bg-[#10B981]" />
-                <span className="nova-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#10B981] font-medium">
+                <span className="h-2 w-2 rounded-full bg-[#C4ED6C]" />
+                <span className="nova-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#C4ED6C] font-medium">
                   Entry Confirmed
                 </span>
               </div>
-              <span className="nova-mono text-[10px] sm:text-[11px] tracking-wider text-[#686E7D]">
+              <span className="nova-mono text-[10px] sm:text-[11px] tracking-wider text-[#9AA6A4]">
                 TIME {submittedData.timestamp || "REC"}
               </span>
             </div>
 
             {/* Main Headline */}
             <div className="pt-6 sm:pt-8 pb-4 sm:pb-6">
-              <h3 className="nova-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-white">
+              <h3 className="nova-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-[#EDF1EF]">
                 You are on the list, {submittedData.name}.
               </h3>
-              <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#9DA3B4] max-w-lg">
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#9AA6A4] max-w-lg">
                 Your entry has been recorded for the upcoming Enemites Arena simulation batch. We will deliver your private access key directly to your email and WhatsApp when onboarding begins.
               </p>
             </div>
 
             {/* Spec / Data Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#1F222C] border border-[#1F222C] my-4 sm:my-6">
-              <div className="bg-[#0D0E12] p-3 sm:p-4">
-                <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#686E7D]">Registry Status</p>
-                <p className="nova-mono text-xs sm:text-sm text-[#E8E4D9] mt-1 font-medium">Active · Priority Queue</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#253632] border border-[#253632] my-4 sm:my-6">
+              <div className="bg-[#0D1517] p-3 sm:p-4">
+                <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#9AA6A4]">Registry Status</p>
+                <p className="nova-mono text-xs sm:text-sm text-[#EDF1EF] mt-1 font-medium">Active · Priority Queue</p>
               </div>
-              <div className="bg-[#0D0E12] p-3 sm:p-4">
-                <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#686E7D]">Dispatch Channel</p>
-                <p className="nova-mono text-xs sm:text-sm text-[#E8E4D9] mt-1 truncate">{submittedData.email}</p>
+              <div className="bg-[#0D1517] p-3 sm:p-4">
+                <p className="nova-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[#9AA6A4]">Dispatch Channel</p>
+                <p className="nova-mono text-xs sm:text-sm text-[#EDF1EF] mt-1 truncate">{submittedData.email}</p>
               </div>
             </div>
 
             {/* Action */}
-            <div className="pt-4 flex items-center justify-between border-t border-[#1A1C23]">
+            <div className="pt-4 flex items-center justify-between border-t border-[#253632]">
               <button
                 type="button"
                 onClick={resetForm}
-                className="nova-mono text-[11px] sm:text-xs text-[#9DA3B4] hover:text-white transition-colors flex items-center gap-2 group"
+                className="nova-mono text-[11px] sm:text-xs text-[#9AA6A4] hover:text-[#EDF1EF] transition-colors flex items-center gap-2 group"
               >
                 <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
                 <span>Submit another response</span>
@@ -241,19 +241,19 @@ export default function WaitlistForm({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="border border-[#222222] bg-[#07080A] p-5 sm:p-12 text-left space-y-6 sm:space-y-8"
+            className="border border-[#253632] bg-[#101B1C] p-5 sm:p-12 text-left space-y-6 sm:space-y-8"
           >
             {/* Form Title & Context */}
-            <div className="pb-4 sm:pb-6 border-b border-[#1A1C23] flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+            <div className="pb-4 sm:pb-6 border-b border-[#253632] flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
               <div>
-                <h3 className="nova-display text-lg sm:text-2xl font-medium tracking-tight text-white">
+                <h3 className="nova-display text-lg sm:text-2xl font-medium tracking-tight text-[#EDF1EF]">
                   Your information
                 </h3>
-                <p className="mt-1 text-xs sm:text-sm text-[#888E9E]">
+                <p className="mt-1 text-xs sm:text-sm text-[#9AA6A4]">
                   Complete this form to reserve your position in the next cohort.
                 </p>
               </div>
-              <span className="nova-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#D97757]">
+              <span className="nova-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#C4ED6C]">
                 Required Fields *
               </span>
             </div>
@@ -282,9 +282,9 @@ export default function WaitlistForm({
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor={nameId}
-                    className="nova-mono text-[11px] sm:text-xs font-medium text-[#C2BDB0] tracking-wide"
+                    className="nova-mono text-[11px] sm:text-xs font-medium text-[#AFBAB6] tracking-wide"
                   >
-                    NAME <span className="text-[#D97757]">*</span>
+                    NAME <span className="text-[#C4ED6C]">*</span>
                   </label>
                   {errors.name && (
                     <span className="nova-mono text-[10px] sm:text-[11px] text-red-400">{errors.name}</span>
@@ -300,13 +300,13 @@ export default function WaitlistForm({
                       setFormData({ ...formData, name: e.target.value });
                       if (errors.name || errors.general) setErrors({ ...errors, name: undefined, general: undefined });
                     }}
-                    className={`w-full rounded-none border bg-[#0F1117] px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-xs sm:text-sm text-white placeholder-[#5A6070] transition-colors outline-none focus:ring-0 ${
+                    className={`w-full rounded-none border bg-[#0D1517] px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-xs sm:text-sm text-[#EDF1EF] placeholder-[#71877B] transition-colors outline-none focus:ring-0 ${
                       errors.name
                         ? "border-red-500"
-                        : "border-[#222634] focus:border-[#D97757]"
+                        : "border-[#2D4035] focus:border-[#C4ED6C]"
                     }`}
                   />
-                  <span className="pointer-events-none absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 nova-mono text-[10px] sm:text-[11px] text-[#4A5060]">
+                  <span className="pointer-events-none absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 nova-mono text-[10px] sm:text-[11px] text-[#9AA6A4]">
                     Aa
                   </span>
                 </div>
@@ -317,9 +317,9 @@ export default function WaitlistForm({
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor={numberId}
-                    className="nova-mono text-[11px] sm:text-xs font-medium text-[#C2BDB0] tracking-wide"
+                    className="nova-mono text-[11px] sm:text-xs font-medium text-[#AFBAB6] tracking-wide"
                   >
-                    NUMBER (PHONE / WHATSAPP) <span className="text-[#D97757]">*</span>
+                    NUMBER (PHONE / WHATSAPP) <span className="text-[#C4ED6C]">*</span>
                   </label>
                   {errors.number && (
                     <span className="nova-mono text-[10px] sm:text-[11px] text-red-400">{errors.number}</span>
@@ -335,13 +335,13 @@ export default function WaitlistForm({
                       setFormData({ ...formData, number: e.target.value });
                       if (errors.number || errors.general) setErrors({ ...errors, number: undefined, general: undefined });
                     }}
-                    className={`w-full rounded-none border bg-[#0F1117] px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-xs sm:text-sm text-white placeholder-[#5A6070] transition-colors outline-none focus:ring-0 ${
+                    className={`w-full rounded-none border bg-[#0D1517] px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-xs sm:text-sm text-[#EDF1EF] placeholder-[#71877B] transition-colors outline-none focus:ring-0 ${
                       errors.number
                         ? "border-red-500"
-                        : "border-[#222634] focus:border-[#D97757]"
+                        : "border-[#2D4035] focus:border-[#C4ED6C]"
                     }`}
                   />
-                  <span className="pointer-events-none absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 nova-mono text-[10px] sm:text-[11px] text-[#4A5060]">
+                  <span className="pointer-events-none absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 nova-mono text-[10px] sm:text-[11px] text-[#9AA6A4]">
                     Aa
                   </span>
                 </div>
@@ -352,9 +352,9 @@ export default function WaitlistForm({
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor={emailId}
-                    className="nova-mono text-[11px] sm:text-xs font-medium text-[#C2BDB0] tracking-wide"
+                    className="nova-mono text-[11px] sm:text-xs font-medium text-[#AFBAB6] tracking-wide"
                   >
-                    EMAIL <span className="text-[#D97757]">*</span>
+                    EMAIL <span className="text-[#C4ED6C]">*</span>
                   </label>
                   {errors.email && (
                     <span className="nova-mono text-[10px] sm:text-[11px] text-red-400">{errors.email}</span>
@@ -370,13 +370,13 @@ export default function WaitlistForm({
                       setFormData({ ...formData, email: e.target.value });
                       if (errors.email || errors.general) setErrors({ ...errors, email: undefined, general: undefined });
                     }}
-                    className={`w-full rounded-none border bg-[#0F1117] px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-xs sm:text-sm text-white placeholder-[#5A6070] transition-colors outline-none focus:ring-0 ${
+                    className={`w-full rounded-none border bg-[#0D1517] px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-xs sm:text-sm text-[#EDF1EF] placeholder-[#71877B] transition-colors outline-none focus:ring-0 ${
                       errors.email
                         ? "border-red-500"
-                        : "border-[#222634] focus:border-[#D97757]"
+                        : "border-[#2D4035] focus:border-[#C4ED6C]"
                     }`}
                   />
-                  <span className="pointer-events-none absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 nova-mono text-[11px] sm:text-xs text-[#4A5060]">
+                  <span className="pointer-events-none absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 nova-mono text-[11px] sm:text-xs text-[#9AA6A4]">
                     @
                   </span>
                 </div>
@@ -385,8 +385,8 @@ export default function WaitlistForm({
               {/* Field: Age Cohort */}
               <div className="space-y-2 pt-1 sm:pt-2">
                 <div className="flex items-center justify-between">
-                  <span className="nova-mono text-[11px] sm:text-xs font-medium text-[#C2BDB0] tracking-wide">
-                    AGE COHORT <span className="text-[#D97757]">*</span>
+                  <span className="nova-mono text-[11px] sm:text-xs font-medium text-[#AFBAB6] tracking-wide">
+                    AGE COHORT <span className="text-[#C4ED6C]">*</span>
                   </span>
                   {errors.age_group && (
                     <span className="nova-mono text-[10px] sm:text-[11px] text-red-400">{errors.age_group}</span>
@@ -400,14 +400,15 @@ export default function WaitlistForm({
                       <button
                         key={opt.value}
                         type="button"
+                        aria-pressed={isSelected}
                         onClick={() => {
                           setFormData({ ...formData, age_group: opt.value });
                           if (errors.age_group) setErrors({ ...errors, age_group: undefined });
                         }}
                         className={`flex items-center justify-center py-2.5 sm:py-3 px-3 sm:px-4 border text-[11px] sm:text-xs font-mono transition-colors select-none ${
                           isSelected
-                            ? "border-[#D97757] bg-[#D97757] text-white font-semibold"
-                            : "border-[#222634] bg-[#0F1117] text-[#9DA3B4] hover:border-[#383E54] hover:text-white"
+                            ? "border-[#C4ED6C] bg-[#C4ED6C] text-[#EDF1EF] font-semibold"
+                            : "border-[#2D4035] bg-[#0D1517] text-[#9AA6A4] hover:border-[#C4ED6C] hover:text-[#EDF1EF]"
                         }`}
                       >
                         {opt.label}
@@ -431,8 +432,8 @@ export default function WaitlistForm({
                   <div
                     className={`mt-0.5 flex h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 items-center justify-center border transition-colors ${
                       formData.receive_updates
-                        ? "border-[#D97757] bg-[#D97757] text-white"
-                        : "border-[#333849] bg-[#0F1117] group-hover:border-[#555C75]"
+                        ? "border-[#C4ED6C] bg-[#C4ED6C] text-[#EDF1EF]"
+                        : "border-[#333849] bg-[#0D1517] group-hover:border-[#555C75]"
                     }`}
                   >
                     {formData.receive_updates && (
@@ -441,7 +442,7 @@ export default function WaitlistForm({
                       </svg>
                     )}
                   </div>
-                  <span className="text-[11px] sm:text-xs md:text-[13px] leading-relaxed text-[#9DA3B4] group-hover:text-[#C2BDB0] transition-colors">
+                  <span className="text-[11px] sm:text-xs md:text-[13px] leading-relaxed text-[#9AA6A4] group-hover:text-[#AFBAB6] transition-colors">
                     Want to receive updates from us beyond the launch?
                   </span>
                 </label>
@@ -449,11 +450,11 @@ export default function WaitlistForm({
             </div>
 
             {/* Submit Button */}
-            <div className="pt-3 sm:pt-4 border-t border-[#1A1C23]">
+            <div className="pt-3 sm:pt-4 border-t border-[#253632]">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white px-6 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-xs font-mono uppercase tracking-[0.15em] font-semibold text-black hover:bg-[#D97757] hover:text-white transition-all disabled:opacity-50 disabled:pointer-events-none active:scale-[0.99]"
+                className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white px-6 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-xs font-mono uppercase tracking-[0.15em] font-semibold text-black hover:bg-[#C4ED6C] hover:text-[#EDF1EF] transition-all disabled:opacity-50 disabled:pointer-events-none active:scale-[0.99]"
               >
                 {isSubmitting ? (
                   <>

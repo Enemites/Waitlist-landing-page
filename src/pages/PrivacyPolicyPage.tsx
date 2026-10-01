@@ -5,8 +5,8 @@ const PrivacyPolicyPage = () => {
   useScrollAnimation();
 
   return (
-    <div className="min-h-screen bg-[var(--nova-bone)] text-[var(--nova-void)]">
-      <ResponsiveHeader />
+    <div className="product-site legal-product min-h-screen bg-[var(--nova-bone)] text-[var(--nova-void)]">
+      <ResponsiveHeader theme="dark" />
 
       <main className="px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-32">
         <section
@@ -25,14 +25,14 @@ const PrivacyPolicyPage = () => {
                 >
                   Privacy Policy
                 </h1>
-                <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#464B58] md:text-lg">
+                <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
                   This Privacy Policy explains how Enemites collects, uses, and protects information
                   when you join the waitlist, request early access, explore demos, or use available
                   learning simulations and AI mentor experiences.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[var(--nova-void)]/10 bg-white/45 p-4 sm:p-5 text-xs sm:text-sm leading-relaxed sm:leading-[1.6] text-[#464B58]">
+              <div className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/45 p-4 sm:p-5 text-xs sm:text-sm leading-relaxed sm:leading-[1.6] text-[#AFBAB6]">
                 <p className="font-semibold text-[var(--nova-void)]">Current product status</p>
                 <p className="mt-1.5 sm:mt-2">
                   Enemites is in a waitlist and private beta stage. Data practices may become more
@@ -44,7 +44,7 @@ const PrivacyPolicyPage = () => {
 
           <div className="mt-10 grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
             <aside className="hidden lg:block">
-              <div className="sticky top-28 space-y-3 rounded-xl border border-[var(--nova-void)]/10 bg-white/40 p-4 text-sm text-[#464B58]">
+              <div className="sticky top-28 space-y-3 rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/40 p-4 text-sm text-[#AFBAB6]">
                 <p className="nova-mono text-xs uppercase tracking-[0.18em] text-[var(--nova-brand)]">
                   Summary
                 </p>
@@ -54,8 +54,8 @@ const PrivacyPolicyPage = () => {
               </div>
             </aside>
 
-            <div className="space-y-5 text-sm leading-[1.7] text-[#464B58] sm:text-base">
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+            <div className="space-y-5 text-sm leading-[1.7] text-[#AFBAB6] sm:text-base">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   1. Information We Collect
                 </h2>
@@ -83,7 +83,7 @@ const PrivacyPolicyPage = () => {
                 </ul>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   2. How We Use Information
                 </h2>
@@ -98,7 +98,7 @@ const PrivacyPolicyPage = () => {
                 </ul>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   3. Cookies and Similar Technologies
                 </h2>
@@ -110,7 +110,7 @@ const PrivacyPolicyPage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   4. Data Retention
                 </h2>
@@ -122,7 +122,7 @@ const PrivacyPolicyPage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   5. How We Share Information
                 </h2>
@@ -140,7 +140,7 @@ const PrivacyPolicyPage = () => {
                 </ul>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   6. Students and Young Users
                 </h2>
@@ -152,7 +152,7 @@ const PrivacyPolicyPage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   7. Your Choices and Rights
                 </h2>
@@ -164,7 +164,7 @@ const PrivacyPolicyPage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   8. Data Security
                 </h2>
@@ -175,7 +175,7 @@ const PrivacyPolicyPage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   9. Third-Party Services
                 </h2>
@@ -186,7 +186,7 @@ const PrivacyPolicyPage = () => {
                 </p>
               </section>
 
-              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-white/55 p-5 sm:p-7">
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
                   10. Changes to This Privacy Policy
                 </h2>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, ReactNode, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 
 interface ScrollExpandMediaProps {
   mediaType?: 'video' | 'image';
@@ -19,6 +19,7 @@ const ScrollExpandMedia = ({
 }: ScrollExpandMediaProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -32,33 +33,33 @@ const ScrollExpandMedia = ({
     offset: ['start start', 'end end'],
   });
 
-  // Calculate the crop amount. 
-  // On desktop, we inset heavily left/right to make it square-like.
-  // On mobile, less inset left/right so it doesn't get too skinny.
-  const initialInsetX = isMobile ? '20%' : '35%';
-  const initialInsetY = isMobile ? '20%' : '15%';
+  // Images reveal gently; videos scale as a whole so playback controls remain accessible.
+  const initialInsetX = isMobile ? '0%' : '8%';
+  const initialInsetY = '0%';
 
   const clipPath = useTransform(
     scrollYProgress,
     [0, 1],
     [
-      `inset(${initialInsetY} ${initialInsetX} ${initialInsetY} ${initialInsetX} round 24px)`,
-      `inset(0% 0% 0% 0% round 12px)`
+      `inset(${initialInsetY} ${initialInsetX} ${initialInsetY} ${initialInsetX} round 8px)`,
+      `inset(0% 0% 0% 0% round 8px)`
     ]
   );
+  const mediaScale = useTransform(scrollYProgress, [0, 1], [isMobile ? 1 : 0.94, 1]);
 
   return (
-    <div ref={containerRef} className='relative w-full h-[150vh]'>
-      <div className='sticky top-0 w-full h-screen flex flex-col items-center justify-center bg-transparent px-4 pt-16 md:pt-24'>
+    <div ref={containerRef} className='media-stage relative w-full'>
+      <div className='media-stage-inner sticky w-full flex flex-col items-center justify-center bg-transparent'>
         
         {/* The video container locked to its original size (max-w-4xl aspect-video) */}
         <motion.div
-          style={{ clipPath }}
+          style={reduce ? undefined : mediaType === 'video' ? { scale: mediaScale } : { clipPath }}
           className='relative w-full max-w-5xl aspect-video bg-black shadow-2xl flex items-center justify-center'
         >
           {mediaType === 'video' ? (
             mediaSrc.includes('youtube.com') ? (
               <iframe
+                title="Enemites introduction video"
                 src={
                   mediaSrc.includes('embed')
                     ? mediaSrc +

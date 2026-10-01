@@ -9,13 +9,13 @@ import HomePage from "@/pages/HomePage";
 import PublicFormPage from "@/pages/PublicFormPage";
 
 const Placeholder = ({ title }: { title: string }) => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-900">
+  <div className="product-site product-state min-h-screen flex items-center justify-center bg-gray-50 text-gray-900">
     <h1 className="text-3xl font-bold">{title}</h1>
   </div>
 );
 
 const NotAvailablePage = ({ title }: { title: string }) => (
-  <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
+  <div className="product-site product-state min-h-screen bg-black text-white flex items-center justify-center px-4">
     <div className="text-center">
       <h1 className="text-3xl sm:text-4xl font-bold mb-3">{title}</h1>
       <p className="text-white/70 text-base sm:text-lg">Not available yet.</p>
