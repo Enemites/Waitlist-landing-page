@@ -26,6 +26,7 @@ export default function KineticValueScene({ kind, progress, label }: {
     const ctx = surface.getContext("2d");
     if (!ctx) return;
     let width = 0, height = 0, scale = 1, frame = 0, visible = false, last = 0;
+    let phase = targetProgress.current, lastDraw = 0, motionTime = 0;
     let pointerX = 0, pointerY = 0, targetX = 0, targetY = 0;
     const pointerQuery = window.matchMedia("(hover:hover) and (pointer:fine)");
 
@@ -189,12 +190,18 @@ export default function KineticValueScene({ kind, progress, label }: {
 
     function draw(time: number) {
       ctx!.clearRect(0,0,width,height);
+      const elapsed = time > 0 && lastDraw > 0 ? Math.max(0, time - lastDraw) : 33;
+      lastDraw = time;
+      // Smooth the sculpture for about 65 ms; wheel input and page position stay native.
+      phase += (targetProgress.current - phase) * (1 - Math.exp(-elapsed / 65));
+      if (targetProgress.current <= 0) motionTime = 0;
+      else if (!reduce) motionTime += Math.min(elapsed, 64);
       pointerX+=(targetX-pointerX)*.055;pointerY+=(targetY-pointerY)*.055;
-      const t=reduce?1:smooth(targetProgress.current);
+      const t=reduce?1:smooth(phase);
       ctx!.save();
-      if(kind==="steps")drawSteps(t,time);
-      else if(kind==="clarity")drawClarity(t,time);
-      else drawEvidence(t,time);
+      if(kind==="steps")drawSteps(t,motionTime);
+      else if(kind==="clarity")drawClarity(t,motionTime);
+      else drawEvidence(t,motionTime);
       ctx!.restore();surface!.dataset.formation=t.toFixed(3);
     }
 

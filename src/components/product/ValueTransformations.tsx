@@ -8,8 +8,8 @@ const kinds = ["steps", "clarity", "evidence"] as const;
 function Transformation({ value, index }: { value:Value; index:number }) {
   const sceneRef=useRef<HTMLDivElement>(null);
   const reduce=useReducedMotion();
-  // Finish while the sculpture is still just below the viewport center, on every layout.
-  const {scrollYProgress}=useScroll({target:sceneRef,offset:["start 95%","center 60%"]});
+  // Keep the sculpture still until its center is visible in the lower part of the screen.
+  const {scrollYProgress}=useScroll({target:sceneRef,offset:["center 80%","center 50%"]});
   const line=useTransform(scrollYProgress,[0,1],[0,1]);
   const entry=reduce?false:{opacity:0,transform:"translateY(28px)"};
   return <article className={`value-transformation transformation-${kinds[index]}`}>

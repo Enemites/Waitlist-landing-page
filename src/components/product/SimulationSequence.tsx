@@ -46,7 +46,7 @@ export default function SimulationSequence({ features }: { features: Feature[] }
           <div className="screen-chrome" aria-hidden="true"><i /><i /><i /><span /><b /></div>
           <div className="sequence-videos">
             {features.map((feature, index) => <motion.div key={feature.video} className="sequence-video" data-active={active === index} initial={false} animate={{ opacity: active === index ? 1 : 0, transform: active === index || reduce ? "translateY(0px)" : "translateY(16px)" }} transition={{duration:0.3,ease:[0.23,1,0.32,1]}}>
-              <video ref={el => { videos.current[index] = el; }} muted loop playsInline preload="metadata" poster="/assets/introduction-arena-bg.jpg" aria-label={feature.title}>
+              <video ref={el => { videos.current[index] = el; }} muted loop playsInline preload="metadata" aria-label={feature.title}>
                 <source src={feature.video} type="video/mp4" />
               </video>
             </motion.div>)}
