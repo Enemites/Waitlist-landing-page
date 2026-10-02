@@ -26,7 +26,7 @@ export default function KineticValueScene({ kind, progress, label }: {
     const ctx = surface.getContext("2d");
     if (!ctx) return;
     let width = 0, height = 0, scale = 1, frame = 0, visible = false, last = 0;
-    let phase = targetProgress.current, pointerX = 0, pointerY = 0, targetX = 0, targetY = 0;
+    let pointerX = 0, pointerY = 0, targetX = 0, targetY = 0;
     const pointerQuery = window.matchMedia("(hover:hover) and (pointer:fine)");
 
     function project(p: Point): Projection {
@@ -189,9 +189,8 @@ export default function KineticValueScene({ kind, progress, label }: {
 
     function draw(time: number) {
       ctx!.clearRect(0,0,width,height);
-      phase+= (targetProgress.current-phase)*.075;
       pointerX+=(targetX-pointerX)*.055;pointerY+=(targetY-pointerY)*.055;
-      const t=reduce?1:smooth((phase-.04)/.65);
+      const t=reduce?1:smooth(targetProgress.current);
       ctx!.save();
       if(kind==="steps")drawSteps(t,time);
       else if(kind==="clarity")drawClarity(t,time);

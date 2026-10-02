@@ -6,12 +6,13 @@ type Value = { title:string; copy:string; alt:string };
 const kinds = ["steps", "clarity", "evidence"] as const;
 
 function Transformation({ value, index }: { value:Value; index:number }) {
-  const ref=useRef<HTMLElement>(null);
+  const sceneRef=useRef<HTMLDivElement>(null);
   const reduce=useReducedMotion();
-  const {scrollYProgress}=useScroll({target:ref,offset:["start 85%","end 20%"]});
-  const line=useTransform(scrollYProgress,[0,.8],[0,1]);
+  // Finish while the sculpture is still just below the viewport center, on every layout.
+  const {scrollYProgress}=useScroll({target:sceneRef,offset:["start 95%","center 60%"]});
+  const line=useTransform(scrollYProgress,[0,1],[0,1]);
   const entry=reduce?false:{opacity:0,transform:"translateY(28px)"};
-  return <article ref={ref} className={`value-transformation transformation-${kinds[index]}`}>
+  return <article className={`value-transformation transformation-${kinds[index]}`}>
     <div className="transformation-guide" aria-hidden="true">
       <div className="transformation-rule"><motion.i style={{scaleX:reduce?1:line}} /></div>
       <div className="transformation-marker">{kinds.map((kind,i)=><i key={kind} data-current={index===i} />)}</div>
@@ -21,7 +22,7 @@ function Transformation({ value, index }: { value:Value; index:number }) {
         <h3>{value.title}</h3>
         <p>{value.copy}</p>
       </motion.div>
-      <div className="transformation-apparatus">
+      <div ref={sceneRef} className="transformation-apparatus">
         <div className="apparatus-grid" aria-hidden="true" />
         <div className="apparatus-aura" aria-hidden="true" />
         <Suspense fallback={null}><KineticValueScene kind={kinds[index]} progress={scrollYProgress} label={value.alt} /></Suspense>
