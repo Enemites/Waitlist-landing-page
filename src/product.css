@@ -280,30 +280,48 @@
 
 /* Keep desktop introductions below the header, rather than centering them in an oversized hero. */
 @media (min-width:1024px) {
-  .product-hero { min-height:100svh;align-items:flex-start; }
-  .hero-content { padding-top:clamp(112px,14svh,156px);padding-bottom:32px; }
-  .hero-eyebrow { margin-bottom:24px; }
+  .product-hero { min-height:max(850px,100svh);align-items:flex-start;overflow:clip; }
+  .product-hero .arena-scene { height:100%;bottom:0;mask-image:linear-gradient(to bottom,#000 70%,#000b 82%,#0004 94%,transparent 100%); }
+  .product-hero .arena-scene-art { object-fit:contain;object-position:center;scale:.95;mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),linear-gradient(to bottom,transparent,#000 12%,#000 88%,transparent);mask-composite:intersect; }
+  .product-hero-vignette { background:linear-gradient(0deg,#0b1214 0%,#080e10 6%,#080e1000 28%,#080e1020 80%,#080e10 100%),linear-gradient(90deg,#080e10 2%,#080e10eb 18%,#080e1044 53%,#080e1000 76%); }
+  .product-hero + .product-values { border-top:0; }
+  .hero-content { padding-top:clamp(146px,19svh,205px);padding-bottom:32px; }
+  .hero-eyebrow { margin-bottom:32px; }
   .product-site .product-wordmark { font-size:clamp(104px,min(13.3vw,24svh),196px); }
-  .hero-bottom { margin-top:24px; }
-  .hero-links { margin-top:32px;padding-top:18px; }
+  .hero-bottom { margin-top:32px; }
+  .hero-actions { margin-top:36px; }
+  .hero-links { margin-top:44px;padding-top:22px; }
   .how-product-hero { padding-top:112px; }
   .how-hero-layout { align-items:start; }
+  .how-hero-copy h1 { font-size:clamp(52px,5.6vw,80px);margin-top:32px; }
+  .how-hero-copy h1 + p { font-size:17px;margin-top:38px; }
+  .how-hero-actions { margin-top:40px; }
   .about-page .about-hero { min-height:100svh;padding-top:112px;padding-bottom:48px;align-items:flex-start; }
   .about-hero > div:last-child { align-items:start; }
   .about-hero > div:last-child > div { padding-block:0; }
+  .about-hero h1 { font-size:74px; }
+  .about-hero h1 + p { font-size:21px;margin-top:38px; }
+  .about-hero > div:last-child > div > div:last-child { margin-top:48px; }
+}
+/* Preserve the artwork's original desktop canvas independently of the text layout. */
+@media (min-width:1024px) and (max-width:1100px) {
+  .product-hero { min-height:820px; }
+}
+@media (min-width:1700px) {
+  .product-hero { min-height:max(1000px,100svh); }
 }
 @media (min-width:1024px) and (max-height:740px) {
-  .hero-content { padding-top:108px;padding-bottom:20px; }
-  .hero-eyebrow { margin-bottom:12px; }
+  .hero-content { padding-top:clamp(124px,21svh,146px);padding-bottom:20px; }
+  .hero-eyebrow { margin-bottom:20px; }
   .product-site .product-wordmark { font-size:clamp(104px,min(13.3vw,24svh),168px); }
-  .hero-bottom { margin-top:14px; }
+  .hero-bottom { margin-top:20px; }
   .hero-bottom > p { font-size:15px;line-height:1.6;max-width:460px; }
-  .hero-actions { margin-top:18px; }
+  .hero-actions { margin-top:24px; }
   .hero-actions .product-cta { min-height:46px; }
-  .hero-links { margin-top:18px;padding-top:12px; }
-  .how-hero-copy h1 { font-size:clamp(42px,min(5.1vw,8.5svh),57px);margin-top:20px; }
-  .how-hero-copy h1 + p { font-size:14px;line-height:1.65;margin-top:20px; }
-  .how-hero-actions { margin-top:24px; }
+  .hero-links { margin-top:26px;padding-top:12px; }
+  .how-hero-copy h1 { font-size:clamp(46px,min(5.6vw,10svh),60px);margin-top:26px; }
+  .how-hero-copy h1 + p { font-size:15px;line-height:1.7;margin-top:40px; }
+  .how-hero-actions { margin-top:44px; }
   .how-hero-actions .product-cta,.how-hero-actions .product-secondary { min-height:46px; }
   .scenario-flow { padding:18px; }
   .scenario-top { margin-bottom:12px; }
@@ -313,11 +331,115 @@
   .scenario-connector { height:18px; }
   .scenario-metrics { margin-top:12px;padding-top:12px; }
   .scenario-metrics > div > div { margin-top:8px; }
-  .about-hero h1 { font-size:clamp(44px,min(5vw,9svh),56px); }
-  .about-hero h1 + p { font-size:16px;line-height:1.65;margin-top:24px; }
-  .about-hero > div:last-child > div > div:last-child { margin-top:28px; }
+  .about-hero h1 { font-size:clamp(46px,min(5.2vw,10svh),60px); }
+  .about-hero h1 + p { font-size:17px;line-height:1.7;margin-top:32px; }
+  .about-hero > div:last-child > div > div:last-child { margin-top:36px; }
   .about-hero aside > div:first-child { min-height:0;height:clamp(270px,calc(100svh - 220px),430px); }
   .about-hero aside > div:first-child > div:last-child { padding:24px; }
   .about-hero aside h2 { font-size:26px; }
   .about-hero aside > div:last-child > div { padding:14px 8px; }
+}
+@media (min-width:1024px) and (max-width:1100px) and (max-height:580px) {
+  .how-hero-actions { margin-top:36px; }
+  .about-hero h1 { font-size:clamp(44px,9svh,52px); }
+  .about-hero h1 + p { font-size:16px;margin-top:28px; }
+}
+
+/* Market Crash: a causal sculpture, with readable annotations and physical instruments. */
+.scenario-theatre { min-width:0;position:relative; }
+.scenario-theatre-inner { position:relative;padding:24px 0 0;border-top:1px solid #718a6a60; }
+.scenario-theatre-inner::before { content:"";position:absolute;top:-1px;left:0;width:68px;height:2px;background:var(--product-accent); }
+.scenario-theatre-header { display:grid;grid-template-columns:1fr auto 26px;align-items:start;gap:18px;position:relative; }
+.scenario-theatre-header p { font:9px/1.5 "JetBrains Mono",monospace;letter-spacing:.08em; }
+.scenario-theatre-header .scenario-live { color:var(--product-accent);display:flex;align-items:center;gap:8px; }
+.scenario-live i { height:5px;width:5px;border-radius:50%;background:currentColor; }
+.product-site .scenario-theatre-header h2 { font-size:36px;line-height:1.1;margin-top:10px;letter-spacing:-.055em; }
+.scenario-clock { text-align:right; }
+.scenario-clock strong { display:block;font:22px/1.2 "JetBrains Mono",monospace;margin-top:10px;color:var(--product-ink); }
+.scenario-motion-control { display:grid;place-items:center;width:26px;height:26px;margin-top:24px;border:1px solid #53664d80;border-radius:3px;color:var(--product-muted);background:transparent; }
+.scenario-causal-world { position:relative;min-height:324px;margin-top:18px;isolation:isolate; }
+.scenario-sculpture { position:absolute;inset:-14px auto -6px -30px;width:48%;pointer-events:none; }
+.scenario-sculpture img { width:100%;height:100%;object-fit:contain;mix-blend-mode:lighten;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 6%,#000 94%,transparent);mask-composite:intersect;transition:transform 950ms var(--brand-ease),opacity 950ms var(--brand-ease); }
+.scenario-reading { margin-left:43%;display:grid;min-height:324px;align-content:stretch; }
+.scenario-causal-event { appearance:none;display:flex;flex-direction:column;justify-content:center;position:relative;text-align:left;gap:10px;padding:18px 0 18px 20px;border:0;border-bottom:1px solid #57684d30;background:transparent;min-width:0;cursor:pointer; }
+.scenario-causal-event:last-child { border-bottom:0; }
+.scenario-event-label { font:9px/1.5 "JetBrains Mono",monospace;letter-spacing:.05em;text-transform:uppercase;color:#a1b199;transition:color 180ms ease; }
+.scenario-event-copy { font-size:14px;line-height:1.65;color:#bdc8c0;max-width:330px;transition:color 180ms ease; }
+.scenario-causal-event[aria-pressed="true"] .scenario-event-label { color:var(--product-accent); }
+.scenario-causal-event[aria-pressed="true"] .scenario-event-copy { color:var(--product-ink); }
+.scenario-event-node { position:absolute;left:-6px;top:27px;width:12px;height:12px;display:grid;place-items:center;border:1px solid #58704c;border-radius:50%;background:var(--product-bg); }
+.scenario-event-node i { width:4px;height:4px;border-radius:50%;background:#6b8264;transition:opacity 180ms ease; }
+.scenario-event-node::before { content:"";position:absolute;right:11px;top:5px;width:36px;height:1px;background:linear-gradient(90deg,transparent,#6b8264); }
+.scenario-event-node::after { content:"";position:absolute;top:12px;left:5px;width:1px;height:87px;background:linear-gradient(to bottom,#49613f,transparent); }
+.scenario-causal-event:last-child .scenario-event-node::after { display:none; }
+.scenario-causal-event[aria-pressed="true"] .scenario-event-node { border-color:var(--product-accent); }
+.scenario-causal-event[aria-pressed="true"] .scenario-event-node i { background:var(--product-accent); }
+.scenario-event-progress { position:absolute;left:20px;bottom:0;right:0;height:1px;overflow:hidden; }
+.scenario-event-progress i { display:block;height:100%;background:var(--product-accent);transform:scaleX(0);transform-origin:left; }
+.scenario-world-ring { position:absolute;left:38%;width:36%;aspect-ratio:2.8;border:1px solid #c4ed6c;transform:rotate(-18deg) scale(.9);border-radius:50%;opacity:0;transition:opacity 500ms var(--brand-ease),transform 950ms var(--brand-ease); }
+.scenario-world-ring-0 { top:15%; }.scenario-world-ring-1 { top:45%;left:26%;width:56%; }.scenario-world-ring-2 { top:79%;left:22%;width:45%; }
+.scenario-theatre-inner[data-phase="0"] .scenario-world-ring-0,.scenario-theatre-inner[data-phase="1"] .scenario-world-ring-1,.scenario-theatre-inner[data-phase="2"] .scenario-world-ring-2 { opacity:.55;transform:rotate(-18deg) scale(1.05); }
+.scenario-theatre-inner[data-phase="0"] .scenario-sculpture img { transform:translate3d(0,3px,0) scale(1.015); }
+.scenario-theatre-inner[data-phase="1"] .scenario-sculpture img { transform:translate3d(-5px,-3px,0) scale(1.05); }
+.scenario-theatre-inner[data-phase="2"] .scenario-sculpture img { transform:translate3d(3px,-6px,0) scale(1.025); }
+.scenario-world-signal { position:absolute;top:14%;left:52%;height:68%;width:2px;opacity:.8; }
+.scenario-world-signal i { display:block;width:4px;height:4px;border-radius:50%;background:var(--product-accent); }
+.scenario-instruments { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;border-top:1px solid #53664d60;margin-top:20px;padding:20px 0 0; }
+.scenario-instrument { display:flex;align-items:center;gap:12px;min-width:0; }
+.scenario-instrument-dial { height:46px;width:46px;border-radius:50%;position:relative;flex-shrink:0;transform:rotate(-.5deg); }
+.scenario-instrument-dial > i { position:absolute;inset:3px;border-radius:50%;background:var(--product-bg); }
+.scenario-instrument-dial::after { content:"";position:absolute;left:22px;top:22px;width:1px;height:16px;background:#c4ed6c;transform-origin:top;transform:rotate(128deg); }
+.scenario-instrument-1 .scenario-instrument-dial::after { transform:rotate(97deg); }.scenario-instrument-2 .scenario-instrument-dial::after { transform:rotate(16deg); }
+.scenario-instrument span { display:block;font:8px/1.5 "JetBrains Mono",monospace;color:#a1b199;white-space:nowrap; }
+.scenario-instrument strong { display:block;font:25px/1.3 "JetBrains Mono",monospace;letter-spacing:-.05em;font-weight:400;margin-top:3px;color:var(--product-ink); }
+@media (prefers-reduced-motion:no-preference) {
+  .scenario-theatre-inner[data-running="true"] .scenario-causal-event[aria-pressed="true"] .scenario-event-progress i { animation:scenario-read 3200ms linear both; }
+  .scenario-theatre-inner[data-running="true"] .scenario-world-signal i { animation:scenario-cause 9600ms linear infinite; }
+  @keyframes scenario-read { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes scenario-cause { 0% { transform:translateY(0);opacity:0; } 8% { opacity:1; } 90% { opacity:1; } 100% { transform:translateY(200px);opacity:0; } }
+}
+@media (hover:hover) and (pointer:fine) {
+  .scenario-motion-control:hover { color:var(--product-accent);border-color:var(--product-accent); }
+  .scenario-causal-event:hover .scenario-event-copy { color:var(--product-ink); }
+}
+@media (min-width:1024px) and (max-height:740px) {
+  .scenario-theatre-inner { padding-top:16px; }
+  .product-site .scenario-theatre-header h2 { font-size:29px;margin-top:7px; }
+  .scenario-clock strong { font-size:19px;margin-top:7px; }
+  .scenario-theatre-header { gap:12px; }.scenario-motion-control { margin-top:19px; }
+  .scenario-causal-world { min-height:254px;margin-top:10px; }
+  .scenario-reading { min-height:254px; }
+  .scenario-causal-event { padding:13px 0 13px 15px;gap:7px; }
+  .scenario-event-label { font-size:8px; }.scenario-event-copy { font-size:12px;line-height:1.55; }
+  .scenario-event-node { top:19px; }.scenario-event-node::after { height:65px; }
+  .scenario-event-progress { left:15px; }
+  .scenario-instruments { margin-top:13px;padding-top:14px;gap:12px; }
+  .scenario-instrument { gap:8px; }.scenario-instrument-dial { width:38px;height:38px; }
+  .scenario-instrument-dial::after { left:18px;top:18px;height:13px; }
+  .scenario-instrument strong { font-size:23px; }
+}
+@media (max-width:1023px) {
+  .scenario-theatre { max-width:660px; }.scenario-instrument-dial { height:42px;width:42px; }
+  .scenario-instrument-dial::after { left:20px;top:20px; }
+}
+@media (max-width:767px) {
+  .scenario-theatre-inner { padding-top:20px; }
+  .scenario-theatre-header { gap:10px; }.product-site .scenario-theatre-header h2 { font-size:30px; }
+  .scenario-clock strong { font-size:18px; }.scenario-motion-control { margin-top:25px; }
+  .scenario-causal-world,.scenario-reading { min-height:368px; }
+  .scenario-sculpture { width:47%;left:-18px;inset-block:8px; }
+  .scenario-sculpture img { object-position:top; }
+  .scenario-reading { margin-left:39%; }
+  .scenario-causal-event { gap:9px;padding:18px 0 18px 15px; }
+  .scenario-event-copy { font-size:13px;line-height:1.7; }.scenario-event-label { font-size:8px;letter-spacing:0; }
+  .scenario-event-node::before { width:22px; }.scenario-event-node::after { height:103px; }
+  .scenario-instruments { gap:12px;padding-top:18px; }.scenario-instrument { gap:7px; }
+  .scenario-instrument-dial { width:25px;height:25px; }.scenario-instrument-dial > i { inset:2px; }
+  .scenario-instrument-dial::after { top:12px;left:12px;height:8px; }
+  .scenario-instrument span { font-size:7px; }.scenario-instrument strong { font-size:23px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .scenario-sculpture img { transform:none !important;transition:none; }
+  .scenario-world-ring { transition:opacity 180ms ease;transform:rotate(-18deg) !important; }
+  .scenario-world-signal { display:none; }
 }

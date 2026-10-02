@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import ResponsiveHeader from "@/components/ResponsiveHeader";
 import ProductReveal from "@/components/product/ProductReveal";
 import LearningLoop from "@/components/product/LearningLoop";
-import { ArrowDown, Check } from "lucide-react";
+import ScenarioTheatre from "@/components/product/ScenarioTheatre";
+import { Check } from "lucide-react";
 
 
 const steps = [
@@ -88,20 +89,7 @@ const HowItWorksPage = () => {
               <Button asChild variant="outline" className="product-secondary"><Link to="/arena">Back to intro</Link></Button>
             </div>
           </ProductReveal>
-          <ProductReveal className="scenario-flow" delay={.12}>
-            <div className="scenario-top">
-              <div><p><i aria-hidden="true" />Live Scenario</p><h2>Market Crash</h2></div>
-              <div><p>Elapsed</p><strong>03:42</strong></div>
-            </div>
-            <div className="scenario-events">
-              <ProductReveal className="scenario-event" delay={0.1}><span>1. Your Decision</span><p>Prioritize the supplier risk before discount pressure.</p></ProductReveal>
-              <div className="scenario-connector" aria-hidden="true"><ArrowDown size={17} /></div>
-              <ProductReveal className="scenario-event" delay={0.22}><span>2. World Reaction</span><p>Cash flow stabilizes, but customer trust drops for 2 turns.</p></ProductReveal>
-              <div className="scenario-connector" aria-hidden="true"><ArrowDown size={17} /></div>
-              <ProductReveal className="scenario-event scenario-insight" delay={0.34}><span>3. Mentor Insight</span><p>You protected operations while under-explaining the customer cost.</p></ProductReveal>
-            </div>
-            <div className="scenario-metrics">{["Risk Level", "Clarity", "Pace"].map((signal,index)=><div key={signal}><span>{signal}</span><strong>{index===0?"82":index===1?"71":"4.2s"}</strong><div aria-hidden="true"><i style={{transform:`scaleX(${index===0?.82:index===1?.71:.42})`}} /></div></div>)}</div>
-          </ProductReveal>
+          <ScenarioTheatre />
         </div>
       </section>
       <section className="product-core product-section">
