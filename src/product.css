@@ -277,3 +277,47 @@
 @media (prefers-reduced-motion:reduce) {
   .arena-scene-art { will-change:auto;transform:none !important; }.evidence-scan { animation:none;opacity:0; }.scene-orbit { transform:none; }.sequence-screen { transform:none; }.product-site .simulation-sequence { height:auto;padding-block:72px; }.sequence-sticky { position:static;min-height:0; }.sequence-phase::before { transition:none; }.decision-trace path { stroke-dashoffset:0; }.product-site .product-cta:hover { transform:none; }
 }
+
+/* Keep desktop introductions below the header, rather than centering them in an oversized hero. */
+@media (min-width:1024px) {
+  .product-hero { min-height:100svh;align-items:flex-start; }
+  .hero-content { padding-top:clamp(112px,14svh,156px);padding-bottom:32px; }
+  .hero-eyebrow { margin-bottom:24px; }
+  .product-site .product-wordmark { font-size:clamp(104px,min(13.3vw,24svh),196px); }
+  .hero-bottom { margin-top:24px; }
+  .hero-links { margin-top:32px;padding-top:18px; }
+  .how-product-hero { padding-top:112px; }
+  .how-hero-layout { align-items:start; }
+  .about-page .about-hero { min-height:100svh;padding-top:112px;padding-bottom:48px;align-items:flex-start; }
+  .about-hero > div:last-child { align-items:start; }
+  .about-hero > div:last-child > div { padding-block:0; }
+}
+@media (min-width:1024px) and (max-height:740px) {
+  .hero-content { padding-top:108px;padding-bottom:20px; }
+  .hero-eyebrow { margin-bottom:12px; }
+  .product-site .product-wordmark { font-size:clamp(104px,min(13.3vw,24svh),168px); }
+  .hero-bottom { margin-top:14px; }
+  .hero-bottom > p { font-size:15px;line-height:1.6;max-width:460px; }
+  .hero-actions { margin-top:18px; }
+  .hero-actions .product-cta { min-height:46px; }
+  .hero-links { margin-top:18px;padding-top:12px; }
+  .how-hero-copy h1 { font-size:clamp(42px,min(5.1vw,8.5svh),57px);margin-top:20px; }
+  .how-hero-copy h1 + p { font-size:14px;line-height:1.65;margin-top:20px; }
+  .how-hero-actions { margin-top:24px; }
+  .how-hero-actions .product-cta,.how-hero-actions .product-secondary { min-height:46px; }
+  .scenario-flow { padding:18px; }
+  .scenario-top { margin-bottom:12px; }
+  .scenario-top h2 { font-size:23px; }
+  .scenario-event { padding:10px 16px; }
+  .scenario-event > p { font-size:12px;line-height:1.5;margin-top:6px; }
+  .scenario-connector { height:18px; }
+  .scenario-metrics { margin-top:12px;padding-top:12px; }
+  .scenario-metrics > div > div { margin-top:8px; }
+  .about-hero h1 { font-size:clamp(44px,min(5vw,9svh),56px); }
+  .about-hero h1 + p { font-size:16px;line-height:1.65;margin-top:24px; }
+  .about-hero > div:last-child > div > div:last-child { margin-top:28px; }
+  .about-hero aside > div:first-child { min-height:0;height:clamp(270px,calc(100svh - 220px),430px); }
+  .about-hero aside > div:first-child > div:last-child { padding:24px; }
+  .about-hero aside h2 { font-size:26px; }
+  .about-hero aside > div:last-child > div { padding:14px 8px; }
+}
