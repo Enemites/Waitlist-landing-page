@@ -443,3 +443,14 @@
   .scenario-world-ring { transition:opacity 180ms ease;transform:rotate(-18deg) !important; }
   .scenario-world-signal { display:none; }
 }
+
+/* Mobile Arena shares its world with the copy instead of reserving a second screen for it. */
+@media (max-width:767px) {
+  .arena-product .product-hero { min-height:100svh;overflow:clip; }
+  .arena-product .arena-scene { top:0;bottom:0;height:100%; }
+  .arena-product .arena-scene-art { object-position:66% 42%;opacity:.72; }
+  .arena-product .product-hero-vignette { background:linear-gradient(90deg,#080e10bd,#080e1044),linear-gradient(0deg,#0b1214 0%,#080e1033 22%,#080e1055 65%,#080e10f2 100%); }
+  .arena-product .product-wordmark { font-size:clamp(64px,21vw,132px);white-space:nowrap; }
+  .arena-product .hero-links { margin-top:28px;padding-top:16px; }
+  .arena-product .product-hero + .product-values { border-top:0; }
+}

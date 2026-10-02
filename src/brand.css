@@ -83,8 +83,8 @@ button:not(:disabled):active, a[class*="inline-flex"]:active { transform: transl
 
 /* Research home: a large typographic statement with its artwork on the right. */
 .lab-page main { padding-top: 106px; padding-bottom: 48px; }
-.lab-page .lab-hero { max-width: 1408px; min-height: 740px; padding-top: 50px; padding-bottom: 60px; }
-.lab-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 0 28px; align-items: center; position: relative; }
+.lab-page .lab-hero { max-width: 1408px; min-height: auto; padding-top: 24px; padding-bottom: 60px; align-items: flex-start; }
+.lab-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; grid-template-rows: auto 1fr; gap: 0 28px; align-items: start; position: relative; }
 .lab-hero-heading { grid-column: 1; grid-row: 1; position: relative; z-index: 2; }
 .lab-hero-heading > p { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
 .lab-hero-heading > p::before { content: ""; width: 28px; height: 1px; background: var(--brand-clay); }
@@ -253,7 +253,6 @@ button:not(:disabled):active, a[class*="inline-flex"]:active { transform: transl
   .arena-page .arena-hero, .how-hero, .about-hero { min-height: 900px; }
 }
 @media (max-width: 1100px) {
-  .lab-page .lab-hero { min-height: 680px; }
   .lab-hero-heading h1 { font-size: 62px; }
   .arena-hero h1 { font-size: 100px; }
   .arena-page .arena-hero { min-height: 720px; }
@@ -294,7 +293,7 @@ button:not(:disabled):active, a[class*="inline-flex"]:active { transform: transl
   .lab-nav a:not(:last-child) { display: none; }
   .lab-page main { padding-top: 100px; }
   .lab-page .lab-hero { min-height: auto; padding-top: 30px; padding-bottom: 28px; }
-  .lab-hero-grid { grid-template-columns: 1fr; gap: 0; }
+  .lab-hero-grid { grid-template-columns: 1fr; grid-template-rows: none; gap: 0; }
   .lab-hero-heading { grid-column: 1; grid-row: 1; }
   .lab-hero-heading h1 { font-size: clamp(44px, 8.8vw, 68px); max-width: 580px; }
   .lab-hero-heading > p { margin-bottom: 24px; }
