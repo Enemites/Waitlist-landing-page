@@ -1,4 +1,4 @@
-import { getDatabasePool } from "../lib/database";
+import { getDatabasePool } from "../lib/database.js";
 
 export const ENEMITES_API_KEY =
   process.env.ENEMITES_API_KEY ||

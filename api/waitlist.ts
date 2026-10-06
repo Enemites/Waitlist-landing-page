@@ -1,5 +1,5 @@
 import type { IncomingMessage } from "node:http";
-import { getDatabasePool } from "../lib/database";
+import { getDatabasePool } from "../lib/database.js";
 
 export interface WaitlistPayload {
   name: string;
