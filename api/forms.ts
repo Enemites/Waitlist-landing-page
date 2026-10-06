@@ -1,101 +1,10 @@
-import pg from "pg";
-
-const { Pool } = pg;
-
-const defaultDbUrl =
-  "postgresql://postgres.rwfiesbkxxaurdghkfvv:8rpiZ%21MRTfq2kw%2F@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
+import { getDatabasePool } from "../lib/database";
 
 export const ENEMITES_API_KEY =
   process.env.ENEMITES_API_KEY ||
   "enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481";
 
-let pool: pg.Pool | null = null;
-
-function getConnectionString(): string {
-  const envDb = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.SUPABASE || "";
-  if (envDb.startsWith("postgres://") || envDb.startsWith("postgresql://")) {
-    return envDb;
-  }
-  return defaultDbUrl;
-}
-
-export function getDbPool(): pg.Pool {
-  if (!pool) {
-    const connectionString = getConnectionString();
-    pool = new Pool({
-      connectionString,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 10000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
-
-// Auto-initialize and migrate Enemites tables
-let schemaInitialized = false;
-
-export async function ensureEnemitesSchema() {
-  if (schemaInitialized) return;
-  const db = getDbPool();
-  const client = await db.connect();
-  try {
-    // 1. enemites_forms table
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS public.enemites_forms (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        slug VARCHAR(255) UNIQUE NOT NULL,
-        title VARCHAR(255) NOT NULL,
-        description TEXT,
-        questions JSONB NOT NULL DEFAULT '[]'::jsonb,
-        is_active BOOLEAN NOT NULL DEFAULT true,
-        expires_at TIMESTAMPTZ NULL,
-        metadata JSONB NULL DEFAULT '{}'::jsonb,
-        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-      );
-
-      CREATE INDEX IF NOT EXISTS idx_enemites_forms_slug ON public.enemites_forms(slug);
-      ALTER TABLE public.enemites_forms ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ NULL;
-    `);
-
-    // 2. enemites_form_submissions table
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS public.enemites_form_submissions (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        form_id UUID REFERENCES public.enemites_forms(id) ON DELETE CASCADE,
-        form_slug VARCHAR(255) NOT NULL,
-        responses JSONB NOT NULL DEFAULT '{}'::jsonb,
-        respondent_info JSONB NULL DEFAULT '{}'::jsonb,
-        ip_address VARCHAR(100),
-        country VARCHAR(150),
-        city VARCHAR(150),
-        region VARCHAR(150),
-        device_type VARCHAR(50),
-        browser VARCHAR(100),
-        os VARCHAR(100),
-        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-      );
-
-      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS ip_address VARCHAR(100);
-      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS country VARCHAR(150);
-      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS city VARCHAR(150);
-      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS region VARCHAR(150);
-      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS device_type VARCHAR(50);
-      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS browser VARCHAR(100);
-      ALTER TABLE public.enemites_form_submissions ADD COLUMN IF NOT EXISTS os VARCHAR(100);
-
-      CREATE INDEX IF NOT EXISTS idx_enemites_submissions_form_slug ON public.enemites_form_submissions(form_slug);
-    `);
-
-    schemaInitialized = true;
-  } catch (err) {
-    console.error("Failed to ensure enemites schema:", err);
-  } finally {
-    client.release();
-  }
-}
+export const getDbPool = getDatabasePool;
 
 export interface FormQuestion {
   id: string;
@@ -268,7 +177,6 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
     return { status: 401, data: { success: false, message: "Unauthorized. Invalid or missing Enemites API credential." } };
   }
 
-  await ensureEnemitesSchema();
 
   const title = (payload.title || "").trim();
   let slug = (payload.slug || "").trim().replace(/[^a-zA-Z0-9_-]/g, "-").replace(/-+/g, "-");
@@ -331,7 +239,6 @@ export async function handleCreateForm(payload: CreateFormPayload, authHeader?: 
 
 // 2. Get Form by Slug (Public - Only active non-archived forms)
 export async function handleGetFormBySlug(slug: string) {
-  await ensureEnemitesSchema();
   const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
@@ -339,7 +246,7 @@ export async function handleGetFormBySlug(slug: string) {
 
   try {
     const res = await client.query(
-      `SELECT id, slug, title, description, questions, is_active, expires_at, deleted_at, created_at
+      `SELECT id, slug, title, description, questions, is_active, expires_at, CASE WHEN NOT is_active THEN updated_at END AS deleted_at, created_at
        FROM public.enemites_forms
        WHERE LOWER(slug) = LOWER($1)
        LIMIT 1`,
@@ -387,7 +294,6 @@ export async function handleGetFormBySlug(slug: string) {
 
 // 3. Submit Response (Public - Geolocation and Device Detection)
 export async function handleSubmitForm(slug: string, payload: SubmitFormPayload, meta?: RequestMeta) {
-  await ensureEnemitesSchema();
   const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
@@ -395,7 +301,7 @@ export async function handleSubmitForm(slug: string, payload: SubmitFormPayload,
 
   try {
     const formRes = await client.query(
-      "SELECT id, slug, is_active, expires_at, deleted_at, questions FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) LIMIT 1",
+      "SELECT id, slug, is_active, expires_at, CASE WHEN NOT is_active THEN updated_at END AS deleted_at, questions FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1) LIMIT 1",
       [cleanSlug]
     );
 
@@ -473,8 +379,6 @@ export async function handleListForms(authHeader?: string | string[]) {
     return { status: 401, data: { success: false, message: "Unauthorized." } };
   }
 
-  await ensureEnemitesSchema();
-
   const db = getDbPool();
   const client = await db.connect();
 
@@ -487,7 +391,7 @@ export async function handleListForms(authHeader?: string | string[]) {
         f.description, 
         f.is_active, 
         f.expires_at, 
-        f.deleted_at,
+        CASE WHEN NOT f.is_active THEN f.updated_at END AS deleted_at,
         f.created_at,
         COUNT(s.id)::int AS submission_count
       FROM public.enemites_forms f
@@ -514,13 +418,12 @@ export async function handleListForms(authHeader?: string | string[]) {
   }
 }
 
-// 5. Delete Form (Soft Delete / Archive - Preserves Submissions Safely in Supabase)
+// 5. Delete Form (Soft Delete / Archive - Preserves Submissions Safely in the database)
 export async function handleDeleteForm(slug: string, authHeader?: string | string[]) {
   if (!checkEnemitesAuth(authHeader)) {
     return { status: 401, data: { success: false, message: "Unauthorized." } };
   }
 
-  await ensureEnemitesSchema();
   const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
@@ -528,7 +431,7 @@ export async function handleDeleteForm(slug: string, authHeader?: string | strin
 
   try {
     const checkRes = await client.query(
-      "SELECT id, slug, title, is_active, deleted_at FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1)",
+      "SELECT id, slug, title, is_active, CASE WHEN NOT is_active THEN updated_at END AS deleted_at FROM public.enemites_forms WHERE LOWER(slug) = LOWER($1)",
       [cleanSlug]
     );
 
@@ -543,13 +446,13 @@ export async function handleDeleteForm(slug: string, authHeader?: string | strin
         status: 200,
         data: {
           success: true,
-          message: `Form '${form.title}' (${cleanSlug}) is already archived/closed. All past submissions are safely preserved in Supabase.`,
+          message: `Form '${form.title}' (${cleanSlug}) is already archived/closed. All past submissions are safely preserved in the database.`,
         },
       };
     }
 
     const updateRes = await client.query(
-      "UPDATE public.enemites_forms SET is_active = false, deleted_at = NOW(), updated_at = NOW() WHERE LOWER(slug) = LOWER($1) RETURNING id, slug, title, deleted_at",
+      "UPDATE public.enemites_forms SET is_active = false, updated_at = NOW() WHERE LOWER(slug) = LOWER($1) RETURNING id, slug, title, updated_at AS deleted_at",
       [cleanSlug]
     );
 
@@ -557,7 +460,7 @@ export async function handleDeleteForm(slug: string, authHeader?: string | strin
       status: 200,
       data: {
         success: true,
-        message: `Form '${updateRes.rows[0].title}' (${cleanSlug}) has been closed & archived. Public access is disabled, and all submission records remain safely preserved in Supabase.`,
+        message: `Form '${updateRes.rows[0].title}' (${cleanSlug}) has been closed & archived. Public access is disabled, and all submission records remain safely preserved in the database.`,
       },
     };
   } catch (err: any) {
@@ -574,7 +477,6 @@ export async function handleGetFormSubmissions(slug: string, authHeader?: string
     return { status: 401, data: { success: false, message: "Unauthorized." } };
   }
 
-  await ensureEnemitesSchema();
   const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();

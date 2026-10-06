@@ -1,25 +1,5 @@
 import type { IncomingMessage } from "node:http";
-import pg from "pg";
-
-const { Pool } = pg;
-
-const defaultDbUrl =
-  "postgresql://postgres.rwfiesbkxxaurdghkfvv:8rpiZ%21MRTfq2kw%2F@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
-
-let pool: pg.Pool | null = null;
-
-function getPool() {
-  if (!pool) {
-    const connectionString = process.env.SUPABASE || defaultDbUrl;
-    pool = new Pool({
-      connectionString,
-      ssl: { rejectUnauthorized: false },
-      max: 10,
-      idleTimeoutMillis: 30000,
-    });
-  }
-  return pool;
-}
+import { getDatabasePool } from "../lib/database";
 
 export interface WaitlistPayload {
   name: string;
@@ -196,7 +176,7 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: 
   // Parse IP, Country, and Device Information
   const deviceAndGeo = parseDeviceAndGeo(payload, meta);
 
-  const db = getPool();
+  const db = getDatabasePool();
   const client = await db.connect();
 
   try {
