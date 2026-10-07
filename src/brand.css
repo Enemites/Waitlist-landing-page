@@ -350,11 +350,11 @@ button:not(:disabled):active, a[class*="inline-flex"]:active { transform: transl
   .how-page main > section:nth-child(2) article h3 { font-size: 24px; }
   .how-page main > section:nth-child(2) article p[class*="text-xs"] { font-size: 14px; line-height: 1.75; }
   .how-page main > section:nth-child(3) article p[class*="text-xs"] { font-size: 14px; line-height: 1.75; }
-  .about-hero { padding-top: 112px; padding-bottom: 36px; }
+  .about-hero { padding-top: 100px; padding-bottom: 36px; }
   .about-hero > div:last-child { grid-template-columns: 1fr; gap: 28px; }
   .about-hero > div:last-child > div { padding-bottom: 0; }
-  .about-hero h1 { font-size: 47px; }
-  .about-hero h1 + p { font-size: 15px; line-height: 1.75; }
+  .about-hero h1 { font-size: clamp(34px, 9.8vw, 40px); line-height: 1.14; }
+  .about-hero h1 + p { font-size: 13px; line-height: 1.8; margin-top: 24px; }
   .about-hero aside > div:first-child { min-height: 310px; }
   .about-page #our-mission p { font-size: 15px; line-height: 1.75; }
   .about-page main > section:nth-child(5) article { grid-template-columns: 30px 1fr; gap: 12px; }
