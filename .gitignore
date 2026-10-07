@@ -120,3 +120,7 @@ dist
 .env.local
 .env.*.local
 .neon
+
+# Ignore every environment file except the empty example.
+.env*
+!.env.example

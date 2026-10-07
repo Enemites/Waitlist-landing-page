@@ -1,8 +1,6 @@
 import { getDatabasePool } from "../lib/database.js";
 
-export const ENEMITES_API_KEY =
-  process.env.ENEMITES_API_KEY ||
-  "enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481";
+export const ENEMITES_API_KEY = process.env.ENEMITES_API_KEY;
 
 export const getDbPool = getDatabasePool;
 
@@ -165,8 +163,9 @@ export function parseDeviceAndGeo(payload: SubmitFormPayload, meta?: RequestMeta
 }
 
 export function checkEnemitesAuth(authHeader?: string | string[]): boolean {
-  if (!authHeader) return false;
+  if (!ENEMITES_API_KEY || !authHeader) return false;
   const headerValue = Array.isArray(authHeader) ? authHeader[0] : authHeader;
+  if (!headerValue) return false;
   const cleanToken = headerValue.replace(/^Bearer\s+/i, "").trim();
   return cleanToken === ENEMITES_API_KEY;
 }

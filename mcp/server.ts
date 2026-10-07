@@ -14,9 +14,10 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL ||
   "https://enemites.com/api/forms";
 
-const API_KEY =
-  process.env.ENEMITES_API_KEY ||
-  "enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481";
+const API_KEY = process.env.ENEMITES_API_KEY;
+if (!API_KEY) {
+  throw new Error("ENEMITES_API_KEY must be configured in the MCP runtime environment.");
+}
 
 const server = new Server(
   {

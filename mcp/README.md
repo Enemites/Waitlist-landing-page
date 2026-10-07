@@ -6,9 +6,9 @@ Enemites Model Context Protocol (MCP) Server enables AI Agents to create, manage
 
 ## 🔑 Agent Credential
 
-Use the following credential in your Agent or MCP configuration:
+The forms API reads `ENEMITES_API_KEY` from Vercel environment variables. Configure the matching key in your Agent or MCP runtime using a private environment file or secret manager; Vercel variables are not automatically available to external MCP clients.
 
-- **Enemites Secret Key:** `enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481`
+- **Required private variable:** `ENEMITES_API_KEY`
 - **Production API Base URL:** `https://enemites.com/api/forms`
 
 ---
@@ -39,7 +39,7 @@ Add the following to your `claude_desktop_config.json` or Antigravity MCP settin
       "args": ["-y", "tsx", "c:/Users/user/Waitlist-landing-page/mcp/server.ts"],
       "env": {
         "ENEMITES_API_URL": "https://enemites.com/api/forms",
-        "ENEMITES_API_KEY": "enemites_sec_8f94d1b7a2e84c90bc5e8a719d3f562e8490a1bc7e39d481"
+        "ENEMITES_API_KEY": "<set privately; never commit the actual value>"
       }
     }
   }
