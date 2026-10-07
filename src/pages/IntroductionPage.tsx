@@ -113,7 +113,6 @@ const IntroductionPage = () => {
   const reduce = useReducedMotion();
   const videoDemoRef = useRef<HTMLDivElement>(null);
   const scrollToVideoDemo = () => videoDemoRef.current?.scrollIntoView({behavior: reduce ? "instant" : "smooth", block:"start"});
-  const handleUnavailable = () => alert("Not available yet");
 
   return (
     <div className="product-site arena-product">
@@ -271,14 +270,14 @@ const IntroductionPage = () => {
               </h4>
               <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm md:text-[15px] text-[#EDF1EF]/72">
                 <li>
-                  <button type="button" onClick={handleUnavailable} className="transition-colors hover:text-[#EDF1EF]">
+                  <Link to="/arena/privacy-policy" className="transition-colors hover:text-[#EDF1EF]">
                     Privacy Policy
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button type="button" onClick={handleUnavailable} className="transition-colors hover:text-[#EDF1EF]">
+                  <Link to="/arena/terms-of-service" className="transition-colors hover:text-[#EDF1EF]">
                     Terms of Service
-                  </button>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -290,12 +289,12 @@ const IntroductionPage = () => {
                 (c) 2025 Enemites. All rights reserved.
               </p>
               <div className="flex gap-6 text-xs sm:text-[13px]">
-                <button type="button" onClick={handleUnavailable} className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
+                <Link to="/arena/privacy-policy" className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
                   Privacy Policy
-                </button>
-                <button type="button" onClick={handleUnavailable} className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
+                </Link>
+                <Link to="/arena/terms-of-service" className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
                   Terms of Service
-                </button>
+                </Link>
               </div>
             </div>
           </div>

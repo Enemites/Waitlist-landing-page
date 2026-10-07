@@ -25,6 +25,9 @@ const PrivacyPolicyPage = () => {
                 >
                   Privacy Policy
                 </h1>
+                <p className="nova-mono mt-3 text-xs text-[#AFBAB6]">
+                  Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
+                </p>
                 <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
                   This Privacy Policy explains how Enemites collects, uses, and protects information
                   when you join the waitlist, request early access, explore demos, or use available
@@ -213,7 +216,7 @@ const PrivacyPolicyPage = () => {
               </section>
 
               <p className="nova-mono pt-2 text-xs uppercase tracking-[0.16em] text-[#646A78]">
-                Last updated: {new Date().getFullYear()}
+                Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
               </p>
             </div>
           </div>
