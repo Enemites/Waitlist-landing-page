@@ -48,11 +48,9 @@ export default function ScenarioTheatre() {
 
       <div className="scenario-causal-world">
         <div className="scenario-sculpture" aria-hidden="true">
-          <img src="/assets/market-crash-world-384.webp" srcSet="/assets/market-crash-world-384.webp 384w, /assets/market-crash-world-576.webp 576w, /assets/market-crash-world.webp 768w" sizes="(max-width:767px) 160px, (max-width:1100px) 220px, 290px" alt="" width="768" height="1152" />
-          <div className="scenario-world-ring scenario-world-ring-0" />
-          <div className="scenario-world-ring scenario-world-ring-1" />
-          <div className="scenario-world-ring scenario-world-ring-2" />
-          <div className="scenario-world-signal"><i /></div>
+          <div className="scenario-camera">
+            <img src="/assets/market-crash-world-384.webp" srcSet="/assets/market-crash-world-384.webp 384w, /assets/market-crash-world-576.webp 576w, /assets/market-crash-world.webp 768w" sizes="(max-width:767px) 320px, (max-width:1100px) 440px, 580px" alt="" width="768" height="1152" />
+          </div>
         </div>
         <div className="scenario-reading">
           {events.map((event, index) => <button type="button" key={event.label} className={`scenario-causal-event scenario-causal-event-${index}`} aria-pressed={phase === index} onClick={() => { setPhase(index); setPaused(true); }}>

@@ -358,8 +358,9 @@
 .scenario-clock strong { display:block;font:22px/1.2 "JetBrains Mono",monospace;margin-top:10px;color:var(--product-ink); }
 .scenario-motion-control { display:grid;place-items:center;width:26px;height:26px;margin-top:24px;border:1px solid #53664d80;border-radius:3px;color:var(--product-muted);background:transparent; }
 .scenario-causal-world { position:relative;min-height:324px;margin-top:18px;isolation:isolate; }
-.scenario-sculpture { position:absolute;inset:-14px auto -6px -30px;width:48%;pointer-events:none; }
-.scenario-sculpture img { width:100%;height:100%;object-fit:contain;mix-blend-mode:lighten;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 6%,#000 94%,transparent);mask-composite:intersect;transition:transform 950ms var(--brand-ease),opacity 950ms var(--brand-ease); }
+.scenario-sculpture { position:absolute;inset:0 auto 0 -2%;width:42%;display:grid;place-items:center;pointer-events:none; }
+.scenario-camera { position:relative;width:100%;aspect-ratio:3 / 4;max-height:100%;overflow:clip;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 6%,#000 94%,transparent);mask-composite:intersect; }
+.scenario-camera img { position:absolute;left:50%;top:50%;display:block;width:100%;max-width:none;height:auto;aspect-ratio:2 / 3;mix-blend-mode:lighten;transform-origin:0 0;transition:transform 1400ms var(--brand-ease); }
 .scenario-reading { margin-left:43%;display:grid;min-height:324px;align-content:stretch; }
 .scenario-causal-event { appearance:none;display:flex;flex-direction:column;justify-content:center;position:relative;text-align:left;gap:10px;padding:18px 0 18px 20px;border:0;border-bottom:1px solid #57684d30;background:transparent;min-width:0;cursor:pointer; }
 .scenario-causal-event:last-child { border-bottom:0; }
@@ -376,14 +377,11 @@
 .scenario-causal-event[aria-pressed="true"] .scenario-event-node i { background:var(--product-accent); }
 .scenario-event-progress { position:absolute;left:20px;bottom:0;right:0;height:1px;overflow:hidden; }
 .scenario-event-progress i { display:block;height:100%;background:var(--product-accent);transform:scaleX(0);transform-origin:left; }
-.scenario-world-ring { position:absolute;left:38%;width:36%;aspect-ratio:2.8;border:1px solid #c4ed6c;transform:rotate(-18deg) scale(.9);border-radius:50%;opacity:0;transition:opacity 500ms var(--brand-ease),transform 950ms var(--brand-ease); }
-.scenario-world-ring-0 { top:15%; }.scenario-world-ring-1 { top:45%;left:26%;width:56%; }.scenario-world-ring-2 { top:79%;left:22%;width:45%; }
-.scenario-theatre-inner[data-phase="0"] .scenario-world-ring-0,.scenario-theatre-inner[data-phase="1"] .scenario-world-ring-1,.scenario-theatre-inner[data-phase="2"] .scenario-world-ring-2 { opacity:.55;transform:rotate(-18deg) scale(1.05); }
-.scenario-theatre-inner[data-phase="0"] .scenario-sculpture img { transform:translate3d(0,3px,0) scale(1.015); }
-.scenario-theatre-inner[data-phase="1"] .scenario-sculpture img { transform:translate3d(-5px,-3px,0) scale(1.05); }
-.scenario-theatre-inner[data-phase="2"] .scenario-sculpture img { transform:translate3d(3px,-6px,0) scale(1.025); }
-.scenario-world-signal { position:absolute;top:14%;left:52%;height:68%;width:2px;opacity:.8; }
-.scenario-world-signal i { display:block;width:4px;height:4px;border-radius:50%;background:var(--product-accent); }
+/* Center source-image landmarks: upper island (40%,16%), market (50%,38%), lower island (36%,76%).
+   Scale before translation keeps each landmark at the camera center at every screen size. */
+.scenario-theatre-inner[data-phase="0"] .scenario-camera img { transform:scale(2) translate3d(-40%,-16%,0); }
+.scenario-theatre-inner[data-phase="1"] .scenario-camera img { transform:scale(1.5) translate3d(-50%,-38%,0); }
+.scenario-theatre-inner[data-phase="2"] .scenario-camera img { transform:scale(1.75) translate3d(-36%,-76%,0); }
 .scenario-instruments { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;border-top:1px solid #53664d60;margin-top:20px;padding:20px 0 0; }
 .scenario-instrument { display:flex;align-items:center;gap:12px;min-width:0; }
 .scenario-instrument-dial { height:46px;width:46px;border-radius:50%;position:relative;flex-shrink:0;transform:rotate(-.5deg); }
@@ -394,9 +392,7 @@
 .scenario-instrument strong { display:block;font:25px/1.3 "JetBrains Mono",monospace;letter-spacing:-.05em;font-weight:400;margin-top:3px;color:var(--product-ink); }
 @media (prefers-reduced-motion:no-preference) {
   .scenario-theatre-inner[data-running="true"] .scenario-causal-event[aria-pressed="true"] .scenario-event-progress i { animation:scenario-read 3200ms linear both; }
-  .scenario-theatre-inner[data-running="true"] .scenario-world-signal i { animation:scenario-cause 9600ms linear infinite; }
   @keyframes scenario-read { from { transform:scaleX(0); } to { transform:scaleX(1); } }
-  @keyframes scenario-cause { 0% { transform:translateY(0);opacity:0; } 8% { opacity:1; } 90% { opacity:1; } 100% { transform:translateY(200px);opacity:0; } }
 }
 @media (hover:hover) and (pointer:fine) {
   .scenario-motion-control:hover { color:var(--product-accent);border-color:var(--product-accent); }
@@ -427,8 +423,7 @@
   .scenario-theatre-header { gap:10px; }.product-site .scenario-theatre-header h2 { font-size:30px; }
   .scenario-clock strong { font-size:18px; }.scenario-motion-control { margin-top:25px; }
   .scenario-causal-world,.scenario-reading { min-height:368px; }
-  .scenario-sculpture { width:47%;left:-18px;inset-block:8px; }
-  .scenario-sculpture img { object-position:top; }
+  .scenario-sculpture { width:39%;inset-block:8px; }
   .scenario-reading { margin-left:39%; }
   .scenario-causal-event { gap:9px;padding:18px 0 18px 15px; }
   .scenario-event-copy { font-size:13px;line-height:1.7; }.scenario-event-label { font-size:8px;letter-spacing:0; }
@@ -439,9 +434,7 @@
   .scenario-instrument span { font-size:7px; }.scenario-instrument strong { font-size:23px; }
 }
 @media (prefers-reduced-motion:reduce) {
-  .scenario-sculpture img { transform:none !important;transition:none; }
-  .scenario-world-ring { transition:opacity 180ms ease;transform:rotate(-18deg) !important; }
-  .scenario-world-signal { display:none; }
+  .scenario-camera img { position:static;width:100%;height:100%;object-fit:contain;transform:none !important;transition:none; }
 }
 
 /* Mobile Arena shares its world with the copy instead of reserving a second screen for it. */
