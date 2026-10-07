@@ -23,7 +23,7 @@ const LabHeader = () => {
         
         <nav className="lab-nav flex items-center gap-8 text-[13px] font-medium tracking-wide text-[#62675E]">
           <a href="https://research.enemites.com" className="hover:text-[#272C27] transition-colors">Research</a>
-          <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#272C27] transition-colors">News</a>
+          <a href="https://news.enemites.com" className="hover:text-[#272C27] transition-colors">News</a>
           <a href="mailto:support@enemites.com" className="hover:text-[#272C27] transition-colors">Contact</a>
           <Link 
             to="/arena" 
@@ -207,7 +207,7 @@ const HomePage = () => {
             <a href="https://research.enemites.com" className="hover:text-[#272C27] transition-colors">
               Research
             </a>
-            <a href="#news" onClick={(e) => { e.preventDefault(); alert("News is not available yet in English."); }} className="hover:text-[#272C27] transition-colors">
+            <a href="https://news.enemites.com" className="hover:text-[#272C27] transition-colors">
               News
             </a>
             <a href="mailto:support@enemites.com" className="hover:text-[#272C27] transition-colors">
