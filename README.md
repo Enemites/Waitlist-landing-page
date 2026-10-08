@@ -26,3 +26,20 @@ waitlist/public/assets/cosmic-planet-background.jpg
 ```
 
 File tersebut akan dipanggil oleh halaman introduction melalui path `/assets/cosmic-planet-background.jpg`.
+
+## Privacy and legal-risk remediation
+
+See [the audit and rollout steps](docs/LEGAL-RISK-AUDIT.md) and
+[DMCA registration guide](docs/DMCA-REGISTRATION.md). New API submissions require
+an eligible `age_group`; apply the versioned privacy migration with the updated
+API as one coordinated release. Marketing sender configuration is server-only
+and incomplete until a real operator name and postal address are supplied.
+
+```sh
+npm run build
+npm test
+npx playwright install chromium
+npm run test:browser
+```
+
+Fonts are bundled locally; their licenses ship in `public/licenses/`.

@@ -26,7 +26,7 @@ const TermsOfServicePage = () => {
                   Terms of Service
                 </h1>
                 <p className="nova-mono mt-3 text-xs text-[#AFBAB6]">
-                  Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
+                  Last updated: <time dateTime="2026-10-08">October 8, 2026</time>
                 </p>
                 <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
                   These Terms govern your access to Enemites, a private beta learning environment
@@ -77,7 +77,7 @@ const TermsOfServicePage = () => {
                 <p className="mt-3">
                   Enemites is built for students, learners, and problem solvers who want to train
                   decision making and problem-solving ability through short, adaptive learning
-                  simulations. You are responsible for making sure your use of Enemites follows
+                  simulations. The current waitlist and public questionnaires are for people aged 13 or older. You are responsible for making sure your use of Enemites follows
                   applicable laws, school or campus rules, and age requirements in your region.
                 </p>
               </section>
@@ -88,14 +88,13 @@ const TermsOfServicePage = () => {
                 </h2>
                 <p className="mt-3">
                   Enemites may be available only as a waitlist, private beta, limited access demo, or
-                  experimental environment. By joining the waitlist or requesting access, you:
+                  experimental environment. Joining this waitlist is free and does not create a paid or renewing subscription. By joining the waitlist or requesting access, you:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>Understand that features, arenas, scenarios, and feedback may change.</li>
                   <li>Accept that bugs, downtime, data resets, or limited availability may occur.</li>
                   <li>
-                    Allow us to contact you using the email you provide for Enemites updates, access
-                    invites, and product-related notices.
+                    Choose whether to receive launch announcements, early access invitations, and product news by email. This choice is optional and can be withdrawn using the unsubscribe link in any marketing message.
                   </li>
                 </ul>
               </section>
@@ -212,7 +211,7 @@ const TermsOfServicePage = () => {
               </section>
 
               <p className="nova-mono pt-2 text-xs uppercase tracking-[0.16em] text-[#646A78]">
-                Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
+                Last updated: <time dateTime="2026-10-08">October 8, 2026</time>
               </p>
             </div>
           </div>

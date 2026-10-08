@@ -20,6 +20,7 @@ const ScrollExpandMedia = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const reduce = useReducedMotion();
+  const [externalMediaAllowed, setExternalMediaAllowed] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -57,15 +58,20 @@ const ScrollExpandMedia = ({
           className='relative w-full max-w-5xl aspect-video bg-black shadow-2xl flex items-center justify-center'
         >
           {mediaType === 'video' ? (
-            mediaSrc.includes('youtube.com') ? (
+            mediaSrc.includes('youtube.com') && !externalMediaAllowed ? (
+              <div className='p-6 text-center text-white space-y-4'>
+                <p>Playing this video connects to YouTube, which receives your IP address and may process playback data.</p>
+                <button type='button' className='border border-white px-5 py-3' onClick={() => setExternalMediaAllowed(true)}>Allow YouTube and play video</button>
+              </div>
+            ) : mediaSrc.includes('youtube.com') ? (
               <iframe
                 title="Enemites introduction video"
                 src={
                   mediaSrc.includes('embed')
-                    ? mediaSrc +
+                    ? mediaSrc.replace("www.youtube.com", "www.youtube-nocookie.com") +
                       (mediaSrc.includes('?') ? '&' : '?') +
                       'controls=1&showinfo=0&rel=0&disablekb=1&modestbranding=1'
-                    : mediaSrc.replace('watch?v=', 'embed/') +
+                    : mediaSrc.replace('watch?v=', 'embed/').replace('www.youtube.com', 'www.youtube-nocookie.com') +
                       '?controls=1&showinfo=0&rel=0&disablekb=1&modestbranding=1&playlist=' +
                       mediaSrc.split('v=')[1]
                 }

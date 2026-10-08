@@ -1,3 +1,4 @@
+import unsubscribeHandler from "./api/unsubscribe";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { fileURLToPath, URL } from "node:url";
@@ -15,6 +16,14 @@ function apiDevMiddleware(): Plugin {
   return {
     name: "api-dev-middleware",
     configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (new URL(req.url || "/", "http://localhost").pathname === "/api/unsubscribe") {
+          void unsubscribeHandler(req, res);
+          return;
+        }
+        next();
+      });
+
       // 1. Waitlist API
       server.middlewares.use("/api/waitlist", async (req, res) => {
         if (req.method === "OPTIONS") {

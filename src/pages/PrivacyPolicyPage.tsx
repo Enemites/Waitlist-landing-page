@@ -26,7 +26,7 @@ const PrivacyPolicyPage = () => {
                   Privacy Policy
                 </h1>
                 <p className="nova-mono mt-3 text-xs text-[#AFBAB6]">
-                  Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
+                  Last updated: <time dateTime="2026-10-08">October 8, 2026</time>
                 </p>
                 <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
                   This Privacy Policy explains how Enemites collects, uses, and protects information
@@ -68,20 +68,21 @@ const PrivacyPolicyPage = () => {
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">Contact information</span>{" "}
-                    such as your email address when you join the waitlist, request access, or
-                    contact us.
+                    including your name, phone/WhatsApp number, email address, and age group
+                    when you join the waitlist, plus your email consent choice and the date and version of that choice.
                   </li>
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">Site usage data</span>{" "}
-                    such as pages visited, buttons clicked, device/browser information, and basic
-                    analytics that help us understand how people explore Enemites.
+                    Hosting providers receive technical request information, including your IP address,
+                    to deliver the site and protect it. Our form handlers do not save new IP addresses,
+                    location data, browser details, or screen sizes in registration or survey records.
                   </li>
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">
                       Learning and interaction data
                     </span>{" "}
-                    when available, such as simulation choices, written reflections, decision
-                    paths, mentor interactions, and progress indicators.
+                    including answers you submit to public questionnaires, an eligible age group,
+                    and the version of the privacy notice. Please do not include sensitive personal information in free-text answers.
                   </li>
                 </ul>
               </section>
@@ -95,7 +96,7 @@ const PrivacyPolicyPage = () => {
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>Managing the waitlist, private beta, and early access invitations.</li>
-                  <li>Sending product updates, access notices, and policy changes.</li>
+                  <li>Sending launch announcements, early access invitations, and product news by email only when you choose the optional email consent box.</li>
                   <li>Improving simulations, scenario design, mentor feedback, and product reliability.</li>
                   <li>Detecting abuse, misuse, security issues, bugs, and technical problems.</li>
                 </ul>
@@ -106,10 +107,10 @@ const PrivacyPolicyPage = () => {
                   3. Cookies and Similar Technologies
                 </h2>
                 <p className="mt-3">
-                  Enemites may use cookies or similar technologies for basic site functionality,
-                  analytics, remembering preferences, and understanding how people navigate the
-                  product. Browser settings may allow you to limit or block some of these
-                  technologies, although parts of the experience may not work as intended.
+                  The landing page does not initialize analytics or session replay tools. Fonts are served
+                  from our own site. Embedded YouTube video loads only after you choose to allow it;
+                  YouTube then receives your IP address and may process playback data. Your choice
+                  is held only in page memory and is reset when you reload.
                 </p>
               </section>
 
@@ -134,7 +135,7 @@ const PrivacyPolicyPage = () => {
                   situations, including:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
-                  <li>With service providers that help us operate hosting, analytics, forms, or email.</li>
+                  <li>With hosting and database providers (including Vercel and Neon) that help us operate the site and forms. If you opt in, an email delivery provider may process your email address for delivery.</li>
                   <li>When required by law, regulation, legal process, or security obligations.</li>
                   <li>
                     In connection with a merger, acquisition, financing, or similar business change,
@@ -148,10 +149,12 @@ const PrivacyPolicyPage = () => {
                   6. Students and Young Users
                 </h2>
                 <p className="mt-3">
-                  Enemites is designed for students and learners. If you are under the age required to
-                  consent to online services in your region, use Enemites only with appropriate parent,
-                  guardian, school, or institutional permission. As Enemites expands, additional
-                  controls may be added for school, campus, or organization-based use.
+                  The current waitlist and public questionnaires do not accept submissions from anyone
+                  under 13. We ask for an age group before displaying contact or response fields.
+                  This is a self-declared age check, not identity verification. If you believe a child
+                  under 13 has already provided information, contact support@enemites.com so we can
+                  review and remove it where required. Local rules may require additional permission
+                  for older minors; this age check does not replace those requirements.
                 </p>
               </section>
 
@@ -161,9 +164,9 @@ const PrivacyPolicyPage = () => {
                 </h2>
                 <p className="mt-3">
                   Depending on your location, you may have rights to access, correct, delete, or
-                  request a copy of certain personal information. You may also opt out of some
-                  product communications. To make a privacy request, contact us using the email
-                  below.
+                  request a copy of certain personal information. You can stop marketing emails using the unsubscribe link in each message,
+                  without signing in, or contact support@enemites.com. To make a privacy request,
+                  contact us using the email below.
                 </p>
               </section>
 
@@ -183,9 +186,10 @@ const PrivacyPolicyPage = () => {
                   9. Third-Party Services
                 </h2>
                 <p className="mt-3">
-                  Enemites may use third-party services such as waitlist forms, hosting providers,
-                  analytics tools, video embeds, or email systems. These providers process
-                  information according to their own terms and privacy policies.
+                  The site uses hosting and database providers. Our fonts and main images and videos are
+                  served from this site; optional YouTube playback connects to YouTube after your
+                  choice. Following external social or research links takes you to another service.
+                  Those services have their own privacy practices.
                 </p>
               </section>
 
@@ -196,8 +200,7 @@ const PrivacyPolicyPage = () => {
                 <p className="mt-3">
                   As Enemites evolves, we may update this Privacy Policy. If we make material changes,
                   we will update the last updated date and, where appropriate, provide additional
-                  notice. Continued use of Enemites after changes take effect means you accept the
-                  updated policy.
+                  notice. Where consent is required for a new use, we will request it separately.
                 </p>
               </section>
 
@@ -216,7 +219,7 @@ const PrivacyPolicyPage = () => {
               </section>
 
               <p className="nova-mono pt-2 text-xs uppercase tracking-[0.16em] text-[#646A78]">
-                Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
+                Last updated: <time dateTime="2026-10-08">October 8, 2026</time>
               </p>
             </div>
           </div>

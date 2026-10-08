@@ -12,6 +12,8 @@ import {
   HelpCircle,
 } from "lucide-react";
 
+import AgeGate from "@/components/AgeGate";
+
 interface Question {
   id: string;
   label: string;
@@ -37,7 +39,7 @@ interface FormData {
   created_at?: string;
 }
 
-export default function PublicFormPage() {
+function EligiblePublicFormPage({ ageGroup }: { ageGroup: string }) {
   const { slug } = useParams<{ slug: string }>();
 
   const [form, setForm] = useState<FormData | null>(null);
@@ -173,13 +175,7 @@ export default function PublicFormPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           responses,
-          respondent_info: {
-            userAgent: navigator.userAgent,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
-            language: navigator.language || "en",
-            screenResolution: `${window.screen.width}x${window.screen.height}`,
-            timestamp: new Date().toISOString(),
-          },
+          age_group: ageGroup,
         }),
       });
 
@@ -377,7 +373,7 @@ export default function PublicFormPage() {
             <span>{form.questions.length} Questions</span>
             <span>•</span>
             <span className="flex items-center gap-1 text-[#AFBAB6]">
-              <Shield className="w-3 sm:w-3.5 h-3 sm:h-3.5 inline" /> Confidential & Encrypted
+              <Shield className="w-3 sm:w-3.5 h-3 sm:h-3.5 inline" /> Sent securely to Enemites
             </span>
           </div>
         </div>
@@ -619,4 +615,9 @@ export default function PublicFormPage() {
       </footer>
     </div>
   );
+}
+
+export default function PublicFormPage() {
+  const { slug } = useParams();
+  return <AgeGate key={slug} className="max-w-2xl mx-auto mt-28">{(ageGroup) => <EligiblePublicFormPage ageGroup={ageGroup} />}</AgeGate>;
 }

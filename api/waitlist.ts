@@ -1,4 +1,4 @@
-import type { IncomingMessage } from "node:http";
+import { isEligibleAgeGroup, PRIVACY_NOTICE_VERSION } from "../shared/privacy.js";
 import { getDatabasePool } from "../lib/database.js";
 
 export interface WaitlistPayload {
@@ -20,127 +20,18 @@ export interface RequestMeta {
   socket?: { remoteAddress?: string };
 }
 
-export function parseDeviceAndGeo(payload: WaitlistPayload, meta?: RequestMeta) {
-  const headers = meta?.headers || {};
-  
-  // 1. User Agent extraction
-  const rawUa =
-    (typeof headers["user-agent"] === "string" ? headers["user-agent"] : "") ||
-    payload.client_meta?.userAgent ||
-    "";
-  
-  let device_type = "Desktop";
-  let operating_system = "Unknown OS";
-  let browser = "Unknown Browser";
-
-  if (rawUa) {
-    // Device Type
-    if (/ipad|tablet|(android(?!.*mobile))/i.test(rawUa)) {
-      device_type = "Tablet";
-    } else if (/mobile|iphone|ipod|android|blackberry|opera mini|iemobile|wpdesktop/i.test(rawUa)) {
-      device_type = "Mobile";
-    }
-
-    // Operating System
-    if (/iphone|ipad|ipod/i.test(rawUa)) {
-      const match = rawUa.match(/OS (\d+[._]\d+)/i);
-      operating_system = match ? `iOS ${match[1].replace(/_/g, ".")}` : "iOS";
-    } else if (/android/i.test(rawUa)) {
-      const match = rawUa.match(/Android (\d+(\.\d+)?)/i);
-      operating_system = match ? `Android ${match[1]}` : "Android";
-    } else if (/windows nt 10\.0/i.test(rawUa)) {
-      operating_system = "Windows 10/11";
-    } else if (/windows nt 6\.3/i.test(rawUa)) {
-      operating_system = "Windows 8.1";
-    } else if (/windows nt 6\.1/i.test(rawUa)) {
-      operating_system = "Windows 7";
-    } else if (/windows/i.test(rawUa)) {
-      operating_system = "Windows";
-    } else if (/mac os x (\d+[._]\d+)/i.test(rawUa)) {
-      const match = rawUa.match(/Mac OS X (\d+[._]\d+)/i);
-      operating_system = match ? `macOS ${match[1].replace(/_/g, ".")}` : "macOS";
-    } else if (/macintosh/i.test(rawUa)) {
-      operating_system = "macOS";
-    } else if (/cros/i.test(rawUa)) {
-      operating_system = "Chrome OS";
-    } else if (/linux/i.test(rawUa)) {
-      operating_system = "Linux";
-    }
-
-    // Browser
-    if (/samsungbrowser/i.test(rawUa)) {
-      browser = "Samsung Internet";
-    } else if (/edg([ea])?/i.test(rawUa)) {
-      browser = "Microsoft Edge";
-    } else if (/opr|opera/i.test(rawUa)) {
-      browser = "Opera";
-    } else if (/chrome|crios/i.test(rawUa) && !/edg/i.test(rawUa) && !/opr/i.test(rawUa)) {
-      browser = "Google Chrome";
-    } else if (/firefox|fxios/i.test(rawUa)) {
-      browser = "Mozilla Firefox";
-    } else if (/safari/i.test(rawUa) && !/chrome|crios/i.test(rawUa)) {
-      browser = "Apple Safari";
-    }
+export async function handleWaitlistSubmission(payload: WaitlistPayload, _meta?: RequestMeta) {
+  if (!payload || typeof payload !== "object" || !isEligibleAgeGroup(payload.age_group)) {
+    return { status: 400, data: { success: false, code: "AGE_NOT_ELIGIBLE", message: "Please complete the age check. We cannot accept registrations from anyone under 13." } };
   }
-
-  // 2. IP Address extraction
-  const forwardedFor =
-    (typeof headers["x-forwarded-for"] === "string" ? headers["x-forwarded-for"] : "") ||
-    (typeof headers["x-real-ip"] === "string" ? headers["x-real-ip"] : "") ||
-    meta?.socket?.remoteAddress ||
-    "";
-  
-  const ip_address = forwardedFor ? forwardedFor.split(",")[0].trim() : null;
-
-  // 3. Country & City Geolocation extraction (Vercel edge headers / Cloudflare headers)
-  const rawCountry =
-    (typeof headers["x-vercel-ip-country"] === "string" ? headers["x-vercel-ip-country"] : "") ||
-    (typeof headers["cf-ipcountry"] === "string" ? headers["cf-ipcountry"] : "") ||
-    "";
-  
-  const rawCity =
-    typeof headers["x-vercel-ip-city"] === "string" ? headers["x-vercel-ip-city"] : "";
-
-  let country: string | null = null;
-  if (rawCountry) {
-    try {
-      const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
-      const fullName = regionNames.of(rawCountry.toUpperCase());
-      country = fullName ? `${fullName} (${rawCountry.toUpperCase()})` : rawCountry.toUpperCase();
-    } catch {
-      country = rawCountry.toUpperCase();
-    }
-  } else if (payload.client_meta?.timezone) {
-    // If running in development without proxy headers, fallback to client timezone indicator
-    country = `Local (${payload.client_meta.timezone})`;
+  if (payload.receive_updates !== undefined && typeof payload.receive_updates !== "boolean") {
+    return { status: 400, data: { success: false, message: "Email consent must be true or false." } };
   }
-
-  let city: string | null = null;
-  if (rawCity) {
-    try {
-      city = decodeURIComponent(rawCity);
-    } catch {
-      city = rawCity;
-    }
-  }
-
-  return {
-    ip_address,
-    country,
-    city,
-    device_type,
-    operating_system,
-    browser,
-    user_agent: rawUa || null,
-  };
-}
-
-export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: RequestMeta) {
   const name = typeof payload.name === "string" ? payload.name.trim() : "";
   const phone = typeof payload.number === "string" ? payload.number.trim().replace(/\s+/g, "") : "";
   const email = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   const ageGroup = typeof payload.age_group === "string" ? payload.age_group.trim() : "";
-  const receiveUpdates = Boolean(payload.receive_updates);
+  const receiveUpdates = payload.receive_updates === true;
 
   // Validation
   if (!name || name.length < 2) {
@@ -164,17 +55,6 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: 
       data: { success: false, message: "Please provide a valid email address." },
     };
   }
-
-  const allowedAgeGroups = ["<10", "10-18", "18-20", "20+"];
-  if (!ageGroup || !allowedAgeGroups.includes(ageGroup)) {
-    return {
-      status: 400,
-      data: { success: false, message: "Please select an age group." },
-    };
-  }
-
-  // Parse IP, Country, and Device Information
-  const deviceAndGeo = parseDeviceAndGeo(payload, meta);
 
   const db = getDatabasePool();
   const client = await db.connect();
@@ -216,7 +96,7 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: 
       };
     }
 
-    // 3. Insert new entry with IP, Country, and Device Info
+    // 3. Record explicit age/consent evidence without device or location tracking
     const insertResult = await client.query(
       `INSERT INTO public.waitlist (
         name,
@@ -231,9 +111,12 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: 
         operating_system,
         browser,
         user_agent,
-        created_at
+        created_at,
+        privacy_notice_version,
+        marketing_consent_at,
+        marketing_consent_version
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW())
+      VALUES ($1, $2, $3, $4, $5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), $6, CASE WHEN $5 THEN NOW() ELSE NULL END, CASE WHEN $5 THEN $6 ELSE NULL END)
       RETURNING id, created_at, country, device_type, operating_system, browser`,
       [
         name,
@@ -241,13 +124,7 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: 
         email,
         ageGroup,
         receiveUpdates,
-        deviceAndGeo.ip_address,
-        deviceAndGeo.country,
-        deviceAndGeo.city,
-        deviceAndGeo.device_type,
-        deviceAndGeo.operating_system,
-        deviceAndGeo.browser,
-        deviceAndGeo.user_agent,
+        PRIVACY_NOTICE_VERSION,
       ]
     );
 
@@ -255,7 +132,7 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: 
       status: 201,
       data: {
         success: true,
-        message: "You have been successfully added to the waitlist! We'll keep you updated on our launch.",
+        message: "You have been successfully added to the waitlist! Email news is sent only if you opted in.",
         id: insertResult.rows[0].id,
       },
     };
@@ -295,7 +172,7 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, meta?: 
       };
     }
 
-    console.error("Database waitlist error:", error);
+    console.error("Database waitlist error", { code: error?.code });
     return {
       status: 500,
       data: {
@@ -351,7 +228,7 @@ export default async function handler(req: any, res: any) {
 
     res.status(result.status).json(result.data);
   } catch (err: any) {
-    console.error("Unhandled handler error:", err);
+    console.error("Waitlist request failed", { code: err?.code });
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 }

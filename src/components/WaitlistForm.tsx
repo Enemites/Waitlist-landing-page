@@ -1,5 +1,8 @@
 import { useState, useId } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Link } from "react-router-dom";
+import AgeGate from "./AgeGate";
+import { isEligibleAgeGroup, MARKETING_CONSENT_TEXT } from "../../shared/privacy";
 import { ArrowRight, Loader2, AlertCircle } from "lucide-react";
 
 interface FormData {
@@ -18,17 +21,12 @@ interface FormErrors {
   general?: string;
 }
 
-const AGE_OPTIONS = [
-  { value: "<10", label: "<10" },
-  { value: "10-18", label: "10–18" },
-  { value: "18-20", label: "18–20" },
-  { value: "20+", label: "20+" },
-];
-
-export default function WaitlistForm({
+function EligibleWaitlistForm({
+  ageGroup,
   className = "",
   onSuccessCallback,
 }: {
+  ageGroup: string;
   className?: string;
   onSuccessCallback?: () => void;
 }) {
@@ -36,7 +34,7 @@ export default function WaitlistForm({
     name: "",
     number: "",
     email: "",
-    age_group: "",
+    age_group: ageGroup,
     receive_updates: false,
   });
 
@@ -75,7 +73,7 @@ export default function WaitlistForm({
       newErrors.email = "Please enter a valid email address";
     }
 
-    if (!formData.age_group) {
+    if (!isEligibleAgeGroup(formData.age_group)) {
       newErrors.age_group = "Please select an age group";
     }
 
@@ -106,12 +104,6 @@ export default function WaitlistForm({
           email: formData.email.trim(),
           age_group: formData.age_group,
           receive_updates: formData.receive_updates,
-          client_meta: {
-            userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-            timezone: typeof Intl !== "undefined" ? Intl.DateTimeFormat().resolvedOptions().timeZone : "",
-            language: typeof navigator !== "undefined" ? navigator.language : "",
-            screenResolution: typeof window !== "undefined" ? `${window.screen.width}x${window.screen.height}` : "",
-          },
         }),
       });
 
@@ -167,7 +159,7 @@ export default function WaitlistForm({
       name: "",
       number: "",
       email: "",
-      age_group: "",
+      age_group: ageGroup,
       receive_updates: false,
     });
     setErrors({});
@@ -205,7 +197,7 @@ export default function WaitlistForm({
                 You are on the list, {submittedData.name}.
               </h3>
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#9AA6A4] max-w-lg">
-                Your entry has been recorded for the upcoming Enemites Arena simulation batch. We will deliver your private access key directly to your email and WhatsApp when onboarding begins.
+                Your entry has been recorded for the upcoming Enemites Arena simulation batch. If you opted in to email updates, we may email you when onboarding begins.
               </p>
             </div>
 
@@ -382,42 +374,6 @@ export default function WaitlistForm({
                 </div>
               </div>
 
-              {/* Field: Age Cohort */}
-              <div className="space-y-2 pt-1 sm:pt-2">
-                <div className="flex items-center justify-between">
-                  <span className="nova-mono text-[11px] sm:text-xs font-medium text-[#AFBAB6] tracking-wide">
-                    AGE COHORT <span className="text-[#C4ED6C]">*</span>
-                  </span>
-                  {errors.age_group && (
-                    <span className="nova-mono text-[10px] sm:text-[11px] text-red-400">{errors.age_group}</span>
-                  )}
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {AGE_OPTIONS.map((opt) => {
-                    const isSelected = formData.age_group === opt.value;
-                    return (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        aria-pressed={isSelected}
-                        onClick={() => {
-                          setFormData({ ...formData, age_group: opt.value });
-                          if (errors.age_group) setErrors({ ...errors, age_group: undefined });
-                        }}
-                        className={`flex items-center justify-center py-2.5 sm:py-3 px-3 sm:px-4 border text-[11px] sm:text-xs font-mono transition-colors select-none ${
-                          isSelected
-                            ? "border-[#C4ED6C] bg-[#C4ED6C] text-[#EDF1EF] font-semibold"
-                            : "border-[#2D4035] bg-[#0D1517] text-[#9AA6A4] hover:border-[#C4ED6C] hover:text-[#EDF1EF]"
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
               {/* Checkbox: Consent */}
               <div className="pt-2 sm:pt-3">
                 <label className="flex items-start gap-2.5 sm:gap-3 cursor-pointer select-none group">
@@ -443,11 +399,13 @@ export default function WaitlistForm({
                     )}
                   </div>
                   <span className="text-[11px] sm:text-xs md:text-[13px] leading-relaxed text-[#9AA6A4] group-hover:text-[#AFBAB6] transition-colors">
-                    Want to receive updates from us beyond the launch?
+                    {MARKETING_CONSENT_TEXT}
                   </span>
                 </label>
               </div>
             </div>
+
+            <p className="text-xs text-[#AFBAB6]">Joining is free and creates no paid subscription. Read our <Link to="/arena/privacy-policy" className="underline">Privacy Policy</Link> and <Link to="/arena/terms-of-service" className="underline">Terms of Service</Link>.</p>
 
             {/* Submit Button */}
             <div className="pt-3 sm:pt-4 border-t border-[#253632]">
@@ -474,4 +432,8 @@ export default function WaitlistForm({
       </AnimatePresence>
     </div>
   );
+}
+
+export default function WaitlistForm(props: { className?: string; onSuccessCallback?: () => void }) {
+  return <AgeGate>{(ageGroup) => <EligibleWaitlistForm {...props} ageGroup={ageGroup} />}</AgeGate>;
 }
