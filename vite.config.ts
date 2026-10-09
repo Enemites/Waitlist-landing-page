@@ -1,4 +1,6 @@
-import { defineConfig, type Plugin } from "vite";
+import unsubscribeHandler from "./api/unsubscribe";
+import parentPermissionHandler from "./api/parent-permission";
+import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { fileURLToPath, URL } from "node:url";
 import { handleWaitlistSubmission } from "./api/waitlist";
@@ -15,6 +17,26 @@ function apiDevMiddleware(): Plugin {
   return {
     name: "api-dev-middleware",
     configureServer(server) {
+      // Keep server credentials out of Vite's client environment and load local setup
+      // only for API handlers, which read these values when processing requests.
+      const local = loadEnv(server.config.mode, server.config.envDir, "");
+      for (const key of ["DATABASE_URL", "RESEND_API_KEY", "WAITLIST_EMAIL_FROM", "PUBLIC_SITE_URL", "MARKETING_OPERATOR_NAME", "MARKETING_POSTAL_ADDRESS", "MARKETING_UNSUBSCRIBE_SECRET", "CRON_SECRET"]) {
+        if (!process.env[key] && local[key]) process.env[key] = local[key];
+      }
+      server.middlewares.use((req, res, next) => {
+        if (new URL(req.url || "/", "http://localhost").pathname === "/api/parent-permission") {
+          let body = "";
+          req.on("data", (chunk) => { body += chunk; });
+          req.on("end", () => { void parentPermissionHandler(Object.assign(req, { body }), res); });
+          return;
+        }
+        if (new URL(req.url || "/", "http://localhost").pathname === "/api/unsubscribe") {
+          void unsubscribeHandler(req, res);
+          return;
+        }
+        next();
+      });
+
       // 1. Waitlist API
       server.middlewares.use("/api/waitlist", async (req, res) => {
         if (req.method === "OPTIONS") {

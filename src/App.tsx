@@ -7,6 +7,7 @@ import TermsOfServicePage from "@/pages/TermsOfServicePage";
 import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import HomePage from "@/pages/HomePage";
 import PublicFormPage from "@/pages/PublicFormPage";
+import ParentWaitlistPage from "@/pages/ParentWaitlistPage";
 
 const Placeholder = ({ title }: { title: string }) => (
   <div className="product-site product-state min-h-screen flex items-center justify-center bg-gray-50 text-gray-900">
@@ -57,6 +58,7 @@ export default function App() {
         <Route path="/arena/about-us" element={<AboutUsPage />} />
         <Route path="/arena/contact" element={<NotAvailablePage title="Contact" />} />
         <Route path="/arena/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/arena/parent-waitlist" element={<ParentWaitlistPage />} />
         <Route path="/arena/terms-of-service" element={<TermsOfServicePage />} />
         <Route path="/arena/login" element={<Placeholder title="Login" />} />
         <Route path="/arena/pricing" element={<Placeholder title="Pricing" />} />

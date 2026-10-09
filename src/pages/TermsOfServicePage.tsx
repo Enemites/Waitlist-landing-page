@@ -26,7 +26,7 @@ const TermsOfServicePage = () => {
                   Terms of Service
                 </h1>
                 <p className="nova-mono mt-3 text-xs text-[#AFBAB6]">
-                  Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
+                  Last updated: <time dateTime="2026-10-09">October 9, 2026</time>
                 </p>
                 <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
                   These Terms govern your access to Enemites, a private beta learning environment
@@ -77,7 +77,7 @@ const TermsOfServicePage = () => {
                 <p className="mt-3">
                   Enemites is built for students, learners, and problem solvers who want to train
                   decision making and problem-solving ability through short, adaptive learning
-                  simulations. You are responsible for making sure your use of Enemites follows
+                  simulations. Learners under 13 may join the waitlist through a parent or guardian who registers their own contact details using our email invitation. A parent may complete public questionnaires with their own information, without identifying the child. Parent permission for the waitlist does not create or authorize a child account. Additional age and parental-permission requirements may apply by region. You are responsible for making sure your use of Enemites follows
                   applicable laws, school or campus rules, and age requirements in your region.
                 </p>
               </section>
@@ -88,16 +88,20 @@ const TermsOfServicePage = () => {
                 </h2>
                 <p className="mt-3">
                   Enemites may be available only as a waitlist, private beta, limited access demo, or
-                  experimental environment. By joining the waitlist or requesting access, you:
+                  experimental environment. Joining this waitlist is free and does not create a paid or renewing subscription. By joining the waitlist or requesting access, you:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>Understand that features, arenas, scenarios, and feedback may change.</li>
                   <li>Accept that bugs, downtime, data resets, or limited availability may occur.</li>
                   <li>
-                    Allow us to contact you using the email you provide for Enemites updates, access
-                    invites, and product-related notices.
+                    Request launch announcements and early access notifications as part of joining the waitlist. The existing optional checkbox controls only updates beyond the launch. You can stop promotional messages using the unsubscribe link in each email.
                   </li>
                 </ul>
+              </section>
+
+              <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
+                <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">Age Appropriate Service</h2>
+                <p className="mt-3">When learning features launch, Enemites plans separate safeguards for child and adult use, including age appropriate content and mentor responses, limits on adult-only scenarios and social interaction, and parent controls where required. Adults may receive different content or features. These learning features are not available on the current waitlist. Actual safeguards and child-data practices will be explained before launch, and any required parental permission will be obtained before the relevant data collection.</p>
               </section>
 
               <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
@@ -212,7 +216,7 @@ const TermsOfServicePage = () => {
               </section>
 
               <p className="nova-mono pt-2 text-xs uppercase tracking-[0.16em] text-[#646A78]">
-                Last updated: <time dateTime="2026-10-07">October 7, 2026</time>
+                Last updated: <time dateTime="2026-10-09">October 9, 2026</time>
               </p>
             </div>
           </div>

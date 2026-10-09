@@ -1,4 +1,5 @@
 {
+  "crons": [{ "path": "/api/parent-permission-cleanup", "schedule": "0 3 * * *" }],
   "rewrites": [
     {
       "source": "/api/forms/(.*)",

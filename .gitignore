@@ -124,3 +124,7 @@ dist
 # Ignore every environment file except the empty example.
 .env*
 !.env.example
+
+# Browser test artifacts
+playwright-report/
+test-results/

@@ -1,3 +1,4 @@
+import { isEligibleAgeGroup, requiresParentRegistration, PRIVACY_NOTICE_VERSION } from "../shared/privacy.js";
 import { getDatabasePool } from "../lib/database.js";
 
 export const ENEMITES_API_KEY = process.env.ENEMITES_API_KEY;
@@ -26,6 +27,8 @@ export interface CreateFormPayload {
 }
 
 export interface SubmitFormPayload {
+  age_group: string;
+  parent_submitted?: boolean;
   responses: Record<string, any>;
   respondent_info?: {
     name?: string;
@@ -43,125 +46,7 @@ export interface RequestMeta {
   socket?: { remoteAddress?: string };
 }
 
-// Device & Geolocation parser (IP, Country, City, Region, OS, Browser, Device Type)
-export function parseDeviceAndGeo(payload: SubmitFormPayload, meta?: RequestMeta) {
-  const headers = meta?.headers || {};
-
-  // 1. User Agent
-  const rawUa =
-    (typeof headers["user-agent"] === "string" ? headers["user-agent"] : "") ||
-    payload.respondent_info?.userAgent ||
-    "";
-
-  let device_type = "Desktop";
-  let os = "Unknown OS";
-  let browser = "Unknown Browser";
-
-  if (rawUa) {
-    // Device Type
-    if (/ipad|tablet|(android(?!.*mobile))/i.test(rawUa)) {
-      device_type = "Tablet";
-    } else if (/mobile|iphone|ipod|android|blackberry|opera mini|iemobile|wpdesktop/i.test(rawUa)) {
-      device_type = "Mobile";
-    }
-
-    // OS
-    if (/iphone|ipad|ipod/i.test(rawUa)) {
-      const match = rawUa.match(/OS (\d+[._]\d+)/i);
-      os = match ? `iOS ${match[1].replace(/_/g, ".")}` : "iOS";
-    } else if (/android/i.test(rawUa)) {
-      const match = rawUa.match(/Android (\d+(\.\d+)?)/i);
-      os = match ? `Android ${match[1]}` : "Android";
-    } else if (/windows nt 10\.0/i.test(rawUa)) {
-      os = "Windows 10/11";
-    } else if (/windows nt 6\.3/i.test(rawUa)) {
-      os = "Windows 8.1";
-    } else if (/windows nt 6\.1/i.test(rawUa)) {
-      os = "Windows 7";
-    } else if (/windows/i.test(rawUa)) {
-      os = "Windows";
-    } else if (/mac os x (\d+[._]\d+)/i.test(rawUa)) {
-      const match = rawUa.match(/Mac OS X (\d+[._]\d+)/i);
-      os = match ? `macOS ${match[1].replace(/_/g, ".")}` : "macOS";
-    } else if (/macintosh/i.test(rawUa)) {
-      os = "macOS";
-    } else if (/cros/i.test(rawUa)) {
-      os = "Chrome OS";
-    } else if (/linux/i.test(rawUa)) {
-      os = "Linux";
-    }
-
-    // Browser
-    if (/samsungbrowser/i.test(rawUa)) {
-      browser = "Samsung Internet";
-    } else if (/edg([ea])?/i.test(rawUa)) {
-      browser = "Microsoft Edge";
-    } else if (/opr|opera/i.test(rawUa)) {
-      browser = "Opera";
-    } else if (/chrome|crios/i.test(rawUa) && !/edg/i.test(rawUa) && !/opr/i.test(rawUa)) {
-      browser = "Google Chrome";
-    } else if (/firefox|fxios/i.test(rawUa)) {
-      browser = "Mozilla Firefox";
-    } else if (/safari/i.test(rawUa) && !/chrome|crios/i.test(rawUa)) {
-      browser = "Apple Safari";
-    }
-  }
-
-  // 2. IP Address
-  const forwardedFor =
-    (typeof headers["x-forwarded-for"] === "string" ? headers["x-forwarded-for"] : "") ||
-    (typeof headers["x-real-ip"] === "string" ? headers["x-real-ip"] : "") ||
-    meta?.socket?.remoteAddress ||
-    "";
-
-  const ip_address = forwardedFor ? forwardedFor.split(",")[0].trim() : null;
-
-  // 3. Country & City Geolocation (Vercel & Cloudflare Edge Headers)
-  const rawCountry =
-    (typeof headers["x-vercel-ip-country"] === "string" ? headers["x-vercel-ip-country"] : "") ||
-    (typeof headers["cf-ipcountry"] === "string" ? headers["cf-ipcountry"] : "") ||
-    "";
-
-  const rawCity =
-    typeof headers["x-vercel-ip-city"] === "string" ? headers["x-vercel-ip-city"] : "";
-  const rawRegion =
-    typeof headers["x-vercel-ip-country-region"] === "string"
-      ? headers["x-vercel-ip-country-region"]
-      : "";
-
-  let country: string | null = null;
-  if (rawCountry) {
-    try {
-      const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
-      const fullName = regionNames.of(rawCountry.toUpperCase());
-      country = fullName ? `${fullName} (${rawCountry.toUpperCase()})` : rawCountry.toUpperCase();
-    } catch {
-      country = rawCountry.toUpperCase();
-    }
-  } else if (payload.respondent_info?.timezone) {
-    country = `Local (${payload.respondent_info.timezone})`;
-  }
-
-  let city: string | null = null;
-  if (rawCity) {
-    try {
-      city = decodeURIComponent(rawCity);
-    } catch {
-      city = rawCity;
-    }
-  }
-
-  return {
-    ip_address,
-    country,
-    city,
-    region: rawRegion || null,
-    device_type,
-    browser,
-    os,
-  };
-}
-
+// Administrative form operations require the existing server-only credential.
 export function checkEnemitesAuth(authHeader?: string | string[]): boolean {
   if (!ENEMITES_API_KEY || !authHeader) return false;
   const headerValue = Array.isArray(authHeader) ? authHeader[0] : authHeader;
@@ -291,8 +176,14 @@ export async function handleGetFormBySlug(slug: string) {
   }
 }
 
-// 3. Submit Response (Public - Geolocation and Device Detection)
-export async function handleSubmitForm(slug: string, payload: SubmitFormPayload, meta?: RequestMeta) {
+// 3. Submit Response (Public - eligible ages only, no device/location tracking)
+export async function handleSubmitForm(slug: string, payload: SubmitFormPayload, _meta?: RequestMeta) {
+  if (!payload || typeof payload !== "object" || !isEligibleAgeGroup(payload.age_group)) {
+    return { status: 400, data: { success: false, code: "INVALID_AGE_GROUP", message: "Please select a valid age group." } };
+  }
+  if (requiresParentRegistration(payload.age_group) && payload.parent_submitted !== true) {
+    return { status: 400, data: { success: false, message: "A parent or guardian can complete this questionnaire with their own information. Waitlist permission does not authorize collecting a child's questionnaire answers." } };
+  }
   const cleanSlug = (slug || "").trim();
 
   const db = getDbPool();
@@ -322,30 +213,22 @@ export async function handleSubmitForm(slug: string, payload: SubmitFormPayload,
     }
 
     const responses = payload.responses || {};
-    const geo = parseDeviceAndGeo(payload, meta);
-
     const respondentInfo = {
-      ...(payload.respondent_info || {}),
-      ...geo,
+      age_group: payload.age_group,
+      privacy_notice_version: PRIVACY_NOTICE_VERSION,
+      registration_actor: requiresParentRegistration(payload.age_group) ? "parent" : "self",
     };
 
     const insertRes = await client.query(
       `INSERT INTO public.enemites_form_submissions 
         (form_id, form_slug, responses, respondent_info, ip_address, country, city, region, device_type, browser, os, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())
+       VALUES ($1, $2, $3, $4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW())
        RETURNING id, created_at, country, city, device_type`,
       [
         form.id,
         form.slug,
         JSON.stringify(responses),
         JSON.stringify(respondentInfo),
-        geo.ip_address,
-        geo.country,
-        geo.city,
-        geo.region,
-        geo.device_type,
-        geo.browser,
-        geo.os,
       ]
     );
 
