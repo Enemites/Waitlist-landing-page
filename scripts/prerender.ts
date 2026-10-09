@@ -26,7 +26,7 @@ try {
   }
   await writeFile("dist/404.html", await criticalCss.process(documentFor("/404", await render("/404"))));
   // Dynamic forms and invitation tokens must never be rendered during the build.
-  await writeFile("dist/private.html", documentFor("/arena/parent-waitlist", ""));
+  await writeFile("dist/private.html", documentFor("/private", ""));
   await writeFile("dist/robots.txt", robotsContent);
   await writeFile("dist/sitemap.xml", sitemapContent);
   await writeFile("dist/index.html", await readFile("dist/home.html", "utf8"));

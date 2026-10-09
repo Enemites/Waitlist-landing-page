@@ -22,6 +22,7 @@ export function metadataForPath(pathname: string): PageMetadata {
   const path = pathname === "/" ? "/home" : pathname.replace(/\/$/, "");
   const known = [...PUBLIC_PAGES, ...UNINDEXED_PAGES].find(page => page.path === path);
   if (known) return known;
+  if (path === "/private") return { path, title: "Invitations & Questionnaires — Enemites", description: "Open an Enemites invitation or questionnaire.", index: false };
   if (path === "/arena/parent-waitlist") return { path, title: "Parent Waitlist Invitation — Enemites", description: "Review your parent or guardian invitation for the Enemites waitlist.", index: false };
   if (/^\/form\/[^/]+$/.test(path)) return { path, title: "Questionnaire — Enemites", description: "Complete an Enemites questionnaire.", index: false };
   return { path, title: "Page Not Found — Enemites", description: "This page could not be found. Explore Enemites or return to Arena.", index: false };
@@ -66,6 +67,6 @@ export function metadataHtml(page: PageMetadata): string {
     <meta name="twitter:title" content="${title}" />
     <meta name="twitter:description" content="${description}" />
     <meta name="twitter:image" content="${SOCIAL_IMAGE}" />
-    ${page.path === "/arena/parent-waitlist" ? '<meta name="referrer" content="no-referrer" />' : ""}
+    ${["/arena/parent-waitlist", "/private"].includes(page.path) ? '<meta name="referrer" content="no-referrer" />' : ""}
     ${schema ? `<script id="site-structured-data" type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>` : ""}`;
 }

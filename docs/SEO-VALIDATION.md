@@ -41,4 +41,6 @@ Run `npm run seo:audit -- http://127.0.0.1:5174 current` to regenerate ignored r
 
 ## Deployment checks
 
-Local preview verified the route/status behaviors. After the branch preview deploys, verify its public HTML, sitemap/robots MIME types, root redirect, genuine missing-page 404, private-route noindex headers, social-image response, and existing API route reachability. Vercel configuration explicitly runs `npm run build` and serves `dist`; the cleanup cron is retained. Production verification, Search Console submission, and indexing review follow the eventual merge/deployment.
+The branch preview built successfully on Vercel. Authenticated read-only requests verified public prerendered HTML (200), root redirect to `/home` (308), robots text and sitemap XML MIME types (200), missing-page HTML (404), private-route noindex headers, parent no-referrer policy, and the JPEG social image (200). Existing API reachability was verified without submissions: GET `/api/waitlist` returned 405; unauthenticated GET `/api/forms` returned 401. Arena rendered with its intended title/canonical and no browser errors. Vercel automatically adds noindex to preview deployments; this is expected and distinct from public-page metadata for production.
+
+Vercel configuration explicitly runs `npm run build` and serves `dist`; the cleanup cron is retained. Production verification, Search Console submission, and indexing review follow the eventual merge/deployment.
