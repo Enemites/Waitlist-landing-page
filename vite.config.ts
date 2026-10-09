@@ -2,6 +2,7 @@ import unsubscribeHandler from "./api/unsubscribe";
 import parentPermissionHandler from "./api/parent-permission";
 import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import { seoPlugin } from "./build/seo-plugin";
 import { fileURLToPath, URL } from "node:url";
 import { handleWaitlistSubmission } from "./api/waitlist";
 import {
@@ -174,7 +175,7 @@ function apiDevMiddleware(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), apiDevMiddleware()],
+  plugins: [react(), seoPlugin(), apiDevMiddleware()],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

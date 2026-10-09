@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /** Native vector evidence field; it illustrates reasoning without inventing a product screenshot. */
 export default function DecisionTrace({ variant = "network" }: { variant?: "network" | "evidence" }) {

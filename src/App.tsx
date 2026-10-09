@@ -8,6 +8,8 @@ import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
 import HomePage from "@/pages/HomePage";
 import PublicFormPage from "@/pages/PublicFormPage";
 import ParentWaitlistPage from "@/pages/ParentWaitlistPage";
+import SeoMetadata from "@/components/SeoMetadata";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 const Placeholder = ({ title }: { title: string }) => (
   <div className="product-site product-state min-h-screen flex items-center justify-center bg-gray-50 text-gray-900">
@@ -46,9 +48,10 @@ const ScrollToTop = () => {
   return null;
 };
 
-export default function App() {
+export function SiteRoutes() {
   return (
-    <BrowserRouter>
+    <>
+      <SeoMetadata />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
@@ -65,7 +68,12 @@ export default function App() {
         
         {/* Dynamic Questionnaire Form Route */}
         <Route path="/form/:slug" element={<PublicFormPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
+}
+
+export default function App() {
+  return <BrowserRouter><SiteRoutes /></BrowserRouter>;
 }

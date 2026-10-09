@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import ResponsiveHeader, { novaGlobalNavItems } from "@/components/ResponsiveHeader";
 import { useRef } from "react";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import WaitlistForm from "@/components/WaitlistForm";
 import ArenaScene from "@/components/product/ArenaScene";
 import SimulationSequence from "@/components/product/SimulationSequence";
@@ -152,7 +153,7 @@ const IntroductionPage = () => {
               <ProductReveal><h2>Fun like a game.<br /><span>Effective like work.</span></h2></ProductReveal>
               <ProductReveal className="intro-preview">
                 <button type="button" onClick={scrollToVideoDemo} className="intro-preview-trigger">
-                  <img src="/assets/work.png" alt="Enemites experience preview" loading="lazy" />
+                  <img src="/assets/work-1280.webp" srcSet="/assets/work-640.webp 640w, /assets/work-1280.webp 1280w, /assets/work-1920.webp 1920w" sizes="(max-width:767px) 100vw, 52vw" width="1920" height="1080" alt="Enemites experience preview" loading="lazy" decoding="async" />
                   <span className="intro-play"><Play aria-hidden="true" size={22} fill="currentColor" /><span>Watch Intro Video</span></span>
                 </button>
               </ProductReveal>
@@ -203,7 +204,7 @@ const IntroductionPage = () => {
             <WaitlistForm />
           </div>
         </section>
-        <section className="product-endmark" aria-hidden="true"><img src="/assets/logo.png" alt="" /></section>
+        <section className="product-endmark" aria-hidden="true"><img src="/assets/logo-384.webp" width="384" height="282" alt="" /></section>
       </main>
 
       <footer
@@ -215,7 +216,7 @@ const IntroductionPage = () => {
             <div className="lg:col-span-2">
               <div className="mb-6">
                 <h3 className="nova-display mb-3 sm:mb-4 text-xl sm:text-2xl font-medium tracking-normal text-[#EDF1EF] flex items-center gap-2.5">
-                  <img src="/assets/logo.png" alt="" className="h-6 sm:h-7 w-auto invert" />
+                  <img src="/assets/logo-128.webp" width="128" height="94" alt="" className="h-6 sm:h-7 w-auto invert" />
                   <span>Enemites</span>
                 </h3>
                 <p className="max-w-md text-xs sm:text-sm md:text-[15px] font-normal leading-relaxed text-[#EDF1EF]/72">

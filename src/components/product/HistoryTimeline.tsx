@@ -1,5 +1,6 @@
 import { useRef, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll } from "motion/react";
+import { motion, useScroll } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 export default function HistoryTimeline({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);

@@ -1,5 +1,6 @@
 import { lazy, Suspense, useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 const KineticValueScene = lazy(() => import("./KineticValueScene"));
 
 type Value = { title:string; copy:string; alt:string };
@@ -8,6 +9,7 @@ const kinds = ["steps", "clarity", "evidence"] as const;
 function Transformation({ value, index }: { value:Value; index:number }) {
   const sceneRef=useRef<HTMLDivElement>(null);
   const reduce=useReducedMotion();
+  const nearViewport=useInView(sceneRef,{once:true,margin:"300px"});
   // Keep the sculpture still until its center is visible in the lower part of the screen.
   const {scrollYProgress}=useScroll({target:sceneRef,offset:["center 80%","center 50%"]});
   const line=useTransform(scrollYProgress,[0,1],[0,1]);
@@ -25,7 +27,7 @@ function Transformation({ value, index }: { value:Value; index:number }) {
       <div ref={sceneRef} className="transformation-apparatus">
         <div className="apparatus-grid" aria-hidden="true" />
         <div className="apparatus-aura" aria-hidden="true" />
-        <Suspense fallback={null}><KineticValueScene kind={kinds[index]} progress={scrollYProgress} label={value.alt} /></Suspense>
+        {nearViewport && <Suspense fallback={null}><KineticValueScene kind={kinds[index]} progress={scrollYProgress} label={value.alt} /></Suspense>}
         <div className="apparatus-brackets" aria-hidden="true"><i /><i /><i /><i /></div>
       </div>
     </div>

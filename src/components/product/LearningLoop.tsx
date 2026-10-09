@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll } from "motion/react";
+import { motion, useScroll } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import ProductReveal from "./ProductReveal";
 
 type Step = { title: string; description: string; metric: string; metricLabel: string };

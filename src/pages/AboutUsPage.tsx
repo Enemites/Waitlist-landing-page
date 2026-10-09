@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ResponsiveHeader from "@/components/ResponsiveHeader";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import HistoryTimeline from "@/components/product/HistoryTimeline";
 
 const studentSquad = [
@@ -96,20 +97,6 @@ const AboutUsPage = () => {
 
   return (
     <div className="design-site about-page min-h-screen bg-[#F5F2EB] text-[#62675E]">
-      <style>{`
-        @keyframes enemitesGradientMorph {
-          0%, 100% { color: #B8593B; -webkit-text-fill-color: #B8593B; }
-          50% { color: #272C27; -webkit-text-fill-color: #272C27; }
-        }
-        .nova-gradient-x {
-          display: inline-block;
-          color: #B8593B;
-          -webkit-text-fill-color: #B8593B;
-          animation: enemitesGradientMorph 4.8s ease-in-out infinite;
-          will-change: color;
-        }
-      `}</style>
-
       <ResponsiveHeader theme="light" />
 
       <main className="relative">
@@ -145,14 +132,16 @@ const AboutUsPage = () => {
             </motion.div>
 
             <motion.aside 
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={reduce ? false : { opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="overflow-hidden rounded-[24px] border border-[#DAD6CB] bg-white shadow-[0_24px_40px_rgba(0,0,0,0.05)] hidden lg:block"
             >
               <div className="relative min-h-[400px]">
                 <img
-                  src="/assets/feedback-loop-sculpture.jpg"
+                  src="/assets/feedback-loop-sculpture-896.webp"
+                  srcSet="/assets/feedback-loop-sculpture-640.webp 640w, /assets/feedback-loop-sculpture-896.webp 896w"
+                  sizes="40vw" width="896" height="1200" decoding="async"
                   alt="Abstract continuous feedback loop sculpture representing learning"
                   className="absolute inset-0 h-full w-full object-cover mix-blend-multiply opacity-95 transition-transform duration-1000 hover:scale-105"
                   loading="lazy"
@@ -179,7 +168,7 @@ const AboutUsPage = () => {
         {/* ONE MISSION */}
         <section id="our-mission" className="px-4 py-20 sm:py-32 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
+            <motion.div initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
               <motion.p variants={itemVariants} className="nova-mono mb-4 sm:mb-6 text-[10px] sm:text-[12px] font-medium uppercase tracking-[0.18em] text-[#B8593B]">
                 One Mission
               </motion.p>
@@ -203,7 +192,7 @@ const AboutUsPage = () => {
         {/* STUDENT SQUAD */}
         <section className="bg-white px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-y border-[#DAD6CB]">
           <div className="mx-auto max-w-6xl">
-            <motion.div className="mb-10 sm:mb-16 max-w-2xl" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
+            <motion.div className="mb-10 sm:mb-16 max-w-2xl" initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
               <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#73776E]">Student squad</p>
               <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-[#272C27]">
                 The people shaping the first arena.
@@ -253,7 +242,7 @@ const AboutUsPage = () => {
                 {questTimeline.map((quest) => (
                   <motion.article
                     key={quest.title}
-                    initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={itemVariants}
+                    initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={itemVariants}
                     className="relative grid grid-cols-1 gap-3 sm:gap-6 pl-10 sm:pl-12 md:grid-cols-[160px_1fr] md:pl-0"
                   >
                     <div className="absolute left-[11px] top-1.5 h-[9px] w-[9px] rounded-full bg-white ring-2 ring-[#B8593B] md:left-[176px]" />
@@ -279,14 +268,14 @@ const AboutUsPage = () => {
         {/* OPERATING PRINCIPLES */}
         <section className="bg-white px-4 py-20 sm:py-32 sm:px-6 lg:px-8 border-t border-[#DAD6CB]">
           <div className="mx-auto max-w-6xl">
-            <motion.div className="mb-12 sm:mb-20 max-w-2xl" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
+            <motion.div className="mb-12 sm:mb-20 max-w-2xl" initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
               <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#B8593B]">Operating principles</p>
               <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.15] sm:leading-[1.1] text-[#272C27]">
                 The rules behind the experience.
               </h2>
             </motion.div>
 
-            <motion.div className="flex flex-col border-b border-[#DAD6CB]" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
+            <motion.div className="flex flex-col border-b border-[#DAD6CB]" initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
               {values.map((value, index) => (
                 <motion.article 
                   key={value.title} 
@@ -317,7 +306,7 @@ const AboutUsPage = () => {
         {/* STILL BUILDING */}
         <section className="bg-[#F5F2EB] px-4 py-20 sm:py-32 sm:px-6 lg:px-8">
           <motion.div 
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={itemVariants}
+            initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true }} variants={itemVariants}
             className="mx-auto max-w-5xl rounded-[24px] sm:rounded-[32px] border border-[#DAD6CB] bg-white p-6 sm:p-16 text-[#62675E] relative overflow-hidden shadow-[0_24px_40px_rgba(0,0,0,0.03)]"
           >
             <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#B8593B] rounded-full mix-blend-multiply filter blur-[120px] opacity-10 pointer-events-none" />

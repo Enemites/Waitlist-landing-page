@@ -49,3 +49,16 @@ npm run test:browser
 ```
 
 Fonts are bundled locally; their licenses ship in `public/licenses/`.
+
+## Technical SEO
+
+Public pages are prerendered at build time, with route-specific metadata, canonical
+URLs, social previews, structured data, a sitemap, and robots.txt. Dynamic invitations
+and questionnaires remain client-rendered and unindexed. Missing URLs return 404.
+See [implementation and external setup](docs/TECHNICAL-SEO.md) and
+[validation results](docs/SEO-VALIDATION.md). Blog and keyword articles are outside this change.
+
+```sh
+npm run build
+npm run seo:check
+```

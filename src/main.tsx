@@ -11,10 +11,14 @@ import './product.css';
 import './value-transformations.css';
 import { MotionConfig } from 'motion/react';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')!;
+const app = (
   <React.StrictMode>
     <MotionConfig reducedMotion="user">
       <App />
     </MotionConfig>
   </React.StrictMode>
 );
+
+if (root.hasChildNodes()) ReactDOM.hydrateRoot(root, app);
+else ReactDOM.createRoot(root).render(app);

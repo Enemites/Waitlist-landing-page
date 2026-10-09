@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useMotionValueEvent, useReducedMotion, type MotionValue } from "motion/react";
+import { useMotionValueEvent, type MotionValue } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Point = { x: number; y: number; z: number };
 type Projection = { x: number; y: number; depth: number };

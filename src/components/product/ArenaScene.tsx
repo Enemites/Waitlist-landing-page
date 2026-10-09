@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useReducedMotion } from "motion/react";
+
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /** A decorative decision field. Pointer input changes the projection, never the page state. */
 export default function ArenaScene({ className = "" }: { className?: string }) {
@@ -86,7 +87,10 @@ export default function ArenaScene({ className = "" }: { className?: string }) {
   }, [reduce]);
 
   return <div ref={root} className={`arena-scene ${className}`} aria-hidden="true">
-    <img src="/assets/arena-world.webp" className="arena-scene-art" alt="" fetchPriority="high" />
+    <picture>
+      <source type="image/avif" srcSet="/assets/arena-world-960.avif 960w, /assets/arena-world-1672.avif 1672w" sizes="(max-width:767px) 1500px, 100vw" />
+      <img src="/assets/arena-world-1672.webp" className="arena-scene-art" alt="" fetchPriority="high" width="1672" height="941" />
+    </picture>
     <canvas ref={canvas} className="arena-scene-field" />
     <div className="scene-reticle scene-reticle-a" /><div className="scene-reticle scene-reticle-b" />
     <div className="scene-orbit" />
