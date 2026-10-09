@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import type { ReactNode } from "react";
 
 export default function ProductReveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {

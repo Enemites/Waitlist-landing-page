@@ -10,7 +10,7 @@ const TermsOfServicePage = () => {
 
       <main className="px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-32">
         <section
-          className="mx-auto max-w-5xl opacity-0 transform translate-y-8 transition-all duration-1000 ease-out"
+          className="mx-auto max-w-5xl opacity-100 transform translate-y-0 transition-all duration-1000 ease-out"
           data-scroll="fade-up"
         >
           <div className="border-b border-[var(--nova-void)]/15 pb-6 sm:pb-10">

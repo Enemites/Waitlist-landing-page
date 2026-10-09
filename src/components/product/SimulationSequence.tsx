@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useMotionValueEvent, useScroll, useTransform } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Feature = { title: string; copy: string; video: string };
 const compactViewport = () => window.matchMedia("(max-height: 680px), (max-width: 767px) and (max-height: 740px)").matches;
@@ -8,6 +9,7 @@ export default function SimulationSequence({ features }: { features: Feature[] }
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
+  const visible = useInView(ref, { amount: 0.1 });
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const progress = useTransform(scrollYProgress, [0, 1], [0.04, 1]);
   useMotionValueEvent(scrollYProgress, "change", p => {
@@ -18,10 +20,10 @@ export default function SimulationSequence({ features }: { features: Feature[] }
   useEffect(() => {
     videos.current.forEach((video, index) => {
       if (!video) return;
-      if (index === active && !reduce) void video.play().catch(() => {});
+      if (index === active && visible && !reduce) void video.play().catch(() => {});
       else video.pause();
     });
-  }, [active, reduce]);
+  }, [active, visible, reduce]);
   const jump = (index: number) => {
     if (reduce || compactViewport()) { setActive(index); return; }
     const node = ref.current;
@@ -46,7 +48,7 @@ export default function SimulationSequence({ features }: { features: Feature[] }
           <div className="screen-chrome" aria-hidden="true"><i /><i /><i /><span /><b /></div>
           <div className="sequence-videos">
             {features.map((feature, index) => <motion.div key={feature.video} className="sequence-video" data-active={active === index} initial={false} animate={{ opacity: active === index ? 1 : 0, transform: active === index || reduce ? "translateY(0px)" : "translateY(16px)" }} transition={{duration:0.3,ease:[0.23,1,0.32,1]}}>
-              <video ref={el => { videos.current[index] = el; }} muted loop playsInline preload="metadata" aria-label={feature.title}>
+              <video ref={el => { videos.current[index] = el; }} muted loop playsInline preload="none" aria-label={feature.title}>
                 <source src={feature.video} type="video/mp4" />
               </video>
             </motion.div>)}

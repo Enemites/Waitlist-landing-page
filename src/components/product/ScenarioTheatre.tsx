@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "motion/react";
+import { useInView } from "motion/react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Pause, Play } from "lucide-react";
 import ProductReveal from "./ProductReveal";
 
@@ -21,7 +22,7 @@ export default function ScenarioTheatre() {
   const reduce = useReducedMotion();
   const [phase, setPhase] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [foreground, setForeground] = useState(!document.hidden);
+  const [foreground, setForeground] = useState(typeof document === "undefined" || !document.hidden);
   const running = visible && foreground && !paused && !reduce;
 
   useEffect(() => {

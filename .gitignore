@@ -128,3 +128,7 @@ dist
 # Browser test artifacts
 playwright-report/
 test-results/
+
+# Temporary server bundle used only by static prerendering
+.prerender/
+seo-artifacts/

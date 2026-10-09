@@ -109,7 +109,7 @@ const HowItWorksPage = () => {
       <section className="product-keep product-section">
         <div className="product-container keep-layout">
           <ProductReveal className="keep-copy"><h2>Proof that explains the path, not only the score.</h2><p>After each run, Enemites records the moments that matter: what you chose, how you acted, what changed, how you explained it, and which capability improved.</p><Button asChild className="product-cta"><Link to="/arena/about-us">Meet the builders</Link></Button></ProductReveal>
-          <ProductReveal className="keep-art"><img src="/assets/capability-proof-abstract.png" alt="Abstract Enemites capability path in a dark spatial environment" loading="lazy" /></ProductReveal>
+          <ProductReveal className="keep-art"><img src="/assets/capability-proof-1280.webp" srcSet="/assets/capability-proof-640.webp 640w, /assets/capability-proof-1280.webp 1280w" sizes="(max-width:767px) 100vw, 50vw" width="1280" height="640" decoding="async" alt="Abstract Enemites capability path in a dark spatial environment" loading="lazy" /></ProductReveal>
         </div>
       </section>
     </main>

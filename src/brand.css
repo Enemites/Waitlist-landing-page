@@ -5,7 +5,7 @@
   --brand-ink: #272c27;
   --brand-muted: #62675e;
   --brand-line: #d5d0c4;
-  --brand-clay: #b8593b;
+  --brand-clay: #a64b31;
   --brand-ease: cubic-bezier(.22, 1, .36, 1);
 }
 
@@ -378,3 +378,11 @@ button:not(:disabled):active, a[class*="inline-flex"]:active { transform: transl
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .brand-visual-orbit { animation: none; }
 }
+
+/* Keep component styles in the stylesheet so static HTML and hydration agree. */
+@keyframes enemitesGradientMorph {
+  0%, 100% { color: #b8593b; -webkit-text-fill-color: #b8593b; }
+  50% { color: #272c27; -webkit-text-fill-color: #272c27; }
+}
+.nova-gradient-x { display: inline-block; color: #b8593b; -webkit-text-fill-color: #b8593b; animation: enemitesGradientMorph 4.8s ease-in-out infinite; will-change: color; }
+@media (prefers-reduced-motion: reduce) { .nova-gradient-x { animation: none; } }

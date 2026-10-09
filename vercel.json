@@ -1,21 +1,72 @@
 {
-  "crons": [{ "path": "/api/parent-permission-cleanup", "schedule": "0 3 * * *" }],
+  "crons": [
+    {
+      "path": "/api/parent-permission-cleanup",
+      "schedule": "0 3 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/forms/(.*)",
       "destination": "/api/forms?slug=$1"
     },
     {
-      "source": "/api/forms",
-      "destination": "/api/forms"
+      "source": "/arena/parent-waitlist",
+      "destination": "/private"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "source": "/form/:slug",
+      "destination": "/private"
+    }
+  ],
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/home",
+      "permanent": true
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/index",
+      "destination": "/home",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/arena/parent-waitlist",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    },
+    {
+      "source": "/form/:slug",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/arena/:page(login|pricing|contact)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
     }
   ]
 }
