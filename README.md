@@ -30,10 +30,16 @@ File tersebut akan dipanggil oleh halaman introduction melalui path `/assets/cos
 ## Privacy and legal-risk remediation
 
 See [the audit and rollout steps](docs/LEGAL-RISK-AUDIT.md) and
-[DMCA registration guide](docs/DMCA-REGISTRATION.md). New API submissions require
-an eligible `age_group`; apply the versioned privacy migration with the updated
-API as one coordinated release. Marketing sender configuration is server-only
-and incomplete until a real operator name and postal address are supplied.
+[parent waitlist flow](docs/PARENT-WAITLIST.md), plus the
+[DMCA registration guide](docs/DMCA-REGISTRATION.md). Age groups are `<13`,
+`13-18`, `19-20`, and `20+` (21 or older). Under-13 learners join through an email
+invitation to their parent, who registers their own contact details. Joining requests
+launch notifications; the original checkbox controls updates beyond the launch.
+Apply `migrations/20261009_waitlist_parent_registration.sql` and the updated API/frontend
+as one coordinated release. Configure server-only values from `.env.example` for
+Resend invitations and daily expiry cleanup. Promotional email preparation also requires
+a real operator name, postal address, and unsubscribe secret. This app has no launch
+campaign sender or analytics pipeline; form records do not store new raw IP addresses.
 
 ```sh
 npm run build

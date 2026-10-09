@@ -1,5 +1,6 @@
-import { isEligibleAgeGroup, PRIVACY_NOTICE_VERSION } from "../shared/privacy.js";
+import { isEligibleAgeGroup, requiresParentRegistration, PRIVACY_NOTICE_VERSION } from "../shared/privacy.js";
 import { getDatabasePool } from "../lib/database.js";
+import { parentTokenHash } from "../lib/parent-permission.js";
 
 export interface WaitlistPayload {
   name: string;
@@ -7,6 +8,8 @@ export interface WaitlistPayload {
   email: string;
   age_group: string;
   receive_updates?: boolean;
+  parent_token?: string;
+  parent_permission?: boolean;
   client_meta?: {
     userAgent?: string;
     screenResolution?: string;
@@ -22,7 +25,12 @@ export interface RequestMeta {
 
 export async function handleWaitlistSubmission(payload: WaitlistPayload, _meta?: RequestMeta) {
   if (!payload || typeof payload !== "object" || !isEligibleAgeGroup(payload.age_group)) {
-    return { status: 400, data: { success: false, code: "AGE_NOT_ELIGIBLE", message: "Please complete the age check. We cannot accept registrations from anyone under 13." } };
+    return { status: 400, data: { success: false, code: "INVALID_AGE_GROUP", message: "Please select a valid age group." } };
+  }
+  const parentRegistration = requiresParentRegistration(payload.age_group);
+  const parentHash = parentTokenHash(payload.parent_token);
+  if (parentRegistration && (!parentHash || payload.parent_permission !== true)) {
+    return { status: 400, data: { success: false, code: "PARENT_REGISTRATION_REQUIRED", message: "Your parent or guardian can register for you using the email invitation." } };
   }
   if (payload.receive_updates !== undefined && typeof payload.receive_updates !== "boolean") {
     return { status: 400, data: { success: false, message: "Email consent must be true or false." } };
@@ -58,8 +66,18 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, _meta?:
 
   const db = getDatabasePool();
   const client = await db.connect();
+  let transaction = false;
 
   try {
+    if (parentRegistration) {
+      await client.query("BEGIN");
+      transaction = true;
+      const invitation = await client.query(
+        "SELECT parent_email, age_group FROM public.waitlist_parent_requests WHERE token_hash = $1 AND expires_at > NOW() FOR UPDATE", [parentHash]);
+      if (!invitation.rows[0] || invitation.rows[0].parent_email !== email || invitation.rows[0].age_group !== ageGroup) {
+        return { status: 400, data: { success: false, code: "INVALID_PARENT_INVITATION", message: "This invitation is invalid or expired. Use the email address and age group from the invitation." } };
+      }
+    }
     // 1. Check if email already exists
     const emailCheck = await client.query(
       "SELECT id FROM public.waitlist WHERE LOWER(email) = LOWER($1) LIMIT 1",
@@ -96,7 +114,8 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, _meta?:
       };
     }
 
-    // 3. Record explicit age/consent evidence without device or location tracking
+    // Contact fields belong to the parent for parent-led entries. No raw IP is needed
+    // in this waitlist; that does not prohibit future purpose-limited security logging.
     const insertResult = await client.query(
       `INSERT INTO public.waitlist (
         name,
@@ -114,9 +133,14 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, _meta?:
         created_at,
         privacy_notice_version,
         marketing_consent_at,
-        marketing_consent_version
+        marketing_consent_version,
+        launch_requested_at,
+        parent_permission_at,
+        parent_permission_version,
+        registration_actor
       )
-      VALUES ($1, $2, $3, $4, $5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), $6, CASE WHEN $5 THEN NOW() ELSE NULL END, CASE WHEN $5 THEN $6 ELSE NULL END)
+      VALUES ($1, $2, $3, $4, $5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), $6, CASE WHEN $5 THEN NOW() ELSE NULL END, CASE WHEN $5 THEN $6 ELSE NULL END,
+        NOW(), CASE WHEN $7 THEN NOW() ELSE NULL END, CASE WHEN $7 THEN $6 ELSE NULL END, CASE WHEN $7 THEN 'parent' ELSE 'self' END)
       RETURNING id, created_at, country, device_type, operating_system, browser`,
       [
         name,
@@ -125,14 +149,20 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, _meta?:
         ageGroup,
         receiveUpdates,
         PRIVACY_NOTICE_VERSION,
+        parentRegistration,
       ]
     );
+    if (parentRegistration) {
+      await client.query("DELETE FROM public.waitlist_parent_requests WHERE token_hash = $1", [parentHash]);
+      await client.query("COMMIT");
+      transaction = false;
+    }
 
     return {
       status: 201,
       data: {
         success: true,
-        message: "You have been successfully added to the waitlist! Email news is sent only if you opted in.",
+        message: "You have been added to the waitlist for launch notifications. Additional updates follow your checkbox preference.",
         id: insertResult.rows[0].id,
       },
     };
@@ -181,6 +211,7 @@ export async function handleWaitlistSubmission(payload: WaitlistPayload, _meta?:
       },
     };
   } finally {
+    if (transaction) await client.query("ROLLBACK");
     client.release();
   }
 }

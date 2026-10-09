@@ -10,12 +10,12 @@ process.env.DATABASE_URL = "postgresql://test:test@localhost/test";
 process.env.MARKETING_UNSUBSCRIBE_SECRET = "test-only-secret-at-least-thirty-two-bytes";
 const pool = getDatabasePool();
 const id = "00000000-0000-4000-8000-000000000001";
-const payload = { name: "Test Learner", number: "+620000000000", email: "test@example.com", age_group: "13-17", receive_updates: true };
+const payload = { name: "Test Learner", number: "+620000000000", email: "test@example.com", age_group: "13-18", receive_updates: true };
 
-test("waitlist and questionnaire reject under-13, ambiguous legacy, absent and forged age before accessing database", async () => {
+test("direct child submission requires a parent; ambiguous, missing and forged age are rejected before database access", async () => {
   const connect = mock.method(pool, "connect", () => { throw new Error("Database must not be reached"); });
   try {
-    for (const age of ["under-13", "<10", "10-18", "", undefined, 13, true, " 13-17", "13-17 ", "adult"]) {
+    for (const age of ["<13", "under-13", "<10", "10-18", "", undefined, 13, true, " 13-18", "13-18 ", "adult"]) {
       assert.equal((await handleWaitlistSubmission({ ...payload, age_group: age } as any)).status, 400);
       assert.equal((await handleSubmitForm("survey", { responses: {}, age_group: age } as any)).status, 400);
     }
@@ -33,7 +33,7 @@ test("truthy strings cannot grant marketing consent", async () => {
   } finally { connect.mock.restore(); }
 });
 
-test("accepted waitlist inserts carry explicit consent and ignore supplied device metadata", async () => {
+test("accepted waitlist inserts carry launch request and optional update preference and ignore supplied device metadata", async () => {
   const calls: { sql: string; values: any[] }[] = [];
   const connect = mock.method(pool, "connect", async () => ({
     query: async (sql: string, values: any[]) => { calls.push({ sql, values }); return { rows: sql.startsWith("SELECT") ? [] : [{ id }] }; },
@@ -42,7 +42,7 @@ test("accepted waitlist inserts carry explicit consent and ignore supplied devic
   try {
     const result = await handleWaitlistSubmission({ ...payload, client_meta: { userAgent: "sensitive device", timezone: "sensitive location" } }, { headers: { "x-forwarded-for": "192.0.2.1" } });
     assert.equal(result.status, 201);
-    assert.deepEqual(calls.at(-1)?.values, [payload.name, payload.number, payload.email, "13-17", true, "2026-10-08"]);
+    assert.deepEqual(calls.at(-1)?.values, [payload.name, payload.number, payload.email, "13-18", true, "2026-10-09", false]);
     assert.ok(!JSON.stringify(calls).includes("sensitive"));
     assert.ok(!JSON.stringify(calls).includes("192.0.2.1"));
   } finally { connect.mock.restore(); }
@@ -76,7 +76,7 @@ test("marketing fails closed without real operator configuration and includes es
 
 test("send preparation refuses missing consent or suppressed recipients", async () => {
   const query = mock.method(pool, "query", async () => ({ rows: [] }));
-  try { await assert.rejects(prepareMarketingEmail(id, { subject: "Launch", message: "News" }), /consent/); }
+  try { await assert.rejects(prepareMarketingEmail(id, { subject: "Launch", message: "News" }), /permission/); }
   finally { query.mock.restore(); }
 });
 

@@ -2,7 +2,8 @@ import { useState, useId } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
 import AgeGate from "./AgeGate";
-import { isEligibleAgeGroup, MARKETING_CONSENT_TEXT } from "../../shared/privacy";
+import ParentWaitlistInvite from "./ParentWaitlistInvite";
+import { isEligibleAgeGroup, requiresParentRegistration, MARKETING_CONSENT_TEXT, PARENT_WAITLIST_NOTICE } from "../../shared/privacy";
 import { ArrowRight, Loader2, AlertCircle } from "lucide-react";
 
 interface FormData {
@@ -21,19 +22,22 @@ interface FormErrors {
   general?: string;
 }
 
-function EligibleWaitlistForm({
+export function EligibleWaitlistForm({
   ageGroup,
   className = "",
   onSuccessCallback,
+  parentInvitation,
 }: {
   ageGroup: string;
   className?: string;
   onSuccessCallback?: () => void;
+  parentInvitation?: { token: string; email: string };
 }) {
+  const [parentPermission, setParentPermission] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     number: "",
-    email: "",
+    email: parentInvitation?.email || "",
     age_group: ageGroup,
     receive_updates: false,
   });
@@ -76,6 +80,7 @@ function EligibleWaitlistForm({
     if (!isEligibleAgeGroup(formData.age_group)) {
       newErrors.age_group = "Please select an age group";
     }
+    if (parentInvitation && !parentPermission) newErrors.general = "Please confirm that you are the learner's parent or legal guardian and agree to the waitlist notice.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -104,6 +109,7 @@ function EligibleWaitlistForm({
           email: formData.email.trim(),
           age_group: formData.age_group,
           receive_updates: formData.receive_updates,
+          ...(parentInvitation ? { parent_token: parentInvitation.token, parent_permission: parentPermission } : {}),
         }),
       });
 
@@ -158,7 +164,7 @@ function EligibleWaitlistForm({
     setFormData({
       name: "",
       number: "",
-      email: "",
+      email: parentInvitation?.email || "",
       age_group: ageGroup,
       receive_updates: false,
     });
@@ -197,7 +203,7 @@ function EligibleWaitlistForm({
                 You are on the list, {submittedData.name}.
               </h3>
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#9AA6A4] max-w-lg">
-                Your entry has been recorded for the upcoming Enemites Arena simulation batch. If you opted in to email updates, we may email you when onboarding begins.
+                Your entry has been recorded for the upcoming Enemites Arena simulation batch. We will email you about the launch and early access. Additional updates follow your checkbox preference.
               </p>
             </div>
 
@@ -215,14 +221,14 @@ function EligibleWaitlistForm({
 
             {/* Action */}
             <div className="pt-4 flex items-center justify-between border-t border-[#253632]">
-              <button
+              {!parentInvitation && <button
                 type="button"
                 onClick={resetForm}
                 className="nova-mono text-[11px] sm:text-xs text-[#9AA6A4] hover:text-[#EDF1EF] transition-colors flex items-center gap-2 group"
               >
                 <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
                 <span>Submit another response</span>
-              </button>
+              </button>}
             </div>
           </motion.div>
         ) : (
@@ -239,10 +245,10 @@ function EligibleWaitlistForm({
             <div className="pb-4 sm:pb-6 border-b border-[#253632] flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
               <div>
                 <h3 className="nova-display text-lg sm:text-2xl font-medium tracking-tight text-[#EDF1EF]">
-                  Your information
+                  {parentInvitation ? "Parent or guardian information" : "Your information"}
                 </h3>
                 <p className="mt-1 text-xs sm:text-sm text-[#9AA6A4]">
-                  Complete this form to reserve your position in the next cohort.
+                  {parentInvitation ? "Enter your own contact details, not the learner's. This registers your interest for them without creating a child account." : "Complete this form to reserve your position in the next cohort."}
                 </p>
               </div>
               <span className="nova-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-[#C4ED6C]">
@@ -346,7 +352,7 @@ function EligibleWaitlistForm({
                     htmlFor={emailId}
                     className="nova-mono text-[11px] sm:text-xs font-medium text-[#AFBAB6] tracking-wide"
                   >
-                    EMAIL <span className="text-[#C4ED6C]">*</span>
+                    {parentInvitation ? "PARENT EMAIL" : "EMAIL"} <span className="text-[#C4ED6C]">*</span>
                   </label>
                   {errors.email && (
                     <span className="nova-mono text-[10px] sm:text-[11px] text-red-400">{errors.email}</span>
@@ -356,6 +362,7 @@ function EligibleWaitlistForm({
                   <input
                     id={emailId}
                     type="email"
+                    readOnly={!!parentInvitation}
                     placeholder="name@example.com"
                     value={formData.email}
                     onChange={(e) => {
@@ -374,7 +381,12 @@ function EligibleWaitlistForm({
                 </div>
               </div>
 
-              {/* Checkbox: Consent */}
+              {parentInvitation && <label className="flex items-start gap-3 text-sm text-[#AFBAB6]">
+                <input type="checkbox" checked={parentPermission} onChange={(event) => setParentPermission(event.target.checked)} className="mt-1" />
+                <span>{PARENT_WAITLIST_NOTICE}</span>
+              </label>}
+
+              {/* Original optional preference for news beyond the launch. */}
               <div className="pt-2 sm:pt-3">
                 <label className="flex items-start gap-2.5 sm:gap-3 cursor-pointer select-none group">
                   <input
@@ -405,7 +417,7 @@ function EligibleWaitlistForm({
               </div>
             </div>
 
-            <p className="text-xs text-[#AFBAB6]">Joining is free and creates no paid subscription. Read our <Link to="/arena/privacy-policy" className="underline">Privacy Policy</Link> and <Link to="/arena/terms-of-service" className="underline">Terms of Service</Link>.</p>
+            <p className="text-xs text-[#AFBAB6]">By joining, you request launch and early access notifications by email. The checkbox above is only for updates beyond the launch. You can unsubscribe using the link in each promotional email. Joining is free and creates no paid subscription. Read our <Link to="/arena/privacy-policy" className="underline">Privacy Policy</Link> and <Link to="/arena/terms-of-service" className="underline">Terms of Service</Link>.</p>
 
             {/* Submit Button */}
             <div className="pt-3 sm:pt-4 border-t border-[#253632]">
@@ -435,5 +447,7 @@ function EligibleWaitlistForm({
 }
 
 export default function WaitlistForm(props: { className?: string; onSuccessCallback?: () => void }) {
-  return <AgeGate>{(ageGroup) => <EligibleWaitlistForm {...props} ageGroup={ageGroup} />}</AgeGate>;
+  return <AgeGate>{(ageGroup) => requiresParentRegistration(ageGroup)
+    ? <ParentWaitlistInvite ageGroup={ageGroup} />
+    : <EligibleWaitlistForm {...props} ageGroup={ageGroup} />}</AgeGate>;
 }

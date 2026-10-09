@@ -26,7 +26,7 @@ const PrivacyPolicyPage = () => {
                   Privacy Policy
                 </h1>
                 <p className="nova-mono mt-3 text-xs text-[#AFBAB6]">
-                  Last updated: <time dateTime="2026-10-08">October 8, 2026</time>
+                  Last updated: <time dateTime="2026-10-09">October 9, 2026</time>
                 </p>
                 <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
                   This Privacy Policy explains how Enemites collects, uses, and protects information
@@ -69,19 +69,19 @@ const PrivacyPolicyPage = () => {
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">Contact information</span>{" "}
                     including your name, phone/WhatsApp number, email address, and age group
-                    when you join the waitlist, plus your email consent choice and the date and version of that choice.
+                    when you join the waitlist, plus the request for launch notifications and your choice about updates beyond the launch. For a parent-led entry, these contact details belong to the parent or guardian; we also record the date and notice version of their permission.
                   </li>
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">Site usage data</span>{" "}
                     Hosting providers receive technical request information, including your IP address,
                     to deliver the site and protect it. Our form handlers do not save new IP addresses,
-                    location data, browser details, or screen sizes in registration or survey records.
+                    location data, browser details, or screen sizes in registration or survey records. The current landing page has no analytics pipeline. Future IP-based security or analytics processing will have a defined purpose, legal basis, access controls, and retention appropriate to that purpose; it is not categorically prohibited.
                   </li>
                   <li>
                     <span className="font-semibold text-[var(--nova-void)]">
                       Learning and interaction data
                     </span>{" "}
-                    including answers you submit to public questionnaires, an eligible age group,
+                    including answers you submit to public questionnaires, an age group,
                     and the version of the privacy notice. Please do not include sensitive personal information in free-text answers.
                   </li>
                 </ul>
@@ -96,7 +96,7 @@ const PrivacyPolicyPage = () => {
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>Managing the waitlist, private beta, and early access invitations.</li>
-                  <li>Sending launch announcements, early access invitations, and product news by email only when you choose the optional email consent box.</li>
+                  <li>Sending the launch and early access notifications you request by joining the waitlist. The optional checkbox controls only updates beyond the launch, such as product news. Promotional messages include an unsubscribe link.</li>
                   <li>Improving simulations, scenario design, mentor feedback, and product reliability.</li>
                   <li>Detecting abuse, misuse, security issues, bugs, and technical problems.</li>
                 </ul>
@@ -120,9 +120,7 @@ const PrivacyPolicyPage = () => {
                 </h2>
                 <p className="mt-3">
                   We keep information only as long as needed for the purposes described in this
-                  policy, including waitlist management, product testing, support, security,
-                  analytics, legal compliance, and service improvement. Retention periods may vary
-                  depending on the type of data and the stage of the product.
+                  policy, including waitlist management, support, security, and legal compliance. Parent invitation links expire after seven days. Uncompleted requests are removed by the daily cleanup, within eight days of the request when the scheduled cleanup is operating. If you ask to withdraw a pending request, contact support@enemites.com. Parent permission records are retained with the corresponding waitlist entry as evidence of the request. Other retention periods depend on the purpose and applicable obligations, and are reviewed when that purpose ends.
                 </p>
               </section>
 
@@ -135,7 +133,7 @@ const PrivacyPolicyPage = () => {
                   situations, including:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
-                  <li>With hosting and database providers (including Vercel and Neon) that help us operate the site and forms. If you opt in, an email delivery provider may process your email address for delivery.</li>
+                  <li>With hosting and database providers (including Vercel and Neon) that help us operate the site and forms, and email delivery providers that send requested launch notifications, parent invitations, or optional updates. Parent invitation delivery uses Resend when configured. These providers may process data outside your country, including in the United States; applicable safeguards are required for international transfers.</li>
                   <li>When required by law, regulation, legal process, or security obligations.</li>
                   <li>
                     In connection with a merger, acquisition, financing, or similar business change,
@@ -149,12 +147,10 @@ const PrivacyPolicyPage = () => {
                   6. Students and Young Users
                 </h2>
                 <p className="mt-3">
-                  The current waitlist and public questionnaires do not accept submissions from anyone
-                  under 13. We ask for an age group before displaying contact or response fields.
-                  This is a self-declared age check, not identity verification. If you believe a child
-                  under 13 has already provided information, contact support@enemites.com so we can
-                  review and remove it where required. Local rules may require additional permission
-                  for older minors; this age check does not replace those requirements.
+                  Learners under 13 can join through a parent or guardian. We first ask for a parent email solely to send an invitation; we do not request the child's name, phone number, or email. The parent opens the email link, reads the notice, and registers their own contact details to receive launch notifications for the learner. This verifies access to that email and records the adult's declaration and permission for the waitlist; it does not independently establish the family relationship or authorize a future child account. Public questionnaires for this age group must be answered by the parent with their own information, without identifying the child. Contact support@enemites.com to review, correct, or delete an entry or withdraw permission. Local rules may require additional permission for older minors; any required permission must be obtained before the relevant child data collection.
+                </p>
+                <p className="mt-3">
+                  The launched learning service is planned to distinguish child and adult experiences: age appropriate educational scenarios and mentor responses, restrictions on adult-only content and social features, and parent controls where required. Adult participation will not automatically make adult-only content available to children. These product features are not active on this waitlist. Before launch, we will explain the actual child data practices and obtain any additional parental permission required before collecting that data; waitlist permission is not carried over as blanket consent.
                 </p>
               </section>
 
@@ -219,7 +215,7 @@ const PrivacyPolicyPage = () => {
               </section>
 
               <p className="nova-mono pt-2 text-xs uppercase tracking-[0.16em] text-[#646A78]">
-                Last updated: <time dateTime="2026-10-08">October 8, 2026</time>
+                Last updated: <time dateTime="2026-10-09">October 9, 2026</time>
               </p>
             </div>
           </div>

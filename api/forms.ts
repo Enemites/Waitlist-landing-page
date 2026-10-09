@@ -1,4 +1,4 @@
-import { isEligibleAgeGroup, PRIVACY_NOTICE_VERSION } from "../shared/privacy.js";
+import { isEligibleAgeGroup, requiresParentRegistration, PRIVACY_NOTICE_VERSION } from "../shared/privacy.js";
 import { getDatabasePool } from "../lib/database.js";
 
 export const ENEMITES_API_KEY = process.env.ENEMITES_API_KEY;
@@ -28,6 +28,7 @@ export interface CreateFormPayload {
 
 export interface SubmitFormPayload {
   age_group: string;
+  parent_submitted?: boolean;
   responses: Record<string, any>;
   respondent_info?: {
     name?: string;
@@ -178,7 +179,10 @@ export async function handleGetFormBySlug(slug: string) {
 // 3. Submit Response (Public - eligible ages only, no device/location tracking)
 export async function handleSubmitForm(slug: string, payload: SubmitFormPayload, _meta?: RequestMeta) {
   if (!payload || typeof payload !== "object" || !isEligibleAgeGroup(payload.age_group)) {
-    return { status: 400, data: { success: false, code: "AGE_NOT_ELIGIBLE", message: "Please complete the age check. We cannot accept responses from anyone under 13." } };
+    return { status: 400, data: { success: false, code: "INVALID_AGE_GROUP", message: "Please select a valid age group." } };
+  }
+  if (requiresParentRegistration(payload.age_group) && payload.parent_submitted !== true) {
+    return { status: 400, data: { success: false, message: "A parent or guardian can complete this questionnaire with their own information. Waitlist permission does not authorize collecting a child's questionnaire answers." } };
   }
   const cleanSlug = (slug || "").trim();
 
@@ -212,6 +216,7 @@ export async function handleSubmitForm(slug: string, payload: SubmitFormPayload,
     const respondentInfo = {
       age_group: payload.age_group,
       privacy_notice_version: PRIVACY_NOTICE_VERSION,
+      registration_actor: requiresParentRegistration(payload.age_group) ? "parent" : "self",
     };
 
     const insertRes = await client.query(

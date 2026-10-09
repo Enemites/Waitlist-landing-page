@@ -1,6 +1,6 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { getDatabasePool } from "./database.js";
-import { isEligibleAgeGroup, PRIVACY_NOTICE_VERSION } from "../shared/privacy.js";
+import { requiresParentRegistration } from "../shared/privacy.js";
 
 export function escapeHtml(value: string) {
   return value.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]!);
@@ -37,6 +37,7 @@ export async function unsubscribe(token: unknown) {
   return result.rowCount === 1;
 }
 export interface MarketingContent { subject: string; message: string; }
+export type WaitlistEmailPurpose = "launch" | "updates";
 export function renderMarketingEmail(recipient: { id: string; email: string }, content: MarketingContent) {
   const operator = process.env.MARKETING_OPERATOR_NAME?.trim();
   const address = process.env.MARKETING_POSTAL_ADDRESS?.trim();
@@ -58,14 +59,17 @@ export function renderMarketingEmail(recipient: { id: string; email: string }, c
 }
 // Every future sender must call this immediately before each send. No bulk export or
 // sender exists here. A footer alone never grants consent or defeats suppression.
-export async function prepareMarketingEmail(recipientId: string, content: MarketingContent) {
+export async function prepareMarketingEmail(recipientId: string, content: MarketingContent, purpose: WaitlistEmailPurpose = "updates") {
+  if (purpose !== "launch" && purpose !== "updates") throw new Error("Use an explicit waitlist email purpose.");
   const result = await getDatabasePool().query(
-    `SELECT id, email, age_group FROM public.waitlist
-     WHERE id = $1 AND receive_updates IS TRUE AND unsubscribed_at IS NULL
-       AND marketing_consent_at IS NOT NULL AND marketing_consent_version = $2
-       AND privacy_notice_version = $2 AND age_group IN ('13-17', '18-20', '20+')`,
-    [recipientId, PRIVACY_NOTICE_VERSION]);
+    `SELECT id, email, age_group, registration_actor, parent_permission_at FROM public.waitlist
+     WHERE id = $1 AND unsubscribed_at IS NULL
+       AND (($2 = 'launch' AND (launch_requested_at IS NOT NULL OR privacy_notice_version IS NULL))
+         OR ($2 = 'updates' AND receive_updates IS TRUE))
+       AND (age_group NOT IN ('<10', '<13', 'under-13', '10-18')
+         OR (registration_actor = 'parent' AND parent_permission_at IS NOT NULL))`,
+    [recipientId, purpose]);
   const recipient = result.rows[0];
-  if (!recipient || !isEligibleAgeGroup(recipient.age_group)) throw new Error("Recipient has no current, eligible marketing consent.");
+  if (!recipient || (requiresParentRegistration(recipient.age_group) && recipient.registration_actor !== "parent")) throw new Error("Recipient has no eligible email permission or has unsubscribed.");
   return renderMarketingEmail(recipient, content);
 }

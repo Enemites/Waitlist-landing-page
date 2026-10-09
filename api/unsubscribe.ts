@@ -22,7 +22,7 @@ export default async function handler(req: any, res: any) {
     const token = url.searchParams.get("token");
     if (!verifyUnsubscribeToken(token)) { respond(400, "This unsubscribe link is invalid. Use the link in your email or contact support@enemites.com."); return; }
     if (req.method === "GET") {
-      respond(200, "Stop Enemites marketing emails. No login is required.", `<form method="post" action="/api/unsubscribe?token=${escapeHtml(encodeURIComponent(token!))}"><button type="submit">Unsubscribe</button></form>`);
+      respond(200, "Stop Enemites launch notifications and additional marketing emails. No login is required.", `<form method="post" action="/api/unsubscribe?token=${escapeHtml(encodeURIComponent(token!))}"><button type="submit">Unsubscribe</button></form>`);
       return;
     }
     const success = await unsubscribe(token);

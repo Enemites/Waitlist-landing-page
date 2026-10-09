@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import AgeGate from "@/components/AgeGate";
+import { requiresParentRegistration } from "../../shared/privacy";
 
 interface Question {
   id: string;
@@ -176,6 +177,7 @@ function EligiblePublicFormPage({ ageGroup }: { ageGroup: string }) {
         body: JSON.stringify({
           responses,
           age_group: ageGroup,
+          parent_submitted: requiresParentRegistration(ageGroup),
         }),
       });
 
@@ -619,5 +621,15 @@ function EligiblePublicFormPage({ ageGroup }: { ageGroup: string }) {
 
 export default function PublicFormPage() {
   const { slug } = useParams();
-  return <AgeGate key={slug} className="max-w-2xl mx-auto mt-28">{(ageGroup) => <EligiblePublicFormPage ageGroup={ageGroup} />}</AgeGate>;
+  return <AgeGate key={slug} className="max-w-2xl mx-auto mt-28">{(ageGroup) => <ParentQuestionnaire ageGroup={ageGroup} />}</AgeGate>;
+}
+
+function ParentQuestionnaire({ ageGroup }: { ageGroup: string }) {
+  const [confirmed, setConfirmed] = useState(false);
+  if (!requiresParentRegistration(ageGroup) || confirmed) return <EligiblePublicFormPage ageGroup={ageGroup} />;
+  return <section className="max-w-2xl mx-auto mt-28 p-6 bg-[#101B1C] text-[#EDF1EF] space-y-5">
+    <h1 className="text-xl">Parent or guardian questionnaire</h1>
+    <p>This questionnaire can be completed by a parent or guardian with their own answers and contact information. Please do not provide a child's name, email, phone number, or other identifying information. Waitlist permission does not authorize collecting questionnaire answers from a child.</p>
+    <button type="button" className="bg-white text-black px-6 py-3" onClick={() => setConfirmed(true)}>I am the parent or guardian; continue</button>
+  </section>;
 }
