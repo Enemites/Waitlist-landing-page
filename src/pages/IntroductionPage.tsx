@@ -127,7 +127,7 @@ const IntroductionPage = () => {
               Problem-based learning, rebuilt as simulation
             </motion.p>
             <motion.h1 className="product-wordmark" initial={reduce ? false : {opacity:0,transform:"translateY(42px)",clipPath:"inset(0 0 100% 0)"}} animate={{opacity:1,transform:"translateY(0px)",clipPath:"inset(0 0 0% 0)"}} transition={{duration:1.1,ease:[.23,1,.32,1]}}>
-              Enem<span>ites</span>
+              Arena
             </motion.h1>
             <ProductReveal className="hero-bottom" delay={.12}>
               <p>The first problem-based learning environment built on world simulations and a superhuman mentor.</p>
