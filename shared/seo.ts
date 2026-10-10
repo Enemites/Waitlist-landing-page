@@ -4,7 +4,7 @@ export const SOCIAL_IMAGE = `${SITE_ORIGIN}/assets/enemites-social.jpg`;
 export type PageMetadata = { path: string; title: string; description: string; index: boolean };
 
 export const PUBLIC_PAGES: PageMetadata[] = [
-  { path: "/home", title: "Enemites — Research & Cognitive Infrastructure", description: "Enemites is a research-driven collective advancing technology and cognitive infrastructure through foundational world models and educational environments.", index: true },
+  { path: "/home", title: "Enemites", description: "Enemites is a research-driven collective advancing technology and cognitive infrastructure through foundational world models and educational environments.", index: true },
   { path: "/arena", title: "Enemites Arena — AI Learning Simulations & Waitlist", description: "Discover problem-based learning through world simulations, AI mentor reflection, and evidence of capability. Join the Enemites Arena launch waitlist.", index: true },
   { path: "/arena/how-it-works", title: "How Enemites Arena Works — Decisions, Reflection & Proof", description: "See the Enemites Arena learning loop: enter a scenario, make decisions, observe consequences, reflect with an AI mentor, and review capability evidence.", index: true },
   { path: "/arena/about-us", title: "About Enemites — Our Mission & Team", description: "Meet the students building Enemites and learn why we are exploring simulation, problem-solving practice, and evidence of human capability.", index: true },
