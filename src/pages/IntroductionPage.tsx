@@ -204,7 +204,7 @@ const IntroductionPage = () => {
             <WaitlistForm />
           </div>
         </section>
-        <section className="product-endmark" aria-hidden="true"><img src="/assets/logo-384.webp" width="384" height="282" alt="" /></section>
+        <section className="product-endmark" aria-hidden="true"><img src="/assets/logo.png" width="572" height="420" alt="" loading="lazy" decoding="async" /></section>
       </main>
 
       <footer

@@ -3,7 +3,7 @@ import { motion, useInView, useMotionValueEvent, useScroll, useTransform } from 
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Feature = { title: string; copy: string; video: string };
-const compactViewport = () => window.matchMedia("(max-height: 680px), (max-width: 767px) and (max-height: 740px)").matches;
+const compactViewport = () => window.matchMedia("(min-width: 1024px) and (max-height: 680px)").matches;
 export default function SimulationSequence({ features }: { features: Feature[] }) {
   const ref = useRef<HTMLElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);

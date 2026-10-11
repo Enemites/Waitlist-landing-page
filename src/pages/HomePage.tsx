@@ -214,9 +214,6 @@ const HomePage = () => {
             <a href="mailto:support@enemites.com" className="hover:text-[#272C27] transition-colors">
               Contact
             </a>
-            <Link to="/arena/about-us" className="hover:text-[#272C27] transition-colors">About us</Link>
-            <Link to="/arena/privacy-policy" className="hover:text-[#272C27] transition-colors">Privacy</Link>
-            <Link to="/arena/terms-of-service" className="hover:text-[#272C27] transition-colors">Terms</Link>
           </div>
         </div>
       </footer>
