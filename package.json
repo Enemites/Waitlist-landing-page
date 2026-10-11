@@ -11,7 +11,8 @@
     "test:browser": "playwright test",
     "seo:check": "tsx scripts/check-seo.ts",
     "seo:audit": "node scripts/audit-performance.mjs",
-    "assets:optimize": "node scripts/optimize-images.mjs"
+    "assets:optimize": "node scripts/optimize-images.mjs",
+    "assets:favicon": "node scripts/build-favicon.mjs"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
