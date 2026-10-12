@@ -27,7 +27,7 @@ const posts: RealmsBlogPost[] = [
     addedAt: "2026-10-12",
     updatedAt: "2026-10-13",
     image: "/assets/blogs/learning-through-simulation-1536.webp",
-    imageAlt: "Floating graphite worlds connected by branching lime paths around a decision point",
+    imageAlt: "A dark teal fork with a lime tip representing a choice between two paths",
     introduction: "Knowing an answer and choosing what to do are different experiences. Enemites Realms is being built around the second: entering a situation, making a decision, and discovering what that decision changes.",
     sections: [
       {
@@ -61,7 +61,7 @@ const posts: RealmsBlogPost[] = [
     addedAt: "2026-10-12",
     updatedAt: "2026-10-13",
     image: "/assets/blogs/reflection-with-an-ai-mentor-1536.webp",
-    imageAlt: "Two reflective dark sculptures exchange lime light threads, representing thoughtful dialogue",
+    imageAlt: "Two facing semicircles in dark teal and lime on a warm paper background",
     introduction: "A simulation can show what happened. Reflection helps a learner ask why. The AI mentor concept in Enemites Realms is designed around that space between an outcome and the next decision.",
     sections: [
       {
@@ -95,7 +95,7 @@ const posts: RealmsBlogPost[] = [
     addedAt: "2026-10-12",
     updatedAt: "2026-10-13",
     image: "/assets/blogs/proof-of-capability-1536.webp",
-    imageAlt: "Smoked-glass evidence layers connected by a lime thread around a graphite monolith",
+    imageAlt: "Three offset dark teal bars with a lime highlight in the middle bar",
     introduction: "A result tells one part of a learning story. The path to that result tells another. Enemites Realms is exploring how to make that path visible through evidence of decisions, reflection, and improvement.",
     sections: [
       {

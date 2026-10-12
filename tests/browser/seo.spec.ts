@@ -15,7 +15,7 @@ test("crawl files include public pages and exclude invitation, survey, and place
 
 test("metadata stays correct after client navigation", async ({ page }) => {
   await page.goto("/realms");
-  await expect(page).toHaveTitle("Enemites Realms — AI Learning Simulations & Waitlist");
+  await expect(page).toHaveTitle("Enemites Realms — AI World Model Learning Simulations");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/realms");
   await page.getByRole("link", { name: "How It Works", exact: true }).first().click();
   await expect(page).toHaveTitle("How Enemites Realms Works — Decisions, Reflection & Proof");

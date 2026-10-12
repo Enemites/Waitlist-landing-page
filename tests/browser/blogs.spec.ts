@@ -108,21 +108,68 @@ test("Blogs also works in the light Realms navbar", async ({ page }) => {
   await expect(page.locator("h1")).toHaveText(LATEST_REALMS_BLOGS[0].title);
 });
 
-test("desktop Blogs has no dropdown icon and opens a viewport-wide two-column panel", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+test("Blogs stays inside the unchanged navbar and opens a two-column panel", async ({ page }) => {
+  for (const path of ["/realms", "/realms/about-us"]) {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(path);
+    const header = page.locator(".site-header");
+    const before = await header.boundingBox();
+    const trigger = page.getByRole("button", { name: "Blogs", exact: true });
+    await expect(trigger.locator("svg")).toHaveCount(0);
+    await trigger.click();
+    await expect(header).toHaveAttribute("data-blogs-open", "true");
+    const after = await header.boundingBox();
+    expect(after).toEqual(before);
+    const panel = page.locator(".blogs-dropdown");
+    await expect(panel).toHaveCSS("opacity", "1");
+    const bounds = (await panel.boundingBox())!;
+    expect(Math.abs(bounds.x - before!.x)).toBeLessThanOrEqual(2);
+    expect(Math.abs(bounds.width - before!.width)).toBeLessThanOrEqual(2);
+    expect(bounds.y).toBeGreaterThanOrEqual(before!.y + before!.height);
+    const stories = await page.locator(".blogs-menu-stories").boundingBox();
+    const resources = await page.locator(".blogs-menu-resources").boundingBox();
+    expect(resources!.x).toBeGreaterThan(stories!.x + stories!.width);
+    await trigger.click();
+    await expect(header).toHaveAttribute("data-blogs-open", "false");
+  }
+});
+
+test("Blogs uses the same idle and hover colors as other navbar links, with an active state only on blog pages", async ({ page }) => {
+  for (const path of ["/realms", "/realms/about-us"]) {
+    await page.goto(path);
+    const nav = page.getByRole("navigation", { name: "Primary navigation" });
+    const blogs = nav.getByRole("button", { name: "Blogs", exact: true });
+    const research = nav.getByRole("link", { name: "Research", exact: true });
+    await expect(blogs).not.toHaveAttribute("aria-current", "page");
+    const idleColor = await research.evaluate(node => getComputedStyle(node).color);
+    await expect(blogs).toHaveCSS("color", idleColor);
+    await research.hover();
+    const hoverColor = await research.evaluate(async node => {
+      getComputedStyle(node).color;
+      await Promise.all(node.getAnimations().map(animation => animation.finished));
+      return getComputedStyle(node).color;
+    });
+    await blogs.hover();
+    await expect(blogs).toHaveCSS("color", hoverColor);
+    await blogs.click();
+    await page.mouse.move(5, 800);
+    await expect(blogs).toHaveCSS("color", idleColor);
+  }
+  await page.goto("/realms/blogs");
+  await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("button", { name: "Blogs", exact: true })).toHaveAttribute("aria-current", "page");
+});
+
+test("a short desktop viewport keeps the blog choices usable with reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1024, height: 420 });
   await page.goto("/realms");
-  const trigger = page.getByRole("button", { name: "Blogs", exact: true });
-  await expect(trigger.locator("svg")).toHaveCount(0);
-  await trigger.click();
-  await expect(page.locator(".site-header")).toHaveAttribute("data-blogs-open", "true");
-  const panel = await page.locator(".blogs-dropdown").boundingBox();
-  expect(panel!.x).toBeLessThanOrEqual(1);
-  expect(panel!.width).toBeGreaterThanOrEqual(1438);
-  const stories = await page.locator(".blogs-menu-stories").boundingBox();
-  const resources = await page.locator(".blogs-menu-resources").boundingBox();
-  expect(resources!.x).toBeGreaterThan(stories!.x + stories!.width);
-  await trigger.click();
-  await expect(page.locator(".site-header")).toHaveAttribute("data-blogs-open", "false");
+  await page.getByRole("button", { name: "Blogs", exact: true }).click();
+  const panel = page.locator(".blogs-dropdown");
+  await expect(panel).toHaveCSS("animation-name", "none");
+  const bounds = (await panel.boundingBox())!;
+  expect(bounds.y + bounds.height).toBeLessThanOrEqual(420);
+  await panel.getByRole("link", { name: "Blogs Overview", exact: true }).click();
+  await expect(page).toHaveURL(/\/realms\/blogs$/);
 });
 
 test("overview and article headings are centered and use dedicated responsive artwork", async ({ page }) => {

@@ -1,0 +1,3 @@
+export const REALMS_DEFINITION = "Enemites Realms is a learning simulation environment being developed by Enemites around an internal AI world model. It combines problem-based learning, imagined scenarios that respond to decisions, AI mentor reflection, and evidence of capability.";
+
+export const REALMS_WORLD_MODEL_EXPLANATION = "We are developing the internal AI world model as Realms' core simulation engine. It is designed to represent a situation, its constraints, and how actions can change it. AI imagination means constructing possible scenarios and exploring what could happen next, so a simulated world can evolve around a learner's choices. The AI mentor supports reflection on the experience.";

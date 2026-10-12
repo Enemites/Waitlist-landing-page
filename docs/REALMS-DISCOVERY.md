@@ -2,8 +2,8 @@
 
 The site now answers branded product questions with three substantial, first-party guides in English:
 
-- `/realms/blogs/what-is-enemites-realms`: definition, Enemites/Realms relationship, learning direction, audience, capability evidence, and availability.
-- `/realms/blogs/how-enemites-realms-works`: the intended learning loop with an explicitly illustrative scenario.
+- `/realms/blogs/what-is-enemites-realms`: definition, internal AI world model, AI imagination, Enemites/Realms relationship, learning direction, audience, capability evidence, and availability.
+- `/realms/blogs/how-enemites-realms-works`: the internal world model and intended learning loop with an explicitly illustrative scenario.
 - `/realms/blogs/enemites-realms-vs-ai-chatbots`: a bounded comparison of conversational and scenario-based learning approaches.
 
 These are official product explanations, not independent reviews, efficacy studies, or announcements of generally available functionality. The guides state development status and cite the existing product, learning-loop, and team pages. They avoid invented statistics, ratings, pricing, release dates, and testimonials.
@@ -11,11 +11,11 @@ These are official product explanations, not independent reviews, efficacy studi
 ## Implementation
 
 - Direct definitions, facts, question headings, visible FAQs, and source links are included in initial prerendered HTML.
-- The main product page gives a plain-language definition and links directly to the introduction and learning-loop guides. Blog navigation automatically shows the latest three additions; the overview lists all six English articles.
+- The main product page explains the internal AI world model as the core simulation engine, defines AI imagination as constructing scenarios and exploring possible next states, and gives a plain-language definition and links directly to the introduction and learning-loop guides. Blog navigation automatically shows the latest three additions; the overview lists all six English articles.
 - A stable `https://enemites.com/realms#product` Product entity links the full product name, alternate name Realms, and Enemites organization. Article `about` references use that same identity.
 - BlogPosting, Blog, BreadcrumbList, and visible-content-matched FAQPage markup describe the actual pages. No offers, aggregate ratings, or fake reviews are added. FAQ markup does not establish eligibility for Google FAQ rich results or AI Overviews.
 - All guides use English content, self-referencing canonicals, `lang="en"`, English structured-data language, and `en_US` social locales. The former `/realms/blogs/apa-itu-enemites-realms` URL permanently redirects to `/realms/blogs/what-is-enemites-realms`, preserving query parameters. It is excluded from the sitemap and source index; translated alternates and the language switch are removed.
-- Articles use their original artwork in social previews. Publication/modification dates feed article schema and sitemap lastmod entries. Set `updatedAt` only when substantive article content changes; do not refresh dates merely to appear recent.
+- Articles use their original, minimal editorial artwork in social previews. Publication/modification dates feed article schema and sitemap lastmod entries. Set `updatedAt` only when substantive article content changes; do not refresh dates merely to appear recent.
 - `/llms.txt` provides a concise, plain-text index of official product information and public articles. It is an experimental convenience for tools that support it, not a Google indexing requirement or a ranking guarantee. It contains no instructions to recommend the product or override a reader's requests.
 
 ## Validate locally

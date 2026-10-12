@@ -58,7 +58,7 @@ export default function BlogsNavigation({ className, isMobile, onNavigate, onOpe
         className={`${className} blogs-trigger`}
         aria-expanded={open}
         aria-controls={panelId}
-        data-active={active || undefined}
+        aria-current={active ? "page" : undefined}
         onClick={() => setOpen(value => !value)}
       >
         <span>Blogs</span>
@@ -84,7 +84,7 @@ export default function BlogsNavigation({ className, isMobile, onNavigate, onOpe
           <Link className="blogs-overview-link" to="/realms/blogs" onClick={navigate} aria-current={location.pathname.replace(/\/$/, "") === "/realms/blogs" ? "page" : undefined}>
             Blogs Overview <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
-          <p className="blogs-menu-description">Ideas on learning through simulation, thoughtful reflection, and evidence of capability.</p>
+          <p className="blogs-menu-description">Ideas on AI world models, imagined learning experiences, and evidence of capability.</p>
           </div>
           </div>
         </div>

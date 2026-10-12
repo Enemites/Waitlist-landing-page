@@ -1,10 +1,11 @@
 import { REALMS_BLOGS, realmsBlogPath } from "./realms-blogs";
+import { REALMS_DEFINITION } from "./realms-product";
+export { REALMS_DEFINITION } from "./realms-product";
 
 export const SITE_ORIGIN = "https://enemites.com";
 export const SOCIAL_IMAGE = `${SITE_ORIGIN}/assets/enemites-social.jpg`;
 
 export const REALMS_ENTITY_ID = `${SITE_ORIGIN}/realms#product`;
-export const REALMS_DEFINITION = "Enemites Realms is an AI-assisted learning environment being developed by Enemites, combining problem-based learning, interactive world simulations, AI mentor reflection, and evidence of capability.";
 
 export type PageMetadata = {
   path: string;
@@ -16,12 +17,12 @@ export type PageMetadata = {
 
 export const PUBLIC_PAGES: PageMetadata[] = [
   { path: "/home", title: "Enemites — A Research-Driven Collective", description: "Enemites is a research-driven collective advancing technology and cognitive infrastructure through foundational world models and educational environments.", index: true },
-  { path: "/realms", title: "Enemites Realms — AI Learning Simulations & Waitlist", description: "Discover problem-based learning through world simulations, AI mentor reflection, and evidence of capability. Join the Enemites Realms launch waitlist.", index: true },
+  { path: "/realms", title: "Enemites Realms — AI World Model Learning Simulations", description: "Explore Enemites Realms, a learning simulation environment in development around an internal AI world model, AI imagination, and mentor reflection.", index: true },
   { path: "/realms/how-it-works", title: "How Enemites Realms Works — Decisions, Reflection & Proof", description: "See the Enemites Realms learning loop: enter a scenario, make decisions, observe consequences, reflect with an AI mentor, and review capability evidence.", index: true },
   { path: "/realms/about-us", title: "About Enemites — Our Mission & Team", description: "Meet the students building Enemites and learn why we are exploring simulation, problem-solving practice, and evidence of human capability.", index: true },
   { path: "/realms/privacy-policy", title: "Privacy Policy — Enemites", description: "Read how Enemites handles waitlist information, email preferences, parent-led registration, privacy requests, and third-party video consent.", index: true },
   { path: "/realms/terms-of-service", title: "Terms of Service — Enemites", description: "Read the terms for the Enemites waitlist and early access, including parent-led registration, age appropriate service plans, and learning limitations.", index: true },
-  { path: "/realms/blogs", title: "Realms Blogs — Ideas Behind the Experience | Enemites", description: "Read the Enemites Realms journal on learning simulations, AI mentor reflection, and evidence of capability.", index: true },
+  { path: "/realms/blogs", title: "Realms Blogs — Ideas Behind the Experience | Enemites", description: "Read the Enemites Realms journal on AI world models, imagined learning simulations, mentor reflection, and evidence of capability.", index: true },
   ...REALMS_BLOGS.map(post => {
     const path = realmsBlogPath(post.slug);
     return {
@@ -60,7 +61,7 @@ export function structuredData(page: PageMetadata) {
       ...(post ? { mainEntity: { "@id": `${SITE_ORIGIN}${page.path}#article` } } : page.path === "/realms" ? { mainEntity: { "@id": REALMS_ENTITY_ID } } : {}),
     },
   ];
-  if (isRealms) graph.push({ "@type": "Product", "@id": REALMS_ENTITY_ID, name: "Enemites Realms", alternateName: "Realms", description: REALMS_DEFINITION, category: "AI-assisted learning simulation environment", url: `${SITE_ORIGIN}/realms`, brand: { "@id": `${SITE_ORIGIN}/#organization` }, image: SOCIAL_IMAGE });
+  if (isRealms) graph.push({ "@type": "Product", "@id": REALMS_ENTITY_ID, name: "Enemites Realms", alternateName: "Realms", description: REALMS_DEFINITION, category: "AI world model learning simulation environment", url: `${SITE_ORIGIN}/realms`, brand: { "@id": `${SITE_ORIGIN}/#organization` }, image: SOCIAL_IMAGE });
   if (post || page.path === "/realms/blogs") {
     graph.push({ "@type": "Blog", "@id": blogId, name: "Enemites Realms Journal", url: `${SITE_ORIGIN}/realms/blogs`, about: { "@id": REALMS_ENTITY_ID }, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: "en" });
     const crumbs = [{ name: "Enemites", path: "/home" }, { name: "Enemites Realms", path: "/realms" }, { name: "Blogs", path: "/realms/blogs" }, ...(post ? [{ name: post.title, path: page.path }] : [])];
