@@ -6,7 +6,6 @@ export type ResponsiveNavItem = {
   label: string;
   to?: string;
   href?: string;
-  iconPath?: string;
   kind?: "blogs";
 };
 
@@ -16,14 +15,10 @@ export const novaGlobalNavItems: ResponsiveNavItem[] = [
     to: "/realms",
   },
   {
-    iconPath:
-      "M8 5.14v13.72L18.78 12 8 5.14Zm2 3.63L15.02 12 10 15.23V8.77Z",
     label: "How It Works",
     to: "/realms/how-it-works",
   },
   {
-    iconPath:
-      "M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z",
     label: "About Us",
     to: "/realms/about-us",
   },
@@ -33,8 +28,6 @@ export const novaGlobalNavItems: ResponsiveNavItem[] = [
     kind: "blogs",
   },
   {
-    iconPath:
-      "M5 4h14v2H5V4Zm0 4h14v2H5V8Zm0 4h9v2H5v-2Zm0 4h9v2H5v-2Zm12.4-3.2a3.2 3.2 0 1 0-2.26 5.46l-1.57 1.57L15 21.24l1.57-1.57a3.2 3.2 0 0 0 .83-6.87Zm0 1.8a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8Z",
     label: "Research",
     href: "https://research.enemites.com",
   },
@@ -122,21 +115,7 @@ const ResponsiveHeader = ({
       return <BlogsNavigation key={item.label} className={itemClass} isMobile={isMobile} onNavigate={() => setIsOpen(false)} onOpenChange={setIsBlogsOpen} />;
     }
 
-    const content = (
-      <>
-        {item.iconPath ? (
-          <svg
-            className="h-4 w-4 shrink-0"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d={item.iconPath} />
-          </svg>
-        ) : null}
-        <span>{item.label}</span>
-      </>
-    );
+    const content = <span>{item.label}</span>;
 
     if (item.href) {
       return (
