@@ -12,7 +12,6 @@ import DecisionTrace from "@/components/product/DecisionTrace";
 import ProductReveal from "@/components/product/ProductReveal";
 import ValueTransformations from "@/components/product/ValueTransformations";
 import { ArrowUpRight, Play } from "lucide-react";
-import { REALMS_DEFINITION, REALMS_WORLD_MODEL_EXPLANATION } from "../../shared/realms-product";
 
 const YOUTUBE_DEMO_VIDEO_ID = "sga8QDniKls";
 
@@ -152,8 +151,7 @@ const IntroductionPage = () => {
           <div className="product-container">
             <p className="product-eyebrow">Get to know Enemites Realms</p>
             <h2 id="realms-definition-title">What is Enemites Realms?</h2>
-            <p>{REALMS_DEFINITION}</p>
-            <p>{REALMS_WORLD_MODEL_EXPLANATION}</p>
+            <p>Enemites Realms is a learning simulation environment being developed by Enemites around an internal AI world model. Its core simulation engine uses AI imagination to create scenarios that respond to your decisions, with an AI mentor supporting reflection.</p>
             <div><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/how-enemites-realms-works">Explore the learning loop <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
           </div>
         </section>
