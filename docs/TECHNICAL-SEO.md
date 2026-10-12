@@ -35,7 +35,7 @@ PLAYWRIGHT_BASE_URL=http://127.0.0.1:5174 npm run test:browser
 npm run seo:audit -- http://127.0.0.1:5174 current
 ```
 
-`seo:check` inspects the built HTML, sitemap, robots, private shell, 404, and social image. Browser tests cover metadata after navigation, actual HTTP statuses, hydration errors, mobile overflow, and the existing privacy/signup flows. Lighthouse writes ignored JSON reports to `seo-artifacts/` for Home and Arena. Run performance audits without other browser/build workloads. The audit tool requires Node >=22.19 and an installed Playwright Chromium.
+`seo:check` inspects the built HTML, sitemap, robots, private shell, 404, and social image. Browser tests cover metadata after navigation, actual HTTP statuses, hydration errors, mobile overflow, and the existing privacy/signup flows. Lighthouse writes ignored JSON reports to `seo-artifacts/` for Home and Realms. Run performance audits without other browser/build workloads. The audit tool requires Node >=22.19 and an installed Playwright Chromium.
 
 Lighthouse is a simulated mobile lab check. LCP/CLS/TBT in its reports are not production field Core Web Vitals, and TBT is not INP. Recheck production after deployment; Search Console's field report requires sufficient real-user data. See `SEO-VALIDATION.md` for the recorded implementation results.
 
@@ -46,7 +46,7 @@ Verification status is unknown; missing HTML verification tags do not prove a do
 1. Open or add the domain property `enemites.com` in Search Console using an account authorized for the domain.
 2. If already verified, use that property. Otherwise obtain Google's specific TXT record and add it at the domain's DNS provider, then verify. Do not fabricate a token or replace unrelated DNS records.
 3. After this branch is deployed to production, submit `https://enemites.com/sitemap.xml`.
-4. Inspect `/home`, `/arena`, and `/arena/how-it-works`; confirm successful crawling, rendered content, and the intended canonical. Request indexing if appropriate and review the indexing report.
+4. Inspect `/home`, `/realms`, and `/realms/how-it-works`; confirm successful crawling, rendered content, and the intended canonical. Request indexing if appropriate and review the indexing report.
 
 Search Console ownership cannot be verified from repository code alone. No verification token, DNS change, sitemap submission, or indexing request was made by this patch.
 
@@ -60,3 +60,11 @@ Backlinks are external publishing and relationship work, not a technical softwar
 - Track resulting referring pages and relevant organic traffic using available reports; avoid adding an analytics collector solely for this patch.
 
 Actual publishing and outreach remain pending separate authorization and approved material.
+
+## Realms product routes and desktop timeline
+
+The product is now named Realms. Its public and parent-invitation routes live under `/realms`; `/arena` and its child routes redirect permanently to the matching new path, preserving query strings and browser fragments. Canonicals and the sitemap list only the new routes. Parent-invitation emails use `/realms/parent-waitlist`, while previously sent invitations still work through the redirect.
+
+The three-phase simulation timeline remains pinned on desktop, including short browser windows, and on mobile. Short desktop layouts fit the available viewport instead of disabling scroll-driven phase selection. Reduced-motion mode retains freely scrollable content and direct phase buttons.
+
+The opening label in the local generation demo has also changed to “Build Realms.” Regenerate its derived clip with `node scripts/update-realms-demo.mjs` (requires FFmpeg with drawtext/fontconfig and an Arial-compatible system font). The source recording remains unchanged; the derivative retains its 4K resolution, 60 fps, duration, and audio stream.

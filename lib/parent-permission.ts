@@ -42,7 +42,7 @@ export async function requestParentRegistration(emailValue: unknown, ageGroup: u
      RETURNING id`, [email, ageGroup, hash]);
   // Same response during cooldown, without sending another message or exposing addresses.
   if (!reserved.rows[0]) return { status: 202, data: { success: true, message: "Ask your parent to check their inbox for the invitation. You are added only after they register." } };
-  const link = new URL("/arena/parent-waitlist", config.origin);
+  const link = new URL("/realms/parent-waitlist", config.origin);
   link.hash = token;
   const message = `Someone requested an Enemites education waitlist invitation for a learner in the ${ageGroup} age group using your email. No learner name, phone number, or email was collected. If you are their parent or legal guardian and want launch notifications, open the link and register YOUR OWN contact details. This does not create a child account or authorize learning data collection. If you did not expect this request, ignore it; no waitlist entry is created and the request will expire in seven days. Contact support@enemites.com to request deletion. This invitation is not a marketing subscription.`;
   try {
@@ -50,8 +50,8 @@ export async function requestParentRegistration(emailValue: unknown, ageGroup: u
       method: "POST", signal: AbortSignal.timeout(10000),
       headers: { Authorization: `Bearer ${config.apiKey}`, "Content-Type": "application/json", "Idempotency-Key": `parent-invite/${reserved.rows[0].id}/${hash}` },
       body: JSON.stringify({ from: config.from, to: email, subject: "Parent invitation: Enemites education waitlist",
-        text: `${message}\n\nRegister as a parent: ${link}\n\nRead our privacy notice: ${config.origin}arena/privacy-policy`,
-        html: `<p>${escapeHtml(message)}</p><p><a href="${escapeHtml(link.toString())}">Review and register as a parent</a></p><p><a href="${config.origin}arena/privacy-policy">Privacy notice</a></p>` }),
+        text: `${message}\n\nRegister as a parent: ${link}\n\nRead our privacy notice: ${config.origin}realms/privacy-policy`,
+        html: `<p>${escapeHtml(message)}</p><p><a href="${escapeHtml(link.toString())}">Review and register as a parent</a></p><p><a href="${config.origin}realms/privacy-policy">Privacy notice</a></p>` }),
     });
     if (!response.ok) throw new Error("Email delivery failed");
   } catch {

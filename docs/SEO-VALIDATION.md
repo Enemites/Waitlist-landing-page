@@ -2,7 +2,7 @@
 
 ## Scope
 
-Existing Home, Arena, How It Works, About Us, Privacy, and Terms pages. No blog, keyword article, analytics collector, database change, or new email flow was added. Search Console ownership and external backlink publication are separate work described in `TECHNICAL-SEO.md`.
+Existing Home, Realms, How It Works, About Us, Privacy, and Terms pages. No blog, keyword article, analytics collector, database change, or new email flow was added. Search Console ownership and external backlink publication are separate work described in `TECHNICAL-SEO.md`.
 
 ## Automated checks
 
@@ -11,14 +11,14 @@ Existing Home, Arena, How It Works, About Us, Privacy, and Terms pages. No blog,
 - API/privacy suite: 14 tests passed.
 - Production-preview browser suite: 11 tests passed, including existing signup/parent/YouTube behavior, metadata on client navigation, HTTP 404, mobile overflow, hydration errors, and deferred simulation media.
 - Development browser checks passed, including the simulation-media check.
-- JavaScript-disabled checks confirmed readable headings/content on Home, Arena, How It Works, and Privacy; mobile Home/Arena screenshots had no horizontal overflow.
+- JavaScript-disabled checks confirmed readable headings/content on Home, Realms, How It Works, and Privacy; mobile Home/Realms screenshots had no horizontal overflow.
 - `git diff --check`: passed.
 
 ## Lighthouse lab comparison
 
 Baseline used the previous main build, copied before modifications. Updated measurements used a fresh production build served locally. Both used Lighthouse 13.5 default mobile simulation. The final audit ran after browser tests completed. Scores fluctuate with CPU/network conditions; these individual lab runs are indicative and are not production field measurements.
 
-| Metric | Home before | Home after | Arena before | Arena after |
+| Metric | Home before | Home after | Realms before | Realms after |
 |---|---:|---:|---:|---:|
 | Performance score | 62 | 92 | 60 | 90 |
 | Accessibility score | 92 | 100 | 100 | 100 |
@@ -41,6 +41,6 @@ Run `npm run seo:audit -- http://127.0.0.1:5174 current` to regenerate ignored r
 
 ## Deployment checks
 
-The branch preview built successfully on Vercel. Authenticated read-only requests verified public prerendered HTML (200), root redirect to `/home` (308), robots text and sitemap XML MIME types (200), missing-page HTML (404), private-route noindex headers, parent no-referrer policy, and the JPEG social image (200). Existing API reachability was verified without submissions: GET `/api/waitlist` returned 405; unauthenticated GET `/api/forms` returned 401. Arena rendered with its intended title/canonical and no browser errors. Vercel automatically adds noindex to preview deployments; this is expected and distinct from public-page metadata for production.
+The branch preview built successfully on Vercel. Authenticated read-only requests verified public prerendered HTML (200), root redirect to `/home` (308), robots text and sitemap XML MIME types (200), missing-page HTML (404), private-route noindex headers, parent no-referrer policy, and the JPEG social image (200). Existing API reachability was verified without submissions: GET `/api/waitlist` returned 405; unauthenticated GET `/api/forms` returned 401. Realms rendered with its intended title/canonical and no browser errors. Vercel automatically adds noindex to preview deployments; this is expected and distinct from public-page metadata for production.
 
 Vercel configuration explicitly runs `npm run build` and serves `dist`; the cleanup cron is retained. Production verification, Search Console submission, and indexing review follow the eventual merge/deployment.

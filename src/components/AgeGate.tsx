@@ -20,7 +20,7 @@ export default function AgeGate({ children, className = "" }: { children: (ageGr
           <button type="button" disabled={!ageGroup} className="bg-white text-black px-6 py-3 disabled:opacity-50" onClick={() => setConfirmed(true)}>Continue</button>
           <p className="text-xs text-[#AFBAB6]">We ask before collecting your contact details or answers. We do not store your date of birth. Depending on your location, additional parent or guardian permission may be required.</p>
         </>
-      <Link to="/arena/privacy-policy" className="inline-block text-sm underline">Privacy Policy</Link>
+      <Link to="/realms/privacy-policy" className="inline-block text-sm underline">Privacy Policy</Link>
     </section>
   );
 }

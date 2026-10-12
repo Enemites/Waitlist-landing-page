@@ -39,6 +39,8 @@ test("invitation stores only parent contact and a token hash; provider receives 
     assert.ok(!JSON.stringify(calls).includes(sentToken));
     assert.ok(email.text.includes("does not create a child account"));
     assert.ok(email.text.includes("ignore it"));
+    assert.ok(email.text.includes("https://example.com/realms/parent-waitlist#"));
+    assert.ok(email.text.includes("https://example.com/realms/privacy-policy"));
     assert.ok(!JSON.stringify(calls).includes("ip_address"));
   } finally { query.mock.restore(); fetchMock.mock.restore(); }
 });

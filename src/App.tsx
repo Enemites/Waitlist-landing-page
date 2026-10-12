@@ -48,6 +48,11 @@ const ScrollToTop = () => {
   return null;
 };
 
+function LegacyProductRedirect() {
+  const { pathname, search, hash } = useLocation();
+  return <Navigate to={`${pathname.replace(/^\/arena(?=\/|$)/, "/realms")}${search}${hash}`} replace />;
+}
+
 export function SiteRoutes() {
   return (
     <>
@@ -56,15 +61,16 @@ export function SiteRoutes() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/arena" element={<IntroductionPage />} />
-        <Route path="/arena/how-it-works" element={<HowItWorksPage />} />
-        <Route path="/arena/about-us" element={<AboutUsPage />} />
-        <Route path="/arena/contact" element={<NotAvailablePage title="Contact" />} />
-        <Route path="/arena/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/arena/parent-waitlist" element={<ParentWaitlistPage />} />
-        <Route path="/arena/terms-of-service" element={<TermsOfServicePage />} />
-        <Route path="/arena/login" element={<Placeholder title="Login" />} />
-        <Route path="/arena/pricing" element={<Placeholder title="Pricing" />} />
+        <Route path="/arena/*" element={<LegacyProductRedirect />} />
+        <Route path="/realms" element={<IntroductionPage />} />
+        <Route path="/realms/how-it-works" element={<HowItWorksPage />} />
+        <Route path="/realms/about-us" element={<AboutUsPage />} />
+        <Route path="/realms/contact" element={<NotAvailablePage title="Contact" />} />
+        <Route path="/realms/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/realms/parent-waitlist" element={<ParentWaitlistPage />} />
+        <Route path="/realms/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="/realms/login" element={<Placeholder title="Login" />} />
+        <Route path="/realms/pricing" element={<Placeholder title="Pricing" />} />
         
         {/* Dynamic Questionnaire Form Route */}
         <Route path="/form/:slug" element={<PublicFormPage />} />

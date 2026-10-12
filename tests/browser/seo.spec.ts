@@ -14,13 +14,13 @@ test("crawl files are genuine files and exclude invitation, survey, placeholder,
 });
 
 test("metadata stays correct after client navigation", async ({ page }) => {
-  await page.goto("/arena");
-  await expect(page).toHaveTitle("Enemites Arena — AI Learning Simulations & Waitlist");
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/arena");
+  await page.goto("/realms");
+  await expect(page).toHaveTitle("Enemites Realms — AI Learning Simulations & Waitlist");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/realms");
   await page.getByRole("link", { name: "How It Works", exact: true }).first().click();
-  await expect(page).toHaveTitle("How Enemites Arena Works — Decisions, Reflection & Proof");
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/arena/how-it-works");
-  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", "https://enemites.com/arena/how-it-works");
+  await expect(page).toHaveTitle("How Enemites Realms Works — Decisions, Reflection & Proof");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/realms/how-it-works");
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", "https://enemites.com/realms/how-it-works");
   await expect(page.locator("#site-structured-data")).toHaveCount(1);
 });
 
@@ -30,7 +30,7 @@ test("unknown URLs return 404, render a useful page, and are not indexed", async
   await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex,follow");
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
-  await page.getByRole("link", { name: "Explore Arena" }).click();
+  await page.getByRole("link", { name: "Explore Realms" }).click();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "index,follow");
 });
 
@@ -52,11 +52,33 @@ test("public pages preserve headings, hydration, and mobile layout", async ({ pa
 test("simulation media waits for its viewport and pauses after leaving it", async ({ page }) => {
   const videos: string[] = [];
   page.on("request", request => { if (request.url().endsWith(".mp4")) videos.push(request.url()); });
-  await page.goto("/arena");
+  await page.goto("/realms");
   await expect(page.locator("video").first()).toHaveAttribute("preload", "none");
   expect(videos).toEqual([]);
   await page.locator(".simulation-sequence").scrollIntoViewIfNeeded();
   await expect.poll(() => videos.length).toBeGreaterThan(0);
   await page.locator("h1").scrollIntoViewIfNeeded();
   await expect.poll(() => page.locator("video").evaluateAll(nodes => nodes.every(node => (node as HTMLVideoElement).paused))).toBe(true);
+});
+
+test("legacy product URLs redirect permanently and preserve links", async ({ page, request }) => {
+  for (const path of ["", "/how-it-works", "/about-us", "/privacy-policy", "/terms-of-service", "/parent-waitlist", "/login"]) {
+    const response = await request.get(`/arena${path}?source=legacy`, { maxRedirects: 0 });
+    expect(response.status()).toBe(308);
+    expect(response.headers().location).toBe(`/realms${path}?source=legacy`);
+  }
+  await page.goto("/arena?source=legacy#join-waitlist");
+  await expect(page).toHaveURL(/\/realms\?source=legacy#join-waitlist$/);
+  await expect(page.locator("h1")).toHaveText("Realms");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/realms");
+});
+
+test("public copy and metadata use Realms", async ({ page }) => {
+  for (const route of PUBLIC_PAGES) {
+    await page.goto(route.path);
+    expect(await page.locator("body").innerText()).not.toMatch(/\barenas?\b/i);
+    await expect(page).toHaveTitle(route.title);
+    expect(await page.locator('meta[name="description"]').getAttribute("content")).not.toMatch(/\barena\b/i);
+    expect(await page.locator('a[href^="/arena"]').count()).toBe(0);
+  }
 });

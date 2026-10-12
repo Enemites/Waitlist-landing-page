@@ -15,7 +15,7 @@ export default function ParentWaitlistPage() {
     return () => { meta.remove(); };
   }, [token]);
   return <main className="product-site min-h-screen bg-[#0D1517] text-[#EDF1EF] px-4 py-20">
-    <div className="max-w-2xl mx-auto mb-8"><Link to="/arena" className="text-sm underline">Enemites Arena</Link>
+    <div className="max-w-2xl mx-auto mb-8"><Link to="/realms" className="text-sm underline">Enemites Realms</Link>
       <h1 className="nova-display text-3xl mt-6">Parent or guardian waitlist registration</h1>
       <p className="mt-3 text-sm text-[#AFBAB6]">Register your interest in Enemites for a learner. Launch notifications go to you. Permission for a future child account and age appropriate learning features will be handled separately before those features collect child data.</p>
     </div>

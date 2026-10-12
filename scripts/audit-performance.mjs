@@ -13,7 +13,7 @@ const port = socket.address().port;
 await new Promise(resolve => socket.close(resolve));
 const browser = await chromium.launch({ headless: true, args: [`--remote-debugging-port=${port}`] });
 try {
-  for (const route of ["/home", "/arena"]) {
+  for (const route of ["/home", "/realms"]) {
     const result = await lighthouse(`${origin}${route}`, { port, output: "json", logLevel: "error", onlyCategories: ["performance", "accessibility", "best-practices", "seo"] });
     await writeFile(`seo-artifacts/${label}-${route.slice(1)}.json`, result.report);
     const audits = result.lhr.audits;

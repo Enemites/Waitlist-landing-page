@@ -51,7 +51,7 @@ const questTimeline = [
   },
   {
     label: "Quest 05",
-    title: "Building an arena for everyone",
+    title: "Building Realms for everyone",
     description:
       "The next step is a deeper prototype and a broader beta. Enemites is being shaped with students who want learning to feel responsive, visible, and worth returning to.",
     period: "December 2025",
@@ -115,15 +115,15 @@ const AboutUsPage = () => {
                 About Enemites
               </motion.p>
               <motion.h1 variants={itemVariants} className="nova-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] sm:leading-[1.05] tracking-tight text-[#272C27]">
-                Built by students who needed a <span className="nova-gradient-x">better arena</span>.
+                Built by students who needed <span className="nova-gradient-x">better realms</span>.
               </motion.h1>
               <motion.p variants={itemVariants} className="mt-5 sm:mt-8 text-xs sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed text-[#62675E] max-w-xl">
-                Enemites began from a student fear: AI makes knowledge feel cheap, while learning still feels heavy. We are building the arena we wanted, where effort becomes visible capability.
+                Enemites began from a student fear: AI makes knowledge feel cheap, while learning still feels heavy. We are building the realms we wanted, where effort becomes visible capability.
               </motion.p>
 
               <motion.div variants={itemVariants} className="mt-6 sm:mt-10 flex flex-col items-start gap-3 sm:gap-4 sm:flex-row sm:items-center">
                 <Button asChild className="h-11 sm:h-12 rounded-lg bg-[#B8593B] px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-white hover:bg-[#B8593B]/90 hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
-                  <Link to="/arena/how-it-works">See how it works</Link>
+                  <Link to="/realms/how-it-works">See how it works</Link>
                 </Button>
                 <Button asChild variant="outline" className="h-11 sm:h-12 rounded-lg border border-[#DAD6CB] bg-transparent px-6 sm:px-8 text-sm sm:text-[15px] font-medium text-[#272C27] hover:bg-white hover:-translate-y-[1px] transition-transform active:scale-[0.98]">
                   <a href="mailto:support@enemites.com">Contact the team</a>
@@ -195,7 +195,7 @@ const AboutUsPage = () => {
             <motion.div className="mb-10 sm:mb-16 max-w-2xl" initial={reduce ? false : "hidden"} whileInView="visible" viewport={{ once: true }} variants={itemVariants}>
               <p className="nova-mono mb-2 sm:mb-4 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#73776E]">Student squad</p>
               <h2 className="nova-display text-2xl sm:text-4xl md:text-5xl font-medium leading-[1.15] sm:leading-[1.1] text-[#272C27]">
-                The people shaping the first arena.
+                The people shaping the first realms.
               </h2>
             </motion.div>
 
@@ -314,7 +314,7 @@ const AboutUsPage = () => {
             <div className="relative z-10">
               <p className="nova-mono mb-3 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#B8593B]">Still building</p>
               <h2 className="nova-display max-w-3xl text-xl sm:text-3xl md:text-5xl font-medium leading-[1.15] text-[#272C27]">
-                Enemites is not a finished monument. It is an arena being tested with real students.
+                Enemites is not a finished monument. Realms is being tested with real students.
               </h2>
               <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-[#DAD6CB] pt-6 sm:pt-10">
                 <p className="max-w-xl text-xs sm:text-sm md:text-base leading-relaxed text-[#62675E]">
@@ -333,13 +333,13 @@ const AboutUsPage = () => {
         <div className="mx-auto flex max-w-6xl flex-col gap-4 text-xs sm:text-[13px] text-[#73776E] sm:flex-row sm:items-center sm:justify-between">
           <p>Copyright 2025 Enemites. All rights reserved.</p>
           <div className="flex flex-wrap gap-4 sm:gap-6">
-            <Link to="/arena/how-it-works" className="hover:text-[#272C27] transition-colors">
+            <Link to="/realms/how-it-works" className="hover:text-[#272C27] transition-colors">
               How it works
             </Link>
-            <Link to="/arena/privacy-policy" className="hover:text-[#272C27] transition-colors">
+            <Link to="/realms/privacy-policy" className="hover:text-[#272C27] transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/arena/terms-of-service" className="hover:text-[#272C27] transition-colors">
+            <Link to="/realms/terms-of-service" className="hover:text-[#272C27] transition-colors">
               Terms of Service
             </Link>
           </div>

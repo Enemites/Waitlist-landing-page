@@ -21,6 +21,6 @@ export default function ParentWaitlistInvite({ ageGroup }: { ageGroup: string })
       <button type="submit" disabled={busy} className="bg-white text-black px-6 py-3 disabled:opacity-50">{busy ? "Sending invitation…" : "Invite my parent"}</button>
     </>}
     {message && <p role={sent ? "status" : "alert"} className="text-sm">{message}</p>}
-    <p className="text-xs text-[#AFBAB6]">An invitation does not create a waitlist registration. Uncompleted invitations expire after seven days. <Link to="/arena/privacy-policy" className="underline">Privacy Policy</Link></p>
+    <p className="text-xs text-[#AFBAB6]">An invitation does not create a waitlist registration. Uncompleted invitations expire after seven days. <Link to="/realms/privacy-policy" className="underline">Privacy Policy</Link></p>
   </form>;
 }

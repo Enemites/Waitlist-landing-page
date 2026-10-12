@@ -203,7 +203,7 @@ export function EligibleWaitlistForm({
                 You are on the list, {submittedData.name}.
               </h3>
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-[15px] leading-relaxed text-[#9AA6A4] max-w-lg">
-                Your entry has been recorded for the upcoming Enemites Arena simulation batch. We will email you about the launch and early access. Additional updates follow your checkbox preference.
+                Your entry has been recorded for the upcoming Enemites Realms simulation batch. We will email you about the launch and early access. Additional updates follow your checkbox preference.
               </p>
             </div>
 
@@ -417,7 +417,7 @@ export function EligibleWaitlistForm({
               </div>
             </div>
 
-            <p className="text-xs text-[#AFBAB6]">By joining, you request launch and early access notifications by email. The checkbox above is only for updates beyond the launch. You can unsubscribe using the link in each promotional email. Joining is free and creates no paid subscription. Read our <Link to="/arena/privacy-policy" className="underline">Privacy Policy</Link> and <Link to="/arena/terms-of-service" className="underline">Terms of Service</Link>.</p>
+            <p className="text-xs text-[#AFBAB6]">By joining, you request launch and early access notifications by email. The checkbox above is only for updates beyond the launch. You can unsubscribe using the link in each promotional email. Joining is free and creates no paid subscription. Read our <Link to="/realms/privacy-policy" className="underline">Privacy Policy</Link> and <Link to="/realms/terms-of-service" className="underline">Terms of Service</Link>.</p>
 
             {/* Submit Button */}
             <div className="pt-3 sm:pt-4 border-t border-[#253632]">

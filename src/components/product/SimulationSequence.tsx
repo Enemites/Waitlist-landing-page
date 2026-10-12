@@ -3,7 +3,6 @@ import { motion, useInView, useMotionValueEvent, useScroll, useTransform } from 
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Feature = { title: string; copy: string; video: string };
-const compactViewport = () => window.matchMedia("(min-width: 1024px) and (max-height: 680px)").matches;
 export default function SimulationSequence({ features }: { features: Feature[] }) {
   const ref = useRef<HTMLElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
@@ -13,7 +12,7 @@ export default function SimulationSequence({ features }: { features: Feature[] }
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const progress = useTransform(scrollYProgress, [0, 1], [0.04, 1]);
   useMotionValueEvent(scrollYProgress, "change", p => {
-    if (reduce || compactViewport()) return;
+    if (reduce) return;
     const next = Math.min(features.length - 1, Math.floor(p * features.length));
     setActive(previous => previous === next ? previous : next);
   });
@@ -25,7 +24,7 @@ export default function SimulationSequence({ features }: { features: Feature[] }
     });
   }, [active, visible, reduce]);
   const jump = (index: number) => {
-    if (reduce || compactViewport()) { setActive(index); return; }
+    if (reduce) { setActive(index); return; }
     const node = ref.current;
     if (!node) return;
     const top = node.getBoundingClientRect().top + window.scrollY;

@@ -91,7 +91,7 @@ const TermsOfServicePage = () => {
                   experimental environment. Joining this waitlist is free and does not create a paid or renewing subscription. By joining the waitlist or requesting access, you:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
-                  <li>Understand that features, arenas, scenarios, and feedback may change.</li>
+                  <li>Understand that features, realms, scenarios, and feedback may change.</li>
                   <li>Accept that bugs, downtime, data resets, or limited availability may occur.</li>
                   <li>
                     Request launch announcements and early access notifications as part of joining the waitlist. The existing optional checkbox controls only updates beyond the launch. You can stop promotional messages using the unsubscribe link in each email.

@@ -5,7 +5,7 @@ import { PUBLIC_PAGES, UNINDEXED_PAGES, metadataForPath, metadataHtml, robotsCon
 
 export function seoPlugin(): Plugin {
   const staticPaths = new Set([...PUBLIC_PAGES, ...UNINDEXED_PAGES].map(page => page.path));
-  const privatePath = (path: string) => path === "/arena/parent-waitlist" || /^\/form\/[^/]+$/.test(path);
+  const privatePath = (path: string) => path === "/realms/parent-waitlist" || /^\/form\/[^/]+$/.test(path);
   return {
     name: "route-seo",
     transformIndexHtml(html, context) {
@@ -16,6 +16,7 @@ export function seoPlugin(): Plugin {
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const path = new URL(req.url || "/", "http://localhost").pathname;
+        if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
         if (path === "/") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
         if (path === "/robots.txt" || path === "/sitemap.xml") {
           res.setHeader("Content-Type", path === "/robots.txt" ? "text/plain; charset=utf-8" : "application/xml; charset=utf-8");
@@ -33,6 +34,7 @@ export function seoPlugin(): Plugin {
     configurePreviewServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const path = new URL(req.url || "/", "http://localhost").pathname;
+        if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
         if (path === "/" || path === "/index.html") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
         if (path.startsWith("/api/")) { next(); return; }
         if (path.startsWith("/assets/") || path.startsWith("/licenses/") || path === "/robots.txt" || path === "/sitemap.xml") { next(); return; }

@@ -10,13 +10,13 @@ const viewports = [
 test("Home footer offers only Research, News, and Contact", async ({ page }) => {
   await page.goto("/home");
   await expect(page.locator("footer a").filter({ hasText: /Research|News|Contact/ })).toHaveCount(3);
-  await expect(page.locator('a[href="/arena/about-us"], a[href="/arena/privacy-policy"], a[href="/arena/terms-of-service"]')).toHaveCount(0);
+  await expect(page.locator('a[href="/realms/about-us"], a[href="/realms/privacy-policy"], a[href="/realms/terms-of-service"]')).toHaveCount(0);
 });
 
 test("closing logo fills a screen without cropping on desktop and mobile", async ({ page }) => {
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);
-    await page.goto("/arena");
+    await page.goto("/realms");
     const section = page.locator(".product-endmark");
     await section.scrollIntoViewIfNeeded();
     await expect(section.locator("img")).toBeVisible();
@@ -40,7 +40,7 @@ for (const viewport of viewports.slice(0, 3)) {
   test(`native touch scrolling holds the timeline while advancing phases at ${viewport.width}×${viewport.height}`, async ({ browser }) => {
     const context = await browser.newContext({ viewport, hasTouch: true, isMobile: true, reducedMotion: "no-preference", baseURL: test.info().project.use.baseURL });
     const page = await context.newPage();
-    await page.goto("/arena");
+    await page.goto("/realms");
     const phases = page.locator(".sequence-phase");
     const geometry = await page.locator(".simulation-sequence").evaluate(node => ({ top: node.getBoundingClientRect().top + scrollY, distance: (node as HTMLElement).offsetHeight - innerHeight }));
     await page.evaluate(({ top, distance }) => window.scrollTo(0, top + distance * 0.12), geometry);
@@ -73,9 +73,36 @@ for (const viewport of viewports.slice(0, 3)) {
 test("reduced motion keeps the timeline freely scrollable and phases selectable", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/arena");
+  await page.goto("/realms");
   await expect(page.locator(".sequence-sticky")).toHaveCSS("position", "static");
   const third = page.locator(".sequence-phase").nth(2);
   await third.click();
   await expect(third).toHaveAttribute("aria-pressed", "true");
 });
+
+for (const viewport of [{ width: 1280, height: 600 }, { width: 1366, height: 768 }, { width: 1440, height: 500 }]) {
+  test(`desktop wheel scrolling pins every phase at ${viewport.width}×${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto("/realms");
+    const phases = page.locator(".sequence-phase");
+    const geometry = await page.locator(".simulation-sequence").evaluate(node => ({ top: node.getBoundingClientRect().top + scrollY, distance: (node as HTMLElement).offsetHeight - innerHeight }));
+    await page.evaluate(({ top, distance }) => scrollTo(0, top + distance * 0.12), geometry);
+    await expect(phases.nth(0)).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(".sequence-sticky")).toHaveCSS("position", "sticky");
+    const initial = await page.locator(".sequence-sticky").boundingBox();
+    expect(initial!.y + initial!.height).toBeLessThanOrEqual(viewport.height + 1);
+    await page.mouse.move(viewport.width / 2, viewport.height / 2);
+    for (const [index, direction] of [[1, 1], [2, 1], [1, -1], [0, -1]]) {
+      await page.mouse.wheel(0, geometry.distance * 0.36 * direction);
+      await expect(phases.nth(index)).toHaveAttribute("aria-pressed", "true");
+      const pinned = await page.locator(".sequence-sticky").boundingBox();
+      expect(Math.abs(pinned!.y - initial!.y)).toBeLessThan(2);
+      expect(pinned!.y + pinned!.height).toBeLessThanOrEqual(viewport.height + 1);
+    }
+    await page.locator(".sequence-phase").nth(2).click();
+    await expect(phases.nth(2)).toHaveAttribute("aria-pressed", "true");
+    await page.evaluate(({ top, distance }) => scrollTo(0, top + distance + innerHeight), geometry);
+    await expect(page.locator(".product-market")).toBeInViewport();
+  });
+}

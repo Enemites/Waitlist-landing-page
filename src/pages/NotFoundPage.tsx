@@ -6,7 +6,7 @@ export default function NotFoundPage() {
       <p className="nova-mono text-sm mb-4">404</p>
       <h1 className="nova-display text-4xl mb-4">Page not found</h1>
       <p className="text-[#AFBAB6] mb-8">This address does not match an available page.</p>
-      <div className="flex justify-center gap-6"><Link className="underline" to="/home">Enemites home</Link><Link className="underline" to="/arena">Explore Arena</Link></div>
+      <div className="flex justify-center gap-6"><Link className="underline" to="/home">Enemites home</Link><Link className="underline" to="/realms">Explore Realms</Link></div>
     </div>
   </main>;
 }

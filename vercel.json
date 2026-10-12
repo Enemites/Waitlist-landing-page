@@ -11,7 +11,7 @@
       "destination": "/api/forms?slug=$1"
     },
     {
-      "source": "/arena/parent-waitlist",
+      "source": "/realms/parent-waitlist",
       "destination": "/private"
     },
     {
@@ -34,11 +34,21 @@
       "source": "/index",
       "destination": "/home",
       "permanent": true
+    },
+    {
+      "source": "/arena",
+      "destination": "/realms",
+      "permanent": true
+    },
+    {
+      "source": "/arena/:path*",
+      "destination": "/realms/:path*",
+      "permanent": true
     }
   ],
   "headers": [
     {
-      "source": "/arena/parent-waitlist",
+      "source": "/realms/parent-waitlist",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -60,11 +70,24 @@
       ]
     },
     {
-      "source": "/arena/:page(login|pricing|contact)",
+      "source": "/realms/:page(login|pricing|contact)",
       "headers": [
         {
           "key": "X-Robots-Tag",
           "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/arena/parent-waitlist",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
         }
       ]
     }

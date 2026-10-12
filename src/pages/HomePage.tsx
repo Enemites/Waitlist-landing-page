@@ -27,10 +27,10 @@ const LabHeader = () => {
           <a href="https://news.enemites.com" className="hover:text-[#272C27] transition-colors">News</a>
           <a href="mailto:support@enemites.com" className="hover:text-[#272C27] transition-colors">Contact</a>
           <Link 
-            to="/arena" 
+            to="/realms"
             className="bg-[#272C27] text-white px-5 py-2 rounded-lg hover:bg-[#2A2E3D] hover:-translate-y-[1px] transition-transform active:scale-[0.98]"
           >
-            Try Arena
+            Try Realms
           </Link>
         </nav>
       </div>
@@ -41,9 +41,9 @@ const LabHeader = () => {
 const projects = [
   {
     id: "01",
-    title: "Arena Infrastructure",
+    title: "Realms Infrastructure",
     description: "Developing the core infrastructure and interactive environments where complex learning takes place. We build responsive, adaptive systems designed to provide real-time, grounded feedback rather than static curriculum.",
-    link: "/arena",
+    link: "/realms",
     image: "/assets/arena-infrastructure-960.webp"
   },
   {

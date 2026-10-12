@@ -45,9 +45,9 @@ const simulationFeatures = [
     video: "/assets/scene/dynamic%20arena.mp4",
   },
   {
-    title: "Personalized Arena",
-    copy: "Arena environments and challenges tailored to your capabilities.",
-    video: "/assets/scene/arena%20gen.mp4",
+    title: "Personalized Realms",
+    copy: "Realms environments and challenges tailored to your capabilities.",
+    video: "/assets/scene/realms-gen.mp4",
   },
   {
     title: "Smartest Superhuman",
@@ -127,7 +127,7 @@ const IntroductionPage = () => {
               Problem-based learning, rebuilt as simulation
             </motion.p>
             <motion.h1 className="product-wordmark" initial={reduce ? false : {opacity:0,transform:"translateY(42px)",clipPath:"inset(0 0 100% 0)"}} animate={{opacity:1,transform:"translateY(0px)",clipPath:"inset(0 0 0% 0)"}} transition={{duration:1.1,ease:[.23,1,.32,1]}}>
-              Arena
+              Realms
             </motion.h1>
             <ProductReveal className="hero-bottom" delay={.12}>
               <p>The first problem-based learning environment built on world simulations and a superhuman mentor.</p>
@@ -141,7 +141,7 @@ const IntroductionPage = () => {
               </div>
             </ProductReveal>
             <div className="hero-links">
-              <Link to="/arena/about-us#our-mission">Our mission</Link>
+              <Link to="/realms/about-us#our-mission">Our mission</Link>
               <a href="https://research.enemites.com" target="_blank" rel="noreferrer">Our research</a>
             </div>
           </div>
@@ -198,7 +198,7 @@ const IntroductionPage = () => {
             <ProductReveal className="registration-copy">
               <span className="registration-eyebrow">Early Access Registration</span>
               <h2>Ready to <span>join</span>?</h2>
-              <p>Join thousands of learners and problem solvers in the next generation Enemites Arena simulation.</p>
+              <p>Join thousands of learners and problem solvers in the next generation Enemites Realms simulation.</p>
               <div className="registration-art registration-threshold" aria-hidden="true"><img src="/assets/waitlist-threshold.webp" alt="" loading="lazy" /></div>
             </ProductReveal>
             <WaitlistForm />
@@ -248,12 +248,12 @@ const IntroductionPage = () => {
               </h4>
               <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm md:text-[15px] text-[#EDF1EF]/72">
                 <li>
-                  <Link to="/arena/about-us" className="transition-colors hover:text-[#EDF1EF]">
+                  <Link to="/realms/about-us" className="transition-colors hover:text-[#EDF1EF]">
                     About Us
                   </Link>
                 </li>
                 <li>
-                  <Link to="/arena/how-it-works" className="transition-colors hover:text-[#EDF1EF]">
+                  <Link to="/realms/how-it-works" className="transition-colors hover:text-[#EDF1EF]">
                     How It Works
                   </Link>
                 </li>
@@ -271,12 +271,12 @@ const IntroductionPage = () => {
               </h4>
               <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm md:text-[15px] text-[#EDF1EF]/72">
                 <li>
-                  <Link to="/arena/privacy-policy" className="transition-colors hover:text-[#EDF1EF]">
+                  <Link to="/realms/privacy-policy" className="transition-colors hover:text-[#EDF1EF]">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link to="/arena/terms-of-service" className="transition-colors hover:text-[#EDF1EF]">
+                  <Link to="/realms/terms-of-service" className="transition-colors hover:text-[#EDF1EF]">
                     Terms of Service
                   </Link>
                 </li>
@@ -290,10 +290,10 @@ const IntroductionPage = () => {
                 (c) 2025 Enemites. All rights reserved.
               </p>
               <div className="flex gap-6 text-xs sm:text-[13px]">
-                <Link to="/arena/privacy-policy" className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
+                <Link to="/realms/privacy-policy" className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
                   Privacy Policy
                 </Link>
-                <Link to="/arena/terms-of-service" className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
+                <Link to="/realms/terms-of-service" className="text-[#9AA6A4] transition-colors hover:text-[#EDF1EF]">
                   Terms of Service
                 </Link>
               </div>

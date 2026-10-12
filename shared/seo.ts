@@ -5,17 +5,17 @@ export type PageMetadata = { path: string; title: string; description: string; i
 
 export const PUBLIC_PAGES: PageMetadata[] = [
   { path: "/home", title: "Enemites — A Research-Driven Collective", description: "Enemites is a research-driven collective advancing technology and cognitive infrastructure through foundational world models and educational environments.", index: true },
-  { path: "/arena", title: "Enemites Arena — AI Learning Simulations & Waitlist", description: "Discover problem-based learning through world simulations, AI mentor reflection, and evidence of capability. Join the Enemites Arena launch waitlist.", index: true },
-  { path: "/arena/how-it-works", title: "How Enemites Arena Works — Decisions, Reflection & Proof", description: "See the Enemites Arena learning loop: enter a scenario, make decisions, observe consequences, reflect with an AI mentor, and review capability evidence.", index: true },
-  { path: "/arena/about-us", title: "About Enemites — Our Mission & Team", description: "Meet the students building Enemites and learn why we are exploring simulation, problem-solving practice, and evidence of human capability.", index: true },
-  { path: "/arena/privacy-policy", title: "Privacy Policy — Enemites", description: "Read how Enemites handles waitlist information, email preferences, parent-led registration, privacy requests, and third-party video consent.", index: true },
-  { path: "/arena/terms-of-service", title: "Terms of Service — Enemites", description: "Read the terms for the Enemites waitlist and early access, including parent-led registration, age appropriate service plans, and learning limitations.", index: true },
+  { path: "/realms", title: "Enemites Realms — AI Learning Simulations & Waitlist", description: "Discover problem-based learning through world simulations, AI mentor reflection, and evidence of capability. Join the Enemites Realms launch waitlist.", index: true },
+  { path: "/realms/how-it-works", title: "How Enemites Realms Works — Decisions, Reflection & Proof", description: "See the Enemites Realms learning loop: enter a scenario, make decisions, observe consequences, reflect with an AI mentor, and review capability evidence.", index: true },
+  { path: "/realms/about-us", title: "About Enemites — Our Mission & Team", description: "Meet the students building Enemites and learn why we are exploring simulation, problem-solving practice, and evidence of human capability.", index: true },
+  { path: "/realms/privacy-policy", title: "Privacy Policy — Enemites", description: "Read how Enemites handles waitlist information, email preferences, parent-led registration, privacy requests, and third-party video consent.", index: true },
+  { path: "/realms/terms-of-service", title: "Terms of Service — Enemites", description: "Read the terms for the Enemites waitlist and early access, including parent-led registration, age appropriate service plans, and learning limitations.", index: true },
 ];
 
 export const UNINDEXED_PAGES: PageMetadata[] = [
-  { path: "/arena/contact", title: "Contact — Enemites", description: "Contact the Enemites team for support and questions.", index: false },
-  { path: "/arena/login", title: "Login — Enemites", description: "Enemites account access is not available on the current waitlist.", index: false },
-  { path: "/arena/pricing", title: "Pricing — Enemites", description: "Enemites pricing is not available on the current waitlist.", index: false },
+  { path: "/realms/contact", title: "Contact — Enemites", description: "Contact the Enemites team for support and questions.", index: false },
+  { path: "/realms/login", title: "Login — Enemites", description: "Enemites account access is not available on the current waitlist.", index: false },
+  { path: "/realms/pricing", title: "Pricing — Enemites", description: "Enemites pricing is not available on the current waitlist.", index: false },
 ];
 
 export function metadataForPath(pathname: string): PageMetadata {
@@ -23,9 +23,9 @@ export function metadataForPath(pathname: string): PageMetadata {
   const known = [...PUBLIC_PAGES, ...UNINDEXED_PAGES].find(page => page.path === path);
   if (known) return known;
   if (path === "/private") return { path, title: "Invitations & Questionnaires — Enemites", description: "Open an Enemites invitation or questionnaire.", index: false };
-  if (path === "/arena/parent-waitlist") return { path, title: "Parent Waitlist Invitation — Enemites", description: "Review your parent or guardian invitation for the Enemites waitlist.", index: false };
+  if (path === "/realms/parent-waitlist") return { path, title: "Parent Waitlist Invitation — Enemites", description: "Review your parent or guardian invitation for the Enemites waitlist.", index: false };
   if (/^\/form\/[^/]+$/.test(path)) return { path, title: "Questionnaire — Enemites", description: "Complete an Enemites questionnaire.", index: false };
-  return { path, title: "Page Not Found — Enemites", description: "This page could not be found. Explore Enemites or return to Arena.", index: false };
+  return { path, title: "Page Not Found — Enemites", description: "This page could not be found. Explore Enemites or return to Realms.", index: false };
 }
 
 export function structuredData(page: PageMetadata) {
@@ -67,6 +67,6 @@ export function metadataHtml(page: PageMetadata): string {
     <meta name="twitter:title" content="${title}" />
     <meta name="twitter:description" content="${description}" />
     <meta name="twitter:image" content="${SOCIAL_IMAGE}" />
-    ${["/arena/parent-waitlist", "/private"].includes(page.path) ? '<meta name="referrer" content="no-referrer" />' : ""}
+    ${["/realms/parent-waitlist", "/private"].includes(page.path) ? '<meta name="referrer" content="no-referrer" />' : ""}
     ${schema ? `<script id="site-structured-data" type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>` : ""}`;
 }

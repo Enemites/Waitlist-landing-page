@@ -6,7 +6,7 @@ test("under-13 can invite a parent without sharing their own contact details", a
     submitted = route.request().postDataJSON();
     await route.fulfill({ status: 202, json: { success: true, message: "Ask your parent to check their inbox for the invitation." } });
   });
-  await page.goto("/arena");
+  await page.goto("/realms");
   await expect(page.getByPlaceholder("Enter your name")).toHaveCount(0);
   await page.getByLabel("What is your age group?").selectOption("<13");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
@@ -24,7 +24,7 @@ test("signup requests launch notifications while keeping the original optional b
     submitted = route.request().postDataJSON();
     await route.fulfill({ json: { success: true } });
   });
-  await page.goto("/arena");
+  await page.goto("/realms");
   await page.getByLabel("What is your age group?").selectOption("13-18");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByPlaceholder("Enter your name").fill("Test Learner");
@@ -43,7 +43,7 @@ test("signup requests launch notifications while keeping the original optional b
 test("initial landing page fonts are local and YouTube connects only after permission", async ({ page }) => {
   const externalRequests: string[] = [];
   page.on("request", (r) => { if (new URL(r.url()).hostname !== "127.0.0.1") externalRequests.push(r.url()); });
-  await page.goto("/arena");
+  await page.goto("/realms");
   await expect(page.locator("iframe")).toHaveCount(0);
   await page.getByRole("button", { name: "Allow YouTube and play video" }).scrollIntoViewIfNeeded();
   expect(externalRequests).toEqual([]);
@@ -80,7 +80,7 @@ test("parent invitation verifies email, requires permission, and submits adult c
     submitted = route.request().postDataJSON();
     await route.fulfill({ status: 201, json: { success: true } });
   });
-  await page.goto(`/arena/parent-waitlist#${token}`);
+  await page.goto(`/realms/parent-waitlist#${token}`);
   await expect(page.getByRole("heading", { name: "Parent or guardian information" })).toBeVisible();
   await expect(page.getByPlaceholder("name@example.com")).toHaveValue("parent@example.com");
   await expect(page.getByPlaceholder("name@example.com")).toHaveAttribute("readonly", "");
@@ -98,7 +98,19 @@ test("parent invitation verifies email, requires permission, and submits adult c
 
 test("expired parent invitation exposes no registration form", async ({ page }) => {
   await page.route("**/api/parent-permission", (route) => route.fulfill({ status: 400, json: { success: false, message: "This invitation is invalid or expired." } }));
-  await page.goto(`/arena/parent-waitlist#${"a".repeat(64)}`);
+  await page.goto(`/realms/parent-waitlist#${"a".repeat(64)}`);
   await expect(page.getByRole("alert")).toContainText("expired");
   await expect(page.getByPlaceholder("Enter your name")).toHaveCount(0);
+});
+
+test("legacy parent invitations retain their token through the product redirect", async ({ page }) => {
+  const token = "b".repeat(64);
+  await page.route("**/api/parent-permission", async route => {
+    expect(route.request().postDataJSON()).toEqual({ action: "inspect", token });
+    await route.fulfill({ json: { success: true, invitation: { parent_email: "parent@example.com", age_group: "<13" } } });
+  });
+  await page.goto(`/arena/parent-waitlist#${token}`);
+  await expect(page.getByRole("heading", { name: "Parent or guardian information" })).toBeVisible();
+  await expect(page).toHaveURL(/\/realms\/parent-waitlist$/);
+  await expect(page.getByPlaceholder("name@example.com")).toHaveValue("parent@example.com");
 });

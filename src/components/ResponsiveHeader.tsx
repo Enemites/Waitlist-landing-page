@@ -11,19 +11,19 @@ export type ResponsiveNavItem = {
 export const novaGlobalNavItems: ResponsiveNavItem[] = [
   {
     label: "Home",
-    to: "/arena",
+    to: "/realms",
   },
   {
     iconPath:
       "M8 5.14v13.72L18.78 12 8 5.14Zm2 3.63L15.02 12 10 15.23V8.77Z",
     label: "How It Works",
-    to: "/arena/how-it-works",
+    to: "/realms/how-it-works",
   },
   {
     iconPath:
       "M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z",
     label: "About Us",
-    to: "/arena/about-us",
+    to: "/realms/about-us",
   },
   {
     iconPath:
