@@ -15,7 +15,7 @@ export function seoPlugin(): Plugin {
     },
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        const path = new URL(req.url || "/", "http://localhost").pathname;
+        const path = new URL(req.url || "/", "http://localhost").pathname.replace(/\/$/, "") || "/";
         if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
         if (path === "/") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
         if (path === "/robots.txt" || path === "/sitemap.xml") {
@@ -33,7 +33,7 @@ export function seoPlugin(): Plugin {
     },
     configurePreviewServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        const path = new URL(req.url || "/", "http://localhost").pathname;
+        const path = new URL(req.url || "/", "http://localhost").pathname.replace(/\/$/, "") || "/";
         if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
         if (path === "/" || path === "/index.html") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
         if (path.startsWith("/api/")) { next(); return; }

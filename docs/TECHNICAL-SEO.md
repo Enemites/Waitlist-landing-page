@@ -1,16 +1,16 @@
 # Technical SEO implementation
 
-This change implements the technical SEO checklist for the existing Enemites website. Blog pages and keyword articles are outside this change and require separate editorial review. No analytics collector, email preference, waitlist API, parental-permission rule, or database schema is changed.
+This change implements the technical SEO checklist for the existing Enemites website. Realms now also includes a blog overview and articles; see `REALMS-BLOGS.md` for content and publishing instructions. No analytics collector, email preference, waitlist API, parental-permission rule, or database schema is changed.
 
 ## Build and routing
 
-`npm run build` builds the client, temporarily compiles a server renderer, and prerenders the six public routes from `shared/seo.ts`. React renders the existing page components; no second copy of page content is maintained. The temporary server bundle is removed after the build and is not deployed. The build does not fetch questionnaires, inspect invitation tokens, access the database, or send email.
+`npm run build` builds the client, temporarily compiles a server renderer, and prerenders the public routes from `shared/seo.ts`, including Realms blogs sourced from `shared/realms-blogs.ts`. React renders the existing page components; no second copy of page content is maintained. The temporary server bundle is removed after the build and is not deployed. The build does not fetch questionnaires, inspect invitation tokens, access the database, or send email.
 
 Public HTML includes content, unique titles and descriptions, canonical URLs, Open Graph/Twitter metadata, and Organization/WebSite/WebPage JSON-LD before JavaScript runs. Critical CSS is inlined; the complete stylesheet loads with a no-JavaScript fallback, and the primary local font is preloaded. The client hydrates public HTML and updates metadata on navigation. Content stays visible during hydration, then honors the visitor's reduced-motion preference. Legal pages remain readable without JavaScript.
 
 `vercel.json` uses clean URLs and explicit rewrites for questionnaire APIs and dynamic app routes. It redirects `/` to `/home`, preserving the existing home location. Existing API functions and the expiry-cleanup cron remain in place. Removing the global rewrite lets Vercel return a genuine 404 using `404.html` for missing URLs. Unknown client routes also render a useful Not Found page. Vite development/preview routing supports the same principal behaviors for local checks.
 
-Parent invitations, questionnaires, and unavailable Contact/Login/Pricing pages have `noindex` and are excluded from the sitemap. Crawlers may read their noindex directives; robots.txt is not used as an access-control mechanism. A private app shell is generated without user data; the parent route also sends a no-referrer policy. The six public pages are crawlable. Canonicals and sitemap entries point to the production HTTPS domain, `https://enemites.com`.
+Parent invitations, questionnaires, and unavailable Contact/Login/Pricing pages have `noindex` and are excluded from the sitemap. Crawlers may read their noindex directives; robots.txt is not used as an access-control mechanism. A private app shell is generated without user data; the parent route also sends a no-referrer policy. The public pages, blog overview, and articles are crawlable. Canonicals and sitemap entries point to the production HTTPS domain, `https://enemites.com`.
 
 ## Images, headings, and links
 

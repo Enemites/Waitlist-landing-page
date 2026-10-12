@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
 import { PUBLIC_PAGES } from "../../shared/seo";
 
-test("crawl files are genuine files and exclude invitation, survey, placeholder, and blog routes", async ({ request }) => {
+test("crawl files include public pages and exclude invitation, survey, and placeholder routes", async ({ request }) => {
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.status()).toBe(200);
   expect(sitemap.headers()["content-type"]).toMatch(/xml/);
   const xml = await sitemap.text();
   for (const page of PUBLIC_PAGES) expect(xml).toContain(`https://enemites.com${page.path}`);
-  expect(xml).not.toMatch(/parent-waitlist|\/form\/|\/blog|\/login|\/pricing/);
+  expect(xml).not.toMatch(/parent-waitlist|\/form\/|\/login|\/pricing/);
   const robots = await request.get("/robots.txt");
   expect(robots.headers()["content-type"]).toMatch(/text\/plain/);
   expect(await robots.text()).toContain("Sitemap: https://enemites.com/sitemap.xml");

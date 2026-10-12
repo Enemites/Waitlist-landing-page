@@ -29,7 +29,7 @@ for (const page of UNINDEXED_PAGES) {
   assert(!sitemap.includes(page.path));
   assert.match(await readFile(`dist${page.path}.html`, "utf8"), /name="robots" content="noindex,follow"/);
 }
-assert(!sitemap.includes("parent-waitlist") && !sitemap.includes("/form/") && !sitemap.includes("/blog"));
+assert(!sitemap.includes("parent-waitlist") && !sitemap.includes("/form/"));
 assert.match(await readFile("dist/robots.txt", "utf8"), /Sitemap: https:\/\/enemites.com\/sitemap.xml/);
 assert.match(await readFile("dist/404.html", "utf8"), /Page not found/);
 const privateHtml = await readFile("dist/private.html", "utf8");

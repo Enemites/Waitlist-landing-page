@@ -56,7 +56,8 @@ Public pages are prerendered at build time, with route-specific metadata, canoni
 URLs, social previews, structured data, a sitemap, and robots.txt. Dynamic invitations
 and questionnaires remain client-rendered and unindexed. Missing URLs return 404.
 See [implementation and external setup](docs/TECHNICAL-SEO.md) and
-[validation results](docs/SEO-VALIDATION.md). Blog and keyword articles are outside this change.
+[validation results](docs/SEO-VALIDATION.md). For Realms blog content and publishing,
+see [Realms blogs](docs/REALMS-BLOGS.md).
 
 ```sh
 npm run build

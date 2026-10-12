@@ -46,6 +46,12 @@
 .site-header[data-theme="dark"] nav a[aria-current="page"] { background: #c4ed6c0c; color: #c4ed6c; border-color: #c4ed6c26; }
 .site-header[data-theme="dark"] nav[aria-label="Mobile navigation"] { background: #10191b; color: #edf1ef; border-color: #34433a; }
 .site-header[data-theme="dark"] button { color: #edf1ef; border-color: #34433a; background: #18221f; }
+.site-header[data-theme="dark"] .blogs-dropdown { background: #10191b; border-color: #34433a; }
+.site-header[data-theme="dark"] .blogs-dropdown-label { color: #9aa6a4; }
+.site-header[data-theme="dark"] .blogs-dropdown-category { color: #c4ed6c; }
+.site-header[data-theme="dark"] .blogs-overview-link { color: #c4ed6c; border-color: #34433a; }
+.site-header[data-theme="dark"] .blogs-trigger { background: transparent; }
+.site-header[data-theme="dark"] .blogs-trigger:hover, .site-header[data-theme="dark"] .blogs-trigger[data-active] { background: #c4ed6c0c; color: #c4ed6c; }
 
 /* The world fills the viewport; typography and controls occupy its quiet left edge. */
 .product-hero { min-height: 900px; min-height: max(850px,100dvh); position: relative; display: flex; align-items: center; isolation: isolate; }

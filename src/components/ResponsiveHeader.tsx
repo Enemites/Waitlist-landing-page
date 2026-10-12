@@ -1,11 +1,13 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import BlogsNavigation from "./BlogsNavigation";
 
 export type ResponsiveNavItem = {
   label: string;
   to?: string;
   href?: string;
   iconPath?: string;
+  kind?: "blogs";
 };
 
 export const novaGlobalNavItems: ResponsiveNavItem[] = [
@@ -24,6 +26,11 @@ export const novaGlobalNavItems: ResponsiveNavItem[] = [
       "M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Zm1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z",
     label: "About Us",
     to: "/realms/about-us",
+  },
+  {
+    label: "Blogs",
+    to: "/realms/blogs",
+    kind: "blogs",
   },
   {
     iconPath:
@@ -54,27 +61,39 @@ const ResponsiveHeader = ({
   theme = "dark",
 }: ResponsiveHeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
   const location = useLocation();
   const isDark = theme === "dark";
 
   useEffect(() => {
     setIsOpen(false);
-  }, [location.pathname]);
+  }, [location.key]);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsOpen(false);
+        if (isOpen) mobileButtonRef.current?.focus();
       }
     };
 
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, []);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!mobileMenuRef.current?.contains(event.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOutside);
+    return () => document.removeEventListener("pointerdown", closeOutside);
+  }, [isOpen]);
 
   const isActive = (item: ResponsiveNavItem) => {
-    return Boolean(item.to && item.to === location.pathname);
+    return Boolean(item.to && (item.kind === "blogs" ? location.pathname === item.to || location.pathname.startsWith(`${item.to}/`) : item.to === location.pathname));
   };
 
   const renderNavItem = (item: ResponsiveNavItem, isMobile = false) => {
@@ -96,6 +115,10 @@ const ResponsiveHeader = ({
          itemClass = isDark ? "text-[rgba(232,228,217,0.78)] hover:bg-white/[0.08] hover:text-[#E8E4D9]" : "text-[#4A4F5E] hover:bg-black/[0.04] hover:text-[#111317]";
       }
       itemClass = `inline-flex h-9 items-center justify-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors ${itemClass}`;
+    }
+
+    if (item.kind === "blogs") {
+      return <BlogsNavigation key={item.label} className={itemClass} isMobile={isMobile} onNavigate={() => setIsOpen(false)} />;
     }
 
     const content = (
@@ -153,12 +176,15 @@ const ResponsiveHeader = ({
         <span>Enemites</span>
       </Link>
 
-      <nav className="hidden items-center gap-1 sm:flex" aria-label="Primary navigation">
+      <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
         {desktopItems.map((item) => renderNavItem(item))}
       </nav>
 
-      <div className="relative sm:hidden">
+      <div ref={mobileMenuRef} className="relative lg:hidden" onBlur={event => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setIsOpen(false);
+      }}>
         <button
+          ref={mobileButtonRef}
           type="button"
           aria-controls={menuId}
           aria-expanded={isOpen}

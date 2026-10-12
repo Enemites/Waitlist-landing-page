@@ -10,6 +10,8 @@ import PublicFormPage from "@/pages/PublicFormPage";
 import ParentWaitlistPage from "@/pages/ParentWaitlistPage";
 import SeoMetadata from "@/components/SeoMetadata";
 import NotFoundPage from "@/pages/NotFoundPage";
+import BlogsPage from "@/pages/BlogsPage";
+import BlogPostPage from "@/pages/BlogPostPage";
 
 const Placeholder = ({ title }: { title: string }) => (
   <div className="product-site product-state min-h-screen flex items-center justify-center bg-gray-50 text-gray-900">
@@ -65,6 +67,8 @@ export function SiteRoutes() {
         <Route path="/realms" element={<IntroductionPage />} />
         <Route path="/realms/how-it-works" element={<HowItWorksPage />} />
         <Route path="/realms/about-us" element={<AboutUsPage />} />
+        <Route path="/realms/blogs" element={<BlogsPage />} />
+        <Route path="/realms/blogs/:slug" element={<BlogPostPage />} />
         <Route path="/realms/contact" element={<NotAvailablePage title="Contact" />} />
         <Route path="/realms/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/realms/parent-waitlist" element={<ParentWaitlistPage />} />

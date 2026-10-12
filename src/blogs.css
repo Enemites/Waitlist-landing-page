@@ -1,0 +1,58 @@
+.realms-blogs { min-height: 100dvh; }
+.blogs-main { padding-top: clamp(132px, 14vw, 192px); }
+.blogs-heading { max-width: 900px; padding-bottom: 48px; }
+.blogs-heading h1, .blog-article-heading h1 { font-size: clamp(44px, 6.5vw, 88px); line-height: 1.06; margin-block: 22px 28px; }
+.blogs-heading > p:not(.product-eyebrow), .blog-article-heading > p:not(.product-eyebrow) { max-width: 620px; font-size: clamp(16px, 1.6vw, 20px); }
+.blogs-heading-meta { display: flex; gap: 24px; margin-top: 42px; font: 11px "JetBrains Mono Variable", monospace; color: var(--product-muted); }
+.blogs-heading-meta > span:first-child { color: var(--product-accent); }
+.blogs-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; padding-block: 32px 96px; border-top: 1px solid var(--product-line); }
+.blog-card-link { display: block; height: 100%; border-bottom: 1px solid var(--product-line); }
+.blog-card-art { position: relative; aspect-ratio: 1.5; overflow: hidden; background: var(--product-panel); border-radius: 6px; }
+.blog-card-art img, .blog-article-art img { width: 100%; height: 100%; object-fit: cover; }
+.blog-card-art img { transition: transform 500ms var(--brand-ease); }
+.blog-card-link:hover .blog-card-art img { transform: scale(1.04); }
+.blog-card-number { position: absolute; left: 18px; top: 18px; font: 11px "JetBrains Mono Variable", monospace; padding: 7px 10px; color: var(--product-accent); background: #080e10dc; border: 1px solid #c4ed6c30; border-radius: 4px; }
+.blog-card-copy { padding-block: 24px 28px; }
+.blog-meta { display: flex; flex-wrap: wrap; gap: 10px 20px; font: 10px/1.6 "JetBrains Mono Variable", monospace; color: var(--product-muted); }
+.blog-meta > span { color: var(--product-accent); }
+.product-site .blog-card h2 { margin-top: 18px; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.2; letter-spacing: -.04em; }
+.blog-card p { font-size: 14px; margin-top: 16px; }
+.blog-read-link { display: inline-flex; align-items: center; gap: 24px; margin-top: 28px; font-size: 12px; color: var(--product-accent); }
+.blogs-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding-block: 30px 42px; border-top: 1px solid var(--product-line); font-size: 12px; color: var(--product-muted); }
+.blogs-footer a, .blog-back-link, .blog-article-cta a { display: inline-flex; align-items: center; gap: 12px; color: var(--product-accent); }
+.blog-back-link { font-size: 12px; margin-bottom: 40px; }
+.blog-article-heading { max-width: 900px; margin-bottom: 40px; }
+.blog-article-heading .blog-meta { margin-top: 28px; }
+.blog-article-art { aspect-ratio: 2.5; overflow: hidden; border-radius: 6px; background: var(--product-panel); }
+.blog-article-body { max-width: 720px; margin: 56px auto 96px; }
+.product-site .blog-introduction { font-size: clamp(19px, 2.1vw, 24px); color: var(--product-ink); line-height: 1.65; }
+.blog-article-body section { margin-top: 48px; }
+.product-site .blog-article-body h2 { font-size: clamp(28px, 3vw, 38px); line-height: 1.2; margin-bottom: 22px; }
+.blog-article-body section p { font-size: 16px; margin-top: 18px; }
+.blog-article-cta { margin-top: 52px; padding-top: 28px; border-top: 1px solid var(--product-line); }
+.blog-article-cta a { font-size: 14px; margin-top: 16px; }
+.blogs-related { border-top: 1px solid var(--product-line); padding-block: 42px 72px; }
+.product-site .blogs-related > h2 { font-size: 28px; margin-bottom: 28px; }
+.blogs-related > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.blogs-related a { display: block; position: relative; padding: 28px 64px 28px 28px; background: var(--product-panel); border: 1px solid var(--product-line); border-radius: 6px; }
+.blogs-related a:hover { border-color: var(--product-accent); }
+.blogs-related a > span { font: 10px "JetBrains Mono Variable", monospace; color: var(--product-accent); }
+.product-site .blogs-related h3 { font-size: clamp(24px, 2.5vw, 32px); line-height: 1.2; margin-top: 18px; }
+.blogs-related a > svg { position: absolute; top: 28px; right: 24px; color: var(--product-accent); }
+@media (max-width: 900px) {
+  .blogs-grid { grid-template-columns: 1fr; gap: 36px; }
+  .blog-card-link { display: grid; grid-template-columns: 1fr 1.1fr; gap: 28px; padding-bottom: 28px; }
+  .blog-card-copy { padding-block: 0; }
+}
+@media (max-width: 600px) {
+  .blogs-main { width: calc(100% - 40px); }
+  .blog-card-link { display: block; padding-bottom: 0; }
+  .blog-card-copy { padding-block: 22px 28px; }
+  .blog-article-art { aspect-ratio: 1.5; }
+  .blog-article-body { margin-block: 36px 64px; }
+  .blogs-related > div { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-card-art img { transition: none; }
+  .blog-card-link:hover .blog-card-art img { transform: none; }
+}

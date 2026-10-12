@@ -1,3 +1,5 @@
+import { REALMS_BLOGS, realmsBlogPath } from "./realms-blogs";
+
 export const SITE_ORIGIN = "https://enemites.com";
 export const SOCIAL_IMAGE = `${SITE_ORIGIN}/assets/enemites-social.jpg`;
 
@@ -10,6 +12,8 @@ export const PUBLIC_PAGES: PageMetadata[] = [
   { path: "/realms/about-us", title: "About Enemites — Our Mission & Team", description: "Meet the students building Enemites and learn why we are exploring simulation, problem-solving practice, and evidence of human capability.", index: true },
   { path: "/realms/privacy-policy", title: "Privacy Policy — Enemites", description: "Read how Enemites handles waitlist information, email preferences, parent-led registration, privacy requests, and third-party video consent.", index: true },
   { path: "/realms/terms-of-service", title: "Terms of Service — Enemites", description: "Read the terms for the Enemites waitlist and early access, including parent-led registration, age appropriate service plans, and learning limitations.", index: true },
+  { path: "/realms/blogs", title: "Realms Blogs — Ideas Behind the Experience | Enemites", description: "Read the Enemites Realms journal on learning simulations, AI mentor reflection, and evidence of capability.", index: true },
+  ...REALMS_BLOGS.map(post => ({ path: realmsBlogPath(post.slug), title: `${post.title} — Realms Blog | Enemites`, description: post.description, index: true })),
 ];
 
 export const UNINDEXED_PAGES: PageMetadata[] = [
@@ -30,12 +34,14 @@ export function metadataForPath(pathname: string): PageMetadata {
 
 export function structuredData(page: PageMetadata) {
   if (!page.index) return null;
+  const post = REALMS_BLOGS.find(post => realmsBlogPath(post.slug) === page.path);
   return {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "Organization", "@id": `${SITE_ORIGIN}/#organization`, name: "Enemites", url: `${SITE_ORIGIN}/home`, logo: `${SITE_ORIGIN}/assets/logo.png`, email: "support@enemites.com" },
       { "@type": "WebSite", "@id": `${SITE_ORIGIN}/#website`, name: "Enemites", url: `${SITE_ORIGIN}/home`, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: "en" },
       { "@type": "WebPage", "@id": `${SITE_ORIGIN}${page.path}#webpage`, url: `${SITE_ORIGIN}${page.path}`, name: page.title, description: page.description, isPartOf: { "@id": `${SITE_ORIGIN}/#website` }, inLanguage: "en" },
+      ...(post ? [{ "@type": "BlogPosting", "@id": `${SITE_ORIGIN}${page.path}#article`, headline: post.title, description: post.description, datePublished: post.addedAt, image: `${SITE_ORIGIN}${post.image}`, author: { "@id": `${SITE_ORIGIN}/#organization` }, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, mainEntityOfPage: { "@id": `${SITE_ORIGIN}${page.path}#webpage` }, inLanguage: "en" }] : []),
     ],
   };
 }
