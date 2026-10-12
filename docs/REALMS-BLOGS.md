@@ -12,7 +12,7 @@ Add a `RealmsBlogPost` entry to `shared/realms-blogs.ts` with a unique lowercase
 
 The overview, navbar's latest three articles, article pages, metadata, sitemap, and prerendered HTML all use this source. No additional route declaration or SEO entry is needed per article. Articles are maintained in the repository, and publishing changes requires a build and deployment.
 
-Branded introductory guides are maintained in `shared/realms-guides.ts` and included in the same collection. Guides may add `facts`, `faqs`, and `references`; FAQs and source links render visibly and are reflected in structured data. Use `language` and a reciprocal `alternateSlug` for translated companions. Preserve `addedAt` when editing and set `updatedAt` for substantive updates. See `REALMS-DISCOVERY.md` for the discovery and indexing workflow.
+Branded introductory guides are maintained in `shared/realms-guides.ts` and included in the same collection. Guides may add `facts`, `faqs`, and `references`; FAQs and source links render visibly and are reflected in structured data. Publish all article content, FAQs, references, and navigation in English. The former translated introduction URL permanently redirects to the English guide. Preserve `addedAt` when editing and set `updatedAt` for substantive updates. See `REALMS-DISCOVERY.md` for the discovery and indexing workflow.
 
 The three initial articles introduce learning simulations, AI mentor reflection, and capability evidence. They describe the product direction and development status rather than claiming released capabilities.
 

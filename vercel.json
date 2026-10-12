@@ -44,6 +44,11 @@
       "source": "/arena/:path*",
       "destination": "/realms/:path*",
       "permanent": true
+    },
+    {
+      "source": "/realms/blogs/apa-itu-enemites-realms",
+      "destination": "/realms/blogs/what-is-enemites-realms",
+      "permanent": true
     }
   ],
   "headers": [

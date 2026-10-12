@@ -18,16 +18,14 @@ for (const page of PUBLIC_PAGES) {
   const social = socialMetadataForPage(page);
   assert(html.includes(`property="og:image" content="${social.image}"`), `Social image mismatch: ${page.path}`);
   assert(html.includes(`property="og:type" content="${social.type}"`), `Social type mismatch: ${page.path}`);
-  assert.equal(html.match(/<html\b[^>]*\blang="([^"]+)"/)?.[1], page.language ?? "en", `Document language mismatch: ${page.path}`);
+  assert.equal(html.match(/<html\b[^>]*\blang="([^"]+)"/)?.[1], "en", `Document language mismatch: ${page.path}`);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, `Expected one H1: ${page.path}`);
   assert.match(html, /<main[\s>]/, `Content absent without JavaScript: ${page.path}`);
   const schema = JSON.parse(html.match(/<script id="site-structured-data" type="application\/ld\+json">(.*?)<\/script>/s)![1]);
   assert.equal(schema["@graph"][2].url, `${SITE_ORIGIN}${page.path}`);
-  for (const alternate of page.alternates ?? []) {
-    assert(html.includes(`hreflang="${alternate.language}" href="${SITE_ORIGIN}${alternate.path}"`), `Alternate missing: ${page.path}`);
-    assert(PUBLIC_PAGES.some(candidate => candidate.path === alternate.path), `Alternate points to missing page: ${page.path}`);
-  }
+  assert(!html.includes("hreflang="), `Unexpected translated alternate: ${page.path}`);
+  assert(html.includes('property="og:locale" content="en_US"'), `English locale missing: ${page.path}`);
   const post = REALMS_BLOGS.find(post => realmsBlogPath(post.slug) === page.path);
   if (post) {
     const body = html.slice(html.indexOf("<body"));
@@ -36,7 +34,7 @@ for (const page of PUBLIC_PAGES) {
     assert.equal(product.name, "Enemites Realms");
     assert.equal(product["@id"], REALMS_ENTITY_ID);
     assert.equal(article.about["@id"], REALMS_ENTITY_ID);
-    assert.equal(article.inLanguage, post.language ?? "en");
+    assert.equal(article.inLanguage, "en");
     assert.equal(article.dateModified, post.updatedAt ?? post.addedAt);
     assert(body.includes(post.introduction.slice(0, 80)), `Direct answer missing from initial body HTML: ${page.path}`);
     assert(schema["@graph"].some((node: any) => node["@type"] === "BreadcrumbList"), `Breadcrumbs missing: ${page.path}`);
@@ -66,6 +64,7 @@ for (const page of UNINDEXED_PAGES) {
   assert(!sitemap.includes(page.path));
   assert.match(await readFile(`dist${page.path}.html`, "utf8"), /name="robots" content="noindex,follow"/);
 }
+assert(!sitemap.includes("apa-itu-enemites-realms"));
 assert(!sitemap.includes("parent-waitlist") && !sitemap.includes("/form/"));
 assert.match(await readFile("dist/robots.txt", "utf8"), /Sitemap: https:\/\/enemites.com\/sitemap.xml/);
 assert.match(await readFile("dist/404.html", "utf8"), /Page not found/);
@@ -77,5 +76,6 @@ assert((await stat("dist/assets/enemites-social.jpg")).size > 0);
 const llms = await readFile("dist/llms.txt", "utf8");
 assert(llms.startsWith("# Enemites"));
 for (const post of REALMS_BLOGS) assert(llms.includes(`${SITE_ORIGIN}${realmsBlogPath(post.slug)}`));
+assert(!llms.includes("apa-itu-enemites-realms"));
 assert(!llms.includes("/form/") && !llms.includes("parent-waitlist"));
 console.log(`SEO build checks passed: ${PUBLIC_PAGES.length} public pages, entity-linked articles, visible FAQs, languages, source links, sitemap, robots, llms.txt, private shell, social images, and 404.`);

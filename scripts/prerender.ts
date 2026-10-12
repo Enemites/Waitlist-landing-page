@@ -16,7 +16,6 @@ try {
   const template = clientTemplate.replace("</head>", `<link rel="preload" href="/assets/${primaryFont}" as="font" type="font/woff2" crossorigin>\n</head>`);
   const criticalCss = new Beasties({ path: resolve("dist"), preload: "swap", pruneSource: false, inlineFonts: false, logLevel: "warn" });
   const documentFor = (path: string, body: string) => template
-    .replace('<html lang="en">', `<html lang="${metadataForPath(path).language ?? "en"}">`)
     .replace(/<title>[\s\S]*?<\/title>/, metadataHtml(metadataForPath(path)))
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`);
   for (const page of [...PUBLIC_PAGES, ...UNINDEXED_PAGES]) {

@@ -55,6 +55,11 @@ function LegacyProductRedirect() {
   return <Navigate to={`${pathname.replace(/^\/arena(?=\/|$)/, "/realms")}${search}${hash}`} replace />;
 }
 
+function LegacyBlogRedirect() {
+  const { search, hash } = useLocation();
+  return <Navigate to={`/realms/blogs/what-is-enemites-realms${search}${hash}`} replace />;
+}
+
 export function SiteRoutes() {
   return (
     <>
@@ -68,6 +73,7 @@ export function SiteRoutes() {
         <Route path="/realms/how-it-works" element={<HowItWorksPage />} />
         <Route path="/realms/about-us" element={<AboutUsPage />} />
         <Route path="/realms/blogs" element={<BlogsPage />} />
+        <Route path="/realms/blogs/apa-itu-enemites-realms" element={<LegacyBlogRedirect />} />
         <Route path="/realms/blogs/:slug" element={<BlogPostPage />} />
         <Route path="/realms/contact" element={<NotAvailablePage title="Contact" />} />
         <Route path="/realms/privacy-policy" element={<PrivacyPolicyPage />} />

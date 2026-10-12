@@ -153,7 +153,7 @@ const IntroductionPage = () => {
             <p className="product-eyebrow">Get to know Enemites Realms</p>
             <h2 id="realms-definition-title">What is Enemites Realms?</h2>
             <p>{REALMS_DEFINITION}</p>
-            <div><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/apa-itu-enemites-realms" lang="id" hrefLang="id">Panduan bahasa Indonesia <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+            <div><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/how-enemites-realms-works">Explore the learning loop <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
           </div>
         </section>
 

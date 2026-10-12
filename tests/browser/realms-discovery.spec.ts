@@ -2,30 +2,32 @@ import { test, expect } from "@playwright/test";
 import { REALMS_ENTITY_ID } from "../../shared/seo";
 import { REALMS_GUIDES } from "../../shared/realms-guides";
 
-test("product page gives a direct definition and links to both official guides", async ({ page }) => {
+test("product page gives a direct definition and links to the official English guides", async ({ page }) => {
   await page.goto("/realms");
   const definition = page.locator(".product-definition");
   await expect(definition).toContainText("Enemites Realms is an AI-assisted learning environment being developed by Enemites");
+  await expect(definition.getByRole("link", { name: "Explore the learning loop" })).toHaveAttribute("href", "/realms/blogs/how-enemites-realms-works");
   await definition.getByRole("link", { name: "Read the Realms guide" }).click();
   await expect(page).toHaveURL(/\/realms\/blogs\/what-is-enemites-realms$/);
   await expect(page.locator("h1")).toHaveText("What is Enemites Realms?");
   await expect(page.locator(".blog-facts")).toContainText("Enemites Realms");
 });
 
-test("English and Indonesian guides preserve canonicals, language, alternates, and entity identity", async ({ page }) => {
-  await page.goto("/realms/blogs/what-is-enemites-realms");
+test("the former translated guide redirects to the English canonical and preserves query and fragment", async ({ page, request }) => {
+  const response = await request.get("/realms/blogs/apa-itu-enemites-realms/?source=legacy", { maxRedirects: 0 });
+  expect(response.status()).toBe(308);
+  expect(response.headers().location).toBe("/realms/blogs/what-is-enemites-realms?source=legacy");
+  await page.goto("/realms/blogs/apa-itu-enemites-realms?source=legacy#faq");
+  await expect(page).toHaveURL(/\/realms\/blogs\/what-is-enemites-realms\?source=legacy#faq$/);
+  await expect(page.locator("h1")).toHaveText("What is Enemites Realms?");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await page.getByRole("link", { name: "Bahasa Indonesia", exact: true }).click();
-  await expect(page.locator("h1")).toHaveText("Apa itu Enemites Realms?");
-  await expect(page.locator("html")).toHaveAttribute("lang", "id");
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/realms/blogs/apa-itu-enemites-realms");
-  await expect(page.locator('link[hreflang="en"]')).toHaveAttribute("href", "https://enemites.com/realms/blogs/what-is-enemites-realms");
-  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "id_ID");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://enemites.com/realms/blogs/what-is-enemites-realms");
+  await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "en_US");
   const graph = JSON.parse((await page.locator("#site-structured-data").textContent())!)["@graph"];
   expect(graph.find((node: any) => node["@type"] === "Product")["@id"]).toBe(REALMS_ENTITY_ID);
-  expect(graph.find((node: any) => node["@type"] === "BlogPosting").inLanguage).toBe("id");
-  await page.getByRole("link", { name: "Read in English", exact: true }).click();
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  for (const node of graph.filter((node: any) => node.inLanguage)) expect(node.inLanguage).toBe("en");
+  await expect(page.locator(".blog-article-topline")).toHaveText(/Blogs Overview.*The Realms Journal/);
   await page.getByRole("link", { name: "Blogs Overview", exact: true }).first().click();
   await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute("content", "website");
@@ -54,5 +56,5 @@ test("the AI source index is a genuine text file and contains all new public gui
   const text = await response.text();
   expect(text).toContain("Enemites Realms is an AI-assisted learning environment being developed by Enemites");
   for (const post of REALMS_GUIDES) expect(text).toContain(`https://enemites.com/realms/blogs/${post.slug}`);
-  expect(text).not.toMatch(/parent-waitlist|\/form\/|<html/);
+  expect(text).not.toMatch(/parent-waitlist|\/form\/|<html|apa-itu-enemites-realms|Language: id/);
 });

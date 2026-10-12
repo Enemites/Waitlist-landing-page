@@ -11,11 +11,12 @@ export function seoPlugin(): Plugin {
     transformIndexHtml(html, context) {
       if (!context.server) return html;
       const path = new URL(context.originalUrl || context.path, "http://localhost").pathname;
-      return html.replace('<html lang="en">', `<html lang="${metadataForPath(path).language ?? "en"}">`).replace(/<title>[\s\S]*?<\/title>/, metadataHtml(metadataForPath(path)));
+      return html.replace(/<title>[\s\S]*?<\/title>/, metadataHtml(metadataForPath(path)));
     },
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const path = new URL(req.url || "/", "http://localhost").pathname.replace(/\/$/, "") || "/";
+        if (path === "/realms/blogs/apa-itu-enemites-realms") { res.writeHead(308, { Location: `/realms/blogs/what-is-enemites-realms${new URL(req.url || "/", "http://localhost").search}` }); res.end(); return; }
         if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
         if (path === "/") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
         if (path === "/robots.txt" || path === "/sitemap.xml" || path === "/llms.txt") {
@@ -34,6 +35,7 @@ export function seoPlugin(): Plugin {
     configurePreviewServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const path = new URL(req.url || "/", "http://localhost").pathname.replace(/\/$/, "") || "/";
+        if (path === "/realms/blogs/apa-itu-enemites-realms") { res.writeHead(308, { Location: `/realms/blogs/what-is-enemites-realms${new URL(req.url || "/", "http://localhost").search}` }); res.end(); return; }
         if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
         if (path === "/" || path === "/index.html") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
         if (path.startsWith("/api/")) { next(); return; }

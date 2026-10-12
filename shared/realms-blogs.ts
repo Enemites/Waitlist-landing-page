@@ -11,8 +11,6 @@ export type RealmsBlogPost = {
   imageAlt: string;
   introduction: string;
   sections: { heading: string; paragraphs: string[] }[];
-  language?: "en" | "id";
-  alternateSlug?: string;
   facts?: { label: string; value: string }[];
   faqs?: { question: string; answer: string }[];
   references?: { label: string; path: string }[];
@@ -130,6 +128,6 @@ export const LATEST_REALMS_BLOGS = REALMS_BLOGS.slice(0, 3);
 export const realmsBlogPath = (slug: string) => `/realms/blogs/${slug}`;
 export const findRealmsBlog = (slug: string) => REALMS_BLOGS.find(post => post.slug === slug);
 
-export function formatBlogDate(date: string, language: "en" | "id" = "en") {
-  return new Intl.DateTimeFormat(language === "id" ? "id-ID" : "en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));
+export function formatBlogDate(date: string) {
+  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));
 }

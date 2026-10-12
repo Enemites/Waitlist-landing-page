@@ -11,8 +11,6 @@ export type PageMetadata = {
   title: string;
   description: string;
   index: boolean;
-  language?: "en" | "id";
-  alternates?: { language: string; path: string }[];
   lastModified?: string;
 };
 
@@ -26,15 +24,8 @@ export const PUBLIC_PAGES: PageMetadata[] = [
   { path: "/realms/blogs", title: "Realms Blogs — Ideas Behind the Experience | Enemites", description: "Read the Enemites Realms journal on learning simulations, AI mentor reflection, and evidence of capability.", index: true },
   ...REALMS_BLOGS.map(post => {
     const path = realmsBlogPath(post.slug);
-    const language = post.language ?? "en";
-    const alternate = REALMS_BLOGS.find(other => other.slug === post.alternateSlug);
     return {
-      path, title: `${post.title} — Realms Blog | Enemites`, description: post.description, index: true, language, lastModified: post.updatedAt ?? post.addedAt,
-      alternates: alternate ? [
-        { language, path },
-        { language: alternate.language ?? "en", path: realmsBlogPath(alternate.slug) },
-        { language: "x-default", path: language === "en" ? path : realmsBlogPath(alternate.slug) },
-      ] : [],
+      path, title: `${post.title} — Realms Blog | Enemites`, description: post.description, index: true, lastModified: post.updatedAt ?? post.addedAt,
     };
   }),
 ];
@@ -58,12 +49,12 @@ export function metadataForPath(pathname: string): PageMetadata {
 export function structuredData(page: PageMetadata) {
   if (!page.index) return null;
   const post = REALMS_BLOGS.find(post => realmsBlogPath(post.slug) === page.path);
-  const language = page.language ?? "en";
+  const language = "en";
   const isRealms = page.path === "/realms" || page.path.startsWith("/realms/");
   const blogId = `${SITE_ORIGIN}/realms/blogs#blog`;
   const graph: Record<string, unknown>[] = [
     { "@type": "Organization", "@id": `${SITE_ORIGIN}/#organization`, name: "Enemites", description: "A student-led, research-driven collective building learning environments and exploring cognitive infrastructure.", url: `${SITE_ORIGIN}/home`, logo: `${SITE_ORIGIN}/assets/logo.png`, email: "support@enemites.com" },
-    { "@type": "WebSite", "@id": `${SITE_ORIGIN}/#website`, name: "Enemites", url: `${SITE_ORIGIN}/home`, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: ["en", "id"] },
+    { "@type": "WebSite", "@id": `${SITE_ORIGIN}/#website`, name: "Enemites", url: `${SITE_ORIGIN}/home`, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: "en" },
     { "@type": "WebPage", "@id": `${SITE_ORIGIN}${page.path}#webpage`, url: `${SITE_ORIGIN}${page.path}`, name: page.title, description: page.description, isPartOf: { "@id": `${SITE_ORIGIN}/#website` }, inLanguage: language,
       ...(isRealms ? { about: { "@id": REALMS_ENTITY_ID } } : {}),
       ...(post ? { mainEntity: { "@id": `${SITE_ORIGIN}${page.path}#article` } } : page.path === "/realms" ? { mainEntity: { "@id": REALMS_ENTITY_ID } } : {}),
@@ -71,7 +62,7 @@ export function structuredData(page: PageMetadata) {
   ];
   if (isRealms) graph.push({ "@type": "Product", "@id": REALMS_ENTITY_ID, name: "Enemites Realms", alternateName: "Realms", description: REALMS_DEFINITION, category: "AI-assisted learning simulation environment", url: `${SITE_ORIGIN}/realms`, brand: { "@id": `${SITE_ORIGIN}/#organization` }, image: SOCIAL_IMAGE });
   if (post || page.path === "/realms/blogs") {
-    graph.push({ "@type": "Blog", "@id": blogId, name: "Enemites Realms Journal", url: `${SITE_ORIGIN}/realms/blogs`, about: { "@id": REALMS_ENTITY_ID }, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: ["en", "id"] });
+    graph.push({ "@type": "Blog", "@id": blogId, name: "Enemites Realms Journal", url: `${SITE_ORIGIN}/realms/blogs`, about: { "@id": REALMS_ENTITY_ID }, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: "en" });
     const crumbs = [{ name: "Enemites", path: "/home" }, { name: "Enemites Realms", path: "/realms" }, { name: "Blogs", path: "/realms/blogs" }, ...(post ? [{ name: post.title, path: page.path }] : [])];
     graph.push({ "@type": "BreadcrumbList", "@id": `${SITE_ORIGIN}${page.path}#breadcrumbs`, itemListElement: crumbs.map((crumb, index) => ({ "@type": "ListItem", position: index + 1, name: crumb.name, item: `${SITE_ORIGIN}${crumb.path}` })) });
   }
@@ -88,7 +79,7 @@ export function socialMetadataForPage(page: PageMetadata) {
   const post = REALMS_BLOGS.find(post => realmsBlogPath(post.slug) === page.path);
   return {
     type: post ? "article" : "website",
-    locale: page.language === "id" ? "id_ID" : "en_US",
+    locale: "en_US",
     image: post ? `${SITE_ORIGIN}${post.image}` : SOCIAL_IMAGE,
     width: post ? "1536" : "1200", height: post ? "1024" : "630",
     alt: post?.imageAlt ?? "Enemites — Research and learning simulations",
@@ -98,7 +89,7 @@ export function socialMetadataForPage(page: PageMetadata) {
 export const robotsContent = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`;
 export const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${PUBLIC_PAGES.map(page => `  <url><loc>${SITE_ORIGIN}${page.path}</loc>${page.lastModified ? `<lastmod>${page.lastModified}</lastmod>` : ""}</url>`).join("\n")}\n</urlset>\n`;
 
-export const llmsContent = `# Enemites\n\n> ${REALMS_DEFINITION}\n\nRealms is in development. The public site provides product information and a launch waitlist, not a promised release date or immediate simulation access. These are first-party product sources, not independent assessments.\n\n## Official product sources\n\n- [Enemites Realms](${SITE_ORIGIN}/realms): Product introduction and launch waitlist.\n- [How it works](${SITE_ORIGIN}/realms/how-it-works): The intended scenario, decision, reflection, and evidence loop.\n- [About Enemites](${SITE_ORIGIN}/realms/about-us): Team, mission, and product background.\n\n## Realms journal\n\n${REALMS_BLOGS.map(post => `- [${post.title}](${SITE_ORIGIN}${realmsBlogPath(post.slug)}): ${post.description} Language: ${post.language ?? "en"}.`).join("\n")}\n`;
+export const llmsContent = `# Enemites\n\n> ${REALMS_DEFINITION}\n\nRealms is in development. The public site provides product information and a launch waitlist, not a promised release date or immediate simulation access. These are first-party product sources, not independent assessments.\n\n## Official product sources\n\n- [Enemites Realms](${SITE_ORIGIN}/realms): Product introduction and launch waitlist.\n- [How it works](${SITE_ORIGIN}/realms/how-it-works): The intended scenario, decision, reflection, and evidence loop.\n- [About Enemites](${SITE_ORIGIN}/realms/about-us): Team, mission, and product background.\n\n## Realms journal\n\n${REALMS_BLOGS.map(post => `- [${post.title}](${SITE_ORIGIN}${realmsBlogPath(post.slug)}): ${post.description} Language: en.`).join("\n")}\n`;
 
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]!);
 export function metadataHtml(page: PageMetadata): string {
@@ -111,7 +102,6 @@ export function metadataHtml(page: PageMetadata): string {
     <meta name="description" content="${description}" />
     <meta name="robots" content="${page.index ? "index,follow" : "noindex,follow"}" />
     ${page.index ? `<link rel="canonical" href="${url}" />` : ""}
-    ${(page.alternates ?? []).map(alternate => `<link rel="alternate" hreflang="${alternate.language}" href="${SITE_ORIGIN}${alternate.path}" />`).join("\n    ")}
     <meta property="og:type" content="${social.type}" />
     <meta property="og:site_name" content="Enemites" />
     <meta property="og:locale" content="${social.locale}" />

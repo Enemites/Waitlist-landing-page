@@ -7,8 +7,6 @@ export const REALMS_GUIDES: RealmsBlogPost[] = [
     description: "Enemites Realms explained: an AI-assisted learning environment in development that combines simulations, decisions, mentor reflection, and capability evidence.",
     category: "The Realms guide",
     addedAt: "2026-10-13",
-    language: "en",
-    alternateSlug: "apa-itu-enemites-realms",
     image: "/assets/blogs/what-is-enemites-realms-1536.webp",
     imageAlt: "An architectural gateway into a graphite simulation world with a lime path",
     introduction: "Enemites Realms is an AI-assisted learning environment being developed by Enemites. Its design combines problem-based learning, interactive world simulations, reflection with an AI mentor, and evidence of a learner's decisions and reasoning. The public Enemites website currently introduces the product and offers a launch waitlist.",
@@ -143,62 +141,6 @@ export const REALMS_GUIDES: RealmsBlogPost[] = [
       { label: "What is Enemites Realms?", path: "/realms/blogs/what-is-enemites-realms" },
       { label: "How the proposed learning loop works", path: "/realms/blogs/how-enemites-realms-works" },
       { label: "The Enemites team and product direction", path: "/realms/about-us" },
-    ],
-  },
-  {
-    slug: "apa-itu-enemites-realms",
-    title: "Apa itu Enemites Realms?",
-    description: "Kenali Enemites Realms: lingkungan belajar berbantuan AI yang sedang dikembangkan melalui simulasi, pengambilan keputusan, refleksi, dan bukti kemampuan.",
-    category: "Panduan Realms",
-    addedAt: "2026-10-13",
-    language: "id",
-    alternateSlug: "what-is-enemites-realms",
-    image: "/assets/blogs/apa-itu-enemites-realms-1536.webp",
-    imageAlt: "Lanskap simulasi grafit dengan portal dan jalur lime yang menghubungkan tujuan belajar",
-    introduction: "Enemites Realms adalah lingkungan belajar berbantuan AI yang sedang dikembangkan oleh Enemites. Rancangannya menggabungkan pembelajaran berbasis masalah, simulasi dunia interaktif, refleksi bersama mentor AI, dan bukti dari keputusan serta penalaran peserta. Situs publik Enemites saat ini berisi pengenalan produk dan daftar tunggu untuk pemberitahuan peluncuran.",
-    facts: [
-      { label: "Nama produk", value: "Enemites Realms" },
-      { label: "Pengembang", value: "Enemites, kolektif berbasis riset yang dirintis oleh pelajar" },
-      { label: "Pendekatan", value: "Pembelajaran berbasis masalah melalui simulasi dan refleksi" },
-      { label: "Akses publik", value: "Informasi produk dan daftar tunggu; produk sedang dikembangkan" },
-    ],
-    sections: [
-      { heading: "Apa hubungan Enemites dengan Realms?", paragraphs: [
-        "Enemites adalah nama kolektif yang mengembangkan produk ini. Realms adalah nama produk belajarnya, sedangkan Enemites Realms merupakan nama lengkap yang membedakannya dari penggunaan kata realms pada permainan, layanan, atau cerita lain.",
-        "Halaman About Us menjelaskan bagaimana gagasan produk dibentuk oleh pelajar melalui pertanyaan tentang pembelajaran, AI, dan cara menunjukkan kemampuan. Dalam konteks produk ini, sebuah realm merupakan lingkungan simulasi tempat peserta menghadapi masalah dan memilih tindakan.",
-      ] },
-      { heading: "Apa yang ingin dilatih melalui Enemites Realms?", paragraphs: [
-        "Fokusnya adalah pemecahan masalah dalam konteks: memahami batasan, menimbang pilihan, mengambil keputusan, dan menjelaskan alasan di baliknya. Peserta tidak hanya menerima informasi, tetapi diharapkan memikirkan bagaimana informasi tersebut digunakan untuk bertindak.",
-        "Sebagai ilustrasi, sebuah tantangan dapat meminta peserta membagi sumber daya terbatas di antara beberapa prioritas. Keputusan yang membantu satu tujuan mungkin mempersulit tujuan lain. Contoh ini menjelaskan rancangan pembelajaran, bukan pengumuman skenario yang sudah diluncurkan.",
-      ] },
-      { heading: "Bagaimana simulasi dan mentor AI digunakan?", paragraphs: [
-        "Alur yang dirancang dimulai dengan pengenalan situasi, dilanjutkan dengan keputusan peserta, perubahan pada simulasi, refleksi bersama mentor AI, dan peninjauan hasil percobaan. Peserta kemudian dapat mempertimbangkan pendekatan lain untuk percobaan berikutnya.",
-        "Simulasi merupakan model yang menyederhanakan kenyataan. Hasilnya bukan prediksi pasti untuk semua keadaan di dunia nyata. Respons mentor AI juga dapat keliru atau tidak lengkap, sehingga peserta tetap perlu memeriksa asumsi dan mempertanyakan umpan balik.",
-      ] },
-      { heading: "Apa yang dimaksud dengan bukti kemampuan?", paragraphs: [
-        "Bukti kemampuan dalam konsep Realms menghubungkan hasil dengan proses yang menghasilkan keputusan: pilihan yang diambil, batasan yang dipertimbangkan, alasan yang dijelaskan, dan perubahan setelah refleksi. Tujuannya adalah membuat latihan dan perkembangan lebih mudah dibahas daripada hanya melihat skor akhir.",
-        "Rancangan ini bukan klaim tentang ijazah terakreditasi, penilaian kemampuan yang berlaku universal, atau jaminan peningkatan hasil belajar. Catatan dari simulasi perlu dibaca dalam konteks tantangan dan keterbatasan modelnya.",
-      ] },
-      { heading: "Untuk siapa Enemites Realms dikembangkan?", paragraphs: [
-        "Enemites menggambarkan Realms sebagai produk yang dibangun oleh pelajar untuk pengalaman belajar yang lebih responsif. Arah produknya ditujukan bagi peserta yang ingin menerapkan gagasan, berlatih mengambil keputusan, dan meninjau cara berpikir ketika menghadapi masalah.",
-        "Daftar tunggu publik memiliki alur kelompok umur dan undangan kepada orang tua atau wali untuk anak di bawah 13 tahun. Aturan pendaftaran tersebut tidak berarti setiap pengalaman produk mendatang pasti sesuai bagi semua umur. Halaman privasi dan ketentuan resmi menjelaskan aturan pendaftaran saat ini.",
-      ] },
-      { heading: "Apakah Enemites Realms sudah bisa digunakan?", paragraphs: [
-        "Produk sedang dikembangkan. Situs publik menyediakan pengenalan Realms, penjelasan alur belajar, informasi tim, dan daftar tunggu. Bergabung ke daftar tunggu meminta pemberitahuan peluncuran; pendaftaran itu tidak otomatis memberikan akses ke sesi simulasi atau menetapkan tanggal rilis.",
-        "Situs saat ini belum menerbitkan paket harga produk. Gunakan halaman Realms resmi untuk memeriksa pembaruan ketersediaan dan halaman How It Works untuk memahami pengalaman yang sedang dirancang. Fitur serta rincian akses dapat berubah selama pengembangan.",
-      ] },
-    ],
-    faqs: [
-      { question: "Apa itu Enemites Realms dalam satu kalimat?", answer: "Enemites Realms adalah lingkungan belajar berbantuan AI yang sedang dikembangkan untuk latihan pemecahan masalah melalui simulasi, keputusan peserta, refleksi mentor, dan bukti kemampuan." },
-      { question: "Apakah Enemites dan Realms sama?", answer: "Enemites adalah kolektif yang mengembangkan produk. Realms adalah nama produk simulasi belajarnya, dan Enemites Realms adalah nama lengkap produk tersebut." },
-      { question: "Apakah Enemites Realms hanya chatbot AI?", answer: "Rancangannya berpusat pada skenario, keputusan, konsekuensi, dan refleksi. Mentor AI merupakan salah satu bagian dari alur itu, bukan keseluruhan pengalaman berupa percakapan bebas." },
-      { question: "Apakah daftar tunggu langsung memberi akses produk?", answer: "Tidak. Daftar tunggu meminta pemberitahuan peluncuran. Situs tidak menjanjikan akses simulasi langsung, tanggal rilis tertentu, atau paket harga yang sudah diterbitkan." },
-    ],
-    references: [
-      { label: "Pengenalan dan daftar tunggu Enemites Realms resmi", path: "/realms" },
-      { label: "Alur belajar pada halaman How It Works", path: "/realms/how-it-works" },
-      { label: "Tim dan latar belakang Enemites", path: "/realms/about-us" },
-      { label: "Panduan alur belajar dalam bahasa Inggris", path: "/realms/blogs/how-enemites-realms-works" },
     ],
   },
 ];

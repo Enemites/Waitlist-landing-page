@@ -17,7 +17,7 @@ export default function BlogsPage() {
         </section>
         <section className="blogs-grid" aria-label="Realms blog articles">
           {REALMS_BLOGS.map((post, index) => (
-            <article key={post.slug} lang={post.language ?? "en"} className={`blog-card ${index === 0 ? "blog-card-featured" : "blog-card-supporting"}`}>
+            <article key={post.slug} lang="en" className={`blog-card ${index === 0 ? "blog-card-featured" : "blog-card-supporting"}`}>
               <div className="blog-card-label"><span>{index === 0 ? "Latest perspective" : "From the journal"}</span><span aria-hidden="true">{String(index + 1).padStart(2, "0")} / {String(REALMS_BLOGS.length).padStart(2, "0")}</span></div>
               <Link to={realmsBlogPath(post.slug)} className="blog-card-link">
                 <div className="blog-card-art">
@@ -27,7 +27,7 @@ export default function BlogsPage() {
                   </picture>
                 </div>
                 <div className="blog-card-copy">
-                  <div className="blog-meta"><span>{post.category}</span><time dateTime={post.addedAt}>{formatBlogDate(post.addedAt, post.language)}</time></div>
+                  <div className="blog-meta"><span>{post.category}</span><time dateTime={post.addedAt}>{formatBlogDate(post.addedAt)}</time></div>
                   <h2>{post.title}</h2>
                   <p>{post.description}</p>
                   <span className="blog-read-link">Read the story <ArrowUpRight size={16} aria-hidden="true" /></span>
