@@ -61,6 +61,7 @@ const ResponsiveHeader = ({
   theme = "dark",
 }: ResponsiveHeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isBlogsOpen, setIsBlogsOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
@@ -118,7 +119,7 @@ const ResponsiveHeader = ({
     }
 
     if (item.kind === "blogs") {
-      return <BlogsNavigation key={item.label} className={itemClass} isMobile={isMobile} onNavigate={() => setIsOpen(false)} />;
+      return <BlogsNavigation key={item.label} className={itemClass} isMobile={isMobile} onNavigate={() => setIsOpen(false)} onOpenChange={setIsBlogsOpen} />;
     }
 
     const content = (
@@ -167,7 +168,7 @@ const ResponsiveHeader = ({
   };
 
   return (
-    <header className={`site-header ${getHeaderClasses(className)}`} data-theme={theme} style={{ top: "max(env(safe-area-inset-top), 1rem)" }}>
+    <header className={`site-header ${getHeaderClasses(className)}`} data-theme={theme} data-blogs-open={isBlogsOpen} style={{ top: "max(env(safe-area-inset-top), 1rem)" }}>
       <Link
         to="/home"
         className={`nova-display text-lg font-semibold tracking-normal sm:text-xl flex items-center gap-2.5 ${isDark ? 'text-[#E8E4D9]' : 'text-[#111317]'}`}

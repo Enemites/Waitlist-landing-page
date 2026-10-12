@@ -31,7 +31,7 @@ test("disclosure supports keyboard navigation, Escape, outside click, and focus 
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
   await expect(trigger).toBeFocused();
   await trigger.click();
-  await page.locator("h1").click();
+  await page.mouse.click(10, page.viewportSize()!.height - 10);
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
   await trigger.focus();
   await page.keyboard.press("Space");
@@ -106,4 +106,42 @@ test("Blogs also works in the light Realms navbar", async ({ page }) => {
   await expect(page.locator(".blogs-dropdown")).toBeVisible();
   await page.locator(".blogs-dropdown li a").first().click();
   await expect(page.locator("h1")).toHaveText(LATEST_REALMS_BLOGS[0].title);
+});
+
+test("desktop Blogs has no dropdown icon and opens a viewport-wide two-column panel", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/realms");
+  const trigger = page.getByRole("button", { name: "Blogs", exact: true });
+  await expect(trigger.locator("svg")).toHaveCount(0);
+  await trigger.click();
+  await expect(page.locator(".site-header")).toHaveAttribute("data-blogs-open", "true");
+  const panel = await page.locator(".blogs-dropdown").boundingBox();
+  expect(panel!.x).toBeLessThanOrEqual(1);
+  expect(panel!.width).toBeGreaterThanOrEqual(1438);
+  const stories = await page.locator(".blogs-menu-stories").boundingBox();
+  const resources = await page.locator(".blogs-menu-resources").boundingBox();
+  expect(resources!.x).toBeGreaterThan(stories!.x + stories!.width);
+  await trigger.click();
+  await expect(page.locator(".site-header")).toHaveAttribute("data-blogs-open", "false");
+});
+
+test("overview and article headings are centered and use dedicated responsive artwork", async ({ page }) => {
+  for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/realms/blogs");
+    await expect(page.locator("h1")).toHaveCSS("text-align", "center");
+    await expect(page.locator(".blog-card img")).toHaveCount(3);
+    for (const image of await page.locator(".blog-card img").all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect(image).toHaveAttribute("src", /\/assets\/blogs\/.+-1536\.webp$/);
+      await expect(image).toHaveAttribute("srcset", /640w.+960w.+1536w/);
+      await expect.poll(() => image.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    }
+    await page.locator(".blog-card a").first().click();
+    await expect(page.locator("h1")).toHaveCSS("text-align", "center");
+    const cover = page.locator(".blog-article-art img");
+    await expect(cover).toHaveAttribute("src", /\/assets\/blogs\/learning-through-simulation-1536\.webp$/);
+    await expect.poll(() => cover.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+  }
 });

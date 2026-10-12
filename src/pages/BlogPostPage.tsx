@@ -9,35 +9,45 @@ export default function BlogPostPage() {
   const { slug } = useParams();
   const post = findRealmsBlog(slug ?? "");
   if (!post) return <NotFoundPage />;
+  const readingMinutes = Math.max(1, Math.ceil([post.introduction, ...post.sections.flatMap(section => section.paragraphs)].join(" ").split(/\s+/).length / 200));
 
   return (
     <div className="product-site realms-blogs">
       <ResponsiveHeader theme="dark" />
       <main className="product-container blogs-main">
         <article className="blog-article">
-          <Link className="blog-back-link" to="/realms/blogs"><ArrowLeft size={16} aria-hidden="true" /> Blogs Overview</Link>
+          <div className="blog-article-topline"><Link className="blog-back-link" to="/realms/blogs"><ArrowLeft size={16} aria-hidden="true" /> Blogs Overview</Link><span>The Realms Journal</span></div>
           <header className="blog-article-heading">
-            <p className="product-eyebrow">Enemites Realms / {post.category}</p>
+            <p className="product-eyebrow">{post.category}</p>
             <h1>{post.title}</h1>
             <p>{post.description}</p>
-            <div className="blog-meta"><span>Enemites team</span><time dateTime={post.addedAt}>{formatBlogDate(post.addedAt)}</time></div>
+            <div className="blog-meta"><span>Enemites team</span><time dateTime={post.addedAt}>{formatBlogDate(post.addedAt)}</time><span className="blog-reading-time">{readingMinutes} min read</span></div>
           </header>
-          <div className="blog-article-art"><img src={post.image} alt={post.imageAlt} width="960" height="640" /></div>
+          <div className="blog-article-art">
+            <picture>
+              <source type="image/avif" srcSet={`/assets/blogs/${post.slug}-640.avif 640w, /assets/blogs/${post.slug}-960.avif 960w, /assets/blogs/${post.slug}-1536.avif 1536w`} sizes="(max-width: 600px) calc(100vw - 40px), (max-width: 900px) calc(100vw - 72px), 1160px" />
+              <img src={post.image} srcSet={`/assets/blogs/${post.slug}-640.webp 640w, /assets/blogs/${post.slug}-960.webp 960w, /assets/blogs/${post.slug}-1536.webp 1536w`} sizes="(max-width: 600px) calc(100vw - 40px), (max-width: 900px) calc(100vw - 72px), 1160px" alt={post.imageAlt} width="1536" height="1024" />
+            </picture>
+          </div>
           <div className="blog-article-body">
             <p className="blog-introduction">{post.introduction}</p>
-            {post.sections.map(section => (
+            {post.sections.map((section, index) => (
               <section key={section.heading}>
+                <span className="blog-section-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 <h2>{section.heading}</h2>
                 {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
               </section>
             ))}
-            <div className="blog-article-cta"><p>Explore the experience we're building.</p><Link to="/realms">Discover Realms <ArrowUpRight size={18} aria-hidden="true" /></Link></div>
+            <div className="blog-article-cta"><p className="product-eyebrow">From ideas to experience</p><h2>Step inside Realms.</h2><p>Explore the learning experience we're building.</p><Link to="/realms">Discover Realms <ArrowUpRight size={18} aria-hidden="true" /></Link></div>
           </div>
         </article>
         <aside className="blogs-related" aria-labelledby="more-from-realms">
-          <h2 id="more-from-realms">More from Realms</h2>
+          <div className="blogs-related-heading"><p className="product-eyebrow">Keep exploring</p><h2 id="more-from-realms">More from Realms</h2></div>
           <div>{REALMS_BLOGS.filter(other => other.slug !== post.slug).slice(0, 2).map(other => (
-            <Link key={other.slug} to={realmsBlogPath(other.slug)}><span>{other.category}</span><h3>{other.title}</h3><ArrowUpRight size={20} aria-hidden="true" /></Link>
+            <Link key={other.slug} to={realmsBlogPath(other.slug)}>
+              <div className="blogs-related-art"><picture><source type="image/avif" srcSet={`/assets/blogs/${other.slug}-640.avif 640w, /assets/blogs/${other.slug}-960.avif 960w`} sizes="(max-width: 600px) calc(100vw - 40px), 560px" /><img src={`/assets/blogs/${other.slug}-960.webp`} srcSet={`/assets/blogs/${other.slug}-640.webp 640w, /assets/blogs/${other.slug}-960.webp 960w`} sizes="(max-width: 600px) calc(100vw - 40px), 560px" alt={other.imageAlt} width="1536" height="1024" loading="lazy" /></picture></div>
+              <span>{other.category}</span><h3>{other.title}</h3><span className="blog-read-link">Read the story <ArrowUpRight size={16} aria-hidden="true" /></span>
+            </Link>
           ))}</div>
         </aside>
         <footer className="blogs-footer"><span>Enemites Realms</span><Link to="/realms/blogs">Blogs Overview <ArrowUpRight size={16} aria-hidden="true" /></Link></footer>

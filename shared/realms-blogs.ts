@@ -18,8 +18,8 @@ const posts: RealmsBlogPost[] = [
     description: "Explore why Enemites Realms starts with a problem to solve, and how simulations connect decisions with consequences.",
     category: "Learning by doing",
     addedAt: "2026-10-12",
-    image: "/assets/arena-world-960.webp",
-    imageAlt: "An imagined simulation world for Enemites Realms",
+    image: "/assets/blogs/learning-through-simulation-1536.webp",
+    imageAlt: "Floating graphite worlds connected by branching lime paths around a decision point",
     introduction: "Knowing an answer and choosing what to do are different experiences. Enemites Realms is being built around the second: entering a situation, making a decision, and discovering what that decision changes.",
     sections: [
       {
@@ -51,8 +51,8 @@ const posts: RealmsBlogPost[] = [
     description: "How the Realms AI mentor concept uses reflection to help learners examine assumptions, explain choices, and plan another attempt.",
     category: "Reflection & mentorship",
     addedAt: "2026-10-12",
-    image: "/assets/feedback-loop-sculpture-896.webp",
-    imageAlt: "An abstract sculpture representing a learning feedback loop",
+    image: "/assets/blogs/reflection-with-an-ai-mentor-1536.webp",
+    imageAlt: "Two reflective dark sculptures exchange lime light threads, representing thoughtful dialogue",
     introduction: "A simulation can show what happened. Reflection helps a learner ask why. The AI mentor concept in Enemites Realms is designed around that space between an outcome and the next decision.",
     sections: [
       {
@@ -84,8 +84,8 @@ const posts: RealmsBlogPost[] = [
     description: "Why Enemites Realms is exploring capability evidence that connects a result with the decisions, reasoning, and revisions behind it.",
     category: "Evidence of capability",
     addedAt: "2026-10-12",
-    image: "/assets/capability-proof-1280.webp",
-    imageAlt: "An abstract visual of connected capability evidence",
+    image: "/assets/blogs/proof-of-capability-1536.webp",
+    imageAlt: "Smoked-glass evidence layers connected by a lime thread around a graphite monolith",
     introduction: "A result tells one part of a learning story. The path to that result tells another. Enemites Realms is exploring how to make that path visible through evidence of decisions, reflection, and improvement.",
     sections: [
       {

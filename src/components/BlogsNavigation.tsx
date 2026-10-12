@@ -1,15 +1,16 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { LATEST_REALMS_BLOGS, realmsBlogPath } from "../../shared/realms-blogs";
 
 type BlogsNavigationProps = {
   className: string;
   isMobile: boolean;
   onNavigate: () => void;
+  onOpenChange: (open: boolean) => void;
 };
 
-export default function BlogsNavigation({ className, isMobile, onNavigate }: BlogsNavigationProps) {
+export default function BlogsNavigation({ className, isMobile, onNavigate, onOpenChange }: BlogsNavigationProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -18,6 +19,7 @@ export default function BlogsNavigation({ className, isMobile, onNavigate }: Blo
   const active = location.pathname === "/realms/blogs" || location.pathname.startsWith("/realms/blogs/");
 
   useEffect(() => { setOpen(false); }, [location.key]);
+  useEffect(() => { if (!isMobile) onOpenChange(open); }, [open, isMobile, onOpenChange]);
 
   useEffect(() => {
     if (!open) return;
@@ -60,24 +62,31 @@ export default function BlogsNavigation({ className, isMobile, onNavigate }: Blo
         onClick={() => setOpen(value => !value)}
       >
         <span>Blogs</span>
-        <ChevronDown size={14} aria-hidden="true" className={open ? "rotate-180" : ""} />
       </button>
       {open && (
         <div id={panelId} className="blogs-dropdown">
+          <div className="blogs-menu-layout">
+          <div className="blogs-menu-stories">
           <p className="blogs-dropdown-label">Latest from Realms</p>
           <ul>
             {LATEST_REALMS_BLOGS.map(post => (
               <li key={post.slug}>
                 <Link to={realmsBlogPath(post.slug)} onClick={navigate} aria-current={location.pathname.replace(/\/$/, "") === realmsBlogPath(post.slug) ? "page" : undefined}>
-                  <span className="blogs-dropdown-category">{post.category}</span>
                   <span className="blogs-dropdown-title">{post.title}</span>
+                  <span className="blogs-dropdown-category">{post.category}</span>
                 </Link>
               </li>
             ))}
           </ul>
+          </div>
+          <div className="blogs-menu-resources">
+          <p className="blogs-dropdown-label">Explore the journal</p>
           <Link className="blogs-overview-link" to="/realms/blogs" onClick={navigate} aria-current={location.pathname.replace(/\/$/, "") === "/realms/blogs" ? "page" : undefined}>
             Blogs Overview <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
+          <p className="blogs-menu-description">Ideas on learning through simulation, thoughtful reflection, and evidence of capability.</p>
+          </div>
+          </div>
         </div>
       )}
     </div>
