@@ -3,7 +3,7 @@ import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import Beasties from "beasties";
-import { PUBLIC_PAGES, UNINDEXED_PAGES, metadataForPath, metadataHtml, robotsContent, sitemapContent } from "../shared/seo";
+import { PUBLIC_PAGES, UNINDEXED_PAGES, metadataForPath, metadataHtml, robotsContent, sitemapContent, llmsContent } from "../shared/seo";
 
 const serverDir = resolve(".prerender");
 const clientTemplate = await readFile("dist/index.html", "utf8");
@@ -16,6 +16,7 @@ try {
   const template = clientTemplate.replace("</head>", `<link rel="preload" href="/assets/${primaryFont}" as="font" type="font/woff2" crossorigin>\n</head>`);
   const criticalCss = new Beasties({ path: resolve("dist"), preload: "swap", pruneSource: false, inlineFonts: false, logLevel: "warn" });
   const documentFor = (path: string, body: string) => template
+    .replace('<html lang="en">', `<html lang="${metadataForPath(path).language ?? "en"}">`)
     .replace(/<title>[\s\S]*?<\/title>/, metadataHtml(metadataForPath(path)))
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`);
   for (const page of [...PUBLIC_PAGES, ...UNINDEXED_PAGES]) {
@@ -29,6 +30,7 @@ try {
   await writeFile("dist/private.html", documentFor("/private", ""));
   await writeFile("dist/robots.txt", robotsContent);
   await writeFile("dist/sitemap.xml", sitemapContent);
+  await writeFile("dist/llms.txt", llmsContent);
   await writeFile("dist/index.html", await readFile("dist/home.html", "utf8"));
 } finally {
   await rm(serverDir, { recursive: true, force: true });

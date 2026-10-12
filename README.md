@@ -59,6 +59,9 @@ See [implementation and external setup](docs/TECHNICAL-SEO.md) and
 [validation results](docs/SEO-VALIDATION.md). For Realms blog content and publishing,
 see [Realms blogs](docs/REALMS-BLOGS.md).
 
+Branded English/Indonesian guides, product identity, FAQs, and search/AI discovery
+checks are described in [Realms discovery](docs/REALMS-DISCOVERY.md).
+
 ```sh
 npm run build
 npm run seo:check

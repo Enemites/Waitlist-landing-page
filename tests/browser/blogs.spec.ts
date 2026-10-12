@@ -76,7 +76,7 @@ test("all overview cards open readable articles with metadata and direct URLs", 
     await page.locator(".blog-card").getByRole("link").filter({ hasText: post.title }).click();
     await expect(page).toHaveURL(new RegExp(`${realmsBlogPath(post.slug)}$`));
     await expect(page.locator("h1")).toHaveText(post.title);
-    await expect(page.locator(".blog-article-body section")).toHaveCount(post.sections.length);
+    await expect(page.locator(".blog-article-body section[data-article-section]")).toHaveCount(post.sections.length);
     await expect(page).toHaveTitle(`${post.title} — Realms Blog | Enemites`);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://enemites.com${realmsBlogPath(post.slug)}`);
     expect((await request.get(`${realmsBlogPath(post.slug)}/`)).status()).toBe(200);
@@ -130,7 +130,7 @@ test("overview and article headings are centered and use dedicated responsive ar
     await page.setViewportSize(viewport);
     await page.goto("/realms/blogs");
     await expect(page.locator("h1")).toHaveCSS("text-align", "center");
-    await expect(page.locator(".blog-card img")).toHaveCount(3);
+    await expect(page.locator(".blog-card img")).toHaveCount(REALMS_BLOGS.length);
     for (const image of await page.locator(".blog-card img").all()) {
       await image.scrollIntoViewIfNeeded();
       await expect(image).toHaveAttribute("src", /\/assets\/blogs\/.+-1536\.webp$/);
@@ -140,7 +140,7 @@ test("overview and article headings are centered and use dedicated responsive ar
     await page.locator(".blog-card a").first().click();
     await expect(page.locator("h1")).toHaveCSS("text-align", "center");
     const cover = page.locator(".blog-article-art img");
-    await expect(cover).toHaveAttribute("src", /\/assets\/blogs\/learning-through-simulation-1536\.webp$/);
+    await expect(cover).toHaveAttribute("src", REALMS_BLOGS[0].image);
     await expect.poll(() => cover.evaluate(node => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   }

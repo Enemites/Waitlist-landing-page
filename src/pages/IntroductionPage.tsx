@@ -12,6 +12,7 @@ import DecisionTrace from "@/components/product/DecisionTrace";
 import ProductReveal from "@/components/product/ProductReveal";
 import ValueTransformations from "@/components/product/ValueTransformations";
 import { ArrowUpRight, Play } from "lucide-react";
+import { REALMS_DEFINITION } from "../../shared/seo";
 
 const YOUTUBE_DEMO_VIDEO_ID = "sga8QDniKls";
 
@@ -130,7 +131,7 @@ const IntroductionPage = () => {
               Realms
             </motion.h1>
             <ProductReveal className="hero-bottom" delay={.12}>
-              <p>The first problem-based learning environment built on world simulations and a superhuman mentor.</p>
+              <p>Enemites Realms is an AI-assisted learning environment built around simulated problems, decisions, reflection, and evidence of capability.</p>
               <div className="hero-actions">
                 <Button asChild className="product-cta">
                   <a href="#join-waitlist" onClick={e=>{e.preventDefault();document.getElementById('join-waitlist')?.scrollIntoView({behavior:reduce?"instant":"smooth",block:"center"});}}>
@@ -144,6 +145,15 @@ const IntroductionPage = () => {
               <Link to="/realms/about-us#our-mission">Our mission</Link>
               <a href="https://research.enemites.com" target="_blank" rel="noreferrer">Our research</a>
             </div>
+          </div>
+        </section>
+
+        <section className="product-definition product-section" aria-labelledby="realms-definition-title">
+          <div className="product-container">
+            <p className="product-eyebrow">Get to know Enemites Realms</p>
+            <h2 id="realms-definition-title">What is Enemites Realms?</h2>
+            <p>{REALMS_DEFINITION}</p>
+            <div><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/apa-itu-enemites-realms" lang="id" hrefLang="id">Panduan bahasa Indonesia <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
           </div>
         </section>
 
@@ -198,7 +208,7 @@ const IntroductionPage = () => {
             <ProductReveal className="registration-copy">
               <span className="registration-eyebrow">Early Access Registration</span>
               <h2>Ready to <span>join</span>?</h2>
-              <p>Join thousands of learners and problem solvers in the next generation Enemites Realms simulation.</p>
+              <p>Join the launch waitlist for Enemites Realms and help shape a new approach to learning through simulation.</p>
               <div className="registration-art registration-threshold" aria-hidden="true"><img src="/assets/waitlist-threshold.webp" alt="" loading="lazy" /></div>
             </ProductReveal>
             <WaitlistForm />

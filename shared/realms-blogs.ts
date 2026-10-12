@@ -1,23 +1,33 @@
+import { REALMS_GUIDES } from "./realms-guides";
+
 export type RealmsBlogPost = {
   slug: string;
   title: string;
   description: string;
   category: string;
   addedAt: string;
+  updatedAt?: string;
   image: string;
   imageAlt: string;
   introduction: string;
   sections: { heading: string; paragraphs: string[] }[];
+  language?: "en" | "id";
+  alternateSlug?: string;
+  facts?: { label: string; value: string }[];
+  faqs?: { question: string; answer: string }[];
+  references?: { label: string; path: string }[];
 };
 
 // Keep new entries first when multiple articles share the same publication date.
 const posts: RealmsBlogPost[] = [
+  ...REALMS_GUIDES,
   {
     slug: "learning-through-simulation",
     title: "Learning begins with a decision.",
     description: "Explore why Enemites Realms starts with a problem to solve, and how simulations connect decisions with consequences.",
     category: "Learning by doing",
     addedAt: "2026-10-12",
+    updatedAt: "2026-10-13",
     image: "/assets/blogs/learning-through-simulation-1536.webp",
     imageAlt: "Floating graphite worlds connected by branching lime paths around a decision point",
     introduction: "Knowing an answer and choosing what to do are different experiences. Enemites Realms is being built around the second: entering a situation, making a decision, and discovering what that decision changes.",
@@ -51,6 +61,7 @@ const posts: RealmsBlogPost[] = [
     description: "How the Realms AI mentor concept uses reflection to help learners examine assumptions, explain choices, and plan another attempt.",
     category: "Reflection & mentorship",
     addedAt: "2026-10-12",
+    updatedAt: "2026-10-13",
     image: "/assets/blogs/reflection-with-an-ai-mentor-1536.webp",
     imageAlt: "Two reflective dark sculptures exchange lime light threads, representing thoughtful dialogue",
     introduction: "A simulation can show what happened. Reflection helps a learner ask why. The AI mentor concept in Enemites Realms is designed around that space between an outcome and the next decision.",
@@ -84,6 +95,7 @@ const posts: RealmsBlogPost[] = [
     description: "Why Enemites Realms is exploring capability evidence that connects a result with the decisions, reasoning, and revisions behind it.",
     category: "Evidence of capability",
     addedAt: "2026-10-12",
+    updatedAt: "2026-10-13",
     image: "/assets/blogs/proof-of-capability-1536.webp",
     imageAlt: "Smoked-glass evidence layers connected by a lime thread around a graphite monolith",
     introduction: "A result tells one part of a learning story. The path to that result tells another. Enemites Realms is exploring how to make that path visible through evidence of decisions, reflection, and improvement.",
@@ -118,6 +130,6 @@ export const LATEST_REALMS_BLOGS = REALMS_BLOGS.slice(0, 3);
 export const realmsBlogPath = (slug: string) => `/realms/blogs/${slug}`;
 export const findRealmsBlog = (slug: string) => REALMS_BLOGS.find(post => post.slug === slug);
 
-export function formatBlogDate(date: string) {
-  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));
+export function formatBlogDate(date: string, language: "en" | "id" = "en") {
+  return new Intl.DateTimeFormat(language === "id" ? "id-ID" : "en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));
 }

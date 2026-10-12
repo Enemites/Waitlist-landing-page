@@ -25,6 +25,12 @@
 .product-site a:focus-visible, .product-site button:focus-visible, .product-site input:focus-visible, .product-site select:focus-visible, .product-site textarea:focus-visible { outline-color: var(--product-accent); }
 .product-container { width: calc(100% - 112px); max-width: 1328px; margin-inline: auto; }
 .product-section { padding-block: clamp(80px,9vw,136px); }
+.product-definition { border-top: 1px solid var(--product-line); }
+.product-definition .product-container { max-width: 940px; }
+.product-definition h2 { margin-block: 22px 28px; }
+.product-definition .product-container > p:not(.product-eyebrow) { font-size: 17px; }
+.product-definition .product-container > div { display: flex; flex-wrap: wrap; gap: 20px 32px; margin-top: 30px; }
+.product-definition a { display: inline-flex; align-items: center; gap: 12px; color: var(--product-accent); font-size: 12px; }
 .product-eyebrow, .hero-eyebrow, .registration-eyebrow { font: 10px/1.6 "JetBrains Mono Variable",monospace; text-transform: uppercase; letter-spacing: .16em; color: var(--product-accent); }
 .product-site .product-cta { min-height: 52px; border-radius: 5px; background: #c4ed6c; color: #172114; padding: 0 26px; font-size: 13px; font-weight: 700; border: 1px solid #c4ed6c; box-shadow: none; gap: 22px; }
 .product-site .product-cta:hover { background: #d7f89d; border-color: #d7f89d; }
