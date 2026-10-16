@@ -1,6 +1,12 @@
 # Transparent favicons for tabs and discovery
 
-## Temporary refresh diagnostic — phase 2 active
+## Current state — brand restored
+
+The magenta T diagnostic has been removed. The declared `/site-icon.png`, all legacy favicon aliases, ICO frames, and the Apple touch icon now contain the existing Enemites brand artwork. The 16/32 pixel tab declarations are restored. Keep these URLs stable.
+
+The October 16 investigation verified the production files and identified `https://enemites.com/assets/favicon.png` in Google favicon service's `Content-Location` header. Search Console's stored `/home` HTML still had the earlier favicon declarations, so processing of `/site-icon.png` was not yet established. Resend's Add domain preview loaded its logo from `img.logo.dev/enemites.com`; its provider's brand record must be corrected separately through https://www.logo.dev/update. Restoring the origin artwork does not prove either provider has refreshed.
+
+## Previous temporary refresh diagnostic — phase 2
 
 Phase 1 replaced the bytes at the existing favicon URLs with a **magenta square and white T** (`magenta-t-v1`). The user confirmed that the browser tab changed, while the public Google favicon service still showed the older Enemites artwork. This establishes a difference between the current origin artwork and the service's output; it does not establish when Google last fetched the source or prove which provider Resend uses.
 
