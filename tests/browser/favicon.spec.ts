@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 
 const iconPaths = [
   "/favicon.ico", "/favicon.svg", "/favicon.png", "/favicon-32x32.png",
@@ -17,9 +18,11 @@ test("root, declared, and legacy favicons serve actual images", async ({ page, r
   for (const link of await page.locator('link[rel="icon"], link[rel="apple-touch-icon"]').all()) {
     expect(iconPaths).toContain(await link.getAttribute("href"));
   }
+  const master = await request.get("/favicon.png");
+  expect(await master.body()).toEqual(await readFile("design/source-assets/favicon-generated-transparent.png"));
 });
 
-test("every icon has a full white background and a substantial circle-safe mark", async ({ page }) => {
+test("every icon has a transparent background, no white plate, and a circle-safe mark", async ({ page }) => {
   await page.goto("/home");
   for (const path of iconPaths) {
     const pixels = await page.evaluate(async source => {
@@ -34,27 +37,28 @@ test("every icon has a full white background and a substantial circle-safe mark"
       const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
       let visible = 0;
       let clipped = 0;
-      let translucent = 0;
+      let white = 0;
       let minX = canvas.width;
       let maxX = -1;
       for (let y = 0; y < canvas.height; y++) for (let x = 0; x < canvas.width; x++) {
         const offset = (y * canvas.width + x) * 4;
-        if (data[offset + 3] !== 255) translucent++;
-        if (Math.min(data[offset], data[offset + 1], data[offset + 2]) >= 240) continue;
+        if (data[offset + 3] <= 8) continue;
+        if (Math.min(data[offset], data[offset + 1], data[offset + 2]) > 240) white++;
         visible++;
         minX = Math.min(minX, x);
         maxX = Math.max(maxX, x);
         if (Math.hypot(x + 0.5 - canvas.width / 2, y + 0.5 - canvas.height / 2) >= canvas.width / 2) clipped++;
       }
       const corners = [[0, 0], [canvas.width - 1, 0], [0, canvas.height - 1], [canvas.width - 1, canvas.height - 1]]
-        .map(([x, y]) => Array.from(data.slice((y * canvas.width + x) * 4, (y * canvas.width + x) * 4 + 4)));
-      return { width: canvas.width, height: canvas.height, visible, clipped, translucent, corners, markWidth: (maxX - minX + 1) / canvas.width };
+        .map(([x, y]) => data[(y * canvas.width + x) * 4 + 3]);
+      return { width: canvas.width, height: canvas.height, visible, clipped, white, corners, markWidth: (maxX - minX + 1) / canvas.width };
     }, path);
     expect(pixels.width, path).toBe(pixels.height);
     expect(pixels.visible, path).toBeGreaterThan(0);
     expect(pixels.clipped, path).toBe(0);
-    expect(pixels.translucent, path).toBe(0);
-    expect(pixels.corners, path).toEqual(Array(4).fill([255, 255, 255, 255]));
+    expect(pixels.visible / (pixels.width * pixels.height), path).toBeLessThan(0.5);
+    expect(pixels.white, path).toBe(0);
+    expect(pixels.corners, path).toEqual([0, 0, 0, 0]);
     expect(pixels.markWidth, path).toBeGreaterThanOrEqual(0.8);
     expect(pixels.markWidth, path).toBeLessThan(0.9);
   }

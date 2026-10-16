@@ -1,28 +1,21 @@
-# Favicon and circular logo crops
+# Transparent generated favicon
 
-The original logo is preserved in `design/source-assets/favicon-logo.png`. Generate the public icon files with `npm run assets:favicon`. All formats share an opaque white canvas, including its corners, so there is no transparent outer border around a smaller white tile.
+The active master is `design/source-assets/favicon-generated-transparent.png`, generated from the official Enemites logo reference. It is a 1254 × 1254 PNG with a genuinely transparent background and no white plate, badge, border, or shadow. Its composition already includes the space needed for a circular crop.
 
-The original square artwork fills 84% of the canvas width, up from 75%. Its enclosing-circle center (288, 236 in the 572 pixel source) is placed at the canvas center. This balances the asymmetric mark and allows a larger silhouette while keeping its tips inside a circular crop. The artwork itself is unchanged. Every size is derived from the same 512 pixel composition.
+The generated master is used as-is. `npm run assets:favicon` copies it byte-for-byte to `/favicon.png` and embeds it without reframing in `/favicon.svg`. The script does not crop, reposition, flatten, add padding, or add a background to the generated composition. The earlier official source is preserved at `design/source-assets/favicon-logo.png`.
 
-## Public files
+## Browser compatibility files
 
+- `/favicon.png`: the unchanged native 1254 pixel master, declared in the shared HTML.
+- `/favicon.svg`: the same native composition in a transparent SVG wrapper.
 - `/favicon.ico`: PNG-compressed 16, 32, 48, and 256 pixel frames.
-- `/favicon.svg`: a 512 pixel canvas containing the original artwork with padding.
-- `/favicon.png` and `/favicon-192x192.png`: 192 pixel PNGs.
-- `/favicon-32x32.png`: a 32 pixel PNG.
-- `/favicon-512x512.png`: a 512 pixel PNG, also used by the Organization schema logo.
-- `/apple-touch-icon.png`: a 180 pixel PNG.
+- `/favicon-32x32.png`, `/favicon-192x192.png`, `/favicon-512x512.png`: standard raster sizes; the 512 pixel version is also the Organization schema logo.
+- `/apple-touch-icon.png`: a 180 pixel PNG with the same transparency.
 
-The previously published `/assets/favicon.png`, `/assets/favicon-legacy.png`, `/assets/favicon-padded.png`, and `/assets/favicon-tab.svg` paths serve padded versions too. Consumers that retain an earlier icon URL can retrieve a corrected image at that URL. Existing page/header/footer logo assets remain unchanged.
-
-The shared HTML template declares the root ICO, PNG, SVG, and Apple touch icons. This changes the primary favicon URLs from the old `/assets/` paths. Vite development and preview pass through these root files as static images, matching Vercel's public-file serving.
-
-## Confirmed issue
-
-Production checks before this correction found that the declared SVG and the legacy PNG contained artwork touching the horizontal edges, while the declared 192 pixel PNG was padded. A circular mask removed visible parts of the unpadded mark. `/favicon.ico`, `/favicon.png`, and `/apple-touch-icon.png` also returned HTML 404 responses, leaving conventional discovery paths unavailable.
+Compatibility files only convert pixel dimensions for consumers requiring smaller icons. They preserve the full composition and alpha channel. The previously published `/assets/favicon.png`, `/assets/favicon-legacy.png`, `/assets/favicon-padded.png`, and `/assets/favicon-tab.svg` paths serve matching transparent versions. Existing page/header/footer logo assets are unchanged.
 
 ## Validation
 
-Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. The favicon tests check HTTP status and image MIME types, decode all public and legacy icon entry points in Chromium, and verify a fully opaque canvas with white corners. They also check that the dark mark fills at least 80% of the canvas width and lies inside a circular mask. The ICO's individual frames can also be inspected with a standard ICO decoder.
+Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. Tests verify image responses, the byte-for-byte native master, transparent corners, no visible white background pixels, and a substantial complete mark inside a circular mask. The ICO frames can also be inspected with a standard ICO decoder.
 
-An email sender avatar may come from a profile/contact image, provider branding, BIMI, or a favicon service. A screenshot alone does not identify its source. This correction fixes the website's public icon files and logo metadata; it does not change an email account avatar, provider branding setting, or DNS/BIMI configuration. Previously cached third-party images may remain until that provider retrieves the corrected files.
+A third-party interface controls its own icon container and may retain an earlier image. An email avatar may come from provider branding, a profile/contact image, BIMI, or a favicon service. Publishing these files does not change those services' cached images, UI padding, email account settings, or DNS/BIMI configuration.

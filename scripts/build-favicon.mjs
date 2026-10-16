@@ -1,28 +1,21 @@
 import sharp from "sharp";
 import { readFile, writeFile } from "node:fs/promises";
 
-// Preserve the artwork and use a full white canvas in every format. The mark's
-// asymmetric silhouette is balanced around its enclosing-circle center rather
-// than the center of the source square, leaving room for a larger, safe mark.
-const original = await readFile("design/source-assets/favicon-logo.png");
-const canvasSize = 512;
-const logoSize = Math.round(canvasSize * 0.84);
-const markCenter = { x: 288 / 572, y: 236 / 572 };
-const artwork = await sharp(original).resize(logoSize, logoSize).png().toBuffer();
-const master = await sharp({ create: {
-  width: canvasSize, height: canvasSize, channels: 3, background: "#ffffff",
-} }).composite([{
-  input: artwork,
-  left: Math.round(canvasSize / 2 - markCenter.x * logoSize),
-  top: Math.round(canvasSize / 2 - markCenter.y * logoSize),
-}]).removeAlpha().png().toBuffer();
+// Use the generated transparent composition as-is. Never crop, reframe, flatten,
+// or add padding/backgrounds to this master. Only browser compatibility formats
+// have their pixel dimensions converted; all retain its complete composition.
+const master = await readFile("design/source-assets/favicon-generated-transparent.png");
+const { width, height, hasAlpha } = await sharp(master).metadata();
+if (!width || width !== height || !hasAlpha) {
+  throw new Error("The favicon master must be a square PNG with an alpha channel.");
+}
+await writeFile("public/favicon.png", master);
 const pngs = new Map();
 for (const size of [16, 32, 48, 180, 192, 256, 512]) {
   pngs.set(size, await sharp(master).resize(size, size).png().toBuffer());
 }
 
 for (const [path, size] of [
-  ["favicon.png", 192],
   ["favicon-32x32.png", 32],
   ["favicon-192x192.png", 192],
   ["favicon-512x512.png", 512],
@@ -32,7 +25,7 @@ for (const [path, size] of [
   ["assets/favicon-legacy.png", 192],
 ]) await writeFile(`public/${path}`, pngs.get(size));
 
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" fill="#fff"/><image width="512" height="512" href="data:image/png;base64,${master.toString("base64")}" /></svg>`;
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><image width="${width}" height="${height}" href="data:image/png;base64,${master.toString("base64")}" /></svg>`;
 await writeFile("public/favicon.svg", svg);
 await writeFile("public/assets/favicon-tab.svg", svg);
 
@@ -55,4 +48,4 @@ for (const [index, size] of sizes.entries()) {
   offset += image.length;
 }
 await writeFile("public/favicon.ico", Buffer.concat([directory, ...sizes.map(size => pngs.get(size))]));
-console.log("Built larger circle-safe icons with full white backgrounds in PNG, SVG, ICO, Apple touch, and legacy formats.");
+console.log("Published the unmodified transparent favicon master and matching PNG, SVG, ICO, Apple touch, and legacy formats.");
