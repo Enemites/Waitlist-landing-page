@@ -20,21 +20,17 @@ test("root, declared, and legacy favicons serve actual images", async ({ page, r
   for (const link of await page.locator('link[rel="icon"], link[rel="apple-touch-icon"]').all()) {
     expect(iconPaths).toContain(await link.getAttribute("href"));
   }
-  const diagnostic = (await (await request.get("/favicon.svg")).text()).includes('data-favicon-test="magenta-t-v1"');
   expect(await page.locator('link[rel="icon"]').evaluateAll(links => links.map(link => ({
     href: link.getAttribute("href"), sizes: link.getAttribute("sizes"),
   })))).toEqual([
     { href: "/site-icon.png", sizes: "192x192" },
-    ...(!diagnostic ? [
-      { href: "/favicon-tab-32x32.png", sizes: "32x32" },
-      { href: "/favicon-tab-16x16.png", sizes: "16x16" },
-    ] : []),
+    { href: "/favicon-tab-32x32.png", sizes: "32x32" },
+    { href: "/favicon-tab-16x16.png", sizes: "16x16" },
   ]);
 });
 
-test("all icon formats match the active brand or temporary diagnostic artwork", async ({ page, request }) => {
+test("all icon formats use the transparent Enemites brand artwork", async ({ page }) => {
   await page.goto("/home");
-  const diagnostic = (await (await request.get("/favicon.svg")).text()).includes('data-favicon-test="magenta-t-v1"');
   for (const path of [...iconPaths, ...brandPreviews]) {
     const pixels = await page.evaluate(async source => {
       const image = new Image();
@@ -50,14 +46,12 @@ test("all icon formats match the active brand or temporary diagnostic artwork", 
       let clipped = 0;
       let white = 0;
       let magenta = 0;
-      let translucent = 0;
       let alphaWeight = 0;
       let momentY = 0;
       let minX = canvas.width;
       let maxX = -1;
       for (let y = 0; y < canvas.height; y++) for (let x = 0; x < canvas.width; x++) {
         const offset = (y * canvas.width + x) * 4;
-        if (data[offset + 3] !== 255) translucent++;
         if (data[offset + 3] <= 8) continue;
         alphaWeight += data[offset + 3];
         momentY += (y + 0.5) * data[offset + 3];
@@ -70,18 +64,11 @@ test("all icon formats match the active brand or temporary diagnostic artwork", 
       }
       const corners = [[0, 0], [canvas.width - 1, 0], [0, canvas.height - 1], [canvas.width - 1, canvas.height - 1]]
         .map(([x, y]) => Array.from(data.slice((y * canvas.width + x) * 4, (y * canvas.width + x) * 4 + 4)));
-      return { width: canvas.width, height: canvas.height, visible, clipped, white, magenta, translucent, corners, markWidth: (maxX - minX + 1) / canvas.width, opticalCenterY: momentY / alphaWeight / canvas.height };
+      return { width: canvas.width, height: canvas.height, visible, clipped, white, magenta, corners, markWidth: (maxX - minX + 1) / canvas.width, opticalCenterY: momentY / alphaWeight / canvas.height };
     }, path);
     expect(pixels.width, path).toBe(pixels.height);
     expect(pixels.visible, path).toBeGreaterThan(0);
-    if (diagnostic && !brandPreviews.includes(path)) {
-      const area = pixels.width * pixels.height;
-      expect(pixels.translucent, path).toBe(0);
-      expect(pixels.magenta / area, path).toBeGreaterThan(0.6);
-      expect(pixels.white / area, path).toBeGreaterThan(0.1);
-      expect(pixels.corners, path).toEqual(Array(4).fill([230, 0, 169, 255]));
-      continue;
-    }
+    expect(pixels.magenta, path).toBe(0);
     const tab = ["/favicon-tab-16x16.png", "/favicon-tab-32x32.png", "/assets/favicon-brand-tab-preview.png"].includes(path);
     if (!tab) expect(pixels.clipped, path).toBe(0);
     expect(pixels.visible / (pixels.width * pixels.height), path).toBeLessThan(0.5);

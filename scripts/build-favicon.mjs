@@ -1,10 +1,6 @@
 import sharp from "sharp";
 import { readFile, writeFile } from "node:fs/promises";
 
-// The diagnostic keeps all legacy URLs consistent and advertises one fresh,
-// stable primary URL. Running without the flag restores branded optical sizes.
-const diagnostic = process.argv.includes("--diagnostic");
-const diagnosticSvg = diagnostic ? await readFile("design/source-assets/favicon-diagnostic.svg", "utf8") : null;
 const html = await readFile("index.html", "utf8");
 const iconBlock = /<!-- favicon:start -->[\s\S]*?<!-- favicon:end -->/;
 if (!iconBlock.test(html)) throw new Error("Missing managed favicon block in index.html.");
@@ -30,10 +26,8 @@ const tabViewBox = `${(minX + maxX + 1 - tabSide) / 2} ${(minY + maxY + 1 - tabS
 const discoverySide = width / 0.84;
 const discoveryViewBox = `${(width - discoverySide) / 2} ${(height - discoverySide) / 2} ${discoverySide} ${discoverySide}`;
 const wrap = viewBox => `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="${viewBox}"><image width="${width}" height="${height}" href="data:image/png;base64,${master.toString("base64")}" /></svg>`;
-const brandTabSvg = wrap(tabViewBox);
-const brandDiscoverySvg = wrap(discoveryViewBox);
-const tabSvg = diagnosticSvg ?? brandTabSvg;
-const discoverySvg = diagnosticSvg ?? brandDiscoverySvg;
+const tabSvg = wrap(tabViewBox);
+const discoverySvg = wrap(discoveryViewBox);
 const pngs = new Map();
 const tabPngs = new Map();
 for (const size of [16, 32, 48, 180, 192, 256, 512]) {
@@ -57,9 +51,9 @@ for (const [path, size] of [
 
 await writeFile("public/favicon.svg", discoverySvg);
 await writeFile("public/assets/favicon-tab.svg", discoverySvg);
-// Unadvertised brand previews remain available while the diagnostic is active.
-await writeFile("public/assets/favicon-brand-preview.png", await sharp(Buffer.from(brandDiscoverySvg)).resize(192, 192).png().toBuffer());
-await writeFile("public/assets/favicon-brand-tab-preview.png", await sharp(Buffer.from(brandTabSvg)).resize(32, 32).png().toBuffer());
+// Keep stable previews available for reviewing or sharing the brand artwork.
+await writeFile("public/assets/favicon-brand-preview.png", await sharp(Buffer.from(discoverySvg)).resize(192, 192).png().toBuffer());
+await writeFile("public/assets/favicon-brand-tab-preview.png", await sharp(Buffer.from(tabSvg)).resize(32, 32).png().toBuffer());
 
 // An ICO directory can contain PNG-compressed images. Publish the common tab
 // sizes as individual frames so consumers need not scale a full-bleed fallback.
@@ -82,12 +76,8 @@ for (const [index, size] of sizes.entries()) {
 await writeFile("public/favicon.ico", Buffer.concat([directory, ...sizes.map(size => (size <= 32 ? tabPngs : pngs).get(size))]));
 const links = [
   '<link rel="icon" type="image/png" sizes="192x192" href="/site-icon.png" />',
-  ...(!diagnostic ? [
-    '<link rel="icon" type="image/png" sizes="32x32" href="/favicon-tab-32x32.png" />',
-    '<link rel="icon" type="image/png" sizes="16x16" href="/favicon-tab-16x16.png" />',
-  ] : []),
+  '<link rel="icon" type="image/png" sizes="32x32" href="/favicon-tab-32x32.png" />',
+  '<link rel="icon" type="image/png" sizes="16x16" href="/favicon-tab-16x16.png" />',
 ];
 await writeFile("index.html", html.replace(iconBlock, `<!-- favicon:start -->\n    ${links.join("\n    ")}\n    <!-- favicon:end -->`));
-console.log(diagnostic
-  ? "TEMPORARY DIAGNOSTIC ACTIVE: one declared favicon at /site-icon.png; all legacy URLs show the same magenta T. Run without --diagnostic to restore the brand."
-  : "Published transparent tab icons and circle-safe discovery icons; preserved the generated master unchanged.");
+console.log("Published transparent tab icons and circle-safe discovery icons; preserved the generated master unchanged.");
