@@ -1,5 +1,15 @@
 # Transparent favicons for tabs and discovery
 
+## Temporary refresh diagnostic — active
+
+All public favicon images currently show a **magenta square with a white T** (`magenta-t-v1`) to distinguish a newly retrieved image from the Enemites logo. This includes every declared PNG, root fallback, ICO frame, legacy favicon URL, Apple touch icon, and the existing Organization logo URL. HTML icon URLs and sizes are unchanged so the test does not mix an artwork change with a URL change. Page/header/footer logos and the original artwork sources are unchanged.
+
+Generate the diagnostic with `npm run assets:favicon -- --diagnostic`. Restore the branded icons with `npm run assets:favicon`, then build and deploy the regenerated files. The diagnostic is intentionally opaque and square; its purpose is visual identification, not evaluating final brand padding.
+
+After deployment, compare the actual website tab and search result. A T in the tab while search still shows the Enemites logo means the two interfaces are not yet displaying the same current artwork; the search icon's source or stored copy needs checking. Both showing T confirms that both displays received the diagnostic. Do not infer a search refresh from the website's successful asset response alone.
+
+## Branded configuration to restore
+
 The generated master is `design/source-assets/favicon-generated-transparent.png`. That 1254 pixel source file is preserved unchanged in the repository. All packaged icons remain transparent, with no white plate, badge, or background.
 
 ## Optical sizes

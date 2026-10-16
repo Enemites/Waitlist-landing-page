@@ -1,6 +1,11 @@
 import sharp from "sharp";
 import { readFile, writeFile } from "node:fs/promises";
 
+// This explicit flag publishes a temporary, unmistakable refresh diagnostic at
+// the SAME URLs. Running without the flag restores the branded optical sizes.
+const diagnostic = process.argv.includes("--diagnostic");
+const diagnosticSvg = diagnostic ? await readFile("design/source-assets/favicon-diagnostic.svg", "utf8") : null;
+
 // Preserve the generated master byte-for-byte. Package separate optical sizes:
 // tabs use more of the square; larger discovery icons leave room for circles.
 const master = await readFile("design/source-assets/favicon-generated-transparent.png");
@@ -20,8 +25,8 @@ const tabViewBox = `${(minX + maxX + 1 - tabSide) / 2} ${(minY + maxY + 1 - tabS
 const discoverySide = width / 0.84;
 const discoveryViewBox = `${(width - discoverySide) / 2} ${(height - discoverySide) / 2} ${discoverySide} ${discoverySide}`;
 const wrap = viewBox => `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="${viewBox}"><image width="${width}" height="${height}" href="data:image/png;base64,${master.toString("base64")}" /></svg>`;
-const tabSvg = wrap(tabViewBox);
-const discoverySvg = wrap(discoveryViewBox);
+const tabSvg = diagnosticSvg ?? wrap(tabViewBox);
+const discoverySvg = diagnosticSvg ?? wrap(discoveryViewBox);
 const pngs = new Map();
 const tabPngs = new Map();
 for (const size of [16, 32, 48, 180, 192, 256, 512]) {
@@ -64,4 +69,6 @@ for (const [index, size] of sizes.entries()) {
   offset += image.length;
 }
 await writeFile("public/favicon.ico", Buffer.concat([directory, ...sizes.map(size => (size <= 32 ? tabPngs : pngs).get(size))]));
-console.log("Published transparent tab icons and circle-safe discovery icons; preserved the generated master unchanged.");
+console.log(diagnostic
+  ? "TEMPORARY DIAGNOSTIC ACTIVE: magenta square with a white T at every favicon URL. Run without --diagnostic to restore the brand."
+  : "Published transparent tab icons and circle-safe discovery icons; preserved the generated master unchanged.");
