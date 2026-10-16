@@ -65,8 +65,10 @@ test("tab icons fill their square and discovery icons leave circle-safe space", 
     expect(pixels.visible / (pixels.width * pixels.height), path).toBeLessThan(0.5);
     expect(pixels.white, path).toBe(0);
     expect(pixels.corners, path).toEqual([0, 0, 0, 0]);
-    expect(pixels.markWidth, path).toBeGreaterThanOrEqual(tab ? 0.93 : 0.68);
-    expect(pixels.markWidth, path).toBeLessThanOrEqual(tab ? 1 : 0.77);
+    // Rasterization can move either edge by a pixel at the smallest sizes.
+    const pixelTolerance = 2 / pixels.width;
+    expect(pixels.markWidth, path).toBeGreaterThanOrEqual(tab ? 0.93 : 0.71 - pixelTolerance);
+    expect(pixels.markWidth, path).toBeLessThanOrEqual(tab ? 1 : 0.73 + pixelTolerance);
   }
 });
 
