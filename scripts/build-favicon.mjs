@@ -1,19 +1,24 @@
 import sharp from "sharp";
 import { readFile, writeFile } from "node:fs/promises";
 
-// Keep the original artwork intact and leave the same circular-crop safe area
-// in every format, including root fallbacks and previously published icon URLs.
+// Preserve the artwork and use a full white canvas in every format. The mark's
+// asymmetric silhouette is balanced around its enclosing-circle center rather
+// than the center of the source square, leaving room for a larger, safe mark.
 const original = await readFile("design/source-assets/favicon-logo.png");
-const transparent = { r: 0, g: 0, b: 0, alpha: 0 };
+const canvasSize = 512;
+const logoSize = Math.round(canvasSize * 0.84);
+const markCenter = { x: 288 / 572, y: 236 / 572 };
+const artwork = await sharp(original).resize(logoSize, logoSize).png().toBuffer();
+const master = await sharp({ create: {
+  width: canvasSize, height: canvasSize, channels: 3, background: "#ffffff",
+} }).composite([{
+  input: artwork,
+  left: Math.round(canvasSize / 2 - markCenter.x * logoSize),
+  top: Math.round(canvasSize / 2 - markCenter.y * logoSize),
+}]).removeAlpha().png().toBuffer();
 const pngs = new Map();
 for (const size of [16, 32, 48, 180, 192, 256, 512]) {
-  const logoSize = Math.round(size * 0.75);
-  const before = Math.floor((size - logoSize) / 2);
-  const after = size - logoSize - before;
-  pngs.set(size, await sharp(original)
-    .resize(logoSize, logoSize, { fit: "contain", background: transparent })
-    .extend({ top: before, bottom: after, left: before, right: after, background: transparent })
-    .png().toBuffer());
+  pngs.set(size, await sharp(master).resize(size, size).png().toBuffer());
 }
 
 for (const [path, size] of [
@@ -27,7 +32,7 @@ for (const [path, size] of [
   ["assets/favicon-legacy.png", 192],
 ]) await writeFile(`public/${path}`, pngs.get(size));
 
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><image x="64" y="64" width="384" height="384" href="data:image/png;base64,${original.toString("base64")}" /></svg>`;
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" fill="#fff"/><image width="512" height="512" href="data:image/png;base64,${master.toString("base64")}" /></svg>`;
 await writeFile("public/favicon.svg", svg);
 await writeFile("public/assets/favicon-tab.svg", svg);
 
@@ -50,4 +55,4 @@ for (const [index, size] of sizes.entries()) {
   offset += image.length;
 }
 await writeFile("public/favicon.ico", Buffer.concat([directory, ...sizes.map(size => pngs.get(size))]));
-console.log("Built circle-safe PNG, SVG, ICO, Apple touch icons, and legacy aliases from the unchanged original logo.");
+console.log("Built larger circle-safe icons with full white backgrounds in PNG, SVG, ICO, Apple touch, and legacy formats.");

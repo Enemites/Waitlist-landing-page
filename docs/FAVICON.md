@@ -1,6 +1,8 @@
 # Favicon and circular logo crops
 
-The original logo is preserved in `design/source-assets/favicon-logo.png`. Generate the public icon files with `npm run assets:favicon`. Each format scales that original square canvas to 75% of its output width and adds transparent padding. The mark stays fully inside a circular crop.
+The original logo is preserved in `design/source-assets/favicon-logo.png`. Generate the public icon files with `npm run assets:favicon`. All formats share an opaque white canvas, including its corners, so there is no transparent outer border around a smaller white tile.
+
+The original square artwork fills 84% of the canvas width, up from 75%. Its enclosing-circle center (288, 236 in the 572 pixel source) is placed at the canvas center. This balances the asymmetric mark and allows a larger silhouette while keeping its tips inside a circular crop. The artwork itself is unchanged. Every size is derived from the same 512 pixel composition.
 
 ## Public files
 
@@ -21,6 +23,6 @@ Production checks before this correction found that the declared SVG and the leg
 
 ## Validation
 
-Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. The favicon tests check HTTP status and image MIME types, decode all public and legacy icon entry points in Chromium, and assert that every visible pixel lies inside a circular mask. The ICO's individual frames can also be inspected with a standard ICO decoder.
+Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. The favicon tests check HTTP status and image MIME types, decode all public and legacy icon entry points in Chromium, and verify a fully opaque canvas with white corners. They also check that the dark mark fills at least 80% of the canvas width and lies inside a circular mask. The ICO's individual frames can also be inspected with a standard ICO decoder.
 
 An email sender avatar may come from a profile/contact image, provider branding, BIMI, or a favicon service. A screenshot alone does not identify its source. This correction fixes the website's public icon files and logo metadata; it does not change an email account avatar, provider branding setting, or DNS/BIMI configuration. Previously cached third-party images may remain until that provider retrieves the corrected files.
