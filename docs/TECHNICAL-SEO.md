@@ -16,6 +16,8 @@ Parent invitations, questionnaires, and unavailable Contact/Login/Pricing pages 
 
 ## Images, headings, and links
 
+All declared favicons, root discovery paths, and legacy favicon aliases now use consistent padding for circular crops. The Organization logo uses the same square, padded mark. See `FAVICON.md` for generation, public paths, validation, and the distinction between favicons and email sender avatars.
+
 Large images used on the site have responsive WebP versions; hero images also have AVIF sources with WebP fallbacks. Image dimensions reserve layout space, and small logo files replace oversized header/footer downloads. Originals moved out of `public/` are retained in `design/source-assets/` for reproducibility. To regenerate assets, run `npm run assets:optimize` (Sharp). The generated social image is 1200×630 and uses existing branding/copy; its SVG source is in `design/social-image.svg`.
 
 Simulation clips use no initial preload, play when their section is visible, and pause when it leaves the viewport. Kinetic canvas modules mount only near the viewport. These changes reduce initial media/JavaScript work while retaining the existing interactive illustrations.

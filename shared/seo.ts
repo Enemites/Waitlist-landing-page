@@ -54,7 +54,7 @@ export function structuredData(page: PageMetadata) {
   const isRealms = page.path === "/realms" || page.path.startsWith("/realms/");
   const blogId = `${SITE_ORIGIN}/realms/blogs#blog`;
   const graph: Record<string, unknown>[] = [
-    { "@type": "Organization", "@id": `${SITE_ORIGIN}/#organization`, name: "Enemites", description: "A student-led, research-driven collective building learning environments and exploring cognitive infrastructure.", url: `${SITE_ORIGIN}/home`, logo: `${SITE_ORIGIN}/assets/logo.png`, email: "support@enemites.com" },
+    { "@type": "Organization", "@id": `${SITE_ORIGIN}/#organization`, name: "Enemites", description: "A student-led, research-driven collective building learning environments and exploring cognitive infrastructure.", url: `${SITE_ORIGIN}/home`, logo: `${SITE_ORIGIN}/favicon-512x512.png`, email: "support@enemites.com" },
     { "@type": "WebSite", "@id": `${SITE_ORIGIN}/#website`, name: "Enemites", url: `${SITE_ORIGIN}/home`, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: "en" },
     { "@type": "WebPage", "@id": `${SITE_ORIGIN}${page.path}#webpage`, url: `${SITE_ORIGIN}${page.path}`, name: page.title, description: page.description, isPartOf: { "@id": `${SITE_ORIGIN}/#website` }, inLanguage: language,
       ...(isRealms ? { about: { "@id": REALMS_ENTITY_ID } } : {}),

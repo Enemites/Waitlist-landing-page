@@ -5,6 +5,7 @@ import { PUBLIC_PAGES, UNINDEXED_PAGES, metadataForPath, metadataHtml, robotsCon
 
 export function seoPlugin(): Plugin {
   const staticPaths = new Set([...PUBLIC_PAGES, ...UNINDEXED_PAGES].map(page => page.path));
+  const iconPaths = new Set(["/favicon.ico", "/favicon.svg", "/favicon.png", "/favicon-32x32.png", "/favicon-192x192.png", "/favicon-512x512.png", "/apple-touch-icon.png"]);
   const privatePath = (path: string) => path === "/realms/parent-waitlist" || /^\/form\/[^/]+$/.test(path);
   return {
     name: "route-seo",
@@ -23,7 +24,7 @@ export function seoPlugin(): Plugin {
           res.setHeader("Content-Type", path === "/sitemap.xml" ? "application/xml; charset=utf-8" : "text/plain; charset=utf-8");
           res.end(path === "/robots.txt" ? robotsContent : path === "/llms.txt" ? llmsContent : sitemapContent); return;
         }
-        if (path.startsWith("/api/") || path.startsWith("/@") || path.startsWith("/src/") || path.startsWith("/node_modules/") || path.startsWith("/assets/") || path.startsWith("/licenses/") || path === "/index.html" || staticPaths.has(path) || privatePath(path)) { next(); return; }
+        if (path.startsWith("/api/") || path.startsWith("/@") || path.startsWith("/src/") || path.startsWith("/node_modules/") || path.startsWith("/assets/") || path.startsWith("/licenses/") || path === "/index.html" || iconPaths.has(path) || staticPaths.has(path) || privatePath(path)) { next(); return; }
         if (req.headers.accept?.includes("text/html")) {
           const html = await readFile(resolve(server.config.root, "index.html"), "utf8");
           res.writeHead(404, { "Content-Type": "text/html; charset=utf-8", "X-Robots-Tag": "noindex, follow" });
@@ -39,7 +40,7 @@ export function seoPlugin(): Plugin {
         if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
         if (path === "/" || path === "/index.html") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
         if (path.startsWith("/api/")) { next(); return; }
-        if (path.startsWith("/assets/") || path.startsWith("/licenses/") || path === "/robots.txt" || path === "/sitemap.xml" || path === "/llms.txt") { next(); return; }
+        if (path.startsWith("/assets/") || path.startsWith("/licenses/") || iconPaths.has(path) || path === "/robots.txt" || path === "/sitemap.xml" || path === "/llms.txt") { next(); return; }
         const file = staticPaths.has(path) ? `${path}.html` : privatePath(path) ? "/private.html" : "/404.html";
         try {
           const html = await readFile(resolve(server.config.root, server.config.build.outDir, `.${file}`), "utf8");
