@@ -1,21 +1,19 @@
-# Transparent generated favicon
+# Transparent favicons for tabs and discovery
 
-The active master is `design/source-assets/favicon-generated-transparent.png`, generated from the official Enemites logo reference. It is a 1254 × 1254 PNG with a genuinely transparent background and no white plate, badge, border, or shadow. Its composition already includes the space needed for a circular crop.
+The generated master is `design/source-assets/favicon-generated-transparent.png`. `/favicon.png` preserves that 1254 pixel file byte-for-byte. All packaged icons remain transparent, with no white plate, badge, or background.
 
-The generated master is used as-is. `npm run assets:favicon` copies it byte-for-byte to `/favicon.png` and embeds it without reframing in `/favicon.svg`. The script does not crop, reposition, flatten, add padding, or add a background to the generated composition. The earlier official source is preserved at `design/source-assets/favicon-logo.png`.
+## Optical sizes
 
-## Browser compatibility files
+Browser tabs display a very small square; discovery interfaces often apply a circular crop. Using the same composition for both made the mark small in tabs and crowded in a circle. `npm run assets:favicon` now packages two compositions from the same generated artwork:
 
-- `/favicon.png`: the unchanged native 1254 pixel master, declared in the shared HTML.
-- `/favicon.svg`: the same native composition in a transparent SVG wrapper.
-- `/favicon.ico`: PNG-compressed 16, 32, 48, and 256 pixel frames.
-- `/favicon-32x32.png`, `/favicon-192x192.png`, `/favicon-512x512.png`: standard raster sizes; the 512 pixel version is also the Organization schema logo.
-- `/apple-touch-icon.png`: a 180 pixel PNG with the same transparency.
+- **Tab icons:** `/favicon-16x16.png`, `/favicon-32x32.png`, and the legacy `/assets/favicon-tab.svg`. The visible mark is centered by its bounds and occupies approximately 96% of the square width. Its complete shape is retained; a circular mask is not the target for these small square icons.
+- **Discovery icons:** `/favicon-192x192.png`, `/favicon-512x512.png`, `/favicon.svg`, `/apple-touch-icon.png`, and legacy PNG aliases. The mark occupies approximately 72% of the square width, leaving transparent space for a circular mask. The 512 pixel version remains the Organization schema logo.
+- **ICO fallback:** `/favicon.ico` includes tab compositions at 16/32 pixels and discovery compositions at 48/256 pixels.
 
-Compatibility files only convert pixel dimensions for consumers requiring smaller icons. They preserve the full composition and alpha channel. The previously published `/assets/favicon.png`, `/assets/favicon-legacy.png`, `/assets/favicon-padded.png`, and `/assets/favicon-tab.svg` paths serve matching transparent versions. Existing page/header/footer logo assets are unchanged.
+The script changes the SVG rendering viewport for each use; it does not edit the generated master or deform the logo. HTML declares fixed 16, 32, and 192 pixel PNGs with accurate sizes. It no longer declares an unrestricted SVG or the oversized master as competing candidates for all contexts.
+
+Icon size declarations let browsers select suitable files, but they do not guarantee which image a third-party crawler chooses. Google and email services control their own caching, icon selection, container, and padding. Verify their actual image before claiming those displays have updated.
 
 ## Validation
 
-Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. Tests verify image responses, the byte-for-byte native master, transparent corners, no visible white background pixels, and a substantial complete mark inside a circular mask. The ICO frames can also be inspected with a standard ICO decoder.
-
-A third-party interface controls its own icon container and may retain an earlier image. An email avatar may come from provider branding, a profile/contact image, BIMI, or a favicon service. Publishing these files does not change those services' cached images, UI padding, email account settings, or DNS/BIMI configuration.
+Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. Tests verify image responses, declared sizes, the unchanged master, transparent corners, no white background pixels, larger tab silhouettes, and circle-safe discovery icons. The original official reference remains at `design/source-assets/favicon-logo.png`; page/header/footer logos are unchanged.

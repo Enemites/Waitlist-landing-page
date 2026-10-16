@@ -5,7 +5,7 @@ import { PUBLIC_PAGES, UNINDEXED_PAGES, metadataForPath, metadataHtml, robotsCon
 
 export function seoPlugin(): Plugin {
   const staticPaths = new Set([...PUBLIC_PAGES, ...UNINDEXED_PAGES].map(page => page.path));
-  const iconPaths = new Set(["/favicon.ico", "/favicon.svg", "/favicon.png", "/favicon-32x32.png", "/favicon-192x192.png", "/favicon-512x512.png", "/apple-touch-icon.png"]);
+  const iconPaths = new Set(["/favicon.ico", "/favicon.svg", "/favicon.png", "/favicon-16x16.png", "/favicon-32x32.png", "/favicon-192x192.png", "/favicon-512x512.png", "/apple-touch-icon.png"]);
   const privatePath = (path: string) => path === "/realms/parent-waitlist" || /^\/form\/[^/]+$/.test(path);
   return {
     name: "route-seo",
