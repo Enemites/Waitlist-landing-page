@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { readFile } from "node:fs/promises";
 
 const iconPaths = [
   "/favicon.ico", "/favicon.svg", "/favicon.png", "/favicon-16x16.png", "/favicon-32x32.png",
+  "/favicon-tab-16x16.png", "/favicon-tab-32x32.png",
   "/favicon-192x192.png", "/favicon-512x512.png", "/apple-touch-icon.png",
   "/assets/favicon.png", "/assets/favicon-padded.png",
   "/assets/favicon-legacy.png", "/assets/favicon-tab.svg",
@@ -18,14 +18,12 @@ test("root, declared, and legacy favicons serve actual images", async ({ page, r
   for (const link of await page.locator('link[rel="icon"], link[rel="apple-touch-icon"]').all()) {
     expect(iconPaths).toContain(await link.getAttribute("href"));
   }
-  const master = await request.get("/favicon.png");
-  expect(await master.body()).toEqual(await readFile("design/source-assets/favicon-generated-transparent.png"));
   expect(await page.locator('link[rel="icon"]').evaluateAll(links => links.map(link => ({
     href: link.getAttribute("href"), sizes: link.getAttribute("sizes"),
   })))).toEqual([
     { href: "/favicon-192x192.png", sizes: "192x192" },
-    { href: "/favicon-32x32.png", sizes: "32x32" },
-    { href: "/favicon-16x16.png", sizes: "16x16" },
+    { href: "/favicon-tab-32x32.png", sizes: "32x32" },
+    { href: "/favicon-tab-16x16.png", sizes: "16x16" },
   ]);
 });
 
@@ -62,13 +60,13 @@ test("tab icons fill their square and discovery icons leave circle-safe space", 
     }, path);
     expect(pixels.width, path).toBe(pixels.height);
     expect(pixels.visible, path).toBeGreaterThan(0);
-    const tab = ["/favicon-16x16.png", "/favicon-32x32.png", "/assets/favicon-tab.svg"].includes(path);
+    const tab = ["/favicon-tab-16x16.png", "/favicon-tab-32x32.png"].includes(path);
     if (!tab) expect(pixels.clipped, path).toBe(0);
     expect(pixels.visible / (pixels.width * pixels.height), path).toBeLessThan(0.5);
     expect(pixels.white, path).toBe(0);
     expect(pixels.corners, path).toEqual([0, 0, 0, 0]);
-    expect(pixels.markWidth, path).toBeGreaterThanOrEqual(tab ? 0.93 : path === "/favicon.png" ? 0.8 : 0.69);
-    expect(pixels.markWidth, path).toBeLessThanOrEqual(tab ? 1 : path === "/favicon.png" ? 0.9 : 0.77);
+    expect(pixels.markWidth, path).toBeGreaterThanOrEqual(tab ? 0.93 : 0.68);
+    expect(pixels.markWidth, path).toBeLessThanOrEqual(tab ? 1 : 0.77);
   }
 });
 

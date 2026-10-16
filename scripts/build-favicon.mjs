@@ -8,7 +8,6 @@ const { width, height, hasAlpha } = await sharp(master).metadata();
 if (!width || width !== height || !hasAlpha) {
   throw new Error("The favicon master must be a square PNG with an alpha channel.");
 }
-await writeFile("public/favicon.png", master);
 const { data, info } = await sharp(master).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
 let minX = width, minY = height, maxX = 0, maxY = 0;
 for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
@@ -24,11 +23,15 @@ const wrap = viewBox => `<svg xmlns="http://www.w3.org/2000/svg" width="512" hei
 const tabSvg = wrap(tabViewBox);
 const discoverySvg = wrap(discoveryViewBox);
 const pngs = new Map();
+const tabPngs = new Map();
 for (const size of [16, 32, 48, 180, 192, 256, 512]) {
-  pngs.set(size, await sharp(Buffer.from(size <= 32 ? tabSvg : discoverySvg)).resize(size, size).png().toBuffer());
+  pngs.set(size, await sharp(Buffer.from(discoverySvg)).resize(size, size).png().toBuffer());
+  if (size <= 32) tabPngs.set(size, await sharp(Buffer.from(tabSvg)).resize(size, size).png().toBuffer());
 }
+for (const size of [16, 32]) await writeFile(`public/favicon-tab-${size}x${size}.png`, tabPngs.get(size));
 
 for (const [path, size] of [
+  ["favicon.png", 192],
   ["favicon-16x16.png", 16],
   ["favicon-32x32.png", 32],
   ["favicon-192x192.png", 192],
@@ -40,7 +43,7 @@ for (const [path, size] of [
 ]) await writeFile(`public/${path}`, pngs.get(size));
 
 await writeFile("public/favicon.svg", discoverySvg);
-await writeFile("public/assets/favicon-tab.svg", tabSvg);
+await writeFile("public/assets/favicon-tab.svg", discoverySvg);
 
 // An ICO directory can contain PNG-compressed images. Publish the common tab
 // sizes as individual frames so consumers need not scale a full-bleed fallback.
@@ -50,7 +53,7 @@ directory.writeUInt16LE(1, 2);
 directory.writeUInt16LE(sizes.length, 4);
 let offset = directory.length;
 for (const [index, size] of sizes.entries()) {
-  const image = pngs.get(size);
+  const image = (size <= 32 ? tabPngs : pngs).get(size);
   const entry = 6 + index * 16;
   directory.writeUInt8(size === 256 ? 0 : size, entry);
   directory.writeUInt8(size === 256 ? 0 : size, entry + 1);
@@ -60,5 +63,5 @@ for (const [index, size] of sizes.entries()) {
   directory.writeUInt32LE(offset, entry + 12);
   offset += image.length;
 }
-await writeFile("public/favicon.ico", Buffer.concat([directory, ...sizes.map(size => pngs.get(size))]));
+await writeFile("public/favicon.ico", Buffer.concat([directory, ...sizes.map(size => (size <= 32 ? tabPngs : pngs).get(size))]));
 console.log("Published transparent tab icons and circle-safe discovery icons; preserved the generated master unchanged.");
