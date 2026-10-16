@@ -1,12 +1,21 @@
 # Transparent favicons for tabs and discovery
 
-## Temporary refresh diagnostic — active
+## Temporary refresh diagnostic — phase 2 active
 
-All public favicon images currently show a **magenta square with a white T** (`magenta-t-v1`) to distinguish a newly retrieved image from the Enemites logo. This includes every declared PNG, root fallback, ICO frame, legacy favicon URL, Apple touch icon, and the existing Organization logo URL. HTML icon URLs and sizes are unchanged so the test does not mix an artwork change with a URL change. Page/header/footer logos and the original artwork sources are unchanged.
+Phase 1 replaced the bytes at the existing favicon URLs with a **magenta square and white T** (`magenta-t-v1`). The user confirmed that the browser tab changed, while the public Google favicon service still showed the older Enemites artwork. This establishes a difference between the current origin artwork and the service's output; it does not establish when Google last fetched the source or prove which provider Resend uses.
 
-Generate the diagnostic with `npm run assets:favicon -- --diagnostic`. Restore the branded icons with `npm run assets:favicon`, then build and deploy the regenerated files. The diagnostic is intentionally opaque and square; its purpose is visual identification, not evaluating final brand padding.
+The user also checked Google faviconV2 outputs for both `http://enemites.com` and `https://enemites.com`; both still showed the older logo. This does not prove that all Google Search displays use those same service caches.
 
-After deployment, compare the actual website tab and search result. A T in the tab while search still shows the Enemites logo means the two interfaces are not yet displaying the same current artwork; the search icon's source or stored copy needs checking. Both showing T confirms that both displays received the diagnostic. Do not infer a search refresh from the website's successful asset response alone.
+Phase 2 advertises **one favicon candidate**, `https://enemites.com/site-icon.png` (192 × 192), at a new stable path. It contains the same T diagnostic. All legacy favicon URLs, ICO frames, and the Apple touch icon continue to show T too. Changing the declared image URL is a further refresh diagnostic, not a guarantee that Google will update immediately. Keep `/site-icon.png` stable after this change, including when restoring the brand.
+
+Generate the diagnostic with `npm run assets:favicon -- --diagnostic`. The script updates the managed favicon block in `index.html` to declare only `/site-icon.png`. Restore with `npm run assets:favicon`; that restores the brand artwork and its 16/32 pixel tab declarations while retaining `/site-icon.png` as the discovery icon. Build and deploy the generated files after either command.
+
+Unadvertised brand previews remain available while T is active:
+
+- `/assets/favicon-brand-preview.png`: the transparent circular-use composition.
+- `/assets/favicon-brand-tab-preview.png`: the corrected small tab composition.
+
+In Search Console's live-tested HTML, `/site-icon.png` is the observable checkpoint for the new declaration. A live test does not itself establish that Google's separate favicon service has refreshed. Compare the indexed crawl date and the fetched HTML where available to establish whether the updated declaration has been crawled. If a later crawl has the new declaration but the service still shows the earlier mark, investigate the separate favicon-fetch/cache stage. Do not repeatedly change the URL or claim a cache purge occurred.
 
 ## Branded configuration to restore
 
@@ -16,11 +25,11 @@ The generated master is `design/source-assets/favicon-generated-transparent.png`
 
 Browser tabs display a very small square; discovery interfaces often apply a circular crop. Using the same composition for both made the mark small in tabs and crowded in a circle. `npm run assets:favicon` now packages two compositions from the same generated artwork:
 
-- **Tab icons:** `/favicon-tab-16x16.png` and `/favicon-tab-32x32.png`. The visible mark is centered by its bounds and occupies approximately 96% of the square width. Its complete shape is retained; a circular mask is not the target for these small square icons.
-- **Discovery icons:** `/favicon.png`, `/favicon-16x16.png`, `/favicon-32x32.png`, `/favicon-192x192.png`, `/favicon-512x512.png`, `/favicon.svg`, `/apple-touch-icon.png`, and all legacy `/assets/` favicon aliases (including `/assets/favicon-tab.svg`). The mark occupies approximately 72% of the square width, leaving transparent space for a circular mask. The 512 pixel version remains the Organization schema logo.
+- **Tab icons:** `/favicon-tab-16x16.png` and `/favicon-tab-32x32.png`. The mark occupies approximately 96% of the square width and sits 5% lower than its bounding-box-centered placement to balance its heavier upper strokes. Its alpha-weighted vertical center is near the middle of the canvas. Its complete shape is retained; a circular mask is not the target for these small square icons.
+- **Discovery icons:** `/site-icon.png`, `/favicon.png`, `/favicon-16x16.png`, `/favicon-32x32.png`, `/favicon-192x192.png`, `/favicon-512x512.png`, `/favicon.svg`, `/apple-touch-icon.png`, and all legacy `/assets/` favicon aliases (including `/assets/favicon-tab.svg`). The mark occupies approximately 72% of the square width, leaving transparent space for a circular mask. The 512 pixel version remains the Organization schema logo.
 - **ICO fallback:** `/favicon.ico` includes tab compositions at 16/32 pixels and discovery compositions at 48/256 pixels.
 
-The script changes the SVG rendering viewport for each use; it does not edit the generated master or deform the logo. HTML declares fixed 16, 32, and 192 pixel PNGs with accurate sizes. It no longer declares an unrestricted SVG or the oversized master as competing candidates for all contexts.
+The script changes the SVG rendering viewport for each use; it does not edit the generated master or deform the logo. Branded HTML declares fixed 16, 32, and 192 pixel PNGs with accurate sizes; the diagnostic temporarily declares only the 192 pixel primary file. It no longer declares an unrestricted SVG or the oversized master as competing candidates for all contexts.
 
 The dedicated tab URLs are new; existing icon URLs continue serving the circle-safe composition so consumers retaining an earlier image URL do not receive an enlarged tab variant.
 
@@ -28,4 +37,4 @@ Icon size declarations let browsers select suitable files, but they do not guara
 
 ## Validation
 
-Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. Tests verify image responses, declared sizes, transparent corners, no white background pixels, larger tab silhouettes, and circle-safe discovery icons. The original official reference remains at `design/source-assets/favicon-logo.png`; page/header/footer logos are unchanged.
+Run `npm run build`, `npm run seo:check`, and the favicon/browser SEO tests. Tests verify image responses, mode-appropriate declared sizes, the diagnostic marker, transparent brand previews, optical vertical centering, larger tab silhouettes, and circle-safe discovery icons. The original official reference remains at `design/source-assets/favicon-logo.png`; page/header/footer logos are unchanged.
