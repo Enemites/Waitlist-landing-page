@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ResponsiveHeader, { novaGlobalNavItems } from "@/components/ResponsiveHeader";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -13,6 +13,8 @@ import ProductReveal from "@/components/product/ProductReveal";
 import ValueTransformations from "@/components/product/ValueTransformations";
 import CasualPath from "@/components/product/CasualPath";
 import CompetitivePath from "@/components/product/CompetitivePath";
+import RealmsEntrySelector from "@/components/product/RealmsEntrySelector";
+import RealmsScreens from "@/components/product/RealmsScreens";
 import { ArrowUpRight, Play } from "lucide-react";
 
 const YOUTUBE_DEMO_VIDEO_ID = "sga8QDniKls";
@@ -144,9 +146,12 @@ const IntroductionPage = () => {
   const navigate = useNavigate();
   // The initial render matches the prerendered page, including on shared entry URLs.
   const [entry, setEntry] = useState<EntryPath>("focused");
+  const selectedEntry = useRef<EntryPath>("focused");
+  const [animateMode, setAnimateMode] = useState(false);
   const entryQuery = new URLSearchParams(location.search).get("entry");
   const requestedEntry = entryPaths.find((path) => path.id === entryQuery)?.id ?? "focused";
   useEffect(() => {
+    selectedEntry.current = requestedEntry;
     setEntry(requestedEntry);
   }, [requestedEntry]);
   useEffect(() => {
@@ -156,26 +161,14 @@ const IntroductionPage = () => {
     catch { return; }
     document.getElementById(target)?.scrollIntoView({ behavior: reduce ? "instant" : "smooth", block: "start" });
   }, [entry, requestedEntry, location.hash, reduce]);
-  const chooseEntry = (next: EntryPath) => {
-    if (next === entry) return;
+  const chooseEntry = (next: EntryPath, source: "pointer" | "keyboard" = "pointer") => {
+    if (next === selectedEntry.current) return;
+    selectedEntry.current = next;
+    setAnimateMode(source === "pointer" && !reduce && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     setEntry(next);
     const query = new URLSearchParams(location.search);
     query.set("entry", next);
     navigate({ search: `?${query.toString()}`, hash: "" }, { preventScrollReset: true });
-  };
-  const handleEntryKey = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    let nextIndex: number;
-    switch (event.key) {
-      case "ArrowRight": nextIndex = (index + 1) % entryPaths.length; break;
-      case "ArrowLeft": nextIndex = (index + entryPaths.length - 1) % entryPaths.length; break;
-      case "Home": nextIndex = 0; break;
-      case "End": nextIndex = entryPaths.length - 1; break;
-      default: return;
-    }
-    event.preventDefault();
-    const next = entryPaths[nextIndex].id;
-    chooseEntry(next);
-    document.getElementById(`entry-${next}`)?.focus();
   };
   const registration = registrationCopy[entry];
   const videoDemoRef = useRef<HTMLDivElement>(null);
@@ -228,24 +221,7 @@ const IntroductionPage = () => {
               <h2 id="realms-entry-title">Your way into Realms.</h2>
               <p>Start with a question, a purpose, or a team.</p>
             </div>
-            <div className="realms-entry-tabs" role="tablist" aria-label="Find your way into Realms">
-              {entryPaths.map((path, index) => (
-                <button
-                  key={path.id}
-                  type="button"
-                  role="tab"
-                  id={`entry-${path.id}`}
-                  aria-selected={entry === path.id}
-                  aria-controls={`path-${path.id}`}
-                  tabIndex={entry === path.id ? 0 : -1}
-                  onClick={() => chooseEntry(path.id)}
-                  onKeyDown={(event) => handleEntryKey(event, index)}
-                >
-                  <span className="realms-entry-label">{path.label}</span>
-                  <span className="realms-entry-reason">{path.reason}</span>
-                </button>
-              ))}
-            </div>
+            <RealmsEntrySelector value={entry} onChange={chooseEntry} />
           </div>
         </section>
 
@@ -258,8 +234,10 @@ const IntroductionPage = () => {
             hidden={entry !== path.id}
             tabIndex={0}
             className="realms-entry-panel"
+            data-entry={path.id}
           >
-            {entry === path.id && (path.id === "casual" ? <CasualPath /> : path.id === "competitive" ? <CompetitivePath /> : <>
+            {entry === path.id && <div className="realms-mode-content" data-mode={path.id} data-animate={animateMode}>
+            {path.id === "casual" ? <CasualPath><RealmsScreens entry="casual" /></CasualPath> : path.id === "competitive" ? <CompetitivePath><RealmsScreens entry="competitive" /></CompetitivePath> : <>
         <section className="focused-entry-intro">
           <div className="product-container">
             <p className="product-eyebrow">Focused / A purpose to pursue</p>
@@ -313,7 +291,8 @@ const IntroductionPage = () => {
             </div>
           </div>
         </section>
-            </>)}
+            </>}
+            </div>}
           </div>
         ))}
 

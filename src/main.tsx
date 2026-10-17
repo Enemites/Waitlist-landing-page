@@ -12,6 +12,10 @@ import './value-transformations.css';
 import './realms-entry.css';
 import './casual-path.css';
 import './competitive-path.css';
+import './realms-entry-selector.css';
+import './realms-screens.css';
+import './realms-path-themes.css';
+import './realms-mode-motion.css';
 import { MotionConfig } from 'motion/react';
 
 const root = document.getElementById('root')!;

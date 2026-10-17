@@ -2,19 +2,27 @@
 
 ## Accepted direction
 
-The user approved only the physical strategy-table illustration. Preserve that asset without alteration. The three generated environment photographs were rejected and are removed from the delivered page and project assets.
+Preserve the approved physical strategy-table image without alteration. The three earlier generated environment photographs were rejected and remain removed from the delivered page and project assets.
 
-The user's second reference explains what a floating application screen means; it is not a request to reproduce Google's visual theme. Separate the world illustration from the interface preview. The opening introduces a world with an unframed illustration. A new section presents a coherent Realms application concept with scenario context, a working area, decisions, and the world's response. It must read as an application screenshot or interface illustration, not an ordinary image placed inside a window.
+The user accepts the current standalone world illustrations and wants them preserved. Add screen artwork in an additional section after the existing non-screen story sections. The user's references explain a static screenshot of software and its layered presentation; they do not request a functional demo or Google's visual theme. The product recordings in Focused establish the distinction between a software screen and an ordinary illustration.
 
-Use Realms' dark neutral surfaces, Manrope typography, and restrained lime accent for the application previews. Elevation belongs to the complete screen and a related action or response, never to decorative stacks of pictures. Keep whitespace generous and avoid decorative telemetry, fabricated product statistics, and photorealistic scenery. Label the previews as illustrative: the product is still in development.
+Screen artwork is rendered from fixed HTML artboards into PNG originals and optimized WebP images. The live page contains two image elements with deliberate overlap, tilt, separation, and shadow. There are no working controls, choices, maps, reset buttons, or app navigation inside these images. Label them as illustrated interface concepts: the product is still in development. Each image has software chrome and purposeful UI content, with no repeated opener artwork.
 
 ## Illustration meaning
 
-- Casual: one archive, one relay, and one crossing establish the opening world. In the separate application preview, a briefing and working area establish what is known; a visitor's action changes the signal or available route and produces a related consequence.
-- Competitive: two groups of geometric team markers face a shared crossing in the opening. The separate application preview shows a shared objective, team context, a tactical working area, and the consequence of a team decision. The approved tabletop image supports the explanation of team formation and matchmaking.
+- Casual: preserve the standalone archive and the distinct reserve/consequence illustration. The additional screen composition shows a world library with The Glasshouse, Northbound, and Pressure Drop, with a separate Glasshouse journal screen in front.
+- Competitive: preserve the standalone team/crossing illustration and the approved tabletop image with its matchmaking explanation. The additional screen composition shows the Atlas/Vega match lobby with a separate team coordination screen in front.
 - Focused: retain the existing content and registration flow.
 
-The world illustrations and interactive interface previews are authored in React and SVG in `src/components/product/CasualPath.tsx` and `src/components/product/CompetitivePath.tsx`, with responsive layouts in their dedicated CSS files. The user expressly permits code-built interface illustrations. No additional raster generation is used for this revision. Variation 6, motion 2, density 3: restrained marketing layout with static elevation and direct interaction feedback. The application workspace can carry more detail than the surrounding marketing copy because each visible element explains an actual scenario state.
+The standalone illustrations remain in `CasualPath.tsx` and `CompetitivePath.tsx`. The user expressly permits code-built screen artwork. Its sources are `design/screen-compositions/casual.html` and `competitive.html`; run `node scripts/render-realms-screens.mjs` to render the artboards using local fonts. Originals are saved in `design/source-assets/realms/screens/`, and responsive web versions in `public/assets/realms/screens/`. `RealmsScreens.tsx` composes the image layers in a separate section through each path's children slot.
+
+## Three entry identities
+
+- Casual: midnight blue and lilac, lighter type, open spacing, soft story rails and rounded controls. Its transition opens the world through a gentle scale and rising copy.
+- Focused: graphite and mint, measured column alignment, flat evidence surfaces and precise rules. Its transition aligns the introductory text through a short reveal.
+- Competitive: near-black and amber, firmer type, angular rules and a tactical briefing rhythm. Its text and world enter from opposing sides.
+
+The new gateway selector uses three distinct architectural emblems and retains accessible tab semantics, query-string selection, keyboard focus, and persistent shared registration. Transition animation is limited to the incoming path's introduction and never delays selection. Keyboard changes are immediate; reduced motion removes travel. Shared hero, definition, waitlist form, destinations, and public APIs retain their behavior.
 
 ## Preserved approved asset
 

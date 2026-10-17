@@ -1,0 +1,73 @@
+.realms-gateway-selector { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.realms-gateway {
+  --gate-accent: #c4ed6c;
+  --gate-bg: #111a17;
+  --gate-active: #19241a;
+  --gate-line: #344536;
+  --gate-detail: #6c825e;
+  --gate-duration: 220ms;
+  --gate-ease: cubic-bezier(.23,1,.32,1);
+  position: relative; isolation: isolate; min-width: 0; min-height: 192px; overflow: hidden;
+  padding: 27px 24px; border: 1px solid var(--gate-line); border-radius: 7px;
+  background: var(--gate-bg); color: #d9e0dc; text-align: left;
+}
+.product-site .realms-gateway { transition: background-color var(--gate-duration) var(--gate-ease), border-color var(--gate-duration) var(--gate-ease), transform 180ms var(--gate-ease); }
+.realms-gateway--casual { --gate-accent: #b9b3f5; --gate-bg: #14151f; --gate-active: #1c1c2e; --gate-line: #39394e; --gate-detail: #74708f; --gate-duration: 280ms; }
+.realms-gateway--competitive { --gate-accent: #efbd70; --gate-bg: #1a1712; --gate-active: #261f15; --gate-line: #4b3e2b; --gate-detail: #937a51; --gate-duration: 180ms; }
+.realms-gateway::after { content: ""; position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; height: 2px; background: var(--gate-accent); transform: scaleX(0); transform-origin: left; transition: transform var(--gate-duration) var(--gate-ease); }
+.realms-gate-copy { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 11px; width: calc(100% - 112px); }
+.realms-gate-label { color: #dce3df; font-size: 22px; line-height: 1.25; font-weight: 500; letter-spacing: -.045em; }
+.realms-gate-reason { color: #a5aea8; font-size: 12px; line-height: 1.7; max-width: 135px; }
+.realms-gate-art { position: absolute; right: 12px; top: 25px; width: 132px; height: 132px; color: var(--gate-accent); opacity: .65; transition: transform var(--gate-duration) var(--gate-ease), opacity var(--gate-duration) var(--gate-ease); }
+.gate-art-far { stroke: currentColor; stroke-width: 1; opacity: .36; }
+.gate-art-door { fill: currentColor; fill-opacity: .05; stroke: currentColor; stroke-width: 1.25; opacity: .8; transition: fill-opacity var(--gate-duration) var(--gate-ease); }
+.gate-art-detail { stroke: var(--gate-detail); stroke-width: 1; }
+.gate-art-path { stroke: currentColor; stroke-width: 1.25; stroke-linecap: round; }
+.gate-art-point, .gate-art-moon { fill: currentColor; }
+.realms-gate-current { position: absolute; z-index: 2; left: 24px; bottom: 22px; display: inline-flex; align-items: center; gap: 8px; opacity: 0; color: var(--gate-accent); font: 11px/1.5 "JetBrains Mono Variable", monospace; transform: translateY(3px); transition: opacity var(--gate-duration) var(--gate-ease), transform var(--gate-duration) var(--gate-ease); }
+.realms-gate-current > i { width: 4px; height: 4px; background: currentColor; }
+.realms-gate-arrow { position: absolute; z-index: 2; top: 28px; right: 24px; color: var(--gate-accent); opacity: .58; transition: transform var(--gate-duration) var(--gate-ease), opacity var(--gate-duration) var(--gate-ease); }
+.realms-gateway[aria-selected="true"] { border-color: var(--gate-accent); background: var(--gate-active); }
+.realms-gateway[aria-selected="true"]::after { transform: scaleX(1); }
+.realms-gateway[aria-selected="true"] .realms-gate-label { color: var(--gate-accent); }
+.realms-gateway[aria-selected="true"] .realms-gate-art, .realms-gateway[aria-selected="true"] .realms-gate-arrow { opacity: 1; }
+.realms-gateway[aria-selected="true"] .gate-art-door { fill-opacity: .13; }
+.realms-gateway[aria-selected="true"] .realms-gate-current { opacity: 1; transform: translateY(0); }
+.realms-gateway:active { transform: translateY(1px); }
+.realms-gateway:focus-visible { outline: 2px solid var(--gate-accent); outline-offset: 5px; }
+@media (hover: hover) and (pointer: fine) {
+  .realms-gateway:hover { background: var(--gate-active); border-color: var(--gate-detail); }
+  .realms-gateway[aria-selected="true"]:hover { border-color: var(--gate-accent); }
+  .realms-gateway:hover .realms-gate-art { opacity: 1; transform: translateY(-3px); }
+  .realms-gateway:hover .realms-gate-arrow { opacity: 1; transform: translate(2px,-2px); }
+}
+@media (max-width: 1100px) {
+  .realms-gateway-selector { gap: 10px; }
+  .realms-gateway { min-height: 185px; padding: 24px 19px; }
+  .realms-gate-copy { width: calc(100% - 85px); }
+  .realms-gate-label { font-size: 21px; }
+  .realms-gate-art { right: 6px; top: 37px; width: 113px; height: 113px; }
+  .realms-gate-arrow { top: 25px; right: 19px; }
+  .realms-gate-current { left: 19px; bottom: 20px; }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .realms-gateway { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
+  .realms-gate-copy { width: 100%; padding-right: 16px; }
+  .realms-gate-art { top: auto; right: 14px; bottom: 12px; width: 80px; height: 80px; }
+}
+@media (max-width: 767px) {
+  .realms-gateway-selector { grid-template-columns: 1fr; gap: 11px; }
+  .realms-gateway { min-height: 116px; padding: 23px 21px; }
+  .realms-gate-copy { gap: 8px; width: calc(100% - 97px); }
+  .realms-gate-label { font-size: 21px; }
+  .realms-gate-reason { font-size: 12px; max-width: 160px; }
+  .realms-gate-art { top: 9px; right: 19px; width: 105px; height: 98px; }
+  .realms-gate-arrow { right: 17px; top: 17px; width: 14px; height: 14px; }
+  .realms-gate-current { left: 21px; right: auto; bottom: 12px; font-size: 11px; gap: 6px; }
+  .realms-gateway[aria-selected="true"] .realms-gate-art { opacity: .75; }
+  .realms-gateway:focus-visible { outline-offset: 3px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-site .realms-gateway, .realms-gateway::after, .realms-gateway * { transition: none !important; }
+  .realms-gateway:hover .realms-gate-art, .realms-gateway:hover .realms-gate-arrow, .realms-gateway:active { transform: none; }
+}

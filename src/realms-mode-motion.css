@@ -1,0 +1,17 @@
+/* Each entrance gives the newly selected path its own pace; the selector stays still. */
+.realms-mode-content { position: relative; }
+.realms-mode-content[data-animate="true"] { animation: realms-mode-fade 180ms cubic-bezier(.23,1,.32,1) both; }
+.realms-mode-content[data-animate="true"][data-mode="casual"] .casual-entry-copy { animation: realms-curiosity-copy 500ms cubic-bezier(.23,1,.32,1) both; }
+.realms-mode-content[data-animate="true"][data-mode="casual"] .casual-opening-world { animation: realms-world-open 650ms cubic-bezier(.23,1,.32,1) both; transform-origin: 60% 55%; }
+.realms-mode-content[data-animate="true"][data-mode="focused"] .focused-entry-intro { animation: realms-focus-align 380ms cubic-bezier(.23,1,.32,1) both; }
+.realms-mode-content[data-animate="true"][data-mode="competitive"] .competitive-intro-copy { animation: realms-team-left 320ms cubic-bezier(.23,1,.32,1) both; }
+.realms-mode-content[data-animate="true"][data-mode="competitive"] .competitive-world-illustration { animation: realms-team-right 400ms cubic-bezier(.23,1,.32,1) both; }
+@keyframes realms-mode-fade { from { opacity: .25; } to { opacity: 1; } }
+@keyframes realms-curiosity-copy { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes realms-world-open { from { opacity: 0; transform: scale(.94) rotate(-2deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes realms-focus-align { from { opacity: .2; transform: translateY(12px); clip-path: inset(0 40% 0 0); } to { opacity: 1; transform: translateY(0); clip-path: inset(0 0 0 0); } }
+@keyframes realms-team-left { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes realms-team-right { from { opacity: 0; transform: translateX(34px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .realms-mode-content[data-animate="true"], .realms-mode-content[data-animate="true"] .casual-entry-copy, .realms-mode-content[data-animate="true"] .casual-opening-world, .realms-mode-content[data-animate="true"] .focused-entry-intro, .realms-mode-content[data-animate="true"] .competitive-intro-copy, .realms-mode-content[data-animate="true"] .competitive-world-illustration { animation: realms-mode-fade 120ms linear both; }
+}

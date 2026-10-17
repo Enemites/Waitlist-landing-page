@@ -1,0 +1,229 @@
+/* Panel-only themes. Shared hero, definition, navigation, and registration stay outside.
+   Screen compositions consume the --entry-* contract without changing their pixels. */
+.realms-entry-panel[data-entry="casual"] {
+  --entry-accent: #b9b3f5;
+  --entry-bg: #0c1123;
+  --entry-muted: #a8b1c5;
+  --entry-ink: #eef0fb;
+  --entry-line: #30384e;
+  --entry-surface: #151b31;
+  background: radial-gradient(ellipse at 88% 8%,#8d87cf13,transparent 54%),radial-gradient(ellipse at 6% 55%,#56649c12,transparent 48%),var(--entry-bg);
+}
+.realms-entry-panel[data-entry="focused"] {
+  --entry-accent: #c4ed6c;
+  --entry-bg: #101719;
+  --entry-muted: #a5b1ac;
+  --entry-ink: #e7ede9;
+  --entry-line: #35433e;
+  --entry-surface: #151f20;
+  background: var(--entry-bg);
+}
+.realms-entry-panel[data-entry="competitive"] {
+  --entry-accent: #efbd70;
+  --entry-bg: #0b0c0e;
+  --entry-muted: #b8afa2;
+  --entry-ink: #f2eee7;
+  --entry-line: #493e30;
+  --entry-surface: #171512;
+  background: var(--entry-bg);
+}
+.realms-entry-panel[data-entry] {
+  --product-bg: var(--entry-bg);
+  --product-panel: var(--entry-surface);
+  --product-muted: var(--entry-muted);
+  --product-ink: var(--entry-ink);
+  --product-line: var(--entry-line);
+  --product-accent: var(--entry-accent);
+  color: var(--entry-ink);
+}
+.realms-entry-panel[data-entry] p { color: var(--entry-muted); }
+.realms-entry-panel[data-entry] h2 span { color: var(--entry-accent); }
+.realms-entry-panel[data-entry] .product-eyebrow { color: var(--entry-accent); }
+.realms-entry-panel[data-entry] :is(a,button,input):focus-visible { outline-color: var(--entry-accent); }
+.realms-entry-panel[data-entry]::selection,
+.realms-entry-panel[data-entry] ::selection { color: var(--entry-bg); background: var(--entry-accent); }
+
+/* Casual: unhurried space, soft edges, and a story that opens out from the center. */
+.realms-entry-panel[data-entry="casual"] .casual-path { padding-top: 53px; }
+.realms-entry-panel[data-entry="casual"] .casual-entry-layout { grid-template-columns: .78fr 1.22fr; gap: clamp(45px,7vw,108px); }
+.realms-entry-panel[data-entry="casual"] .casual-entry-copy h2 { font-size: clamp(43px,4.5vw,65px); font-weight: 420; line-height: 1.13; letter-spacing: -.045em; }
+.realms-entry-panel[data-entry="casual"] .casual-entry-copy > p { line-height: 1.95; max-width: 330px; }
+.realms-entry-panel[data-entry="casual"] .casual-preview-link {
+  min-height: 49px;
+  padding-inline: 25px 21px;
+  border-color: var(--entry-accent);
+  border-radius: 999px;
+  background: var(--entry-accent);
+  color: #23223d;
+  font-weight: 600;
+}
+.realms-entry-panel[data-entry="casual"] .casual-preview-link:hover { background: #d0cbff; border-color: #d0cbff; }
+.realms-entry-panel[data-entry="casual"] .casual-story {
+  margin-top: 95px;
+  padding-top: 74px;
+  border-color: var(--entry-line);
+  background: radial-gradient(ellipse at 50% 32%,#9a91d90b,transparent 67%);
+}
+.realms-entry-panel[data-entry="casual"] .casual-story-heading { max-width: 780px; margin-inline: auto; text-align: center; }
+.realms-entry-panel[data-entry="casual"] .casual-story-heading > h2 { font-weight: 430; line-height: 1.18; letter-spacing: -.04em; }
+.realms-entry-panel[data-entry="casual"] .casual-story-heading > p { margin-inline: auto; max-width: 450px; line-height: 1.9; }
+.realms-entry-panel[data-entry="casual"] .casual-story-layout { gap: 76px; margin-top: 54px; }
+.realms-entry-panel[data-entry="casual"] .casual-story-branches { display: flex; flex-direction: column; gap: 18px; }
+.realms-entry-panel[data-entry="casual"] .casual-story-branches > article {
+  padding: 21px 0 21px 25px;
+  border: 0;
+  border-left: 2px solid #5e5b87;
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(90deg,#b9b3f508,transparent);
+}
+.realms-entry-panel[data-entry="casual"] .casual-story-branches h3 { color: #e5e7f6; font-weight: 450; letter-spacing: -.025em; }
+.realms-entry-panel[data-entry="casual"] .casual-story-branches p { font-size: 14px; line-height: 1.9; }
+.realms-entry-panel[data-entry="casual"] .casual-concept-note { color: #8c96b1; }
+.realms-entry-panel[data-entry="casual"] .casual-invitation {
+  padding: 29px 32px;
+  border: 1px solid #353c59;
+  border-radius: 18px;
+  background: #151b2e;
+}
+.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { font-weight: 450; color: #e6e7f5; }
+.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > p { color: #a6aec5; line-height: 1.85; }
+.realms-entry-panel[data-entry="casual"] .casual-share { color: #d1d4e9; }
+.realms-entry-panel[data-entry="casual"] .casual-share:hover { color: #ffffff; }
+.realms-entry-panel[data-entry="casual"] .casual-access { color: var(--entry-accent); border-color: #77749d; }
+.realms-entry-panel[data-entry="casual"] .casual-access:hover { color: #d6d2ff; border-color: #d6d2ff; }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback p { color: var(--entry-accent); }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #c2c6dd; }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #e2e4f5; background: #10162b; border-color: #6c6a93; border-radius: 7px; }
+
+/* Focused: a quiet laboratory index, measured columns, and flat evidence surfaces. */
+.realms-entry-panel[data-entry="focused"] .focused-entry-intro { padding-block: 48px 65px; }
+.realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container {
+  display: grid;
+  grid-template-columns: minmax(160px,.4fr) minmax(0,1fr);
+  column-gap: 68px;
+  row-gap: 24px;
+  padding-block: 33px 39px;
+  border-top: 1px solid #3c4d43;
+  border-bottom: 1px solid #3c4d43;
+}
+.realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-eyebrow { grid-column: 1; grid-row: 1; max-width: 190px; padding-top: 8px; font-size: 11px; line-height: 1.9; }
+.realms-entry-panel[data-entry="focused"] .focused-entry-intro h2 { grid-column: 2; grid-row: 1; margin-top: 0; font-size: clamp(42px,4.6vw,65px); font-weight: 500; line-height: 1.12; letter-spacing: -.05em; }
+.realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container > p:last-child { grid-column: 2; grid-row: 2; margin-top: 0; max-width: 510px; line-height: 1.85; }
+.realms-entry-panel[data-entry="focused"] .product-values { background: #151e20; border-color: #31413a; }
+.realms-entry-panel[data-entry="focused"] .values-opening { grid-template-columns: .85fr 1.15fr; gap: 64px; margin-bottom: 73px; padding-bottom: 57px; border-bottom: 1px solid #34473b; }
+.realms-entry-panel[data-entry="focused"] .values-opening h2 { font-size: clamp(38px,4.3vw,61px); font-weight: 500; line-height: 1.12; }
+.realms-entry-panel[data-entry="focused"] .values-opening h2 span { color: #8e9e96; }
+.realms-entry-panel[data-entry="focused"] .intro-preview-trigger { border-color: #435849; border-radius: 3px; }
+.realms-entry-panel[data-entry="focused"] .value-stories { column-gap: 52px; }
+.realms-entry-panel[data-entry="focused"] .value-story { padding-block: 31px; border-color: #3b4c41; }
+.realms-entry-panel[data-entry="focused"] .value-story h3 { font-weight: 500; letter-spacing: -.04em; }
+.realms-entry-panel[data-entry="focused"] .value-story p { font-size: 14px; line-height: 1.85; }
+.realms-entry-panel[data-entry="focused"] .simulation-sequence { background: var(--entry-bg); border-color: #34463b; }
+.realms-entry-panel[data-entry="focused"] .sequence-screen { border-color: #465b4c; border-radius: 3px; box-shadow: none; }
+.realms-entry-panel[data-entry="focused"] .screen-chrome { background: #17221f; border-color: #374a3d; }
+.realms-entry-panel[data-entry="focused"] .sequence-phase { border-color: #3b4c42; }
+.realms-entry-panel[data-entry="focused"] .sequence-phase-content > span { font-size: 13px; line-height: 1.8; }
+.realms-entry-panel[data-entry="focused"] .product-market { color: var(--entry-ink); background: #1a251f; border-block: 1px solid #455640; }
+.realms-entry-panel[data-entry="focused"] .product-market .product-container { gap: 76px; }
+.realms-entry-panel[data-entry="focused"] .market-heading h2 { color: #e7ede9; font-size: clamp(44px,5vw,68px); font-weight: 500; }
+.realms-entry-panel[data-entry="focused"] .market-heading h2 span { color: var(--entry-accent); font-style: normal; }
+.realms-entry-panel[data-entry="focused"] .market-heading > p { color: #9daa9f; }
+.realms-entry-panel[data-entry="focused"] .market-source :is(span,h3) { color: #94aa88; }
+.realms-entry-panel[data-entry="focused"] .market-quote { border-color: #45553e; }
+.realms-entry-panel[data-entry="focused"] .market-quote > p { color: #dbe4d6; font-size: clamp(25px,2.6vw,35px); line-height: 1.4; }
+.realms-entry-panel[data-entry="focused"] .product-proof { background: #101719; }
+.realms-entry-panel[data-entry="focused"] .proof-evidence { gap: 76px; border-top: 1px solid #35483b; padding-top: 64px; }
+.realms-entry-panel[data-entry="focused"] :is(.decision-trace,.proof-evidence-art) { border-color: #3b5141; border-radius: 3px; background-color: #121e1b; }
+
+/* Competitive: a warm, angular match briefing with firmer type and clear rails. */
+.realms-entry-panel[data-entry="competitive"] .competitive-path { background: transparent; }
+.realms-entry-panel[data-entry="competitive"] .competitive-opening { padding-block: 59px 84px; }
+.realms-entry-panel[data-entry="competitive"] .competitive-intro { grid-template-columns: .95fr 1.05fr; gap: 67px; }
+.realms-entry-panel[data-entry="competitive"] .competitive-intro-copy { max-width: 520px; padding-left: 27px; border-left: 3px solid var(--entry-accent); }
+.realms-entry-panel[data-entry="competitive"] .competitive-intro .product-eyebrow { font-size: 11px; letter-spacing: .13em; color: var(--entry-accent); }
+.realms-entry-panel[data-entry="competitive"] .competitive-intro h2 { font-weight: 650; line-height: 1.04; letter-spacing: -.055em; }
+.realms-entry-panel[data-entry="competitive"] .competitive-intro h2 span { color: var(--entry-accent); }
+.realms-entry-panel[data-entry="competitive"] .competitive-intro-description { max-width: 355px; color: #b8afa2; line-height: 1.8; }
+.realms-entry-panel[data-entry="competitive"] .competitive-entry-link { color: var(--entry-accent); min-height: 42px; border-bottom: 1px solid #a37a42; font: 11px/1.7 "JetBrains Mono Variable",monospace; text-transform: uppercase; letter-spacing: .06em; }
+.realms-entry-panel[data-entry="competitive"] .competitive-entry-link:hover { color: #f6d39f; border-color: #f6d39f; }
+.realms-entry-panel[data-entry="competitive"] .competitive-world-illustration > figcaption > span { color: #a99f91; font-family: "JetBrains Mono Variable",monospace; font-size: 11px; }
+.realms-entry-panel[data-entry="competitive"] .competitive-world-illustration figcaption i { background: var(--entry-accent); border-radius: 0; }
+.realms-entry-panel[data-entry="competitive"] .competitive-world-illustration figcaption > span:last-child i { background: #9a9285; }
+.realms-entry-panel[data-entry="competitive"] .competitive-matchmaking { background: #101012; border-color: #51422e; }
+.realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; padding-bottom: 30px; border-bottom: 1px solid #5a472f; }
+.realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading .product-eyebrow { max-width: 170px; line-height: 1.9; letter-spacing: .12em; }
+.realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading h2 { margin-top: 0; text-align: right; font-weight: 600; line-height: 1.08; }
+.realms-entry-panel[data-entry="competitive"] .competitive-match-steps > li { padding-left: 22px; border-left: 1px solid #6b5130; border-bottom-color: #4a3c2b; }
+.realms-entry-panel[data-entry="competitive"] .competitive-match-steps .competitive-label { color: var(--entry-accent); font-family: "JetBrains Mono Variable",monospace; text-transform: uppercase; letter-spacing: .06em; }
+.realms-entry-panel[data-entry="competitive"] .competitive-match-steps h3 { color: #eee5d7; font-weight: 600; }
+.realms-entry-panel[data-entry="competitive"] .competitive-match-steps h3 + p { color: #b8afa2; }
+.realms-entry-panel[data-entry="competitive"] .competitive-strategy-table > figcaption { color: #a89a85; }
+.realms-entry-panel[data-entry="competitive"] .competitive-invitation-section { background: transparent; }
+.realms-entry-panel[data-entry="competitive"] .competitive-invitation { border-color: #6a5030; padding-top: 39px; }
+.realms-entry-panel[data-entry="competitive"] .competitive-invitation > h3 { color: #eee5d8; font-weight: 600; line-height: 1.2; }
+.realms-entry-panel[data-entry="competitive"] .competitive-waitlist-link { background: var(--entry-accent); border-color: var(--entry-accent); color: #251c10; border-radius: 1px; font-weight: 700; }
+.realms-entry-panel[data-entry="competitive"] .competitive-waitlist-link:hover { background: #f4cc8d; border-color: #f4cc8d; }
+.realms-entry-panel[data-entry="competitive"] .competitive-invitation > div > p { color: #a89a85; }
+
+@media (max-width: 1100px) {
+  .realms-entry-panel[data-entry="casual"] .casual-entry-layout { gap: 44px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-layout { gap: 40px; }
+  .realms-entry-panel[data-entry="casual"] .casual-invitation { padding-inline: 27px; }
+  .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container { grid-template-columns: minmax(145px,.35fr) minmax(0,1fr); column-gap: 38px; }
+  .realms-entry-panel[data-entry="focused"] .values-opening { gap: 42px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro { gap: 42px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro-copy { padding-left: 22px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro h2 { font-size: clamp(44px,4.5vw,48px); }
+}
+@media (max-width: 900px) {
+  .realms-entry-panel[data-entry="casual"] .casual-entry-layout { grid-template-columns: 1fr; gap: 33px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-layout { grid-template-columns: 1fr; gap: 30px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-branches { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 21px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-branches > article { padding-left: 19px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro { grid-template-columns: 1fr; gap: 35px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro-copy { max-width: 620px; }
+}
+@media (max-width: 767px) {
+  .realms-entry-panel[data-entry="casual"] .casual-path { padding-top: 34px; }
+  .realms-entry-panel[data-entry="casual"] .casual-entry-copy h2 { font-size: clamp(39px,9.6vw,54px); line-height: 1.13; }
+  .realms-entry-panel[data-entry="casual"] .casual-entry-copy > p { line-height: 1.9; }
+  .realms-entry-panel[data-entry="casual"] .casual-entry-layout { gap: 33px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story { margin-top: 57px; padding-top: 49px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-heading { text-align: left; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-heading > h2 { line-height: 1.2; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-heading > p { margin-inline: 0; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-layout { margin-top: 31px; gap: 27px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-branches { display: flex; gap: 15px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-branches > article { padding: 20px 13px 20px 20px; }
+  .realms-entry-panel[data-entry="casual"] .casual-story-branches p { font-size: 14px; }
+  .realms-entry-panel[data-entry="casual"] .casual-invitation { padding: 25px 22px; border-radius: 14px; }
+  .realms-entry-panel[data-entry="casual"] .casual-invitation-actions { gap: 8px 20px; }
+  .realms-entry-panel[data-entry="focused"] .focused-entry-intro { padding-block: 33px 48px; }
+  .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container { grid-template-columns: 1fr; row-gap: 21px; padding-block: 25px 28px; }
+  .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-eyebrow { grid-column: 1; grid-row: auto; max-width: none; padding-top: 0; font-size: 12px; }
+  .realms-entry-panel[data-entry="focused"] .focused-entry-intro h2 { grid-column: 1; grid-row: auto; font-size: clamp(36px,8.8vw,54px); line-height: 1.14; }
+  .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container > p:last-child { grid-column: 1; grid-row: auto; font-size: 14px; line-height: 1.85; }
+  .realms-entry-panel[data-entry="focused"] .values-opening { grid-template-columns: 1fr; gap: 31px; padding-bottom: 39px; margin-bottom: 48px; }
+  .realms-entry-panel[data-entry="focused"] .values-opening h2 { font-size: clamp(36px,8.5vw,49px); }
+  .realms-entry-panel[data-entry="focused"] .value-stories { column-gap: 26px; }
+  .realms-entry-panel[data-entry="focused"] .sequence-phase-content > span { font-size: 12px; }
+  .realms-entry-panel[data-entry="focused"] .product-market .product-container { gap: 41px; }
+  .realms-entry-panel[data-entry="focused"] .market-heading h2 { font-size: clamp(41px,10vw,58px); }
+  .realms-entry-panel[data-entry="focused"] .market-quote > p { font-size: 26px; line-height: 1.45; }
+  .realms-entry-panel[data-entry="focused"] .proof-evidence { gap: 31px; padding-top: 39px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-opening { padding-block: 39px 59px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro-copy { padding-left: 19px; border-left-width: 2px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro .product-eyebrow { font-size: 11px; letter-spacing: .06em; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro h2 { font-size: clamp(39px,8.7vw,57px); line-height: 1.06; letter-spacing: -.05em; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-entry-link { font-size: 11px; letter-spacing: .03em; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-world-illustration > figcaption > span { font-size: 12px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading { display: block; padding-bottom: 25px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading .product-eyebrow { max-width: none; font-size: 12px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading h2 { margin-top: 20px; text-align: left; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-match-steps > li { padding-left: 19px; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-match-steps .competitive-label { font-size: 11px; letter-spacing: .03em; line-height: 1.8; }
+  .realms-entry-panel[data-entry="competitive"] .competitive-invitation { padding-top: 31px; }
+}
+@media (max-width: 375px) {
+  .realms-entry-panel[data-entry="competitive"] .competitive-intro h2 { font-size: 36px; }
+}
