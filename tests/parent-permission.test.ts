@@ -45,6 +45,60 @@ test("invitation stores only parent contact and a token hash; provider receives 
   } finally { query.mock.restore(); fetchMock.mock.restore(); }
 });
 
+test("English invitations accept the deployed Realms URL and separate website review from registration", async () => {
+  const originalUrl = process.env.PUBLIC_SITE_URL;
+  const originalFrom = process.env.WAITLIST_EMAIL_FROM;
+  process.env.WAITLIST_EMAIL_FROM = "Enemites Realms <no-reply@notify.enemites.com>";
+  const query = mock.method(pool, "query", async (sql: string) => ({ rows: sql.startsWith("SELECT") ? [{ total: 0 }] : [{ id }] }));
+  const fetchMock = mock.method(globalThis, "fetch", async () => new Response("{}", { status: 200 }));
+  try {
+    for (const url of ["https://enemites.com", "https://enemites.com/", "https://enemites.com/realms", " https://enemites.com/realms/ "]) {
+      process.env.PUBLIC_SITE_URL = url;
+      assert.equal((await requestParentRegistration(payload.email, "<13")).status, 202, url);
+      const request = fetchMock.mock.calls.at(-1)!;
+      assert.equal(request.arguments[0], "https://api.resend.com/emails");
+      const email = JSON.parse(request.arguments[1].body);
+      assert.equal(email.from, "Enemites Realms <no-reply@notify.enemites.com>");
+      assert.equal(email.to, payload.email);
+      assert.equal(email.subject, "Parent invitation: Enemites Realms waitlist");
+      assert.ok(email.text.includes("Review Enemites Realms: https://enemites.com/realms\n"));
+      assert.ok(email.html.includes('<html lang="en">'));
+      assert.ok(email.html.includes('<a href="https://enemites.com/realms">Review Enemites Realms</a>'));
+      const registrationUrl = email.text.match(/https:\/\/enemites\.com\/realms\/parent-waitlist#[a-f0-9]{64}/)?.[0];
+      assert.ok(registrationUrl);
+      assert.ok(email.html.includes(`href="${registrationUrl}"`));
+      assert.equal(query.mock.calls.at(-1)?.arguments[1]?.[2], parentTokenHash(new URL(registrationUrl).hash.slice(1)));
+      for (const body of [email.text, email.html]) {
+        assert.ok(body.includes("expires in seven days"));
+        assert.ok(body.includes("does not give consent"));
+        assert.ok(body.includes("https://enemites.com/realms/privacy-policy"));
+        assert.ok(!body.includes("/realms/realms"));
+      }
+    }
+  } finally {
+    process.env.PUBLIC_SITE_URL = originalUrl;
+    process.env.WAITLIST_EMAIL_FROM = originalFrom;
+    query.mock.restore(); fetchMock.mock.restore();
+  }
+});
+
+test("invalid public URLs cannot reserve an invitation or send email", async () => {
+  const originalUrl = process.env.PUBLIC_SITE_URL;
+  const query = mock.method(pool, "query", () => { throw new Error("No database access expected"); });
+  const fetchMock = mock.method(globalThis, "fetch", async () => { throw new Error("No email expected"); });
+  try {
+    for (const url of ["", "not a URL", "http://enemites.com/realms", "https://user:password@enemites.com/realms", "https://enemites.com/other", "https://enemites.com/realms?source=email", "https://enemites.com/realms#token"]) {
+      process.env.PUBLIC_SITE_URL = url;
+      assert.equal((await requestParentRegistration(payload.email, "<13")).status, 503, url);
+    }
+    assert.equal(query.mock.callCount(), 0);
+    assert.equal(fetchMock.mock.callCount(), 0);
+  } finally {
+    process.env.PUBLIC_SITE_URL = originalUrl;
+    query.mock.restore(); fetchMock.mock.restore();
+  }
+});
+
 test("cooldown avoids repeat email and failed delivery removes its pending request", async () => {
   const query = mock.method(pool, "query", async (sql: string) => ({ rows: sql.startsWith("SELECT") ? [{ total: 0 }] : [] }));
   const fetchMock = mock.method(globalThis, "fetch", async () => new Response("{}", { status: 503 }));

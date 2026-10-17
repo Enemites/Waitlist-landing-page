@@ -69,6 +69,10 @@ test("marketing fails closed without real operator configuration and includes es
   assert.ok(email.html.includes("&lt;script&gt;"));
   assert.ok(!email.html.includes("<script>"));
   assert.ok(email.headers["List-Unsubscribe"].includes("https://example.com/api/unsubscribe?token="));
+  process.env.PUBLIC_SITE_URL = "https://example.com/realms/";
+  const productUrlEmail = renderMarketingEmail({ id, email: payload.email }, { subject: "Launch", message: "News" });
+  assert.ok(productUrlEmail.headers["List-Unsubscribe"].includes("https://example.com/api/unsubscribe?token="));
+  assert.ok(!productUrlEmail.text.includes("/realms/api/"));
   process.env.PUBLIC_SITE_URL = "http://example.com";
   assert.throws(() => renderMarketingEmail({ id, email: payload.email }, { subject: "Launch", message: "News" }), /HTTPS/);
   process.env.PUBLIC_SITE_URL = "https://example.com";

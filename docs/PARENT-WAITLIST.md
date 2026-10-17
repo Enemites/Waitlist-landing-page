@@ -24,3 +24,42 @@ Undangan adalah pesan terbatas untuk memulai pendaftaran. Bila penerima tidak me
 ## Konfigurasi sebelum rilis
 
 Isi variabel server `.env.example`: database, `PUBLIC_SITE_URL`, `RESEND_API_KEY`, `WAITLIST_EMAIL_FROM`, `CRON_SECRET`. Gunakan domain sender terverifikasi; atur tracking email undangan tidak aktif. Integrasi tidak mengirim email nyata sebelum konfigurasi tersedia. Nama/alamat operator dan unsubscribe secret diperlukan sebelum integrasi campaign promosi memakai `lib/marketing.ts`. Jalankan migrasi, deployment API/frontend, dan cron sebagai satu release. Lakukan uji inbox/domain nyata sesudah setup tersedia.
+
+### Nilai Vercel untuk Enemites Realms
+
+- `PUBLIC_SITE_URL=https://enemites.com/realms` didukung, termasuk dengan trailing slash. Nilai `https://enemites.com` juga didukung. Kode mengambil origin HTTPS agar tautan tidak menjadi `/realms/realms`. URL dengan query, fragment, kredensial, atau path lain ditolak sebelum penyimpanan undangan dan pengiriman email. URL ini bukan rahasia dan boleh disimpan sebagai configuration environment variable biasa.
+- `WAITLIST_EMAIL_FROM=Enemites Realms <no-reply@notify.enemites.com>` mengikuti format sender Resend. Domain `notify.enemites.com` harus sudah terverifikasi. Nilai sender bukan API key.
+- `RESEND_API_KEY`, `DATABASE_URL`, dan `CRON_SECRET` adalah rahasia server. Jangan memakai prefix `VITE_`, memasukkannya ke Git, atau mengirim nilainya melalui chat. Pilih environment Vercel yang sesuai, lalu redeploy agar nilai baru dipakai deployment tersebut.
+
+Email undangan berbahasa Inggris dalam HTML dan plain text. Keduanya berisi tiga tautan terpisah: review website `/realms`, pendaftaran `/realms/parent-waitlist#TOKEN`, dan privacy notice `/realms/privacy-policy`. Mengunjungi website atau membuka undangan tidak mencatat persetujuan. Token baru dikonsumsi setelah orang tua menyelesaikan pendaftaran.
+
+### Mematikan tracking di Resend
+
+Pengaturan ini berada di Resend, bukan Vercel. Click tracking mengganti tautan dengan redirect milik penyedia email; open tracking menambahkan gambar pelacak untuk mencatat pembukaan email. Alur undangan tidak memerlukan keduanya.
+
+1. Buka dashboard Resend, pilih **Domains**, lalu domain pengirim **notify.enemites.com**.
+2. Cari pengaturan tracking untuk domain tersebut. Pastikan **Click Tracking** dan **Open Tracking** dalam keadaan **off/disabled**, lalu simpan jika diminta. Bila sudah off, tidak perlu perubahan lagi.
+3. Kirim undangan uji ke inbox yang dikendalikan sendiri. Pastikan tautan website dan undangan langsung menuju domain aplikasi, fragment token tetap tersedia ketika formulir dibuka, dan tidak ada gambar open-tracking dari Resend di sumber email. Keberhasilan API Resend saja tidak membuktikan email masuk inbox.
+
+Tracking merupakan pengaturan domain; perubahan berlaku untuk pengiriman lain dari domain yang sama. API domain resmi Resend mendukung `PATCH /domains/{domain_id}` dengan `{"click_tracking":false,"open_tracking":false}`. Endpoint ini memerlukan izin pengelolaan domain; kunci sending-only aplikasi tidak cukup. Jangan menambahkan field tracking buatan ke payload `POST /emails`, karena opsi tersebut bukan bagian dari kontrak send-email yang digunakan aplikasi. Kode ini tidak mengklaim bahwa pengaturan Resend sudah dimatikan hanya karena HTML email tidak berisi tracker.
+
+### Memeriksa database Neon sebelum migrasi
+
+Pilih project, branch, dan database yang benar di Neon. Pengaturan Vercel tidak otomatis memberikan koneksi database kepada workspace pengembangan atau tool Neon di chat lain. Perubahan isi email dan dukungan URL `/realms` tidak memerlukan migrasi tambahan. Skema undangan dari migrasi `migrations/20261009_waitlist_parent_registration.sql` tetap diperlukan.
+
+Mulai dengan pemeriksaan metadata ini di SQL Editor; query tidak membaca data kontak:
+
+```sql
+SELECT to_regclass('public.waitlist') AS waitlist,
+       to_regclass('public.enemites_forms') AS forms,
+       to_regclass('public.enemites_form_submissions') AS submissions,
+       to_regclass('public.waitlist_parent_requests') AS parent_requests;
+
+SELECT table_name, column_name, data_type
+FROM information_schema.columns
+WHERE table_schema = 'public'
+  AND table_name IN ('waitlist', 'waitlist_parent_requests')
+ORDER BY table_name, ordinal_position;
+```
+
+Jika tabel dasar `waitlist`, `enemites_forms`, atau `enemites_form_submissions` belum tersedia, jangan mengarang skema atau menjalankan migrasi terhadap database lain. Migrasi ini memperluas skema aplikasi yang sudah ada, bukan bootstrap database kosong. Jika skema undangan belum diterapkan, jalankan file migrasi lengkap dalam transaksi setelah memeriksa skema dan data yang sudah ada. Verifikasi kolom izin orang tua, tabel `waitlist_parent_requests`, indeks expiry, constraint, dan trigger sesudahnya. Gunakan `tests/database.sql` hanya pada branch uji terisolasi dengan skema yang kompatibel; fixture sintetisnya di-rollback.

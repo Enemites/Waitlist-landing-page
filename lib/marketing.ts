@@ -1,6 +1,7 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { getDatabasePool } from "./database.js";
 import { requiresParentRegistration } from "../shared/privacy.js";
+import { publicSiteOrigin } from "./site-url.js";
 
 export function escapeHtml(value: string) {
   return value.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]!);
@@ -43,8 +44,7 @@ export function renderMarketingEmail(recipient: { id: string; email: string }, c
   const address = process.env.MARKETING_POSTAL_ADDRESS?.trim();
   const configuredUrl = process.env.PUBLIC_SITE_URL?.trim();
   if (!operator || !address || !configuredUrl) throw new Error("Marketing is blocked until operator name, valid postal address, and public site URL are configured.");
-  const site = new URL(configuredUrl);
-  if (site.protocol !== "https:" || site.username || site.password || site.search || site.hash || site.pathname !== "/") throw new Error("PUBLIC_SITE_URL must be an HTTPS origin.");
+  const site = publicSiteOrigin();
   if (!content.subject.trim() || /[\r\n]/.test(content.subject)) throw new Error("Use a nonempty, single-line marketing subject.");
   const link = new URL("/api/unsubscribe", site);
   link.searchParams.set("token", createUnsubscribeToken(recipient.id, recipient.email));

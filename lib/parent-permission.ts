@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { getDatabasePool } from "./database.js";
 import { escapeHtml } from "./marketing.js";
 import { requiresParentRegistration } from "../shared/privacy.js";
+import { publicSiteOrigin } from "./site-url.js";
 
 export function parentTokenHash(token: unknown): string | null {
   return typeof token === "string" && /^[a-f0-9]{64}$/.test(token)
@@ -11,8 +12,8 @@ export function parentTokenHash(token: unknown): string | null {
 function emailConfiguration() {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   const from = process.env.WAITLIST_EMAIL_FROM?.trim();
-  const origin = new URL(process.env.PUBLIC_SITE_URL || "https://invalid.invalid");
-  if (!apiKey || !from || !process.env.PUBLIC_SITE_URL || origin.protocol !== "https:" || origin.username || origin.password || origin.search || origin.hash || origin.pathname !== "/") {
+  const origin = publicSiteOrigin();
+  if (!apiKey || !from) {
     throw new Error("Configure RESEND_API_KEY, WAITLIST_EMAIL_FROM, and an HTTPS PUBLIC_SITE_URL.");
   }
   return { apiKey, from, origin };
@@ -44,14 +45,20 @@ export async function requestParentRegistration(emailValue: unknown, ageGroup: u
   if (!reserved.rows[0]) return { status: 202, data: { success: true, message: "Ask your parent to check their inbox for the invitation. You are added only after they register." } };
   const link = new URL("/realms/parent-waitlist", config.origin);
   link.hash = token;
-  const message = `Someone requested an Enemites education waitlist invitation for a learner in the ${ageGroup} age group using your email. No learner name, phone number, or email was collected. If you are their parent or legal guardian and want launch notifications, open the link and register YOUR OWN contact details. This does not create a child account or authorize learning data collection. If you did not expect this request, ignore it; no waitlist entry is created and the request will expire in seven days. Contact support@enemites.com to request deletion. This invitation is not a marketing subscription.`;
+  const website = new URL("/realms", config.origin);
+  const privacy = new URL("/realms/privacy-policy", config.origin);
+  const introduction = "Someone used your email address to request an Enemites Realms waitlist invitation for a learner under 13. Please review our website before deciding whether to register.";
+  const registrationNotice = "If you are the learner's parent or legal guardian and would like launch or early-access notifications, open the invitation below. You will be asked to enter YOUR OWN name and phone number and explicitly confirm your permission. The invited email address cannot be changed.";
+  const expiryNotice = "This invitation expires in seven days and can be used to complete one registration. Opening this email or the invitation link does not give consent.";
+  const privacyNotice = "No learner name, phone number, or email was collected. Joining this waitlist does not create a child account or authorize learning data collection. Additional updates beyond launch notifications are optional.";
+  const ignoreNotice = "If you did not expect this request, ignore it. No waitlist entry or marketing subscription is created unless you complete registration. The pending request will expire in seven days. Contact support@enemites.com to request deletion.";
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST", signal: AbortSignal.timeout(10000),
       headers: { Authorization: `Bearer ${config.apiKey}`, "Content-Type": "application/json", "Idempotency-Key": `parent-invite/${reserved.rows[0].id}/${hash}` },
-      body: JSON.stringify({ from: config.from, to: email, subject: "Parent invitation: Enemites education waitlist",
-        text: `${message}\n\nRegister as a parent: ${link}\n\nRead our privacy notice: ${config.origin}realms/privacy-policy`,
-        html: `<p>${escapeHtml(message)}</p><p><a href="${escapeHtml(link.toString())}">Review and register as a parent</a></p><p><a href="${config.origin}realms/privacy-policy">Privacy notice</a></p>` }),
+      body: JSON.stringify({ from: config.from, to: email, subject: "Parent invitation: Enemites Realms waitlist",
+        text: `Hello,\n\n${introduction}\n\nReview Enemites Realms: ${website}\n\n${registrationNotice}\n\nReview invitation and register as a parent: ${link}\n\n${expiryNotice}\n\n${privacyNotice}\n\n${ignoreNotice}\n\nRead our privacy notice: ${privacy}`,
+        html: `<!doctype html><html lang="en"><body><h1>Enemites Realms parent invitation</h1><p>Hello,</p><p>${escapeHtml(introduction)}</p><p><a href="${escapeHtml(website.toString())}">Review Enemites Realms</a></p><p>${escapeHtml(registrationNotice)}</p><p><a href="${escapeHtml(link.toString())}">Review invitation and register as a parent</a></p><p>${escapeHtml(expiryNotice)}</p><p>${escapeHtml(privacyNotice)}</p><p>${escapeHtml(ignoreNotice)}</p><p><a href="${escapeHtml(privacy.toString())}">Read our privacy notice</a></p></body></html>` }),
     });
     if (!response.ok) throw new Error("Email delivery failed");
   } catch {
