@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ResponsiveHeader, { novaGlobalNavItems } from "@/components/ResponsiveHeader";
-import { useRef } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -11,11 +11,39 @@ import SimulationSequence from "@/components/product/SimulationSequence";
 import DecisionTrace from "@/components/product/DecisionTrace";
 import ProductReveal from "@/components/product/ProductReveal";
 import ValueTransformations from "@/components/product/ValueTransformations";
+import CasualPath from "@/components/product/CasualPath";
+import CompetitivePath from "@/components/product/CompetitivePath";
 import { ArrowUpRight, Play } from "lucide-react";
 
 const YOUTUBE_DEMO_VIDEO_ID = "sga8QDniKls";
 
 const introDesktopNavItems = novaGlobalNavItems.filter((item) => item.label !== "Home");
+
+const entryPaths = [
+  { id: "casual", label: "Casual", reason: "Follow the unknown" },
+  { id: "focused", label: "Focused", reason: "Pursue a field" },
+  { id: "competitive", label: "Competitive", reason: "Face another team" },
+] as const;
+
+type EntryPath = typeof entryPaths[number]["id"];
+
+const registrationCopy = {
+  casual: {
+    eyebrow: "Your next world",
+    title: <>Something <span>awaits.</span></>,
+    copy: "Leave your name at the threshold. Join the waitlist for launch and early access updates as Realms takes shape.",
+  },
+  focused: {
+    eyebrow: "Early Access Registration",
+    title: <>Ready to <span>join</span>?</>,
+    copy: "Join the launch waitlist for Enemites Realms and help shape a new approach to learning through simulation.",
+  },
+  competitive: {
+    eyebrow: "Your next challenge",
+    title: <>Make your <span>next move.</span></>,
+    copy: "Join the Realms waitlist for launch and early access updates, including the team challenges taking shape.",
+  },
+};
 
 const valueCards = [
   {
@@ -112,6 +140,44 @@ const socialLinks = [
 
 const IntroductionPage = () => {
   const reduce = useReducedMotion();
+  const location = useLocation();
+  const navigate = useNavigate();
+  // The initial render matches the prerendered page, including on shared entry URLs.
+  const [entry, setEntry] = useState<EntryPath>("focused");
+  const entryQuery = new URLSearchParams(location.search).get("entry");
+  const requestedEntry = entryPaths.find((path) => path.id === entryQuery)?.id ?? "focused";
+  useEffect(() => {
+    setEntry(requestedEntry);
+  }, [requestedEntry]);
+  useEffect(() => {
+    if (entry !== requestedEntry || !location.hash) return;
+    let target: string;
+    try { target = decodeURIComponent(location.hash.slice(1)); }
+    catch { return; }
+    document.getElementById(target)?.scrollIntoView({ behavior: reduce ? "instant" : "smooth", block: "start" });
+  }, [entry, requestedEntry, location.hash, reduce]);
+  const chooseEntry = (next: EntryPath) => {
+    if (next === entry) return;
+    setEntry(next);
+    const query = new URLSearchParams(location.search);
+    query.set("entry", next);
+    navigate({ search: `?${query.toString()}`, hash: "" }, { preventScrollReset: true });
+  };
+  const handleEntryKey = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let nextIndex: number;
+    switch (event.key) {
+      case "ArrowRight": nextIndex = (index + 1) % entryPaths.length; break;
+      case "ArrowLeft": nextIndex = (index + entryPaths.length - 1) % entryPaths.length; break;
+      case "Home": nextIndex = 0; break;
+      case "End": nextIndex = entryPaths.length - 1; break;
+      default: return;
+    }
+    event.preventDefault();
+    const next = entryPaths[nextIndex].id;
+    chooseEntry(next);
+    document.getElementById(`entry-${next}`)?.focus();
+  };
+  const registration = registrationCopy[entry];
   const videoDemoRef = useRef<HTMLDivElement>(null);
   const scrollToVideoDemo = () => videoDemoRef.current?.scrollIntoView({behavior: reduce ? "instant" : "smooth", block:"start"});
 
@@ -124,13 +190,13 @@ const IntroductionPage = () => {
           <div className="product-hero-vignette" aria-hidden="true" />
           <div className="product-container hero-content">
             <motion.p className="hero-eyebrow" initial={reduce ? false : {opacity:0}} animate={{opacity:1}} transition={{duration:.7}}>
-              Problem-based learning, rebuilt as simulation
+              Beyond the world you know
             </motion.p>
             <motion.h1 className="product-wordmark" initial={reduce ? false : {opacity:0,transform:"translateY(42px)",clipPath:"inset(0 0 100% 0)"}} animate={{opacity:1,transform:"translateY(0px)",clipPath:"inset(0 0 0% 0)"}} transition={{duration:1.1,ease:[.23,1,.32,1]}}>
               Realms
             </motion.h1>
             <ProductReveal className="hero-bottom" delay={.12}>
-              <p>A learning simulation environment in development around an internal AI world model. Enter imagined scenarios, make decisions, and reflect on what changes.</p>
+              <p>Worlds imagined by AI. Shaped by your decisions.</p>
               <div className="hero-actions">
                 <Button asChild className="product-cta">
                   <a href="#join-waitlist" onClick={e=>{e.preventDefault();document.getElementById('join-waitlist')?.scrollIntoView({behavior:reduce?"instant":"smooth",block:"center"});}}>
@@ -151,8 +217,54 @@ const IntroductionPage = () => {
           <div className="product-container">
             <p className="product-eyebrow">Get to know Enemites Realms</p>
             <h2 id="realms-definition-title">What is Enemites Realms?</h2>
-            <p>Enemites Realms is a learning simulation environment being developed by Enemites around an internal AI world model. Its core simulation engine uses AI imagination to create scenarios that respond to your decisions, with an AI mentor supporting reflection.</p>
+            <p>Enemites Realms is a simulation environment in development around an internal AI world model. Its core simulation engine uses AI imagination to create worlds, situations, and consequences that respond to your decisions.</p>
             <div><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/how-enemites-realms-works">Explore the learning loop <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+          </div>
+        </section>
+
+        <section className="realms-entry" aria-labelledby="realms-entry-title">
+          <div className="product-container">
+            <div className="realms-entry-heading">
+              <h2 id="realms-entry-title">Your way into Realms.</h2>
+              <p>Start with a question, a purpose, or a team.</p>
+            </div>
+            <div className="realms-entry-tabs" role="tablist" aria-label="Find your way into Realms">
+              {entryPaths.map((path, index) => (
+                <button
+                  key={path.id}
+                  type="button"
+                  role="tab"
+                  id={`entry-${path.id}`}
+                  aria-selected={entry === path.id}
+                  aria-controls={`path-${path.id}`}
+                  tabIndex={entry === path.id ? 0 : -1}
+                  onClick={() => chooseEntry(path.id)}
+                  onKeyDown={(event) => handleEntryKey(event, index)}
+                >
+                  <span className="realms-entry-label">{path.label}</span>
+                  <span className="realms-entry-reason">{path.reason}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {entryPaths.map((path) => (
+          <div
+            key={path.id}
+            id={`path-${path.id}`}
+            role="tabpanel"
+            aria-labelledby={`entry-${path.id}`}
+            hidden={entry !== path.id}
+            tabIndex={0}
+            className="realms-entry-panel"
+          >
+            {entry === path.id && (path.id === "casual" ? <CasualPath /> : path.id === "competitive" ? <CompetitivePath /> : <>
+        <section className="focused-entry-intro">
+          <div className="product-container">
+            <p className="product-eyebrow">Focused / A purpose to pursue</p>
+            <h2>A field to master.<br /><span>A world to apply it in.</span></h2>
+            <p>Start with something you want to get better at. Step into situations that call on what you know, make decisions, and follow their consequences.</p>
           </div>
         </section>
 
@@ -201,13 +313,16 @@ const IntroductionPage = () => {
             </div>
           </div>
         </section>
+            </>)}
+          </div>
+        ))}
 
         <section id="join-waitlist" className="product-registration product-section">
           <div className="product-container registration-layout">
             <ProductReveal className="registration-copy">
-              <span className="registration-eyebrow">Early Access Registration</span>
-              <h2>Ready to <span>join</span>?</h2>
-              <p>Join the launch waitlist for Enemites Realms and help shape a new approach to learning through simulation.</p>
+              <span className="registration-eyebrow">{registration.eyebrow}</span>
+              <h2>{registration.title}</h2>
+              <p>{registration.copy}</p>
               <div className="registration-art registration-threshold" aria-hidden="true"><img src="/assets/waitlist-threshold.webp" alt="" loading="lazy" /></div>
             </ProductReveal>
             <WaitlistForm />
@@ -229,9 +344,8 @@ const IntroductionPage = () => {
                   <span>Enemites</span>
                 </h3>
                 <p className="max-w-md text-xs sm:text-sm md:text-[15px] font-normal leading-relaxed text-[#EDF1EF]/72">
-                  Empowering the next generation of problem solvers and truth
-                  seekers with AI-powered learning experiences that adapt to your
-                  unique thought.
+                  Worlds to explore. Decisions to make. Possibilities to discover.
+                  Enemites Realms is taking shape around an internal AI world model.
                 </p>
               </div>
 

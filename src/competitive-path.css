@@ -1,0 +1,95 @@
+.competitive-path { background: #080e10; }
+.competitive-opening { padding: 42px 0 76px; }
+.competitive-intro { display: grid; grid-template-columns: .8fr 1.25fr; align-items: center; gap: 70px; }
+.competitive-intro-copy { max-width: 460px; }
+.competitive-intro .product-eyebrow { font-size: 11px; letter-spacing: .1em; }
+.product-site .competitive-intro h2 { font-size: clamp(48px,4.5vw,64px); line-height: 1.06; letter-spacing: -.065em; margin-top: 25px; }
+.product-site .competitive-intro h2 span { color: #c4ed6c; }
+.competitive-intro-description { font-size: 15px; line-height: 1.85; max-width: 355px; margin-top: 28px; color: #abb8af; }
+.competitive-entry-link { display: inline-flex; align-items: center; gap: 22px; padding-bottom: 5px; margin-top: 29px; color: #d8e1da; font-size: 12px; }
+.competitive-entry-link:hover { color: #c4ed6c; }
+.competitive-path a:focus-visible { outline: 2px solid #c4ed6c; outline-offset: 5px; }
+.competitive-world-illustration { min-width: 0; margin: 0; }
+.competitive-crossing-scene { display: block; width: 100%; height: auto; }
+.competitive-world-illustration > figcaption { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding-inline: 9%; margin-top: -16px; }
+.competitive-world-illustration > figcaption > span { display: inline-flex; align-items: center; gap: 8px; color: #9aafa3; font-size: 12px; line-height: 1.6; }
+.competitive-world-illustration > figcaption > span:nth-child(2) { font-size: 11px; color: #7e9486; }
+.competitive-world-illustration figcaption i { width: 8px; height: 8px; border-radius: 50%; background: #c4ed6c; }
+.competitive-world-illustration figcaption > span:last-child i { background: #718371; }
+.competitive-matchmaking { padding: 83px 0 80px; border-top: 1px solid #273a31; background: #080e10; scroll-margin-top: 110px; }
+.competitive-matchmaking-heading { margin-bottom: 44px; }
+.competitive-matchmaking-heading .product-eyebrow { font-size: 11px; }
+.product-site .competitive-matchmaking-heading h2 { font-size: clamp(39px,4.1vw,57px); line-height: 1.1; margin-top: 23px; }
+.competitive-matchmaking-layout { display: grid; grid-template-columns: 1.1fr .85fr; gap: clamp(55px,7vw,110px); align-items: start; }
+.competitive-strategy-table { margin: 0; min-width: 0; }
+.competitive-strategy-table > img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: contain; border-radius: 4px; background: #15201d; }
+.competitive-strategy-table > figcaption { font-size: 11px; line-height: 1.8; color: #91a394; margin-top: 16px; }
+.competitive-match-steps { list-style: none; padding: 0; margin: 0; }
+.competitive-match-steps > li { padding: 27px 0; border-bottom: 1px solid #2e4235; }
+.competitive-match-steps > li:first-child { padding-top: 0; }
+.competitive-match-steps > li:last-child { border-bottom: 0; padding-bottom: 0; }
+.product-site .competitive-match-steps .competitive-label { color: #94a989; font-size: 11px; line-height: 1.7; }
+.product-site .competitive-match-steps h3 { font-size: clamp(23px,2.1vw,29px); line-height: 1.2; letter-spacing: -.045em; margin-top: 11px; }
+.competitive-match-steps h3 + p { font-size: 14px; line-height: 1.8; color: #a0afa4; margin-top: 14px; }
+.competitive-invitation-section { padding: 0 0 80px; background: #080e10; }
+.competitive-invitation { display: flex; justify-content: space-between; align-items: center; gap: 70px; padding-top: 36px; border-top: 1px solid #344739; }
+.product-site .competitive-invitation > h3 { font-size: clamp(26px,2.6vw,35px); line-height: 1.25; max-width: 450px; }
+.competitive-invitation > div { flex: 0 1 320px; }
+.competitive-waitlist-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 35px; min-height: 52px; padding: 0 23px; background: #c4ed6c; border: 1px solid #c4ed6c; border-radius: 4px; color: #172114; font-size: 14px; font-weight: 700; }
+.competitive-waitlist-link:hover { background: #d7f89d; border-color: #d7f89d; }
+.competitive-waitlist-link:active { transform: translateY(1px); }
+.competitive-invitation > div > p { font-size: 11px; line-height: 1.8; color: #859b8c; margin-top: 13px; max-width: 280px; }
+
+@media (max-width: 1100px) {
+  .competitive-intro { gap: 45px; }
+  .product-site .competitive-intro h2 { font-size: 48px; }
+  .competitive-intro-description { font-size: 14px; }
+  .competitive-world-illustration > figcaption { padding-inline: 5%; gap: 12px; }
+  .competitive-world-illustration > figcaption > span:nth-child(2) { display: none; }
+  .competitive-matchmaking-layout { gap: 55px; }
+  .competitive-invitation { gap: 45px; }
+}
+@media (max-width: 900px) and (min-width: 768px) {
+  .competitive-intro { grid-template-columns: 1fr; gap: 26px; }
+  .competitive-intro-copy { max-width: 620px; }
+  .product-site .competitive-intro h2 { font-size: 54px; }
+  .competitive-world-illustration { max-width: 640px; margin-inline: auto; width: 100%; }
+}
+@media (max-width: 767px) {
+  .competitive-opening { padding-top: 34px; padding-bottom: 56px; }
+  .competitive-intro { grid-template-columns: 1fr; gap: 25px; }
+  .competitive-intro-copy { max-width: 520px; }
+  .competitive-intro .product-eyebrow { font-size: 12px; letter-spacing: .04em; }
+  .product-site .competitive-intro h2 { font-size: clamp(45px,9.4vw,67px); line-height: 1.07; margin-top: 22px; }
+  .competitive-intro-description { margin-top: 24px; font-size: 14px; line-height: 1.85; max-width: 425px; }
+  .competitive-entry-link { font-size: 12px; margin-top: 25px; }
+  .competitive-world-illustration { max-width: 560px; width: 100%; margin-inline: auto; }
+  .competitive-world-illustration > figcaption { padding-inline: 6%; margin-top: -9px; }
+  .competitive-world-illustration > figcaption > span { font-size: 12px; }
+  .competitive-matchmaking { padding-top: 61px; padding-bottom: 60px; scroll-margin-top: 105px; }
+  .competitive-matchmaking-heading { margin-bottom: 32px; }
+  .competitive-matchmaking-heading .product-eyebrow { font-size: 12px; }
+  .product-site .competitive-matchmaking-heading h2 { font-size: clamp(37px,8vw,51px); margin-top: 22px; line-height: 1.12; }
+  .competitive-matchmaking-layout { grid-template-columns: 1fr; gap: 35px; }
+  .competitive-strategy-table > img { aspect-ratio: 3/2; object-fit: contain; }
+  .competitive-strategy-table > figcaption { font-size: 12px; margin-top: 13px; }
+  .competitive-match-steps > li { padding-block: 27px; }
+  .competitive-match-steps > li:first-child { padding-top: 0; }
+  .product-site .competitive-match-steps .competitive-label { font-size: 12px; }
+  .product-site .competitive-match-steps h3 { font-size: 25px; margin-top: 10px; }
+  .competitive-match-steps h3 + p { font-size: 14px; margin-top: 14px; max-width: 440px; }
+  .competitive-invitation-section { padding-bottom: 60px; }
+  .competitive-invitation { display: block; padding-top: 30px; }
+  .product-site .competitive-invitation > h3 { font-size: 28px; max-width: 375px; }
+  .competitive-invitation > div { margin-top: 25px; }
+  .competitive-waitlist-link { min-height: 52px; font-size: 14px; padding-inline: 21px; }
+  .competitive-invitation > div > p { font-size: 12px; }
+}
+@media (max-width: 375px) {
+  .product-site .competitive-intro h2 { font-size: 43px; }
+  .product-site .competitive-matchmaking-heading h2 { font-size: 36px; }
+  .product-site .competitive-match-steps h3 { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .competitive-path a { transition: none; }
+}

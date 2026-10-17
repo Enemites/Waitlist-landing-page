@@ -17,7 +17,7 @@ export type PageMetadata = {
 
 export const PUBLIC_PAGES: PageMetadata[] = [
   { path: "/home", title: "Enemites — A Research-Driven Collective", description: "Enemites is a research-driven collective advancing technology and cognitive infrastructure through foundational world models and educational environments.", index: true },
-  { path: "/realms", title: "Enemites Realms — AI World Model Learning Simulations", description: "Explore Enemites Realms, a learning simulation environment in development around an internal AI world model, AI imagination, and mentor reflection.", index: true },
+  { path: "/realms", title: "Enemites Realms — Worlds Shaped by Your Decisions", description: "Discover Enemites Realms, a simulation environment in development around an internal AI world model. Follow your curiosity, practice with purpose, or face team challenges.", index: true },
   { path: "/realms/how-it-works", title: "How Enemites Realms Works — Decisions, Reflection & Proof", description: "See the Enemites Realms learning loop: enter a scenario, make decisions, observe consequences, reflect with an AI mentor, and review capability evidence.", index: true },
   { path: "/realms/about-us", title: "About Enemites — Our Mission & Team", description: "Meet the students building Enemites and learn why we are exploring simulation, problem-solving practice, and evidence of human capability.", index: true },
   { path: "/realms/privacy-policy", title: "Privacy Policy — Enemites", description: "Read how Enemites handles waitlist information, email preferences, parent-led registration, privacy requests, and third-party video consent.", index: true },
@@ -61,7 +61,7 @@ export function structuredData(page: PageMetadata) {
       ...(post ? { mainEntity: { "@id": `${SITE_ORIGIN}${page.path}#article` } } : page.path === "/realms" ? { mainEntity: { "@id": REALMS_ENTITY_ID } } : {}),
     },
   ];
-  if (isRealms) graph.push({ "@type": "Product", "@id": REALMS_ENTITY_ID, name: "Enemites Realms", alternateName: "Realms", description: REALMS_DEFINITION, category: "AI world model learning simulation environment", url: `${SITE_ORIGIN}/realms`, brand: { "@id": `${SITE_ORIGIN}/#organization` }, image: SOCIAL_IMAGE });
+  if (isRealms) graph.push({ "@type": "Product", "@id": REALMS_ENTITY_ID, name: "Enemites Realms", alternateName: "Realms", description: REALMS_DEFINITION, category: "AI world model simulation environment", url: `${SITE_ORIGIN}/realms`, brand: { "@id": `${SITE_ORIGIN}/#organization` }, image: SOCIAL_IMAGE });
   if (post || page.path === "/realms/blogs") {
     graph.push({ "@type": "Blog", "@id": blogId, name: "Enemites Realms Journal", url: `${SITE_ORIGIN}/realms/blogs`, about: { "@id": REALMS_ENTITY_ID }, publisher: { "@id": `${SITE_ORIGIN}/#organization` }, inLanguage: "en" });
     const crumbs = [{ name: "Enemites", path: "/home" }, { name: "Enemites Realms", path: "/realms" }, { name: "Blogs", path: "/realms/blogs" }, ...(post ? [{ name: post.title, path: page.path }] : [])];

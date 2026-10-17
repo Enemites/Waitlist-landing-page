@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Realms — Competitive concept screens</title>
+  <style>
+    @font-face { font-family: Manrope; src: url('/node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2'); font-style: normal; font-weight: 200 800; font-display: block; }
+    @font-face { font-family: 'JetBrains Mono'; src: url('/node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); font-style: normal; font-weight: 100 800; font-display: block; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: transparent; }
+    body { display: flex; flex-direction: column; align-items: flex-start; gap: 40px; padding: 40px; font-family: Manrope, sans-serif; color: #e7eee9; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, p { margin: 0; }
+    svg { display: block; flex-shrink: 0; }
+    .screen-main, .screen-detail { flex-shrink: 0; border: 1px solid #34473f; border-radius: 12px; overflow: hidden; background: #0d1719; }
+    .screen-main { width: 1200px; height: 760px; }
+    .screen-detail { width: 600px; height: 460px; background: #101c1e; }
+    .mono { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .09em; font-size: 10px; line-height: 1.6; }
+    .muted { color: #91a79a; }
+    .concept { display: inline-flex; align-items: center; gap: 7px; color: #8fa398; font-size: 11px; line-height: 1.5; }
+    .concept::before { content: ''; width: 5px; height: 5px; border-radius: 50%; border: 1px solid #829688; }
+    .main-bar { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 25px; background: #101c1e; border-bottom: 1px solid #293c35; }
+    .bar-brand { display: flex; align-items: center; gap: 29px; }
+    .wordmark { font-size: 23px; font-weight: 650; letter-spacing: -.065em; color: #edf2ee; }
+    .bar-divider { width: 1px; height: 22px; background: #33463d; }
+    .bar-context { display: flex; align-items: center; gap: 10px; color: #9fb1a5; font-size: 13px; }
+    .bar-right { display: flex; align-items: center; gap: 25px; }
+    .profile { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #c1d0c5; }
+    .avatar { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid #425641; border-radius: 10px; background: #24362b; color: #d6e6c1; font-size: 12px; font-weight: 600; letter-spacing: -.025em; flex-shrink: 0; }
+    .profile .avatar { width: 29px; height: 29px; border-radius: 8px; font-size: 10px; }
+    .main-body { display: grid; grid-template-columns: 176px minmax(0, 1fr); height: 695px; }
+    .sidebar { display: flex; flex-direction: column; padding: 28px 15px 22px; border-right: 1px solid #293c35; background: #0b1517; }
+    .sidebar-title { color: #758f7d; margin: 0 12px 21px; }
+    .sidebar-item { display: flex; align-items: center; gap: 11px; min-height: 43px; padding: 10px 12px; margin-bottom: 5px; font-size: 12px; color: #8fa697; border: 1px solid transparent; border-radius: 6px; }
+    .sidebar-item.selected { background: #c4ed6c0a; border-color: #536740; color: #d4edaa; }
+    .sidebar-item svg { color: #82967f; }
+    .sidebar-item.selected svg { color: #c4ed6c; }
+    .sidebar-bottom { margin-top: auto; padding: 21px 12px 0; border-top: 1px solid #273c31; }
+    .sidebar-bottom strong { display: block; margin-top: 7px; font-size: 14px; font-weight: 550; color: #d1ddcf; }
+    .sidebar-bottom > p:last-child { margin-top: 8px; font-size: 11px; line-height: 1.7; color: #819987; }
+    .workspace { display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 27px 29px 25px; }
+    .workspace-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 54px; }
+    .workspace-heading h1 { font-size: 30px; font-weight: 550; line-height: 1.2; letter-spacing: -.05em; margin-top: 7px; }
+    .room-label { display: inline-flex; align-items: center; gap: 8px; padding: 8px 11px; border: 1px solid #344a3d; border-radius: 5px; color: #adbead; font-size: 11px; }
+    .challenge { display: flex; align-items: center; justify-content: space-between; gap: 30px; min-height: 106px; padding: 21px 23px; border: 1px solid #34483c; border-radius: 7px; background: #101c1e; }
+    .challenge-copy { display: flex; align-items: flex-start; gap: 16px; }
+    .challenge-symbol { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; margin-top: 1px; border: 1px solid #475f44; border-radius: 9px; color: #c4ed6c; background: #c4ed6c07; }
+    .challenge h2 { font-size: 19px; letter-spacing: -.035em; line-height: 1.35; font-weight: 550; }
+    .challenge-copy p { max-width: 430px; margin-top: 7px; font-size: 12px; line-height: 1.75; color: #9fb2a3; }
+    .challenge-format { flex-shrink: 0; padding-left: 25px; border-left: 1px solid #30463a; }
+    .challenge-format strong { display: block; margin-top: 6px; font-size: 14px; font-weight: 500; color: #cedac9; }
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; min-height: 326px; flex: 1; }
+    .team-card { display: flex; flex-direction: column; min-width: 0; border: 1px solid #34483c; border-radius: 7px; overflow: hidden; background: #101c1e; }
+    .team-card.own { border-color: #5d7444; }
+    .team-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; padding: 16px 20px; border-bottom: 1px solid #2d4236; }
+    .team-title { display: flex; align-items: center; gap: 11px; }
+    .team-emblem { width: 4px; height: 30px; border-radius: 2px; background: #c4ed6c; }
+    .opposition .team-emblem { background: #a6b5ab; }
+    .team-title .mono { color: #91a78d; font-size: 9px; }
+    .team-title h3 { font-size: 17px; font-weight: 550; letter-spacing: -.02em; line-height: 1.4; margin-top: 2px; }
+    .ready-count { display: flex; align-items: center; gap: 6px; color: #b8d294; font-size: 11px; }
+    .opposition .ready-count { color: #aebfb1; }
+    .roster { display: flex; flex-direction: column; flex: 1; padding: 0 20px; }
+    .player { display: flex; align-items: center; gap: 13px; min-height: 68px; flex: 1; padding-block: 13px; border-bottom: 1px solid #263d31; }
+    .player:last-child { border-bottom: 0; }
+    .player-info { min-width: 0; }
+    .player-name { display: flex; align-items: center; gap: 7px; color: #dce7dc; font-size: 13px; font-weight: 500; }
+    .you { font-size: 9px; line-height: 1.6; padding: 1px 5px; border-radius: 3px; color: #bfd998; background: #c4ed6c0b; border: 1px solid #455c38; font-weight: 400; }
+    .player-role { font-size: 11px; color: #8fa696; margin-top: 5px; line-height: 1.5; }
+    .player-ready { display: flex; align-items: center; gap: 6px; margin-left: auto; color: #b4c6a0; font-size: 10px; }
+    .opposition .avatar { border-color: #43554d; background: #26372f; color: #c4d0c5; }
+    .opposition .player-ready { color: #a9bab0; }
+    .team-footer { display: flex; align-items: center; gap: 8px; min-height: 39px; padding: 10px 20px; border-top: 1px solid #2b4134; color: #8fa88d; font-size: 10px; background: #0d1819; }
+    .lobby-footer { display: flex; align-items: center; justify-content: space-between; gap: 25px; min-height: 58px; padding-top: 4px; }
+    .lobby-status { display: flex; align-items: flex-start; gap: 11px; }
+    .status-check { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #526f3d; background: #c4ed6c0a; color: #c4ed6c; }
+    .lobby-status strong { font-size: 13px; line-height: 1.6; font-weight: 500; color: #d7e4cc; }
+    .lobby-status p { font-size: 11px; line-height: 1.6; color: #82998a; margin-top: 3px; }
+    .primary-action { display: flex; align-items: center; gap: 22px; padding: 13px 17px; min-height: 44px; border-radius: 5px; background: #c4ed6c; color: #23311b; font-size: 12px; font-weight: 650; }
+    .detail-bar { height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 25px; border-bottom: 1px solid #34473e; background: #142122; }
+    .detail-bar-title { display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 550; letter-spacing: -.02em; color: #e0e9df; }
+    .detail-bar-title > svg { color: #a9c38b; }
+    .detail-content { padding: 23px 25px 24px; }
+    .detail-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .detail-heading h2 { font-size: 24px; line-height: 1.3; font-weight: 550; letter-spacing: -.045em; }
+    .plan-tag { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #4f693d; border-radius: 4px; color: #bdd497; font-size: 10px; line-height: 1.6; }
+    .messages { display: flex; flex-direction: column; gap: 15px; margin-top: 22px; }
+    .message { display: flex; align-items: flex-start; gap: 12px; }
+    .message .avatar { width: 31px; height: 31px; border-radius: 8px; font-size: 10px; }
+    .message-body { flex: 1; min-width: 0; padding-top: 1px; }
+    .message-author { display: flex; align-items: center; gap: 9px; font-size: 11px; color: #cfddcc; line-height: 1.5; font-weight: 550; }
+    .message-role { color: #7e9987; font-size: 10px; font-weight: 400; }
+    .message p { margin-top: 5px; color: #a5b9aa; font-size: 12px; line-height: 1.7; }
+    .locked-move { display: flex; align-items: center; gap: 12px; margin-top: 23px; padding: 13px 15px; border: 1px solid #526b3e; border-radius: 6px; background: #c4ed6c08; }
+    .locked-move > svg { color: #c4ed6c; }
+    .locked-move .mono { color: #91a780; font-size: 9px; letter-spacing: .07em; }
+    .locked-move strong { display: block; margin-top: 3px; font-size: 13px; color: #d6e9bd; font-weight: 550; line-height: 1.6; }
+    .locked-move > span { margin-left: auto; color: #a7be8e; font-size: 10px; }
+  </style>
+</head>
+<body>
+  <section class="screen-main" aria-label="Concept screenshot of the Realms match lobby">
+    <header class="main-bar">
+      <div class="bar-brand"><strong class="wordmark">Realms</strong><span class="bar-divider"></span><span class="bar-context"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/></svg>Team space</span></div>
+      <div class="bar-right"><span class="concept">Concept preview</span><span class="profile"><span class="avatar">JK</span>Jules K.</span></div>
+    </header>
+    <div class="main-body">
+      <aside class="sidebar">
+        <p class="sidebar-title mono">Team space</p>
+        <div class="sidebar-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1Z"/></svg>Overview</div>
+        <div class="sidebar-item selected"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/></svg>Match lobby</div>
+        <div class="sidebar-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="7" r="3"/><path d="M3 20v-2a5 5 0 0 1 10 0v2m3-15a3 3 0 0 1 0 6m5 9v-2a5 5 0 0 0-4-4.9"/></svg>Your team</div>
+        <div class="sidebar-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h7l2 2h9v14H3Z"/><path d="M7 11h10M7 15h6"/></svg>Session journal</div>
+        <div class="sidebar-bottom"><p class="mono muted">Your team</p><strong>Atlas</strong><p>Three perspectives.<br />One shared approach.</p></div>
+      </aside>
+      <main class="workspace">
+        <div class="workspace-heading"><div><p class="mono muted">Team space / Match lobby</p><h1>Match lobby</h1></div><span class="room-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>Shared challenge</span></div>
+        <section class="challenge">
+          <div class="challenge-copy"><span class="challenge-symbol"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v6l7 4 7-4V3M5 21v-6l7-4 7 4v6"/><path d="M12 3v18"/></svg></span><div><h2>Meridian Crossing</h2><p>Keep the gate operational and maintain a route across the channel.</p></div></div>
+          <div class="challenge-format"><p class="mono muted">Format</p><strong>3 vs 3</strong></div>
+        </section>
+        <div class="team-grid">
+          <section class="team-card own">
+            <header class="team-heading"><div class="team-title"><i class="team-emblem"></i><div><p class="mono">Your team</p><h3>Atlas</h3></div></div><span class="ready-count"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg>3 of 3 ready</span></header>
+            <div class="roster">
+              <div class="player"><span class="avatar">JK</span><div class="player-info"><div class="player-name">Jules Kim <span class="you">You</span></div><p class="player-role">Coordination</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
+              <div class="player"><span class="avatar">NC</span><div class="player-info"><div class="player-name">Nora Chen</div><p class="player-role">Power systems</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
+              <div class="player"><span class="avatar">EK</span><div class="player-info"><div class="player-name">Emre Kaya</div><p class="player-role">Crossing</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
+            </div>
+            <div class="team-footer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H5v18h14V6l-3-3H8Z"/><path d="M8 11h8M8 15h5"/></svg>Team plan confirmed</div>
+          </section>
+          <section class="team-card opposition">
+            <header class="team-heading"><div class="team-title"><i class="team-emblem"></i><div><p class="mono">Opposition</p><h3>Vega</h3></div></div><span class="ready-count"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg>3 of 3 ready</span></header>
+            <div class="roster">
+              <div class="player"><span class="avatar">MC</span><div class="player-info"><div class="player-name">Maya Cole</div><p class="player-role">Coordination</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
+              <div class="player"><span class="avatar">IR</span><div class="player-info"><div class="player-name">Ishan Rao</div><p class="player-role">Power systems</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
+              <div class="player"><span class="avatar">SP</span><div class="player-info"><div class="player-name">Sora Park</div><p class="player-role">Crossing</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
+            </div>
+            <div class="team-footer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>Their strategy stays with their team</div>
+          </section>
+        </div>
+        <div class="lobby-footer"><div class="lobby-status"><span class="status-check"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg></span><div><strong>Both teams are ready</strong><p>Same starting conditions. Independent team plans.</p></div></div><span class="primary-action">Enter shared briefing<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span></div>
+      </main>
+    </div>
+  </section>
+
+  <section class="screen-detail" aria-label="Concept screenshot of the Atlas team plan">
+    <header class="detail-bar"><div class="detail-bar-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H5v18h14V6l-3-3H8Z"/><path d="M8 11h8M8 15h5"/></svg>Team plan <span class="mono muted">/ Atlas</span></div><span class="concept">Concept preview</span></header>
+    <div class="detail-content">
+      <div class="detail-heading"><h2>Restore power first.</h2><span class="plan-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg>Plan agreed</span></div>
+      <div class="messages">
+        <div class="message"><span class="avatar">JK</span><div class="message-body"><div class="message-author">Jules<span class="message-role">Coordination</span></div><p>Nora, take the pump station. Emre, watch the crossing.</p></div></div>
+        <div class="message"><span class="avatar">NC</span><div class="message-body"><div class="message-author">Nora<span class="message-role">Power systems</span></div><p>I’ll restore power. Call if they commit to the route.</p></div></div>
+        <div class="message"><span class="avatar">EK</span><div class="message-body"><div class="message-author">Emre<span class="message-role">Crossing</span></div><p>Holding the approach. I’ll flag any movement.</p></div></div>
+      </div>
+      <div class="locked-move"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg><div><p class="mono">Next move</p><strong>Restore gate power</strong></div><span>3 roles assigned</span></div>
+    </div>
+  </section>
+</body>
+</html>

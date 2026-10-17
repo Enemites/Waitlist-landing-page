@@ -9,6 +9,9 @@ import './index.css';
 import './brand.css';
 import './product.css';
 import './value-transformations.css';
+import './realms-entry.css';
+import './casual-path.css';
+import './competitive-path.css';
 import { MotionConfig } from 'motion/react';
 
 const root = document.getElementById('root')!;

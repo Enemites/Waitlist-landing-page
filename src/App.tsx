@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { BrowserRouter, Route, Routes, useLocation, Navigate } from "react-router-dom";
 import IntroductionPage from "@/pages/IntroductionPage";
 import AboutUsPage from "@/pages/AboutUsPage";
@@ -30,8 +30,11 @@ const NotAvailablePage = ({ title }: { title: string }) => (
 
 const ScrollToTop = () => {
   const { hash, pathname } = useLocation();
+  const previousPath = useRef<string | null>(null);
 
   useEffect(() => {
+    const pathChanged = previousPath.current !== pathname;
+    previousPath.current = pathname;
     if (hash) {
       const target = document.getElementById(decodeURIComponent(hash.slice(1)));
 
@@ -41,6 +44,7 @@ const ScrollToTop = () => {
       }
     }
 
+    if (!pathChanged) return;
     // Instantly jump to top on page change without animation
     window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
     document.documentElement.scrollTop = 0;
