@@ -16,6 +16,7 @@ import CompetitivePath from "@/components/product/CompetitivePath";
 import RealmsEntrySelector from "@/components/product/RealmsEntrySelector";
 import RealmsScreens from "@/components/product/RealmsScreens";
 import { ArrowUpRight, Play } from "lucide-react";
+import { scrollToWaitlist } from "@/lib/scroll";
 
 const YOUTUBE_DEMO_VIDEO_ID = "sga8QDniKls";
 
@@ -159,7 +160,11 @@ const IntroductionPage = () => {
     let target: string;
     try { target = decodeURIComponent(location.hash.slice(1)); }
     catch { return; }
-    document.getElementById(target)?.scrollIntoView({ behavior: reduce ? "instant" : "smooth", block: "start" });
+    if (target === "join-waitlist" || target === "waitlist-form-container") {
+      scrollToWaitlist();
+    } else {
+      document.getElementById(target)?.scrollIntoView({ behavior: reduce ? "instant" : "smooth", block: "start" });
+    }
   }, [entry, requestedEntry, location.hash, reduce]);
   const chooseEntry = (next: EntryPath, source: "pointer" | "keyboard" = "pointer") => {
     if (next === selectedEntry.current) return;
@@ -192,7 +197,7 @@ const IntroductionPage = () => {
               <p>Worlds imagined by AI. Shaped by your decisions.</p>
               <div className="hero-actions">
                 <Button asChild className="product-cta">
-                  <a href="#join-waitlist" onClick={e=>{e.preventDefault();document.getElementById('join-waitlist')?.scrollIntoView({behavior:reduce?"instant":"smooth",block:"center"});}}>
+                  <a href="#join-waitlist" onClick={scrollToWaitlist}>
                     Join Waitlist <ArrowUpRight aria-hidden="true" size={18} />
                   </a>
                 </Button>
@@ -304,7 +309,9 @@ const IntroductionPage = () => {
               <p>{registration.copy}</p>
               <div className="registration-art registration-threshold" aria-hidden="true"><img src="/assets/waitlist-threshold.webp" alt="" loading="lazy" /></div>
             </ProductReveal>
-            <WaitlistForm />
+            <div id="waitlist-form-container" className="registration-form-wrap w-full">
+              <WaitlistForm />
+            </div>
           </div>
         </section>
         <section className="product-endmark" aria-hidden="true"><img src="/assets/logo.png" width="572" height="420" alt="" loading="lazy" decoding="async" /></section>

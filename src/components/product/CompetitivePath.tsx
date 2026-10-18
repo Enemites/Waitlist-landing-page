@@ -1,5 +1,6 @@
 import { ArrowDownRight, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
+import { scrollToWaitlist } from "../../lib/scroll";
 
 const matchSteps = [
   { label: "Form your team", title: "Bring friends. Or join a team.", copy: "Start with people you know, or find a team to join. Share observations and decide how you’ll work together." },
@@ -84,7 +85,7 @@ export default function CompetitivePath({ children }: { children?: ReactNode }) 
     {children}
 
     <section className="competitive-invitation-section" aria-labelledby="competitive-invitation-heading">
-      <div className="product-container"><div className="competitive-invitation"><h3 id="competitive-invitation-heading">Bring this challenge to your group.</h3><div><a href="#join-waitlist" className="competitive-waitlist-link">Get match updates <ArrowRight size={18} aria-hidden="true" /></a><p>Follow team challenges and matchmaking as they take shape.</p></div></div></div>
+      <div className="product-container"><div className="competitive-invitation"><h3 id="competitive-invitation-heading">Bring this challenge to your group.</h3><div><a href="#join-waitlist" className="competitive-waitlist-link" onClick={scrollToWaitlist}>Get match updates <ArrowRight size={18} aria-hidden="true" /></a><p>Follow team challenges and matchmaking as they take shape.</p></div></div></div>
     </section>
   </div>;
 }

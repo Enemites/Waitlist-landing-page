@@ -1,5 +1,6 @@
 import { useId, useRef, useState, type ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Check, Copy } from "lucide-react";
+import { scrollToWaitlist } from "../../lib/scroll";
 
 function ArchiveScene() {
   const titleId = useId();
@@ -122,7 +123,7 @@ export default function CasualPath({ children }: { children?: ReactNode }) {
 
     <div className="product-container casual-invitation">
       <div className="casual-invitation-copy"><h3>Bring another perspective.</h3><p>Send a friend the same signal. Compare the first moves you would make.</p></div>
-      <div className="casual-invitation-actions"><button type="button" className="casual-share" onClick={copyWorldLink}>{shareState === "copied" ? <Check size={16} strokeWidth={1.5} aria-hidden="true" /> : <Copy size={16} strokeWidth={1.5} aria-hidden="true" />}{shareState === "copied" ? "Link copied" : "Copy world link"}</button><a className="casual-access" href="#join-waitlist">Request early access <ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></a></div>
+      <div className="casual-invitation-actions"><button type="button" className="casual-share" onClick={copyWorldLink}>{shareState === "copied" ? <Check size={16} strokeWidth={1.5} aria-hidden="true" /> : <Copy size={16} strokeWidth={1.5} aria-hidden="true" />}{shareState === "copied" ? "Link copied" : "Copy world link"}</button><a className="casual-access" href="#join-waitlist" onClick={scrollToWaitlist}>Request early access <ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></a></div>
       <div className="casual-share-feedback" aria-live="polite">{shareState === "copied" && <p>The world link is ready to share.</p>}{shareState === "manual" && <div><label htmlFor="casual-world-link">Copy this link to share the world</label><input id="casual-world-link" ref={shareInput} type="url" readOnly value={shareUrl} onFocus={(event) => event.currentTarget.select()} /></div>}</div>
     </div>
   </div>;
