@@ -9,15 +9,6 @@
   --entry-surface: #151b31;
   background: radial-gradient(ellipse at 88% 8%,#8d87cf13,transparent 54%),radial-gradient(ellipse at 6% 55%,#56649c12,transparent 48%),var(--entry-bg);
 }
-.realms-entry-panel[data-entry="focused"] {
-  --entry-accent: #c4ed6c;
-  --entry-bg: #101719;
-  --entry-muted: #a5b1ac;
-  --entry-ink: #e7ede9;
-  --entry-line: #35433e;
-  --entry-surface: #151f20;
-  background: var(--entry-bg);
-}
 .realms-entry-panel[data-entry="competitive"] {
   --entry-accent: #efbd70;
   --entry-bg: #0b0c0e;
@@ -27,7 +18,7 @@
   --entry-surface: #171512;
   background: var(--entry-bg);
 }
-.realms-entry-panel[data-entry] {
+.realms-entry-panel[data-entry]:not([data-entry="focused"]) {
   --product-bg: var(--entry-bg);
   --product-panel: var(--entry-surface);
   --product-muted: var(--entry-muted);
@@ -36,12 +27,12 @@
   --product-accent: var(--entry-accent);
   color: var(--entry-ink);
 }
-.realms-entry-panel[data-entry] p { color: var(--entry-muted); }
-.realms-entry-panel[data-entry] h2 span { color: var(--entry-accent); }
-.realms-entry-panel[data-entry] .product-eyebrow { color: var(--entry-accent); }
-.realms-entry-panel[data-entry] :is(a,button,input):focus-visible { outline-color: var(--entry-accent); }
-.realms-entry-panel[data-entry]::selection,
-.realms-entry-panel[data-entry] ::selection { color: var(--entry-bg); background: var(--entry-accent); }
+.realms-entry-panel[data-entry]:not([data-entry="focused"]) p { color: var(--entry-muted); }
+.realms-entry-panel[data-entry]:not([data-entry="focused"]) h2 span { color: var(--entry-accent); }
+.realms-entry-panel[data-entry]:not([data-entry="focused"]) .product-eyebrow { color: var(--entry-accent); }
+.realms-entry-panel[data-entry]:not([data-entry="focused"]) :is(a,button,input):focus-visible { outline-color: var(--entry-accent); }
+.realms-entry-panel[data-entry]:not([data-entry="focused"])::selection,
+.realms-entry-panel[data-entry]:not([data-entry="focused"]) ::selection { color: var(--entry-bg); background: var(--entry-accent); }
 
 /* Casual: unhurried space, soft edges, and a story that opens out from the center. */
 .realms-entry-panel[data-entry="casual"] .casual-path { padding-top: 53px; }
@@ -95,7 +86,7 @@
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #c2c6dd; }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #e2e4f5; background: #10162b; border-color: #6c6a93; border-radius: 7px; }
 
-/* Focused: a quiet laboratory index, measured columns, and flat evidence surfaces. */
+/* Focused keeps its original product palette; only the newer layout treatment remains. */
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro { padding-block: 48px 65px; }
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container {
   display: grid;
@@ -103,37 +94,28 @@
   column-gap: 68px;
   row-gap: 24px;
   padding-block: 33px 39px;
-  border-top: 1px solid #3c4d43;
-  border-bottom: 1px solid #3c4d43;
+  border-top: 1px solid var(--product-line);
+  border-bottom: 1px solid var(--product-line);
 }
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-eyebrow { grid-column: 1; grid-row: 1; max-width: 190px; padding-top: 8px; font-size: 11px; line-height: 1.9; }
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro h2 { grid-column: 2; grid-row: 1; margin-top: 0; font-size: clamp(42px,4.6vw,65px); font-weight: 500; line-height: 1.12; letter-spacing: -.05em; }
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container > p:last-child { grid-column: 2; grid-row: 2; margin-top: 0; max-width: 510px; line-height: 1.85; }
-.realms-entry-panel[data-entry="focused"] .product-values { background: #151e20; border-color: #31413a; }
-.realms-entry-panel[data-entry="focused"] .values-opening { grid-template-columns: .85fr 1.15fr; gap: 64px; margin-bottom: 73px; padding-bottom: 57px; border-bottom: 1px solid #34473b; }
+.realms-entry-panel[data-entry="focused"] .values-opening { grid-template-columns: .85fr 1.15fr; gap: 64px; margin-bottom: 73px; padding-bottom: 57px; border-bottom: 1px solid #334036; }
 .realms-entry-panel[data-entry="focused"] .values-opening h2 { font-size: clamp(38px,4.3vw,61px); font-weight: 500; line-height: 1.12; }
-.realms-entry-panel[data-entry="focused"] .values-opening h2 span { color: #8e9e96; }
-.realms-entry-panel[data-entry="focused"] .intro-preview-trigger { border-color: #435849; border-radius: 3px; }
+.realms-entry-panel[data-entry="focused"] .intro-preview-trigger { border-radius: 3px; }
 .realms-entry-panel[data-entry="focused"] .value-stories { column-gap: 52px; }
-.realms-entry-panel[data-entry="focused"] .value-story { padding-block: 31px; border-color: #3b4c41; }
+.realms-entry-panel[data-entry="focused"] .value-story { padding-block: 31px; }
 .realms-entry-panel[data-entry="focused"] .value-story h3 { font-weight: 500; letter-spacing: -.04em; }
 .realms-entry-panel[data-entry="focused"] .value-story p { font-size: 14px; line-height: 1.85; }
-.realms-entry-panel[data-entry="focused"] .simulation-sequence { background: var(--entry-bg); border-color: #34463b; }
-.realms-entry-panel[data-entry="focused"] .sequence-screen { border-color: #465b4c; border-radius: 3px; box-shadow: none; }
-.realms-entry-panel[data-entry="focused"] .screen-chrome { background: #17221f; border-color: #374a3d; }
-.realms-entry-panel[data-entry="focused"] .sequence-phase { border-color: #3b4c42; }
+.realms-entry-panel[data-entry="focused"] .sequence-screen { border-radius: 3px; box-shadow: none; }
 .realms-entry-panel[data-entry="focused"] .sequence-phase-content > span { font-size: 13px; line-height: 1.8; }
-.realms-entry-panel[data-entry="focused"] .product-market { color: var(--entry-ink); background: #1a251f; border-block: 1px solid #455640; }
+.realms-entry-panel[data-entry="focused"] .product-market { border-block: 1px solid #53693b50; }
 .realms-entry-panel[data-entry="focused"] .product-market .product-container { gap: 76px; }
-.realms-entry-panel[data-entry="focused"] .market-heading h2 { color: #e7ede9; font-size: clamp(44px,5vw,68px); font-weight: 500; }
-.realms-entry-panel[data-entry="focused"] .market-heading h2 span { color: var(--entry-accent); font-style: normal; }
-.realms-entry-panel[data-entry="focused"] .market-heading > p { color: #9daa9f; }
-.realms-entry-panel[data-entry="focused"] .market-source :is(span,h3) { color: #94aa88; }
-.realms-entry-panel[data-entry="focused"] .market-quote { border-color: #45553e; }
-.realms-entry-panel[data-entry="focused"] .market-quote > p { color: #dbe4d6; font-size: clamp(25px,2.6vw,35px); line-height: 1.4; }
-.realms-entry-panel[data-entry="focused"] .product-proof { background: #101719; }
-.realms-entry-panel[data-entry="focused"] .proof-evidence { gap: 76px; border-top: 1px solid #35483b; padding-top: 64px; }
-.realms-entry-panel[data-entry="focused"] :is(.decision-trace,.proof-evidence-art) { border-color: #3b5141; border-radius: 3px; background-color: #121e1b; }
+.realms-entry-panel[data-entry="focused"] .market-heading h2 { font-size: clamp(44px,5vw,68px); font-weight: 500; }
+.realms-entry-panel[data-entry="focused"] .market-heading h2 span { font-style: normal; }
+.realms-entry-panel[data-entry="focused"] .market-quote > p { font-size: clamp(25px,2.6vw,35px); line-height: 1.4; }
+.realms-entry-panel[data-entry="focused"] .proof-evidence { gap: 76px; border-top: 1px solid #27382e; padding-top: 64px; }
+.realms-entry-panel[data-entry="focused"] :is(.decision-trace,.proof-evidence-art) { border-radius: 3px; }
 
 /* Competitive: a warm, angular match briefing with firmer type and clear rails. */
 .realms-entry-panel[data-entry="competitive"] .competitive-path { background: transparent; }

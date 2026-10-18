@@ -19,7 +19,7 @@ The standalone illustrations remain in `CasualPath.tsx` and `CompetitivePath.tsx
 ## Three entry identities
 
 - Casual: midnight blue and lilac, lighter type, open spacing, soft story rails and rounded controls. Its transition opens the world through a gentle scale and rising copy.
-- Focused: graphite and mint, measured column alignment, flat evidence surfaces and precise rules. Its transition aligns the introductory text through a short reveal.
+- Focused: restore the original product colors, including the bright lime market section, while retaining the newer measured layout and short alignment transition. The gateway button keeps its mint palette.
 - Competitive: near-black and amber, firmer type, angular rules and a tactical briefing rhythm. Its text and world enter from opposing sides.
 
 The new gateway selector uses three distinct architectural emblems and retains accessible tab semantics, query-string selection, keyboard focus, and persistent shared registration. Transition animation is limited to the incoming path's introduction and never delays selection. Keyboard changes are immediate; reduced motion removes travel. Shared hero, definition, waitlist form, destinations, and public APIs retain their behavior.

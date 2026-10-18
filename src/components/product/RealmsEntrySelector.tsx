@@ -190,7 +190,7 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
   // Smooth, fluid motion transition
   const morphTransition = reduce
     ? { duration: 0 }
-    : { duration: 0.44, ease: [0.22, 1, 0.36, 1] };
+    : { duration: 0.44, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
     <div className="realms-selector-wrapper">
