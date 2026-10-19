@@ -1,4 +1,4 @@
-import { useRef, type KeyboardEvent } from "react";
+import { useId, useRef, type KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -15,46 +15,11 @@ const entries = [
   { id: "competitive", label: "Competitive", reason: "Face another team" },
 ] as const;
 
-// Solid, mature, professional dark-mode palettes (no AI neon glow)
-const THEMES: Record<
-  EntryId,
-  {
-    accent: string;
-    textAccent: string;
-    activeFill: string;
-    inactiveFill: string;
-    inactiveLine: string;
-    activeLine: string;
-    detail: string;
-  }
-> = {
-  focused: {
-    accent: "#a3e635",       // Solid lime (precise, executive)
-    textAccent: "#cbfb60",
-    activeFill: "#122018",   // Solid dark forest obsidian
-    inactiveFill: "#0e1413", // Solid dark graphite
-    inactiveLine: "#25332e", // Solid dark slate border
-    activeLine: "#a3e635",   // Crisp solid 1.5px border
-    detail: "#526e5e",
-  },
-  casual: {
-    accent: "#a59df0",       // Solid refined periwinkle-violet
-    textAccent: "#c7c1ff",
-    activeFill: "#151627",   // Solid deep slate-indigo
-    inactiveFill: "#0e1413",
-    inactiveLine: "#25332e",
-    activeLine: "#a59df0",
-    detail: "#5d5c7c",
-  },
-  competitive: {
-    accent: "#e5a74a",       // Solid warm bronze-gold
-    textAccent: "#fcd38d",
-    activeFill: "#1f1710",   // Solid deep bronze obsidian
-    inactiveFill: "#0e1413",
-    inactiveLine: "#25332e",
-    activeLine: "#e5a74a",
-    detail: "#735c40",
-  },
+// Accents mirror each path while the shared surface stays in the product palette.
+const THEMES: Record<EntryId, { accent: string; surface: string; line: string }> = {
+  focused: { accent: "#c4ed6c", surface: "#1e2b22", line: "#718753" },
+  casual: { accent: "#b9b3f5", surface: "#232439", line: "#767294" },
+  competitive: { accent: "#efbd70", surface: "#30291e", line: "#8a7351" },
 };
 
 // Exact optical visual centers of the artwork paths
@@ -100,57 +65,39 @@ function GatewayPaths({ kind }: { kind: EntryId }) {
   );
 }
 
-type SlotType = "top" | "bottom-left" | "bottom-right";
-
-type SlotDef = {
+type Facet = {
   path: string;
+  innerEdge: string;
   centerX: number;
   centerY: number;
-  iconOffsetY: number;
-  iconScale: number;
-  labelOffsetY: number;
-  labelSize: number;
-  labelWeight: number;
 };
 
-const SLOTS: Record<SlotType, SlotDef> = {
-  top: {
-    // Top apex: (210, 8), right base (324, 186), left base (96, 186)
-    path: "M 210,8 L 210,8 L 324,186 L 96,186 Z",
-    centerX: 210, // Exact dead-center matching apex at X=210
-    centerY: 122,
-    iconOffsetY: -34,
-    iconScale: 0.27,
-    labelOffsetY: 26,
-    labelSize: 17,
-    labelWeight: 600,
+// Each side is a separate surface; their inner edges reveal a triangular void.
+// Fixed positions give the three entry paths equal standing when selected.
+const FACETS: Record<EntryId, Facet> = {
+  casual: {
+    path: "M234 24 8 388 197 272 234 208Z",
+    innerEdge: "M234 208 197 272",
+    centerX: 164,
+    centerY: 207,
   },
-  "bottom-left": {
-    // Bottom-left wing: top (90, 194) to (205, 194), bottom (205, 320) to (8, 320)
-    path: "M 90,194 L 205,194 L 205,320 L 8,320 Z",
-    centerX: 148, // Nudged inward towards center (balanced margin from outer edge)
-    centerY: 256,
-    iconOffsetY: -20,
-    iconScale: 0.23,
-    labelOffsetY: 24,
-    labelSize: 14.5,
-    labelWeight: 500,
+  focused: {
+    path: "M20 400 460 400 276 284 204 284Z",
+    innerEdge: "M204 284H276",
+    centerX: 240,
+    centerY: 337,
   },
-  "bottom-right": {
-    // Bottom-right wing: top (215, 194) to (330, 194), bottom (412, 320) to (215, 320)
-    path: "M 215,194 L 330,194 L 412,320 L 215,320 Z",
-    centerX: 272, // Nudged inward towards center (symmetrical with X=148 around X=210)
-    centerY: 256,
-    iconOffsetY: -20,
-    iconScale: 0.23,
-    labelOffsetY: 24,
-    labelSize: 14.5,
-    labelWeight: 500,
+  competitive: {
+    path: "M246 24 472 388 283 272 246 208Z",
+    innerEdge: "M246 208 283 272",
+    centerX: 316,
+    centerY: 207,
   },
 };
 
 export default function RealmsEntrySelector({ value, onChange }: EntrySelectorProps) {
   const reduce = useReducedMotion();
+  const surfaceId = useId().replace(/:/g, "");
   const buttonRefs = useRef<Record<EntryId, SVGGElement | null>>({
     casual: null,
     focused: null,
@@ -158,9 +105,13 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
   });
 
   const selectedEntry = entries.find((e) => e.id === value) || entries[0];
-  const unselectedEntries = entries.filter((e) => e.id !== value);
 
   function handleKeyDown(event: KeyboardEvent<SVGGElement>, currentId: EntryId) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onChange(currentId, "keyboard");
+      return;
+    }
     const currentIndex = entries.findIndex((e) => e.id === currentId);
     let nextIndex: number;
     switch (event.key) {
@@ -187,27 +138,31 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
     buttonRefs.current[nextEntry.id]?.focus();
   }
 
-  // Smooth, fluid motion transition
-  const morphTransition = reduce
+  // Only light and surface emphasis change; the facets stay in place.
+  const surfaceTransition = reduce
     ? { duration: 0 }
-    : { duration: 0.44, ease: [0.22, 1, 0.36, 1] as const };
+    : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
     <div className="realms-selector-wrapper">
       <div className="realms-triangle-board-wrap">
         <svg
           className="realms-triangle-board"
-          viewBox="0 0 420 330"
+          viewBox="0 0 480 430"
           role="tablist"
           aria-label="Find your way into Realms"
         >
+          <defs>
+            {entries.map((entry) => (
+              <linearGradient key={entry.id} id={`${surfaceId}-${entry.id}`} x1="0" y1="0" x2=".8" y2="1">
+                <stop offset="0%" stopColor={THEMES[entry.id].surface} />
+                <stop offset="100%" stopColor="#10191b" />
+              </linearGradient>
+            ))}
+          </defs>
           {entries.map((entry) => {
             const isSelected = value === entry.id;
-            let slot: SlotType = "top";
-            if (!isSelected) {
-              slot = unselectedEntries[0].id === entry.id ? "bottom-left" : "bottom-right";
-            }
-            const slotDef = SLOTS[slot];
+            const facet = FACETS[entry.id];
             const theme = THEMES[entry.id];
             const focalCenter = ICON_FOCAL_CENTERS[entry.id];
 
@@ -225,42 +180,48 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
                 tabIndex={isSelected ? 0 : -1}
                 className={`realms-tri-sector realms-tri-sector--${entry.id} ${
                   isSelected ? "is-selected" : "is-unselected"
-                } slot--${slot}`}
+                }`}
                 onClick={() => onChange(entry.id, "pointer")}
                 onKeyDown={(e) => handleKeyDown(e, entry.id)}
               >
-                {/* Solid Sector Triangle Path with Smooth Morphing and Precise Border */}
                 <motion.path
-                  d={slotDef.path}
+                  initial={false}
+                  d={facet.path}
+                  fill="#101819"
                   strokeLinejoin="round"
                   className="realms-tri-path-base"
-                  animate={{
-                    d: slotDef.path,
-                    fill: isSelected ? theme.activeFill : theme.inactiveFill,
-                    stroke: isSelected ? theme.activeLine : theme.inactiveLine,
-                    strokeWidth: isSelected ? 1.8 : 1.2,
-                  }}
-                  transition={morphTransition}
+                  animate={{ stroke: isSelected ? theme.line : "#34413d" }}
+                  transition={surfaceTransition}
                 />
-
-                {/* Sliding Icon & Label Content Group */}
-                <motion.g
-                  animate={{
-                    x: slotDef.centerX,
-                    y: slotDef.centerY,
-                  }}
-                  transition={morphTransition}
-                  className="realms-tri-content"
-                >
-                  {/* Gateway Icon - Centered using optical focal coordinate */}
+                <motion.path
+                  initial={false}
+                  d={facet.path}
+                  fill={`url(#${surfaceId}-${entry.id})`}
+                  className="realms-tri-surface"
+                  animate={{ opacity: isSelected ? 1 : 0.25 }}
+                  transition={surfaceTransition}
+                  aria-hidden="true"
+                />
+                <motion.path
+                  initial={false}
+                  d={facet.innerEdge}
+                  className="realms-tri-inner-edge"
+                  stroke={theme.accent}
+                  animate={{ opacity: isSelected ? 1 : 0.12 }}
+                  transition={surfaceTransition}
+                  aria-hidden="true"
+                />
+                <g transform={`translate(${facet.centerX}, ${facet.centerY})`} className="realms-tri-content">
+                  {/* Optical centers keep the bespoke gateways aligned. */}
                   <motion.g
-                    transform={`translate(0, ${slotDef.iconOffsetY}) scale(${slotDef.iconScale})`}
+                    transform="translate(0, -13) scale(.36)"
                     className="realms-tri-icon-group"
+                    initial={false}
                     animate={{
-                      color: isSelected ? theme.accent : "#82908a",
-                      opacity: isSelected ? 1 : 0.75,
+                      color: theme.accent,
+                      opacity: isSelected ? 1 : 0.7,
                     }}
-                    transition={morphTransition}
+                    transition={surfaceTransition}
                   >
                     <g transform={`translate(${focalCenter.x}, ${focalCenter.y})`}>
                       <GatewayPaths kind={entry.id} />
@@ -269,28 +230,29 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
 
                   {/* Mode Label */}
                   <motion.text
-                    x="0"
-                    y={slotDef.labelOffsetY}
+                    initial={false}
+                    x={entry.id === "competitive" ? 8 : 0}
+                    y="49"
                     textAnchor="middle"
                     className="realms-tri-label"
                     animate={{
-                      fill: isSelected ? theme.textAccent : "#9ea8a4",
-                      fontSize: slotDef.labelSize,
-                      fontWeight: slotDef.labelWeight,
+                      fill: isSelected ? "#edf1ef" : "#b2bdb7",
+                      fontSize: 17,
+                      fontWeight: 500,
                     }}
-                    transition={morphTransition}
+                    transition={surfaceTransition}
                   >
                     {entry.label}
                   </motion.text>
-                </motion.g>
+                </g>
               </g>
             );
           })}
         </svg>
       </div>
 
-      {/* Solid Description Pill Below Triangle */}
-      <div className="realms-triangle-desc-wrapper">
+      {/* A quiet caption connects the selection to its purpose. */}
+      <div className="realms-triangle-desc-wrapper" aria-live="polite" aria-atomic="true">
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedEntry.id}
@@ -306,6 +268,9 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
               aria-hidden="true"
             />
             <span className="realms-desc-text">{selectedEntry.reason}</span>
+            <svg className="realms-desc-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
           </motion.div>
         </AnimatePresence>
       </div>
