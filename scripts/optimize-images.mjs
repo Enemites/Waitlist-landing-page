@@ -2,6 +2,7 @@ import sharp from "sharp";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const sources = [
+  ["lab-inquiry-abstract.png", "lab-inquiry-abstract", [640, 960, 1536]],
   ["work.png", "work", [640, 1280, 1920]],
   ["capability-proof-abstract.png", "capability-proof", [640, 1280]],
   ["arena-infrastructure.jpg", "arena-infrastructure", [640, 960]],
@@ -11,7 +12,10 @@ const sources = [
 await mkdir("public/assets", { recursive: true });
 for (const [file, name, widths] of sources) {
   for (const width of widths) {
-    const info = await sharp(`design/source-assets/${file}`).resize({ width, withoutEnlargement: true }).webp({ quality: 82 }).toFile(`public/assets/${name}-${width}.webp`);
+    const info = await sharp(`design/source-assets/${file}`).resize({ width, withoutEnlargement: true }).webp(name === "lab-inquiry-abstract" ? { quality: 88, alphaQuality: 100 } : { quality: 82 }).toFile(`public/assets/${name}-${width}.webp`);
+    if (name === "lab-inquiry-abstract") {
+      await sharp(`design/source-assets/${file}`).resize({ width, withoutEnlargement: true }).avif({ quality: 70, effort: 4 }).toFile(`public/assets/${name}-${width}.avif`);
+    }
     console.log(`${name}-${width}.webp: ${info.width}×${info.height}, ${(info.size / 1024).toFixed(1)} KiB`);
   }
 }
