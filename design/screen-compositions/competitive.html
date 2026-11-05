@@ -1,160 +1,146 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Realms — Competitive concept screens</title>
-  <style>
-    @font-face { font-family: Manrope; src: url('/node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2'); font-style: normal; font-weight: 200 800; font-display: block; }
-    @font-face { font-family: 'JetBrains Mono'; src: url('/node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); font-style: normal; font-weight: 100 800; font-display: block; }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; background: transparent; }
-    body { display: flex; flex-direction: column; align-items: flex-start; gap: 40px; padding: 40px; font-family: Manrope, sans-serif; color: #e7ecee; -webkit-font-smoothing: antialiased; }
-    h1, h2, h3, p { margin: 0; }
-    svg { display: block; flex-shrink: 0; }
-    .screen-main, .screen-detail { flex-shrink: 0; border: 1px solid #39413f; border-radius: 12px; overflow: hidden; background: #0c1012; }
-    .screen-main { width: 1200px; height: 760px; }
-    .screen-detail { width: 600px; height: 460px; background: #13191c; }
-    .mono { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .09em; font-size: 10px; line-height: 1.6; }
-    .muted { color: #98a7a9; }
-    .concept { display: inline-flex; align-items: center; gap: 7px; color: #98a3a7; font-size: 11px; line-height: 1.5; }
-    .concept::before { content: ''; width: 5px; height: 5px; border-radius: 50%; border: 1px solid #7e9095; }
-    .main-bar { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 25px; background: #13191c; border-bottom: 1px solid #2c3536; }
-    .bar-brand { display: flex; align-items: center; gap: 29px; }
-    .wordmark { font-size: 23px; font-weight: 650; letter-spacing: -.065em; color: #eef0ef; }
-    .bar-divider { width: 1px; height: 22px; background: #333e3f; }
-    .bar-context { display: flex; align-items: center; gap: 10px; color: #a6b3b7; font-size: 13px; }
-    .bar-right { display: flex; align-items: center; gap: 25px; }
-    .profile { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #c4cfd2; }
-    .avatar { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid #64533b; border-radius: 10px; background: #2b2a24; color: #f1cea0; font-size: 12px; font-weight: 600; letter-spacing: -.025em; flex-shrink: 0; }
-    .profile .avatar { width: 29px; height: 29px; border-radius: 8px; font-size: 10px; }
-    .main-body { display: grid; grid-template-columns: 176px minmax(0, 1fr); height: 694px; }
-    .sidebar { display: flex; flex-direction: column; padding: 28px 15px 22px; border-right: 1px solid #2c3536; background: #0a0e10; }
-    .sidebar-title { color: #819297; margin: 0 12px 21px; }
-    .sidebar-item { display: flex; align-items: center; gap: 11px; min-height: 43px; padding: 10px 12px; margin-bottom: 5px; font-size: 12px; color: #95a5aa; border: 1px solid transparent; border-radius: 6px; }
-    .sidebar-item.selected { background: #efbd700a; border-color: #735c3a; color: #f3ce96; }
-    .sidebar-item svg { color: #829295; }
-    .sidebar-item.selected svg { color: #efbd70; }
-    .sidebar-bottom { margin-top: auto; padding: 21px 12px 0; border-top: 1px solid #2b3435; }
-    .sidebar-bottom strong { display: block; margin-top: 7px; font-size: 14px; font-weight: 550; color: #d6dfe1; }
-    .sidebar-bottom > p:last-child { margin-top: 8px; font-size: 11px; line-height: 1.7; color: #879a9e; }
-    .workspace { display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 27px 29px 25px; }
-    .workspace-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 54px; }
-    .workspace-heading h1 { font-size: 30px; font-weight: 550; line-height: 1.2; letter-spacing: -.05em; margin-top: 7px; }
-    .room-label { display: inline-flex; align-items: center; gap: 8px; padding: 8px 11px; border: 1px solid #3b4545; border-radius: 5px; color: #b1c0c1; font-size: 11px; }
-    .challenge { display: flex; align-items: center; justify-content: space-between; gap: 30px; min-height: 106px; padding: 21px 23px; border: 1px solid #364244; border-radius: 7px; background: #13191c; }
-    .challenge-copy { display: flex; align-items: flex-start; gap: 16px; }
-    .challenge-symbol { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; margin-top: 1px; border: 1px solid #6d5839; border-radius: 9px; color: #efbd70; background: #efbd7007; }
-    .challenge h2 { font-size: 19px; letter-spacing: -.035em; line-height: 1.35; font-weight: 550; }
-    .challenge-copy p { max-width: 430px; margin-top: 7px; font-size: 12px; line-height: 1.75; color: #a3b4b8; }
-    .challenge-format { flex-shrink: 0; padding-left: 25px; border-left: 1px solid #344144; }
-    .challenge-format strong { display: block; margin-top: 6px; font-size: 14px; font-weight: 500; color: #d4dde0; }
-    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; min-height: 326px; flex: 1; }
-    .team-card { display: flex; flex-direction: column; min-width: 0; border: 1px solid #364244; border-radius: 7px; overflow: hidden; background: #13191c; }
-    .team-card.own { border-color: #79603b; }
-    .team-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; padding: 16px 20px; border-bottom: 1px solid #2e3b3d; }
-    .team-title { display: flex; align-items: center; gap: 11px; }
-    .team-emblem { width: 4px; height: 30px; border-radius: 2px; background: #efbd70; }
-    .opposition .team-emblem { background: #a6b5b9; }
-    .team-title .mono { color: #95a6ac; font-size: 9px; }
-    .team-title h3 { font-size: 17px; font-weight: 550; letter-spacing: -.02em; line-height: 1.4; margin-top: 2px; }
-    .ready-count { display: flex; align-items: center; gap: 6px; color: #dfb97d; font-size: 11px; }
-    .opposition .ready-count { color: #b0c1c6; }
-    .roster { display: flex; flex-direction: column; flex: 1; padding: 0 20px; }
-    .player { display: flex; align-items: center; gap: 13px; min-height: 68px; flex: 1; padding-block: 13px; border-bottom: 1px solid #2a3638; }
-    .player:last-child { border-bottom: 0; }
-    .player-info { min-width: 0; }
-    .player-name { display: flex; align-items: center; gap: 7px; color: #e0e7e7; font-size: 13px; font-weight: 500; }
-    .you { font-size: 9px; line-height: 1.6; padding: 1px 5px; border-radius: 3px; color: #e3bc81; background: #efbd700b; border: 1px solid #715b39; font-weight: 400; }
-    .player-role { font-size: 11px; color: #96a8ae; margin-top: 5px; line-height: 1.5; }
-    .player-ready { display: flex; align-items: center; gap: 6px; margin-left: auto; color: #d5b782; font-size: 10px; }
-    .opposition .avatar { border-color: #455254; background: #242b2d; color: #c8d3d6; }
-    .opposition .player-ready { color: #afbec3; }
-    .team-footer { display: flex; align-items: center; gap: 8px; min-height: 39px; padding: 10px 20px; border-top: 1px solid #2b3a3d; color: #96a9ac; font-size: 10px; background: #0e1416; }
-    .lobby-footer { display: flex; align-items: center; justify-content: space-between; gap: 25px; min-height: 58px; padding-top: 4px; }
-    .lobby-status { display: flex; align-items: flex-start; gap: 11px; }
-    .status-check { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #80653e; background: #efbd700a; color: #efbd70; }
-    .lobby-status strong { font-size: 13px; line-height: 1.6; font-weight: 500; color: #e6ddcc; }
-    .lobby-status p { font-size: 11px; line-height: 1.6; color: #8a9ca3; margin-top: 3px; }
-    .primary-action { display: flex; align-items: center; gap: 22px; padding: 13px 17px; min-height: 44px; border-radius: 5px; background: #efbd70; color: #2d2216; font-size: 12px; font-weight: 650; }
-    .detail-bar { height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 25px; border-bottom: 1px solid #3b4545; background: #182023; }
-    .detail-bar-title { display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 550; letter-spacing: -.02em; color: #e5ecec; }
-    .detail-bar-title > svg { color: #ddba7f; }
-    .detail-content { padding: 23px 25px 24px; }
-    .detail-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .detail-heading h2 { font-size: 24px; line-height: 1.3; font-weight: 550; letter-spacing: -.045em; }
-    .plan-tag { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid #7a613e; border-radius: 4px; color: #e0bb83; font-size: 10px; line-height: 1.6; }
-    .messages { display: flex; flex-direction: column; gap: 15px; margin-top: 22px; }
-    .message { display: flex; align-items: flex-start; gap: 12px; }
-    .message .avatar { width: 31px; height: 31px; border-radius: 8px; font-size: 10px; }
-    .message-body { flex: 1; min-width: 0; padding-top: 1px; }
-    .message-author { display: flex; align-items: center; gap: 9px; font-size: 11px; color: #d4dfe2; line-height: 1.5; font-weight: 550; }
-    .message-role { color: #83999f; font-size: 10px; font-weight: 400; }
-    .message p { margin-top: 5px; color: #a9bbc1; font-size: 12px; line-height: 1.7; }
-    .locked-move { display: flex; align-items: center; gap: 12px; margin-top: 23px; padding: 13px 15px; border: 1px solid #7a613e; border-radius: 6px; background: #efbd7008; }
-    .locked-move > svg { color: #efbd70; }
-    .locked-move .mono { color: #ac9b7f; font-size: 9px; letter-spacing: .07em; }
-    .locked-move strong { display: block; margin-top: 3px; font-size: 13px; color: #f0d1a0; font-weight: 550; line-height: 1.6; }
-    .locked-move > span { margin-left: auto; color: #c8b58d; font-size: 10px; }
-  </style>
-</head>
-<body>
-  <section class="screen-main" aria-label="Concept screenshot of the Realms match lobby">
-    <header class="main-bar">
-      <div class="bar-brand"><strong class="wordmark">Realms</strong><span class="bar-divider"></span><span class="bar-context"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/></svg>Team space</span></div>
-      <div class="bar-right"><span class="concept">Concept preview</span><span class="profile"><span class="avatar">JK</span>Jules K.</span></div>
-    </header>
-    <div class="main-body">
-      <aside class="sidebar">
-        <p class="sidebar-title mono">Team space</p>
-        <div class="sidebar-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1Z"/></svg>Overview</div>
-        <div class="sidebar-item selected"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/></svg>Match lobby</div>
-        <div class="sidebar-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="7" r="3"/><path d="M3 20v-2a5 5 0 0 1 10 0v2m3-15a3 3 0 0 1 0 6m5 9v-2a5 5 0 0 0-4-4.9"/></svg>Your team</div>
-        <div class="sidebar-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h7l2 2h9v14H3Z"/><path d="M7 11h10M7 15h6"/></svg>Session journal</div>
-        <div class="sidebar-bottom"><p class="mono muted">Your team</p><strong>Atlas</strong><p>Three perspectives.<br />One shared approach.</p></div>
-      </aside>
-      <main class="workspace">
-        <div class="workspace-heading"><div><p class="mono muted">Team space / Match lobby</p><h1>Match lobby</h1></div><span class="room-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>Shared challenge</span></div>
-        <section class="challenge">
-          <div class="challenge-copy"><span class="challenge-symbol"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v6l7 4 7-4V3M5 21v-6l7-4 7 4v6"/><path d="M12 3v18"/></svg></span><div><h2>Meridian Crossing</h2><p>Keep the gate operational and maintain a route across the channel.</p></div></div>
-          <div class="challenge-format"><p class="mono muted">Format</p><strong>3 vs 3</strong></div>
-        </section>
-        <div class="team-grid">
-          <section class="team-card own">
-            <header class="team-heading"><div class="team-title"><i class="team-emblem"></i><div><p class="mono">Your team</p><h3>Atlas</h3></div></div><span class="ready-count"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg>3 of 3 ready</span></header>
-            <div class="roster">
-              <div class="player"><span class="avatar">JK</span><div class="player-info"><div class="player-name">Jules Kim <span class="you">You</span></div><p class="player-role">Coordination</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
-              <div class="player"><span class="avatar">NC</span><div class="player-info"><div class="player-name">Nora Chen</div><p class="player-role">Power systems</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
-              <div class="player"><span class="avatar">EK</span><div class="player-info"><div class="player-name">Emre Kaya</div><p class="player-role">Crossing</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
-            </div>
-            <div class="team-footer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H5v18h14V6l-3-3H8Z"/><path d="M8 11h8M8 15h5"/></svg>Team plan confirmed</div>
-          </section>
-          <section class="team-card opposition">
-            <header class="team-heading"><div class="team-title"><i class="team-emblem"></i><div><p class="mono">Opposition</p><h3>Vega</h3></div></div><span class="ready-count"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg>3 of 3 ready</span></header>
-            <div class="roster">
-              <div class="player"><span class="avatar">MC</span><div class="player-info"><div class="player-name">Maya Cole</div><p class="player-role">Coordination</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
-              <div class="player"><span class="avatar">IR</span><div class="player-info"><div class="player-name">Ishan Rao</div><p class="player-role">Power systems</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
-              <div class="player"><span class="avatar">SP</span><div class="player-info"><div class="player-name">Sora Park</div><p class="player-role">Crossing</p></div><span class="player-ready"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m5 12 4 4L19 6"/></svg>Ready</span></div>
-            </div>
-            <div class="team-footer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>Their strategy stays with their team</div>
-          </section>
-        </div>
-        <div class="lobby-footer"><div class="lobby-status"><span class="status-check"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg></span><div><strong>Both teams are ready</strong><p>Same starting conditions. Independent team plans.</p></div></div><span class="primary-action">Enter shared briefing<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span></div>
-      </main>
-    </div>
-  </section>
+<head><meta charset="UTF-8"><title>Realms Competitive: match screen</title>
+<link rel="stylesheet" href="/design/screen-compositions/shared.css">
+<style>
+.screen-main{--ink:#f2eee7;--muted:#a89f92;--accent:#efbd70;--rival:#dd6248;--panel:#0d0c0ae8;--panel-line:#ffffff17;--shade:#080706f0;--label-halo:#0f0d0a;background:#0f0d0a}
+.match{display:flex;align-items:center;gap:16px}
+.match strong{font-size:20px;letter-spacing:-.03em}
+.match .mono{font-size:11px;color:var(--muted)}
+.match i{width:1px;height:22px;background:#ffffff22}
+.score{position:absolute;left:50%;top:16px;transform:translateX(-50%);display:flex;align-items:stretch;border:1px solid var(--panel-line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.score .team{display:flex;align-items:center;gap:12px;padding:10px 18px;font-size:15px;font-weight:600}
+.score .team b{font:600 22px/1 Mono,monospace}
+.score .atlas{color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+.score .vega{color:var(--rival);box-shadow:inset 0 -2px 0 var(--rival)}
+.score .clock{display:grid;place-items:center;padding:6px 22px;border-inline:1px solid var(--panel-line);text-align:center}
+.score .clock span{font:500 10px/1 Mono,monospace;letter-spacing:.08em;color:var(--muted)}
+.score .clock strong{margin-top:4px;font:600 18px/1 Mono,monospace;color:var(--ink)}
+.signal{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.signal i{width:8px;height:8px;border-radius:50%;background:#7fd38a}
 
-  <section class="screen-detail" aria-label="Concept screenshot of the Atlas team plan">
-    <header class="detail-bar"><div class="detail-bar-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H5v18h14V6l-3-3H8Z"/><path d="M8 11h8M8 15h5"/></svg>Team plan <span class="mono muted">/ Atlas</span></div><span class="concept">Concept preview</span></header>
-    <div class="detail-content">
-      <div class="detail-heading"><h2>Restore power first.</h2><span class="plan-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4L19 6"/></svg>Plan agreed</span></div>
-      <div class="messages">
-        <div class="message"><span class="avatar">JK</span><div class="message-body"><div class="message-author">Jules<span class="message-role">Coordination</span></div><p>Nora, take the pump station. Emre, watch the crossing.</p></div></div>
-        <div class="message"><span class="avatar">NC</span><div class="message-body"><div class="message-author">Nora<span class="message-role">Power systems</span></div><p>I’ll restore power. Call if they commit to the route.</p></div></div>
-        <div class="message"><span class="avatar">EK</span><div class="message-body"><div class="message-author">Emre<span class="message-role">Crossing</span></div><p>Holding the approach. I’ll flag any movement.</p></div></div>
-      </div>
-      <div class="locked-move"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg><div><p class="mono">Next move</p><strong>Restore gate power</strong></div><span>3 roles assigned</span></div>
-    </div>
-  </section>
+.roster{left:28px;top:100px;width:330px;padding:20px}
+.roster h2,.channel h2{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600}
+.roster h2 span,.channel h2 span{font:500 10.5px/1 Mono,monospace;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.member{display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid #ffffff10}
+.avatar{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:#efbd701f;border:1px solid #efbd7066;color:var(--accent);font:600 12px/1 Mono,monospace}
+.member strong{display:block;font-size:14px}
+.member small{display:block;font-size:12px;color:var(--muted)}
+.state{font:500 10px/1 Mono,monospace;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-radius:6px;background:#ffffff0d;color:var(--ink)}
+.state.busy{background:#efbd7024;color:var(--accent)}
+
+.channel{right:28px;top:100px;width:380px;padding:20px}
+.msg{margin-top:14px;font-size:13.5px;line-height:1.5}
+.msg b{font-weight:600;margin-right:8px}
+.msg small{font:500 10px/1 Mono,monospace;color:var(--muted);letter-spacing:.06em}
+.msg p{margin-top:3px;color:#d8d1c5}
+.pinned{margin-top:18px;padding:14px 16px;border:1px solid #efbd7055;border-radius:10px;background:#efbd700f}
+.pinned .mono{font-size:10px;color:var(--accent)}
+.pinned strong{display:block;margin-top:6px;font-size:15px}
+.pinned small{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
+.compose{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:11px 14px;border:1px solid #ffffff14;border-radius:10px;font-size:13px;color:var(--muted)}
+
+.objective{left:50%;bottom:28px;transform:translateX(-50%);width:560px;padding:18px 22px}
+.objective .row{display:flex;justify-content:space-between;align-items:baseline}
+.objective .mono{font-size:10.5px;color:var(--muted)}
+.objective strong{font-size:17px}
+.objective b{font:600 15px/1 Mono,monospace;color:var(--accent)}
+.bar{position:relative;height:6px;margin-top:12px;border-radius:3px;background:#ffffff14;overflow:hidden}
+.bar i{position:absolute;inset:0 38% 0 0;border-radius:3px;background:var(--accent)}
+.warn{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12.5px;color:#f0a08f}
+.warn i{width:7px;height:7px;border-radius:50%;background:var(--rival)}
+</style></head>
+<body>
+<script>
+const RIVER = [[1640, 60], [1380, 190], [1190, 262], [1030, 372], [900, 460], [800, 560], [690, 636], [530, 680], [360, 770], [140, 830], [-40, 900]];
+window.WORLD = {
+  seed: 58,
+  sea: 0.18,
+  step: 0.06,
+  palette: { deep: '#0b0f10', shallow: '#18211f', low: '#211c15', high: '#4a3c2a', coast: '#e8c88ab8', seaLine: '#9fb0a226', line: '#efbd702b', indexLine: '#efbd704f' },
+  height(x, y, fbm) {
+    const n = fbm(x / 230, y / 230);
+    const d = distToPath(x, y, RIVER);
+    const river = 0.62 * Math.exp(-((d / (58 + 18 * n)) ** 2));
+    return 0.36 + 0.2 * n - river
+      + gauss(x, y, 380, 320, 170, 0.42) + gauss(x, y, 1260, 690, 190, 0.48)
+      + gauss(x, y, 1380, 360, 110, 0.25) + gauss(x, y, 300, 760, 120, 0.15);
+  },
+};
+</script>
+<script src="/design/screen-compositions/world.js"></script>
+<div class="screen-main">
+  <canvas class="world"></canvas>
+  <!-- Fog over the far bank: Vega's side is only partly known. -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 52% 70% at 92% 62%,#0f0d0ad0,transparent 75%)"></div>
+  <svg class="map-layer" viewBox="0 0 1600 1000">
+    <!-- Floodgate across the river, objective ring at 62% -->
+    <g transform="rotate(-32 800 560)">
+      <rect x="742" y="548" width="116" height="24" rx="3" fill="#2a2219" stroke="#efbd70" stroke-width="1.5"/>
+      <path d="M760 548v24M778 548v24M796 548v24M814 548v24M832 548v24" stroke="#efbd70" stroke-opacity=".5"/>
+    </g>
+    <circle cx="800" cy="560" r="64" fill="none" stroke="#ffffff1f" stroke-width="5"/>
+    <circle cx="800" cy="560" r="64" fill="none" stroke="#efbd70" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="62 100" transform="rotate(-90 800 560)"/>
+    <!-- Pump station -->
+    <rect x="530" y="376" width="64" height="46" rx="4" fill="#2a2219" stroke="#efbd70" stroke-opacity=".8" stroke-width="1.5"/>
+    <path d="M594 399C640 420 690 470 760 540" fill="none" stroke="#efbd70" stroke-opacity=".5" stroke-width="2" stroke-dasharray="3 6"/>
+    <!-- Crossing -->
+    <g stroke="#e6d6b8" stroke-linecap="round" fill="none">
+      <path d="M948 340 1060 440M936 352 1048 452" stroke-width="2"/>
+    </g>
+    <!-- Atlas, with Emre's watch over the crossing -->
+    <path d="M920 420 1046 318 1080 372Z" fill="#efbd70" fill-opacity=".12"/>
+    <g font-family="Mono" font-size="11" font-weight="600" text-anchor="middle">
+      <circle cx="562" cy="440" r="17" fill="#efbd70"/><text x="562" y="444" fill="#1b140a">NC</text>
+      <circle cx="684" cy="484" r="17" fill="#efbd70"/><text x="684" y="488" fill="#1b140a">JK</text>
+      <circle cx="920" cy="420" r="17" fill="#efbd70"/><text x="920" y="424" fill="#1b140a">EK</text>
+    </g>
+    <!-- Vega: two seen, one last seen -->
+    <g>
+      <path d="M1118 330l14 24h-28Z" fill="#dd6248"/>
+      <path d="M1140 512l14 24h-28Z" fill="#dd6248"/>
+      <circle cx="1060" cy="640" r="22" fill="none" stroke="#dd6248" stroke-opacity=".7" stroke-dasharray="3 5" stroke-width="1.5"/>
+      <path d="M1060 630l9 15h-18Z" fill="#dd6248" fill-opacity=".45"/>
+    </g>
+    <!-- Labels -->
+    <text class="label" x="760" y="476">Floodgate</text><text class="sublabel" x="760" y="494">OBJECTIVE</text>
+    <text class="label" x="512" y="362">Pump station</text>
+    <text class="label" x="1040" y="318">Crossing</text><text class="sublabel" x="1040" y="300">CONTESTED</text>
+    <text class="sublabel" x="1092" y="684">LAST SEEN 0:20</text>
+  </svg>
+
+  <div class="topbar">
+    <div class="match"><strong>Floodgate</strong><i></i><span class="mono">Team challenge · 3 v 3</span></div>
+    <div class="signal"><i></i>All players connected</div>
+  </div>
+  <div class="score">
+    <div class="team atlas">Atlas <b>1</b></div>
+    <div class="clock"><span>ROUND 2</span><strong>08:14</strong></div>
+    <div class="team vega"><b>1</b> Vega</div>
+  </div>
+
+  <div class="panel roster">
+    <h2>Atlas <span>Your team</span></h2>
+    <div class="member"><span class="avatar">JK</span><div><strong>Jules</strong><small>Coordination</small></div><span class="state">Moving</span></div>
+    <div class="member"><span class="avatar">NC</span><div><strong>Nora</strong><small>Power systems</small></div><span class="state busy">Restoring</span></div>
+    <div class="member"><span class="avatar">EK</span><div><strong>Emre</strong><small>Crossing</small></div><span class="state">Holding</span></div>
+  </div>
+
+  <div class="panel channel">
+    <h2>Team channel <span>Atlas only</span></h2>
+    <div class="msg"><b>Jules</b><small>08:31</small><p>Nora, take the pump station. Emre, watch the crossing.</p></div>
+    <div class="msg"><b>Nora</b><small>08:26</small><p>On it. Call if they commit to the route.</p></div>
+    <div class="msg"><b>Emre</b><small>08:19</small><p>Two of them by the crossing. Holding the approach.</p></div>
+    <div class="pinned"><span class="mono">Plan agreed</span><strong>Restore gate power first</strong><small>3 roles assigned</small></div>
+    <div class="compose">Message your team<span class="key">↵</span></div>
+  </div>
+
+  <div class="panel objective">
+    <div class="row"><span class="mono">Objective 2 of 3</span><b>62%</b></div>
+    <div class="row" style="margin-top:6px"><strong>Restore gate power</strong></div>
+    <div class="bar"><i></i></div>
+    <div class="warn"><i></i>Vega is contesting the crossing</div>
+  </div>
+</div>
 </body>
 </html>

@@ -3,21 +3,17 @@ type ScreenEntry = 'casual' | 'competitive';
 const screenCopy = {
   casual: {
     heading: <>Another world.<br /><span>Another first move.</span></>,
-    copy: 'Find an unfamiliar place. Open its story. Decide where it goes next.',
-    main: 'Concept screenshot of the Realms world library, featuring The Glasshouse, Northbound, and Pressure Drop.',
-    detail: 'A separate Glasshouse journal screenshot with a situation, a field note, and a decision to open the roof vents.',
-    detailHeight: 486,
+    copy: 'Find an unfamiliar place. Read the situation. Decide what happens next.',
+    alt: 'Concept screenshot of a Casual world in play: a topographic map of the Tidal Archive, a story note, and three first moves with their cost to the power reserve.',
   },
   competitive: {
     heading: <>From the lobby.<br /><span>Into the match.</span></>,
     copy: 'Meet the other side. Assign your roles. Take one shared plan into the challenge.',
-    main: 'Concept screenshot of the Realms match lobby, with Atlas and Vega team rosters, roles, and the shared challenge.',
-    detail: 'A separate team planning screenshot with coordination messages, assigned responsibilities, and the next team move.',
-    detailHeight: 460,
+    alt: 'Concept screenshot of a Competitive match: Atlas and Vega on a river map, the team roster, a team channel with the agreed plan, and the floodgate objective.',
   },
 };
 
-/** Static screenshot artwork. The software UI within these images has no page controls. */
+/** Static interface artwork rendered by scripts/render-realms-screens.mjs from design/screen-compositions. */
 export default function RealmsScreens({ entry }: { entry: ScreenEntry }) {
   const content = screenCopy[entry];
   return <section id={`${entry}-screens`} className="realms-screens" data-screen-entry={entry} aria-labelledby={`${entry}-screens-heading`}>
@@ -27,11 +23,10 @@ export default function RealmsScreens({ entry }: { entry: ScreenEntry }) {
         <p>{content.copy}</p>
       </div>
       <figure className="realms-screen-composition">
-        <div className="realms-screen-stage">
-          <img className="realms-screen-main" src={`/assets/realms/screens/${entry}-main-1800.webp`} srcSet={`/assets/realms/screens/${entry}-main-900.webp 900w, /assets/realms/screens/${entry}-main-1800.webp 1800w`} sizes="(max-width: 767px) 90vw, 76vw" width="1200" height="760" alt={content.main} loading="lazy" decoding="async" draggable={false} />
-          <img className="realms-screen-detail" src={`/assets/realms/screens/${entry}-detail-900.webp`} srcSet={`/assets/realms/screens/${entry}-detail-600.webp 600w, /assets/realms/screens/${entry}-detail-900.webp 900w`} sizes="(max-width: 767px) 61vw, 37vw" width="600" height={content.detailHeight} alt={content.detail} loading="lazy" decoding="async" draggable={false} />
+        <div className="realms-screen-frame">
+          <img className="realms-screen-main" src={`/assets/realms/screens/${entry}-main-2000.webp`} srcSet={`/assets/realms/screens/${entry}-main-1000.webp 1000w, /assets/realms/screens/${entry}-main-2000.webp 2000w`} sizes="(max-width: 1240px) 94vw, 1170px" width="1600" height="1000" alt={content.alt} loading="lazy" decoding="async" draggable={false} />
         </div>
-        <figcaption className="realms-screen-caption">Illustrated interface concepts. Realms is in development.</figcaption>
+        <figcaption className="realms-screen-caption">Interface concept. Realms is in development.</figcaption>
       </figure>
     </div>
   </section>;

@@ -416,21 +416,7 @@
 .scn-alt-rail { stroke: #c4ed6c; stroke-opacity: .2; vector-effect: non-scaling-stroke; }
 .scn-alt-marker { fill: #c4ed6c; stroke: #c4ed6c; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
 
-/* Competitive: an arena. Banners for both sides, floodlights crossing over the contested peak. */
-.scn-flood {
-  bottom: -6%;
-  width: clamp(120px, 15vw, 230px);
-  height: 118%;
-  background: linear-gradient(to top, #ffdca42e, #efbd700f 50%, transparent 88%);
-  clip-path: polygon(46% 100%, 54% 100%, 100% 0, 0 0);
-  transform-origin: 50% 100%;
-  mix-blend-mode: screen;
-  filter: blur(8px);
-}
-.scn-flood--left { left: 34%; animation: flood-left 8s ease-in-out infinite alternate; }
-.scn-flood--right { left: 80%; animation: flood-right 9.5s ease-in-out infinite alternate; }
-@keyframes flood-left { from { transform: translateX(-50%) rotate(12deg); } to { transform: translateX(-50%) rotate(34deg); } }
-@keyframes flood-right { from { transform: translateX(-50%) rotate(-22deg); } to { transform: translateX(-50%) rotate(-46deg); } }
+/* Competitive: an arena with banners for both sides. */
 .scn-arena { left: 0; bottom: 0; width: 100%; height: clamp(120px, 34%, 230px); }
 .scn-tier { fill: none; stroke: #efbd70; vector-effect: non-scaling-stroke; }
 .scn-tier--0 { stroke-opacity: .22; stroke-dasharray: 1 7; stroke-width: 2; }
@@ -475,8 +461,6 @@
 @media (max-width: 1023px) {
   .scn-lens { width: min(120vw, 760px); top: 52%; }
   .scn-altimeter { display: none; }
-  .scn-flood--left { left: 8%; }
-  .scn-flood--right { left: 62%; }
 }
 @media (max-width: 767px) {
   .scn-moon { top: 26%; right: 6%; font-size: 30px; }
@@ -485,7 +469,6 @@
   .scn-ridges, .scn-arena { height: 16%; }
   .scn-ridge-rim { display: none; }
   .scn-arena { opacity: .6; }
-  .scn-flood { opacity: .6; }
 }
 @media (prefers-reduced-motion: reduce) {
   .realms-atmos-layer * { animation: none !important; }

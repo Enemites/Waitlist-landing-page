@@ -13,23 +13,25 @@ await Promise.all([mkdir(sourceDir, { recursive: true }), mkdir(webDir, { recurs
 // Only source artboards and their local fonts are served to the screenshot renderer.
 const server = createServer(async (request, response) => {
   const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
-  const allowed = /^\/design\/screen-compositions\/(casual|competitive)\.html$/.test(pathname)
+  const allowed = /^\/design\/screen-compositions\/(casual\.html|competitive\.html|shared\.css|world\.js)$/.test(pathname)
     || /^\/node_modules\/@fontsource-variable\/(manrope|jetbrains-mono)\/files\/[\w-]+\.woff2$/.test(pathname);
   if (!allowed) { response.writeHead(404).end(); return; }
   try {
     const data = await readFile(path.join(root, pathname));
-    response.writeHead(200, { 'Content-Type': pathname.endsWith('.html') ? 'text/html; charset=utf-8' : 'font/woff2' });
+    const type = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript' }[path.extname(pathname)] ?? 'font/woff2';
+    response.writeHead(200, { 'Content-Type': type });
     response.end(data);
   } catch { response.writeHead(404).end(); }
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ headless: true });
 try {
-  const page = await browser.newPage({ viewport: { width: 1400, height: 1500 }, deviceScaleFactor: 1.5 });
+  const page = await browser.newPage({ viewport: { width: 1700, height: 1100 }, deviceScaleFactor: 1.25 });
   for (const entry of ['casual', 'competitive']) {
     await page.goto(`http://127.0.0.1:${server.address().port}/design/screen-compositions/${entry}.html`);
     await page.evaluate(() => document.fonts.ready);
-    for (const layer of ['main', 'detail']) {
+    await page.waitForSelector('body[data-ready="true"]');
+    for (const layer of ['main']) {
       const artboard = page.locator(`.screen-${layer}`);
       const geometry = await artboard.evaluate(el => ({
         width: el.clientWidth, height: el.clientHeight, scrollWidth: el.scrollWidth, scrollHeight: el.scrollHeight,
@@ -40,7 +42,7 @@ try {
       }
       const filename = path.join(sourceDir, `${entry}-${layer}.png`);
       await artboard.screenshot({ path: filename, omitBackground: true });
-      const widths = layer === 'main' ? [900, 1800] : [600, 900];
+      const widths = [1000, 2000];
       for (const width of widths) {
         await sharp(filename).resize({ width }).webp({ quality: 92, effort: 6 }).toFile(path.join(webDir, `${entry}-${layer}-${width}.webp`));
       }

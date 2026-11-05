@@ -219,7 +219,7 @@ const IntroductionPage = () => {
             <div className="definition-copy">
               <p className="product-eyebrow">Get to know Enemites Realms</p>
               <h2 id="realms-definition-title">What is Enemites Realms?</h2>
-              <p>Enemites Realms is a simulation environment in development around an internal AI world model. Its core simulation engine uses AI imagination to create worlds, situations, and consequences that respond to your decisions.</p>
+              <p>Enemites Realms is a simulation environment built on our own AI world model. It imagines worlds, situations, and consequences that respond to your decisions.</p>
               <div className="definition-links"><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/how-enemites-realms-works">Explore the learning loop <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
             </div>
             <RealmTerrain />

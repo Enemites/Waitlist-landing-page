@@ -1,30 +1,45 @@
-.realms-screens { --screen-tone: #b9b3f5; position: relative; padding-block: 94px 60px; margin-top: 82px; border-top: 1px solid var(--entry-line, #323848); overflow: clip; }
+.realms-screens { --screen-tone: #b9b3f5; position: relative; padding-block: 94px 72px; margin-top: 82px; border-top: 1px solid var(--entry-line, #323848); overflow: clip; }
 .realms-screens[data-screen-entry="competitive"] { --screen-tone: #efbd70; margin-top: 0; padding-block: 86px 82px; }
 .realms-screens-heading { max-width: 740px; }
 .product-site .realms-screens-heading h2 { color: var(--entry-ink, #edf1ef); font-size: clamp(40px, 4.5vw, 65px); line-height: 1.08; letter-spacing: -.055em; font-weight: 450; }
 .product-site .realms-screens-heading h2 > span { color: var(--screen-tone); }
 .product-site .realms-screens-heading > p { margin-top: 25px; max-width: 460px; color: var(--entry-muted, #a8b1c5); font-size: 15px; line-height: 1.85; }
-.realms-screen-composition { margin: 58px 0 0; }
-.realms-screen-stage { position: relative; isolation: isolate; width: calc(100% - 72px); max-width: 1170px; margin-inline: auto; padding-block: 32px 125px; }
-.realms-screen-stage::before { content: ""; position: absolute; z-index: -1; inset: 5% -8% -2%; border-radius: 50%; background: radial-gradient(ellipse, #7e7bce12, transparent 65%); }
-.realms-screen-main, .realms-screen-detail { display: block; height: auto; border-radius: 12px; border: 1px solid #7d86a23d; background: #101827; pointer-events: none; user-select: none; }
-.realms-screen-main { width: 86%; transform: perspective(1800px) rotateY(5deg) rotateZ(-3deg); box-shadow: -8px 22px 0 -12px #62617f55, 0 45px 85px #02040b88; }
-.realms-screen-detail { position: absolute; z-index: 2; width: 47%; right: -1%; bottom: 18px; transform: rotate(4deg); box-shadow: 0 30px 65px #01030b9e, 0 0 0 8px #8e8cad08; }
-.realms-screen-caption { margin-top: 26px; color: var(--entry-muted, #98a4bc); font: 11px/1.75 "JetBrains Mono Variable", monospace; text-align: center; }
-.realms-screens[data-screen-entry="competitive"] .realms-screen-stage::before { border-radius: 0; inset: 0 -8% 0; background: linear-gradient(125deg, transparent 40%, #efbd700a 40%, #efbd700a 40.15%, transparent 40.15%, transparent 75%, #efbd700a 75%, #efbd700a 75.15%, transparent 75.15%); }
-.realms-screens[data-screen-entry="competitive"] .realms-screen-main { border-color: #efbd7040; background: #0c1012; transform: perspective(1800px) rotateY(-4deg) rotateZ(2deg); }
-.realms-screens[data-screen-entry="competitive"] .realms-screen-detail { right: -1%; bottom: 6px; transform: rotate(-4deg); border-color: #efbd7059; background: #13191c; }
-@media (max-width: 900px) { .realms-screen-stage { width: calc(100% - 30px); padding-bottom: 90px; } }
+
+/* One flat screenshot, presented the way a product shot is: straight, large, lit from behind. */
+.realms-screen-composition { position: relative; margin: 56px 0 0; isolation: isolate; }
+.realms-screen-composition::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8% 6% -4%;
+  background: radial-gradient(ellipse 60% 55% at 50% 50%, color-mix(in srgb, var(--screen-tone) 18%, transparent), transparent 72%);
+  filter: blur(30px);
+}
+.realms-screen-frame {
+  padding: 6px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--screen-tone) 22%, transparent);
+  background: color-mix(in srgb, var(--screen-tone) 5%, #ffffff05);
+  box-shadow: 0 40px 90px #0208 , 0 0 0 1px #00000040 inset;
+}
+.realms-screen-main { display: block; width: 100%; height: auto; border-radius: 14px; pointer-events: none; user-select: none; }
+.realms-screen-caption { margin-top: 22px; color: var(--entry-muted, #98a4bc); font: 11px/1.75 "JetBrains Mono Variable", monospace; text-align: center; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .realms-screen-frame { animation: screen-rise linear both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
+  }
+}
+@keyframes screen-rise { from { opacity: .4; transform: translateY(40px) scale(.97); } to { opacity: 1; transform: none; } }
+
 @media (max-width: 767px) {
   .realms-screens, .realms-screens[data-screen-entry="competitive"] { margin-top: 47px; padding-block: 48px 45px; }
   .realms-screens[data-screen-entry="competitive"] { margin-top: 0; }
   .product-site .realms-screens-heading h2 { font-size: clamp(33px, 8.3vw, 46px); }
   .product-site .realms-screens-heading > p { font-size: 14px; max-width: 340px; margin-top: 22px; }
   .realms-screen-composition { margin-top: 32px; }
-  .realms-screen-stage { width: 100%; padding-block: 20px 115px; }
-  .realms-screen-main { width: 96%; border-radius: 6px; transform: rotate(-3deg); }
-  .realms-screen-detail { width: 67%; right: -1%; bottom: 0; border-radius: 7px; transform: rotate(4deg); box-shadow: 0 18px 40px #01030b99; }
-  .realms-screens[data-screen-entry="competitive"] .realms-screen-main { transform: rotate(2deg); }
-  .realms-screens[data-screen-entry="competitive"] .realms-screen-detail { bottom: 0; }
-  .realms-screen-caption { font: 11px/1.75 "Manrope Variable", sans-serif; max-width: 260px; margin: 24px auto 0; }
+  /* On a phone the shot bleeds off the right edge, like a window seen past the screen. */
+  .realms-screen-frame { width: 150%; padding: 4px; border-radius: 14px; }
+  .realms-screen-main { border-radius: 10px; }
+  .realms-screen-caption { font: 11px/1.75 "Manrope Variable", sans-serif; max-width: 260px; margin: 22px auto 0; }
 }

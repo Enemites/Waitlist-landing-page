@@ -36,7 +36,7 @@
   gap: clamp(40px, 6vw, 96px);
   align-items: center;
 }
-.arena-product .product-definition .definition-copy > p:not(.product-eyebrow) { font-size: 17px; max-width: 470px; }
+.arena-product .product-definition .definition-copy > p:not(.product-eyebrow) { font-size: 15px; line-height: 1.7; max-width: 500px; }
 .arena-product .product-definition .definition-copy h2 { margin-block: 22px 28px; }
 .arena-product .product-definition .definition-links { display: flex; flex-wrap: wrap; gap: 20px 32px; margin-top: 30px; }
 .arena-product .product-definition { padding-block: clamp(56px, 7vw, 112px) clamp(72px, 8vw, 128px); }

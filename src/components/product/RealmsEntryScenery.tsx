@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 /**
  * Scenery around the entry map: each mode gets its own surroundings, not just a recolored map.
  * Casual is a moonlit night over distant ridges, Focused is a lens drawn tight on one summit,
- * Competitive is an arena with banners and crossing floodlights. All decorative.
+ * Competitive is an arena with banners for both sides. All decorative.
  */
 
 // Deterministic ridgeline so the prerendered page and the client agree.
@@ -86,8 +86,6 @@ const banner = (style: CSSProperties) => style;
 function CompetitiveScenery() {
   return (
     <>
-      <span className="scn-flood scn-flood--left" />
-      <span className="scn-flood scn-flood--right" />
       <svg className="scn-arena" viewBox="0 0 1440 260" preserveAspectRatio="none">
         {[0, 1, 2, 3].map((i) => (
           <ellipse key={i} cx="790" cy={300} rx={720 - i * 130} ry={190 - i * 34} className={`scn-tier scn-tier--${i}`} />
