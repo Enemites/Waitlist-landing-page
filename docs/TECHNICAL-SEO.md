@@ -10,7 +10,7 @@ Public HTML includes content, unique titles and descriptions, canonical URLs, Op
 
 Realms articles also link a consistent Product entity with Blog, BlogPosting, BreadcrumbList, and visible FAQ markup. Branded guides use English document and structured-data language, source references, original social imagery, and sitemap modification dates. The former translated introduction permanently redirects to its English canonical. See `REALMS-DISCOVERY.md` for the implementation, the experimental `llms.txt` source index, and the separate post-deployment indexing checks.
 
-`vercel.json` uses clean URLs and explicit rewrites for questionnaire APIs and dynamic app routes. It redirects `/` to `/home`, preserving the existing home location. Existing API functions and the expiry-cleanup cron remain in place. Removing the global rewrite lets Vercel return a genuine 404 using `404.html` for missing URLs. Unknown client routes also render a useful Not Found page. Vite development/preview routing supports the same principal behaviors for local checks.
+`vercel.json` uses clean URLs and explicit rewrites for questionnaire APIs and dynamic app routes. It redirects `/` to `/profile`, preserving the existing profile location. Existing API functions and the expiry-cleanup cron remain in place. Removing the global rewrite lets Vercel return a genuine 404 using `404.html` for missing URLs. Unknown client routes also render a useful Not Found page. Vite development/preview routing supports the same principal behaviors for local checks.
 
 Parent invitations, questionnaires, and unavailable Contact/Login/Pricing pages have `noindex` and are excluded from the sitemap. Crawlers may read their noindex directives; robots.txt is not used as an access-control mechanism. A private app shell is generated without user data; the parent route also sends a no-referrer policy. The public pages, blog overview, and articles are crawlable. Canonicals and sitemap entries point to the production HTTPS domain, `https://enemites.com`.
 
@@ -50,7 +50,7 @@ Verification status is unknown; missing HTML verification tags do not prove a do
 1. Open or add the domain property `enemites.com` in Search Console using an account authorized for the domain.
 2. If already verified, use that property. Otherwise obtain Google's specific TXT record and add it at the domain's DNS provider, then verify. Do not fabricate a token or replace unrelated DNS records.
 3. After this branch is deployed to production, submit `https://enemites.com/sitemap.xml`.
-4. Inspect `/home`, `/realms`, and `/realms/how-it-works`; confirm successful crawling, rendered content, and the intended canonical. Request indexing if appropriate and review the indexing report.
+4. Inspect `/profile`, `/realms`, and `/realms/how-it-works`; confirm successful crawling, rendered content, and the intended canonical. Request indexing if appropriate and review the indexing report.
 
 Search Console ownership cannot be verified from repository code alone. No verification token, DNS change, sitemap submission, or indexing request was made by this patch.
 

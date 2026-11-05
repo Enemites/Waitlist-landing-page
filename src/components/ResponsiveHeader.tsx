@@ -149,7 +149,7 @@ const ResponsiveHeader = ({
   return (
     <header className={`site-header ${getHeaderClasses(className)}`} data-theme={theme} data-blogs-open={isBlogsOpen} style={{ top: "max(env(safe-area-inset-top), 1rem)" }}>
       <Link
-        to="/home"
+        to="/profile"
         className={`nova-display text-lg font-semibold tracking-normal sm:text-xl flex items-center gap-2.5 ${isDark ? 'text-[#E8E4D9]' : 'text-[#111317]'}`}
       >
         <img src="/assets/logo-128.webp" width="128" height="94" alt="" className={`h-7 w-auto ${isDark ? 'invert' : ''}`} />

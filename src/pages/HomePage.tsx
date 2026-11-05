@@ -17,7 +17,7 @@ const LabHeader = () => {
   return (
     <header className={`lab-header fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#F5F2EB]/90 backdrop-blur-md border-b border-[#DAD6CB] py-4' : 'bg-transparent py-6'}`}>
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <Link to="/home" className="nova-display text-xl font-medium tracking-tight text-[#272C27] flex items-center gap-2.5">
+        <Link to="/profile" className="nova-display text-xl font-medium tracking-tight text-[#272C27] flex items-center gap-2.5">
           <img src="/assets/logo-128.webp" width="128" height="94" alt="" className="h-7 w-auto" />
           <span>Enemites</span>
         </Link>
@@ -198,7 +198,7 @@ const HomePage = () => {
       <footer className="px-4 pb-12 pt-24 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 text-[12px] text-[#62675E] sm:flex-row sm:items-end sm:justify-between border-t border-[#DAD6CB] pt-8">
           <div>
-            <Link to="/home" className="nova-display text-lg font-medium tracking-tight text-[#272C27] mb-3 flex items-center gap-2">
+            <Link to="/profile" className="nova-display text-lg font-medium tracking-tight text-[#272C27] mb-3 flex items-center gap-2">
               <img src="/assets/logo-128.webp" width="128" height="94" alt="" className="h-5 w-auto" />
               <span>Enemites</span>
             </Link>

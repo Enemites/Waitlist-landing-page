@@ -70,8 +70,9 @@ export function SiteRoutes() {
       <SeoMetadata />
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<Navigate to="/profile" replace />} />
+        <Route path="/profile" element={<HomePage />} />
+        <Route path="/home" element={<Navigate to="/profile" replace />} />
         <Route path="/arena/*" element={<LegacyProductRedirect />} />
         <Route path="/realms" element={<IntroductionPage />} />
         <Route path="/realms/how-it-works" element={<HowItWorksPage />} />

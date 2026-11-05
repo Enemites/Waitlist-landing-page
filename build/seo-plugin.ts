@@ -19,7 +19,7 @@ export function seoPlugin(): Plugin {
         const path = new URL(req.url || "/", "http://localhost").pathname.replace(/\/$/, "") || "/";
         if (path === "/realms/blogs/apa-itu-enemites-realms") { res.writeHead(308, { Location: `/realms/blogs/what-is-enemites-realms${new URL(req.url || "/", "http://localhost").search}` }); res.end(); return; }
         if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
-        if (path === "/") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
+        if (path === "/" || path === "/home") { res.writeHead(308, { Location: "/profile" }); res.end(); return; }
         if (path === "/robots.txt" || path === "/sitemap.xml" || path === "/llms.txt") {
           res.setHeader("Content-Type", path === "/sitemap.xml" ? "application/xml; charset=utf-8" : "text/plain; charset=utf-8");
           res.end(path === "/robots.txt" ? robotsContent : path === "/llms.txt" ? llmsContent : sitemapContent); return;
@@ -38,7 +38,7 @@ export function seoPlugin(): Plugin {
         const path = new URL(req.url || "/", "http://localhost").pathname.replace(/\/$/, "") || "/";
         if (path === "/realms/blogs/apa-itu-enemites-realms") { res.writeHead(308, { Location: `/realms/blogs/what-is-enemites-realms${new URL(req.url || "/", "http://localhost").search}` }); res.end(); return; }
         if (path === "/arena" || path.startsWith("/arena/")) { res.writeHead(308, { Location: (req.url || path).replace(/^\/arena/, "/realms"), "Referrer-Policy": "no-referrer" }); res.end(); return; }
-        if (path === "/" || path === "/index.html") { res.writeHead(308, { Location: "/home" }); res.end(); return; }
+        if (path === "/" || path === "/index.html" || path === "/home") { res.writeHead(308, { Location: "/profile" }); res.end(); return; }
         if (path.startsWith("/api/")) { next(); return; }
         if (path.startsWith("/assets/") || path.startsWith("/licenses/") || iconPaths.has(path) || path === "/robots.txt" || path === "/sitemap.xml" || path === "/llms.txt") { next(); return; }
         const file = staticPaths.has(path) ? `${path}.html` : privatePath(path) ? "/private.html" : "/404.html";

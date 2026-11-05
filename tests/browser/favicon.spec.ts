@@ -11,7 +11,7 @@ const iconPaths = [
 const brandPreviews = ["/assets/favicon-brand-preview.png", "/assets/favicon-brand-tab-preview.png"];
 
 test("root, declared, and legacy favicons serve actual images", async ({ page, request }) => {
-  await page.goto("/home");
+  await page.goto("/profile");
   for (const path of [...iconPaths, ...brandPreviews]) {
     const response = await request.get(path);
     expect(response.status(), path).toBe(200);
@@ -30,7 +30,7 @@ test("root, declared, and legacy favicons serve actual images", async ({ page, r
 });
 
 test("all icon formats use the transparent Enemites brand artwork", async ({ page }) => {
-  await page.goto("/home");
+  await page.goto("/profile");
   for (const path of [...iconPaths, ...brandPreviews]) {
     const pixels = await page.evaluate(async source => {
       const image = new Image();
@@ -84,7 +84,7 @@ test("all icon formats use the transparent Enemites brand artwork", async ({ pag
 });
 
 test("organization metadata exposes the same square, padded brand mark", async ({ page }) => {
-  for (const path of ["/home", "/realms"]) {
+  for (const path of ["/profile", "/realms"]) {
     await page.goto(path);
     const graph = JSON.parse((await page.locator("#site-structured-data").textContent())!)["@graph"];
     expect(graph.find((node: { "@type": string }) => node["@type"] === "Organization").logo).toBe("https://enemites.com/favicon-512x512.png");

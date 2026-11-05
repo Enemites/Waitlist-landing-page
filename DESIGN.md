@@ -42,7 +42,7 @@ Company artwork:
 
 ## Local review
 
-Run `npm run dev` and open `http://localhost:5173/home` or `http://localhost:5173/arena`.
+Run `npm run dev` and open `http://localhost:5173/profile` or `http://localhost:5173/arena`.
 
 Production build passes. Browser checks cover six content pages at 360, 390, 768 and 1440 pixels, original copy and links on nine routes, mobile navigation, root redirect, introduction-video navigation, waitlist validation/submission/reset and dynamic questionnaire controls. Additional checks verify pointer parallax, three scroll-selected phases, active-only video playback and reduced-motion behavior. No page errors, broken images or horizontal document overflow were detected.
 

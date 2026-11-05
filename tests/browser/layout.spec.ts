@@ -7,8 +7,8 @@ const viewports = [
   { width: 1440, height: 900 },
 ];
 
-test("Home footer offers only Research, News, and Contact", async ({ page }) => {
-  await page.goto("/home");
+test("Profile footer offers only Research, News, and Contact", async ({ page }) => {
+  await page.goto("/profile");
   await expect(page.locator("footer a").filter({ hasText: /Research|News|Contact/ })).toHaveCount(3);
   await expect(page.locator('a[href="/realms/about-us"], a[href="/realms/privacy-policy"], a[href="/realms/terms-of-service"]')).toHaveCount(0);
 });

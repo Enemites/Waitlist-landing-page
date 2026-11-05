@@ -30,7 +30,7 @@ try {
   await writeFile("dist/robots.txt", robotsContent);
   await writeFile("dist/sitemap.xml", sitemapContent);
   await writeFile("dist/llms.txt", llmsContent);
-  await writeFile("dist/index.html", await readFile("dist/home.html", "utf8"));
+  await writeFile("dist/index.html", await readFile("dist/profile.html", "utf8"));
 } finally {
   await rm(serverDir, { recursive: true, force: true });
 }

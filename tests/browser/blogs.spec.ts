@@ -94,8 +94,8 @@ test("unknown blog slugs return 404 and are unindexed", async ({ page }) => {
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
 });
 
-test("Home has no Realms Blogs menu or article links", async ({ page }) => {
-  await page.goto("/home");
+test("Profile has no Realms Blogs menu or article links", async ({ page }) => {
+  await page.goto("/profile");
   await expect(page.getByRole("button", { name: "Blogs", exact: true })).toHaveCount(0);
   await expect(page.locator('a[href^="/realms/blogs"]')).toHaveCount(0);
 });

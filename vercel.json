@@ -27,12 +27,17 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/home",
+      "destination": "/profile",
       "permanent": true
     },
     {
       "source": "/index",
-      "destination": "/home",
+      "destination": "/profile",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/profile",
       "permanent": true
     },
     {

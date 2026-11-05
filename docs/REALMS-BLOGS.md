@@ -1,6 +1,6 @@
 # Realms blogs
 
-The Realms navbar has a text-only **Blogs** button on desktop and inside the mobile navigation. Clicking it opens a two-column panel aligned to the navbar's existing width, with a short fade and slide animation with the three most recently added articles and a **Blogs Overview** link. The navbar keeps its position, size, and margins when the panel opens. Blogs uses the same idle, hover, and current-page styles as other navigation items; opening the menu alone does not mark it active. Mobile uses a stacked, scrollable navigation, and reduced motion disables the panel animation. This navigation is specific to Realms; `/home` does not show it.
+The Realms navbar has a text-only **Blogs** button on desktop and inside the mobile navigation. Clicking it opens a two-column panel aligned to the navbar's existing width, with a short fade and slide animation with the three most recently added articles and a **Blogs Overview** link. The navbar keeps its position, size, and margins when the panel opens. Blogs uses the same idle, hover, and current-page styles as other navigation items; opening the menu alone does not mark it active. Mobile uses a stacked, scrollable navigation, and reduced motion disables the panel animation. This navigation is specific to Realms; `/profile` does not show it.
 
 - Overview: `/realms/blogs`
 - Article: `/realms/blogs/<slug>`
