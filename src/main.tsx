@@ -16,6 +16,7 @@ import './realms-entry-selector.css';
 import './realms-screens.css';
 import './realms-path-themes.css';
 import './realms-mode-motion.css';
+import './realms-redesign.css';
 import { MotionConfig } from 'motion/react';
 
 const root = document.getElementById('root')!;

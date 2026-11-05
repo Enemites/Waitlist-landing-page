@@ -59,7 +59,8 @@ const ScrollExpandMedia = ({
         >
           {mediaType === 'video' ? (
             mediaSrc.includes('youtube.com') && !externalMediaAllowed ? (
-              <div className='p-6 text-center text-white space-y-4'>
+              <div className='media-consent absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-white space-y-4'>
+                {posterSrc && <img src={posterSrc} alt='' aria-hidden='true' loading='lazy' decoding='async' className='media-consent-poster' />}
                 <p>Playing this video connects to YouTube, which receives your IP address and may process playback data.</p>
                 <button type='button' className='border border-white px-5 py-3' onClick={() => setExternalMediaAllowed(true)}>Allow YouTube and play video</button>
               </div>

@@ -8,12 +8,15 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import WaitlistForm from "@/components/WaitlistForm";
 import ArenaScene from "@/components/product/ArenaScene";
 import SimulationSequence from "@/components/product/SimulationSequence";
-import DecisionTrace from "@/components/product/DecisionTrace";
+import DecisionTree from "@/components/product/DecisionTree";
+import CapabilitySeal from "@/components/product/CapabilitySeal";
+import RealmTerrain from "@/components/product/RealmTerrain";
 import ProductReveal from "@/components/product/ProductReveal";
 import ValueTransformations from "@/components/product/ValueTransformations";
 import CasualPath from "@/components/product/CasualPath";
 import CompetitivePath from "@/components/product/CompetitivePath";
-import RealmsEntrySelector from "@/components/product/RealmsEntrySelector";
+import RealmsEntrySelector, { TRAVEL_SECONDS } from "@/components/product/RealmsEntrySelector";
+import RealmsEntryScenery from "@/components/product/RealmsEntryScenery";
 import RealmsScreens from "@/components/product/RealmsScreens";
 import { ArrowUpRight, Play } from "lucide-react";
 import { scrollToWaitlist } from "@/lib/scroll";
@@ -109,7 +112,7 @@ const proofFeatures = [
     title: "Real Proof Of Capability",
     copy: "Credentials that show what problems you solve, how you solve them, and every decision you make—not paper exam degrees.",
     image: "/assets/real-proof-capability-abstract.svg",
-    alt: "Abstract capability proof map with connected evidence blocks",
+    alt: "Capability seal: rings of recorded decisions, with solved problems lit",
   },
 ];
 
@@ -212,18 +215,22 @@ const IntroductionPage = () => {
         </section>
 
         <section className="product-definition product-section" aria-labelledby="realms-definition-title">
-          <div className="product-container">
-            <p className="product-eyebrow">Get to know Enemites Realms</p>
-            <h2 id="realms-definition-title">What is Enemites Realms?</h2>
-            <p>Enemites Realms is a simulation environment in development around an internal AI world model. Its core simulation engine uses AI imagination to create worlds, situations, and consequences that respond to your decisions.</p>
-            <div><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/how-enemites-realms-works">Explore the learning loop <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+          <div className="product-container definition-layout">
+            <div className="definition-copy">
+              <p className="product-eyebrow">Get to know Enemites Realms</p>
+              <h2 id="realms-definition-title">What is Enemites Realms?</h2>
+              <p>Enemites Realms is a simulation environment in development around an internal AI world model. Its core simulation engine uses AI imagination to create worlds, situations, and consequences that respond to your decisions.</p>
+              <div className="definition-links"><Link to="/realms/blogs/what-is-enemites-realms">Read the Realms guide <ArrowUpRight size={16} aria-hidden="true" /></Link><Link to="/realms/blogs/how-enemites-realms-works">Explore the learning loop <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+            </div>
+            <RealmTerrain />
           </div>
         </section>
 
-        <section className="realms-entry" aria-labelledby="realms-entry-title">
+        <section className="realms-entry" data-entry={entry} aria-labelledby="realms-entry-title">
+          <RealmsEntryScenery travel={TRAVEL_SECONDS} />
           <div className="product-container">
             <div className="realms-entry-heading">
-              <h2 id="realms-entry-title">Your way into Realms.</h2>
+              <h2 id="realms-entry-title">Your way into <span>Realms.</span></h2>
               <p>Start with a question, a purpose, or a team.</p>
             </div>
             <RealmsEntrySelector value={entry} onChange={chooseEntry} />
@@ -285,14 +292,14 @@ const IntroductionPage = () => {
             <ProductReveal className="proof-heading"><h2>A new way to prove your abilities.</h2><p>We're reinventing proof of ability: real evidence of what you can solve, not just what you memorized.</p></ProductReveal>
             <ProductReveal className="proof-network">
               <div className="proof-copy"><span className="proof-number">01</span><h3>{proofFeatures[0].title}</h3><p>{proofFeatures[0].copy}</p></div>
-              <DecisionTrace />
+              <DecisionTree />
             </ProductReveal>
             <ProductReveal className="proof-evidence">
-              <div className="proof-evidence-art"><img src={proofFeatures[1].image} alt={proofFeatures[1].alt} loading="lazy" /><div className="evidence-scan" aria-hidden="true" /></div>
+              <div className="proof-evidence-art"><CapabilitySeal label={proofFeatures[1].alt} /></div>
               <div className="proof-copy"><span className="proof-number">02</span><h3>{proofFeatures[1].title}</h3><p>{proofFeatures[1].copy}</p></div>
             </ProductReveal>
             <div ref={videoDemoRef} className="product-demo">
-              <ScrollExpandMedia mediaType="video" mediaSrc={`https://www.youtube.com/embed/${YOUTUBE_DEMO_VIDEO_ID}`} />
+              <ScrollExpandMedia mediaType="video" mediaSrc={`https://www.youtube.com/embed/${YOUTUBE_DEMO_VIDEO_ID}`} posterSrc="/assets/work-1280.webp" />
             </div>
           </div>
         </section>
@@ -314,7 +321,7 @@ const IntroductionPage = () => {
             </div>
           </div>
         </section>
-        <section className="product-endmark" aria-hidden="true"><img src="/assets/logo.png" width="572" height="420" alt="" loading="lazy" decoding="async" /></section>
+        <section className="product-endmark" aria-hidden="true"><div className="endmark-relief"><span className="endmark-lines" /><span className="endmark-sweep" /></div></section>
       </main>
 
       <footer

@@ -1,65 +1,503 @@
-/* A compact, architectural selection object in the shared Realms palette. */
+/* Entry selector: one realm, three routes across it. The legend below the map is the real control. */
 .realms-entry > .product-container {
-  display: grid;
-  grid-template-columns: .9fr 1.1fr;
-  align-items: center;
-  gap: clamp(32px, 6vw, 96px);
-  padding-block: 58px 64px;
+  padding-block: 64px 72px;
   border-top: 1px solid var(--product-line);
 }
-.realms-entry .realms-entry-heading { margin-bottom: 0; max-width: 440px; }
-.realms-entry-heading > p { max-width: 320px; }
-.realms-selector-wrapper {
+.realms-entry .realms-entry-heading { margin-bottom: 0; max-width: 560px; }
+
+.realms-entry > .product-container,
+.route-selector {
+  --route-casual: #b9b3f5;
+  --route-focused: #c4ed6c;
+  --route-competitive: #efbd70;
+  --route-ease: cubic-bezier(.22, 1, .36, 1);
+  margin-top: clamp(24px, 4vw, 48px);
+}
+
+/* Map */
+.route-map {
+  position: relative;
+  aspect-ratio: 960 / 460;
   width: 100%;
-  max-width: 510px;
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 8px 0;
+  isolation: isolate;
 }
-.realms-triangle-board-wrap { width: 100%; position: relative; }
-.realms-triangle-board { display: block; width: 100%; height: auto; aspect-ratio: 480 / 430; overflow: visible; }
-.realms-tri-sector { --gate-detail: #617269; cursor: pointer; outline: none; }
-.realms-tri-sector--casual { --gate-detail: #77748f; }
-.realms-tri-sector--competitive { --gate-detail: #8a775b; }
-.realms-tri-path-base { stroke-width: 1; vector-effect: non-scaling-stroke; transition: filter 180ms ease; }
-.realms-tri-surface { pointer-events: none; }
-.realms-tri-inner-edge { fill: none; stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; pointer-events: none; }
-.realms-tri-icon-group { overflow: visible; }
-/* Explicit fills prevent open SVG strokes from becoming black silhouettes. */
-.gate-art-far, .gate-art-door, .gate-art-detail, .gate-art-path { fill: none; stroke-linejoin: round; stroke-linecap: round; }
-.gate-art-far { stroke: currentColor; stroke-width: 2.5; opacity: .55; }
-.gate-art-door { fill: currentColor; fill-opacity: .06; stroke: currentColor; stroke-width: 3; }
-.gate-art-detail { stroke: var(--gate-detail); stroke-width: 2; }
-.gate-art-path { stroke: currentColor; stroke-width: 3; }
-.gate-art-point, .gate-art-moon { fill: currentColor; }
-.realms-tri-label { font-family: "Manrope Variable", sans-serif; letter-spacing: -.025em; user-select: none; }
-.realms-tri-sector.is-selected .gate-art-far { opacity: .8; }
-.realms-tri-sector.is-selected .gate-art-door { fill-opacity: .12; }
+.route-map-terrain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--mode-terrain, #33433c);
+  transition: background-color .9s ease;
+  -webkit-mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 58% 62% at 50% 50%, #000 62%, transparent 100%);
+  mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 58% 62% at 50% 50%, #000 62%, transparent 100%);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.route-map-terrain--casual,
+.route-map-terrain--focused,
+.route-map-terrain--competitive {
+  opacity: 0;
+  transition: opacity .6s var(--route-ease);
+}
+.route-map-terrain--casual {
+  background: var(--route-casual);
+  -webkit-mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 24% 46% at 79% 50%, #000 25%, transparent 100%);
+  mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 24% 46% at 79% 50%, #000 25%, transparent 100%);
+}
+.route-map-terrain--focused {
+  background: var(--route-focused);
+  -webkit-mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 15% 38% at 50% 36%, #000 30%, transparent 100%);
+  mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 15% 38% at 50% 36%, #000 30%, transparent 100%);
+}
+.route-map-terrain--competitive {
+  background: var(--route-competitive);
+  -webkit-mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 22% 46% at 22% 42%, #000 28%, transparent 100%);
+  mask-image: url(/assets/realms/entry-map.svg), radial-gradient(ellipse 22% 46% at 22% 42%, #000 28%, transparent 100%);
+}
+.route-selector[data-selected="casual"] .route-map-terrain--casual,
+.route-selector[data-selected="focused"] .route-map-terrain--focused,
+.route-selector[data-selected="competitive"] .route-map-terrain--competitive { opacity: 1; }
+
+.route-map-overlay { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.route { --c: #8e9b95; cursor: pointer; }
+.route--casual { --accent: var(--route-casual); }
+.route--focused { --accent: var(--route-focused); }
+.route--competitive { --accent: var(--route-competitive); }
+.route path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.route-hit { stroke: transparent; stroke-width: 34; pointer-events: stroke; }
+.route-trail { stroke: var(--mode-trail, #56645e); stroke-width: 1.4; stroke-dasharray: 2 7; transition: stroke .3s ease; }
+.route-line {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset .3s ease;
+}
+.route.is-selected .route-line { stroke-dashoffset: 0; transition: stroke-dashoffset 1.1s .1s var(--route-ease); }
+.route-marker { fill: #7f8d88; stroke: none; transition: fill .3s ease; }
+.route-marker--open { fill: #0b1314; stroke: #7f8d88; stroke-width: 2; transition: stroke .3s ease; }
+.route.is-selected .route-marker { fill: var(--accent); }
+.route.is-selected .route-marker--open { fill: #0b1314; stroke: var(--accent); }
+.route-label {
+  fill: #7f8d88;
+  font: 500 21px/1 "Manrope Variable", sans-serif;
+  letter-spacing: -.02em;
+  paint-order: stroke;
+  stroke: #080e10;
+  stroke-width: 6px;
+  stroke-linejoin: round;
+  user-select: none;
+  transition: fill .3s ease;
+}
+.route.is-selected .route-label { fill: #edf1ef; }
+.route-rival { fill: none; stroke: #7f8d88; stroke-width: 2; transition: stroke .3s ease; }
+.route.is-selected .route-rival { stroke: var(--accent); }
+.route-start { fill: #edf1ef; }
+.route-start-ring { fill: none; stroke: #edf1ef; stroke-opacity: .35; stroke-width: 1.2; }
 @media (hover: hover) {
-  .realms-tri-sector:hover .realms-tri-path-base { stroke: #82948b !important; filter: brightness(1.18); }
-  .realms-tri-sector:hover .realms-tri-label { fill: #edf1ef !important; }
+  .route:not(.is-selected):hover .route-trail { stroke: var(--accent); }
+  .route:not(.is-selected):hover .route-label { fill: #d5ddd9; }
+  .route:not(.is-selected):hover .route-marker { fill: var(--accent); }
+  .route:not(.is-selected):hover .route-marker--open { fill: #0b1314; stroke: var(--accent); }
+  .route-selector:has(.route--casual:not(.is-selected):hover) .route-map-terrain--casual,
+  .route-selector:has(.route--focused:not(.is-selected):hover) .route-map-terrain--focused,
+  .route-selector:has(.route--competitive:not(.is-selected):hover) .route-map-terrain--competitive { opacity: .35; }
 }
-.realms-tri-sector:focus-visible .realms-tri-path-base { stroke: #edf1ef !important; stroke-width: 2.5 !important; }
-.realms-tri-sector:active .realms-tri-path-base { filter: brightness(1.3); }
-.realms-triangle-desc-wrapper { width: min(100%, 310px); min-height: 48px; margin-top: 24px; display: grid; place-items: center; border-top: 1px solid #2c3933; }
-.realms-triangle-desc { display: flex; align-items: center; gap: 10px; padding-top: 16px; }
-.realms-desc-dot { width: 5px; height: 5px; flex-shrink: 0; border-radius: 50%; }
-.realms-desc-text { color: #bac6bf; font: 11px/1.6 "JetBrains Mono Variable", monospace; letter-spacing: .025em; }
-.realms-desc-arrow { color: #899a8f; margin-left: 12px; stroke: currentColor; stroke-width: 1.2; }
-@media (max-width: 900px) {
-  .realms-entry > .product-container { grid-template-columns: 1fr; gap: 38px; padding-block: 38px 40px; }
-  .realms-entry .realms-entry-heading { max-width: 620px; }
-  .realms-entry-heading > p { max-width: none; }
-  .realms-selector-wrapper { max-width: 440px; }
+
+/* Legend: the accessible tabs */
+.route-legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 3vw, 40px);
+  margin-top: clamp(20px, 3vw, 36px);
 }
-@media (max-width: 480px) {
-  .realms-entry > .product-container { gap: 28px; padding-block: 32px 26px; }
-  .realms-selector-wrapper { padding-inline: 0; }
-  .realms-triangle-desc-wrapper { margin-top: 18px; width: 76%; }
-  .realms-desc-text { font-size: 10px; }
+.route-tab {
+  --accent: #edf1ef;
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 20px 0 4px;
+  text-align: left;
+  color: #8e9b95;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--product-line);
+  cursor: pointer;
+  transition: color .25s ease;
+}
+.route-tab--casual { --accent: var(--route-casual); }
+.route-tab--focused { --accent: var(--route-focused); }
+.route-tab--competitive { --accent: var(--route-competitive); }
+.route-tab::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s var(--route-ease);
+}
+.route-tab[aria-selected="true"]::before { transform: scaleX(1); }
+.route-tab-name { font: 500 clamp(20px, 2vw, 26px)/1.1 "Manrope Variable", sans-serif; letter-spacing: -.035em; }
+.route-tab-reason { font: 12px/1.5 "JetBrains Mono Variable", monospace; letter-spacing: .01em; color: #6f7d78; transition: color .25s ease; }
+.route-tab[aria-selected="true"] { color: #edf1ef; }
+.route-tab[aria-selected="true"] .route-tab-reason { color: var(--accent); }
+.route-tab:focus-visible { outline: 1px solid var(--accent); outline-offset: 6px; }
+.route-tab:active { transform: translateY(1px); }
+@media (hover: hover) {
+  .route-tab[aria-selected="false"]:hover { color: #d5ddd9; }
+}
+
+/* Mode atmosphere: the whole section takes on the mood of the chosen route. */
+.realms-entry {
+  --mode-bg: #080e10;
+  --mode-accent: #c4ed6c;
+  --mode-muted: #8e9b95;
+  --mode-line: #263330;
+  --mode-terrain: #33433c;
+  --mode-trail: #56645e;
+  --summit-x: 68%;
+  --contest-x: 55%;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background-color: var(--mode-bg);
+  transition: background-color .9s ease;
+}
+.realms-entry[data-entry="casual"] {
+  --mode-bg: #0c1123;
+  --mode-accent: #b9b3f5;
+  --mode-muted: #a8b1c5;
+  --mode-line: #2a3149;
+  --mode-terrain: #3d4470;
+  --mode-trail: #646b94;
+}
+.realms-entry[data-entry="competitive"] {
+  --mode-bg: #0b0c0e;
+  --mode-accent: #efbd70;
+  --mode-muted: #b8afa2;
+  --mode-line: #3a3127;
+  --mode-terrain: #4d3f2c;
+  --mode-trail: #7a6850;
+}
+.realms-entry > .product-container { border-top-color: var(--mode-line); transition: border-color .9s ease; }
+.realms-entry .realms-entry-heading h2 span { color: var(--mode-accent); transition: color .6s ease; }
+.realms-entry .realms-entry-heading > p { color: var(--mode-muted); transition: color .6s ease; }
+.realms-entry .route-tab { border-top-color: var(--mode-line); }
+
+.realms-atmos { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+/* Blend out of the page above so the mood fades in rather than starting at a hard edge. */
+.realms-atmos::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 110px;
+  z-index: 1;
+  background: linear-gradient(180deg, #080e10, transparent);
+}
+.realms-atmos-layer { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; }
+.realms-entry[data-entry="casual"] .realms-atmos-layer--casual,
+.realms-entry[data-entry="focused"] .realms-atmos-layer--focused,
+.realms-entry[data-entry="competitive"] .realms-atmos-layer--competitive { opacity: 1; }
+
+/* Casual: moonlit and unhurried, with a low mist drifting across the map. */
+.realms-atmos-layer--casual {
+  background:
+    radial-gradient(ellipse 55% 60% at 80% -5%, #8d87cf30, transparent 70%),
+    radial-gradient(ellipse 45% 55% at 5% 105%, #56649c2c, transparent 70%);
+}
+.realms-atmos-layer--casual::after {
+  content: "";
+  position: absolute;
+  inset: 30% -20% 10%;
+  background: radial-gradient(ellipse 35% 30% at 50% 50%, #b9b3f514, transparent 70%);
+  filter: blur(20px);
+}
+/* Focused: one clean shaft of light falling on the summit. */
+.realms-atmos-layer--focused {
+  background:
+    radial-gradient(ellipse 14% 95% at var(--summit-x) -12%, #c4ed6c24, transparent 72%),
+    radial-gradient(ellipse 20% 22% at var(--summit-x) 42%, #c4ed6c14, transparent 70%);
+}
+/* Competitive: heat rising from the contested peak and the ground beneath it. */
+.realms-atmos-layer--competitive {
+  background:
+    radial-gradient(ellipse 28% 42% at var(--contest-x) 40%, #efbd702a, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 60% 88%, #c9702a1e, transparent 70%);
+}
+.realms-atmos-layer--competitive::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 16% 24% at var(--contest-x) 40%, #efbd7026, transparent 70%);
+}
+
+.route-tab[aria-selected="true"] { background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 85%); }
+.route-tab { padding-inline: 14px; }
+
+.route-traveler { fill: var(--accent); pointer-events: none; }
+.route-traveler-halo { opacity: .22; }
+/* Mode ambience: decorative life on the map (RealmsModeAmbience). */
+.ambience { pointer-events: none; animation: ambience-in 1s .5s both; }
+@keyframes ambience-in { from { opacity: 0; } to { opacity: 1; } }
+
+.amb-star { fill: #e4e2ff; animation: star-twinkle 4s ease-in-out infinite; }
+@keyframes star-twinkle { 0%, 100% { opacity: .15; } 50% { opacity: .95; } }
+.amb-comet {
+  fill: none;
+  stroke: #e4e2ff;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: .18 1.2;
+  stroke-dashoffset: .2;
+  opacity: .8;
+  animation: comet 7s 1.5s ease-in infinite;
+}
+@keyframes comet { 0% { stroke-dashoffset: .2; opacity: .9; } 14% { stroke-dashoffset: -1; opacity: 0; } 100% { stroke-dashoffset: -1; opacity: 0; } }
+.amb-firefly { animation: firefly-drift 8s ease-in-out infinite alternate; }
+@keyframes firefly-drift { from { transform: translate(0, 0); } to { transform: translate(var(--dx), var(--dy)); } }
+.amb-firefly-core { fill: #f1efff; animation: firefly-glow 3s ease-in-out infinite; }
+.amb-firefly-halo { fill: #b9b3f5; animation: firefly-halo 3s ease-in-out infinite; }
+@keyframes firefly-glow { 0%, 100% { opacity: .15; } 45%, 60% { opacity: 1; } }
+@keyframes firefly-halo { 0%, 100% { opacity: 0; } 45%, 60% { opacity: .28; } }
+
+.amb-ring {
+  fill: none;
+  stroke: #c4ed6c;
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: summit-ring 3.6s cubic-bezier(.2, .6, .3, 1) infinite;
+}
+@keyframes summit-ring { from { transform: scale(.25); opacity: .85; } to { transform: scale(3.4); opacity: 0; } }
+.amb-mote { fill: #e6ffb8; animation: mote-rise 4s linear infinite; }
+@keyframes mote-rise {
+  0% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: .9; }
+  100% { transform: translate(var(--dx), var(--rise)); opacity: 0; }
+}
+.amb-waypoint path { stroke: #c4ed6c; stroke-width: 2; stroke-linecap: round; }
+
+.amb-march {
+  fill: none;
+  stroke: #fff1d6;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 3 13;
+  opacity: .8;
+  animation: march .5s linear infinite;
+}
+@keyframes march { to { stroke-dashoffset: -16; } }
+.amb-ember { fill: #efbd70; transform-box: fill-box; transform-origin: center; animation: ember-rise 2.4s ease-out infinite; }
+.amb-ember.is-hot { fill: #ff8a4c; }
+@keyframes ember-rise {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  12% { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--rise)) scale(.3); opacity: 0; }
+}
+.amb-clash-flash { fill: #fff1d6; }
+.amb-clash-ring { fill: none; stroke: #efbd70; stroke-width: 2; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .route-traveler { animation: traveler-in .6s 1s both; }
+  .realms-atmos-layer--casual::after { animation: mist-drift 16s ease-in-out infinite alternate; }
+  .realms-atmos-layer--competitive::after { animation: heat-pulse 2.6s ease-in-out infinite; }
+}
+@keyframes traveler-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mist-drift { from { transform: translateX(-12%); } to { transform: translateX(12%); } }
+@keyframes heat-pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+@media (max-width: 1023px) {
+  .realms-entry { --summit-x: 50%; --contest-x: 27%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .realms-tri-path-base { transition: none; }
+  .realms-entry, .realms-atmos-layer, .route-map-terrain { transition: none; }
+}
+
+@media (min-width: 1024px) {
+  .realms-entry > .product-container {
+    display: grid;
+    grid-template-columns: minmax(280px, .6fr) minmax(0, 1.4fr);
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(40px, 5vw, 80px);
+    align-items: start;
+  }
+  .realms-entry .realms-entry-heading { grid-column: 1; grid-row: 1; }
+  .route-selector { display: contents; }
+  .route-map { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .route-legend { grid-column: 1; grid-row: 2; align-self: end; grid-template-columns: 1fr; gap: 0; margin-top: 48px; }
+  .route-tab { padding: 18px 16px 20px; }
+}
+@media (max-width: 767px) {
+  .realms-entry > .product-container { padding-block: 40px 36px; }
+  .route-map { margin-inline: -12px; width: calc(100% + 24px); }
+  .route-label { display: none; }
+  .route-trail { stroke-width: 2.4; }
+  .route-line { stroke-width: 4; }
+  .route-legend { gap: 10px; }
+  .route-tab { padding: 14px 8px 8px; gap: 6px; }
+  .route-tab-name { font-size: 16px; }
+  .route-tab-reason { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-map-terrain, .route-line, .route.is-selected .route-line, .route-tab::before { transition: none; }
+}
+
+/* Scenery around the map (RealmsEntryScenery): the surroundings change with the route. */
+.realms-atmos-layer > * { position: absolute; pointer-events: none; }
+.realms-entry:not([data-entry="casual"]) .realms-atmos-layer--casual *,
+.realms-entry:not([data-entry="focused"]) .realms-atmos-layer--focused *,
+.realms-entry:not([data-entry="competitive"]) .realms-atmos-layer--competitive * { animation-play-state: paused; }
+
+/* Casual: a moonlit night over distant ridges, clouds passing slowly. */
+.scn-moon {
+  z-index: 2;
+  top: 12%;
+  right: 6%;
+  font-size: clamp(44px, 6.5vw, 100px);
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  box-shadow: inset -.27em .1em 0 0 #ecebff;
+  filter: drop-shadow(0 0 .28em #b9b3f599);
+  animation: moon-float 10s ease-in-out infinite alternate;
+}
+.scn-moon::before {
+  content: "";
+  position: absolute;
+  inset: -1.2em;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #b9b3f522, transparent);
+}
+@keyframes moon-float { from { transform: translateY(0) rotate(-4deg); } to { transform: translateY(-10px) rotate(3deg); } }
+.scn-cloud {
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #b9b3f52a, transparent);
+  filter: blur(4px);
+  animation: cloud-pass 52s linear infinite;
+}
+.scn-cloud--a { top: 20%; left: -40%; width: 38%; }
+.scn-cloud--b { top: 31%; left: -30%; width: 26%; height: 30px; animation-duration: 70s; animation-delay: -34s; }
+@keyframes cloud-pass { from { transform: translateX(0); } to { transform: translateX(480%); } }
+.scn-ridges { left: 0; bottom: 0; width: 100%; height: clamp(100px, 24%, 180px); }
+.scn-ridge--far { animation: ridge-drift 26s ease-in-out infinite alternate; }
+.scn-ridge--mid { animation: ridge-drift 19s ease-in-out infinite alternate-reverse; }
+@keyframes ridge-drift { from { transform: translateX(-22px); } to { transform: translateX(22px); } }
+.scn-ridge-rim { fill: none; stroke: #b9b3f5; stroke-opacity: .4; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+
+/* Focused: a lens drawn tight around one summit, and an altimeter that climbs with you. */
+.scn-lens {
+  left: var(--summit-x);
+  top: 44%;
+  width: min(62vw, 800px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  animation: lens-breathe 7s ease-in-out infinite alternate;
+}
+@keyframes lens-breathe { from { transform: translate(-50%, -50%) scale(.97); } to { transform: translate(-50%, -50%) scale(1.03); } }
+.scn-lens-ring { fill: none; stroke: #c4ed6c; stroke-opacity: .16; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.scn-lens-ring--faint { stroke-opacity: .08; }
+.scn-lens-ring--dash { stroke-opacity: .3; stroke-dasharray: 2 12; }
+.scn-lens-tick { stroke: #c4ed6c; stroke-opacity: .34; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.scn-lens-cross { fill: none; stroke: #c4ed6c; stroke-opacity: .4; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.scn-lens-dial { transform-origin: 0 0; animation: lens-turn 90s linear infinite; }
+.scn-lens-dial--reverse { animation-duration: 140s; animation-direction: reverse; }
+@keyframes lens-turn { to { transform: rotate(360deg); } }
+.scn-altimeter { right: 2.2%; top: 20%; height: 60%; width: 44px; overflow: visible; }
+.scn-alt-minor { stroke: #c4ed6c; stroke-opacity: .25; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.scn-alt-major { stroke: #c4ed6c; stroke-opacity: .55; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.scn-alt-rail { stroke: #c4ed6c; stroke-opacity: .2; vector-effect: non-scaling-stroke; }
+.scn-alt-marker { fill: #c4ed6c; stroke: #c4ed6c; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+
+/* Competitive: an arena. Banners for both sides, floodlights crossing over the contested peak. */
+.scn-flood {
+  bottom: -6%;
+  width: clamp(120px, 15vw, 230px);
+  height: 118%;
+  background: linear-gradient(to top, #ffdca42e, #efbd700f 50%, transparent 88%);
+  clip-path: polygon(46% 100%, 54% 100%, 100% 0, 0 0);
+  transform-origin: 50% 100%;
+  mix-blend-mode: screen;
+  filter: blur(8px);
+}
+.scn-flood--left { left: 34%; animation: flood-left 8s ease-in-out infinite alternate; }
+.scn-flood--right { left: 80%; animation: flood-right 9.5s ease-in-out infinite alternate; }
+@keyframes flood-left { from { transform: translateX(-50%) rotate(12deg); } to { transform: translateX(-50%) rotate(34deg); } }
+@keyframes flood-right { from { transform: translateX(-50%) rotate(-22deg); } to { transform: translateX(-50%) rotate(-46deg); } }
+.scn-arena { left: 0; bottom: 0; width: 100%; height: clamp(120px, 34%, 230px); }
+.scn-tier { fill: none; stroke: #efbd70; vector-effect: non-scaling-stroke; }
+.scn-tier--0 { stroke-opacity: .22; stroke-dasharray: 1 7; stroke-width: 2; }
+.scn-tier--1 { stroke-opacity: .26; stroke-dasharray: 1 6; stroke-width: 2; }
+.scn-tier--2 { stroke-opacity: .28; stroke-width: 1; }
+.scn-tier--3 { stroke-opacity: .4; stroke-width: 1.2; }
+.scn-banners { z-index: 2; top: 10%; left: var(--banner-x, 44%); display: flex; gap: clamp(10px, 1.4vw, 18px); padding-inline: 10px; }
+.scn-banners::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -3px;
+  height: 2px;
+  border-radius: 2px;
+  background: #efbd7088;
+}
+.scn-banner {
+  width: clamp(26px, 3.2vw, 46px);
+  height: auto;
+  transform-origin: 50% 0;
+  animation: banner-sway 3.6s ease-in-out infinite alternate;
+}
+.scn-banner--you { fill: #efbd70; }
+.scn-banner--rival { fill: #c9503a; animation-duration: 4.2s; }
+.scn-banner-mark { fill: #0b0c0e; }
+.scn-banner-mark--ring { fill: none; stroke: #0b0c0e; stroke-width: 4; }
+@keyframes banner-sway { from { transform: skewX(-4deg) rotate(-1.5deg); } to { transform: skewX(4deg) rotate(1.5deg); } }
+.scn-haze {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: radial-gradient(ellipse 50% 70% at var(--contest-x) 100%, #ff8a4c24, transparent 70%);
+  animation: heat-pulse 3.2s ease-in-out infinite;
+}
+
+@media (min-width: 1024px) {
+  /* Keep the legend readable: the night scenery belongs to the map side. */
+  .scn-ridges, .scn-arena { -webkit-mask-image: linear-gradient(90deg, transparent 18%, #000 42%); mask-image: linear-gradient(90deg, transparent 18%, #000 42%); }
+}
+@media (max-width: 1023px) {
+  .scn-lens { width: min(120vw, 760px); top: 52%; }
+  .scn-altimeter { display: none; }
+  .scn-flood--left { left: 8%; }
+  .scn-flood--right { left: 62%; }
+}
+@media (max-width: 767px) {
+  .scn-moon { top: 26%; right: 6%; font-size: 30px; }
+  .scn-banners { top: 28%; left: 34%; gap: 8px; padding-inline: 6px; }
+  .scn-banner { width: 16px; }
+  .scn-ridges, .scn-arena { height: 16%; }
+  .scn-ridge-rim { display: none; }
+  .scn-arena { opacity: .6; }
+  .scn-flood { opacity: .6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .realms-atmos-layer * { animation: none !important; }
+}
+
+/* Below the two-column layout the legend sits at the bottom: give the ridges and arena their own ground. */
+@media (max-width: 1023px) {
+  .realms-entry > .product-container { padding-bottom: 150px; }
+  .scn-banners { top: 26%; left: 22%; }
+  .scn-ridges, .scn-arena { height: 130px; }
+}
+@media (max-width: 767px) {
+  .realms-entry > .product-container { padding-bottom: 84px; }
+  .scn-ridges, .scn-arena { height: 72px; }
 }

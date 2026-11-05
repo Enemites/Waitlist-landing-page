@@ -40,6 +40,20 @@ Company artwork:
 
 > Generate one premium art-directed website brand hero image, landscape 3:2. A physical sculptural architectural model representing a living simulation and learning pathways: three enormous interlocking offset circular arches / concentric open labyrinth loops made of chalk ivory plaster and warm terracotta ceramic, with one small matte dark charcoal sphere suspended inside. The object sits on a warm off-white seamless studio background #f3efe7. Sophisticated contemporary architecture editorial photography, real physical material microtexture, beautifully restrained brutalist forms, broad diffuse natural light from upper left, soft long grounded shadows toward lower right. Strong intentional asymmetric composition, sculpture predominantly center-right, ample clean breathing room at edges, three-quarter isometric camera viewpoint with depth. Muted russet clay accent #b9573a, limestone ivory #eee8dc and charcoal #222823. Minimal, intelligent, tactile, calm, high-end brand identity for a research laboratory. Object fills about 75 percent of image. No text, no labels, no typography, no logos, no UI, no people, no gradients in the background, no metallic chrome, no neon, no black background.
 
+## Realms redesign: terrain and contours (2026-11)
+
+One idea now runs through `/realms`: worlds are terrain, decisions reshape terrain, and contour lines are how terrain is drawn. All original copy, links, media, form behavior and the approved Casual/Competitive artwork are unchanged.
+
+- Hero: generated contour lines spill out from the globe into the empty left side on load, and a single light pass crosses the "Realms" wordmark.
+- What is Enemites Realms?: now sits beside `RealmTerrain`, an interactive isometric realm (canvas). Clicking, tapping or pressing Enter makes a choice: a consequence wave crosses the land, terrain rises and falls around it, and the route between earlier choices stays lit. When idle and on screen it makes its own small choices every few seconds. It pauses off screen and when the tab is hidden, and renders a still frame under reduced motion.
+- AI Transcendent: the generic checkmark network is replaced by `DecisionTree`, a three-level tree that traces one route at a time; hovering an outcome traces its route.
+- Real Proof Of Capability: the off-palette illustration is replaced by `CapabilitySeal`, a deterministic seal whose rings are runs of decisions, with solved problems lit. It draws in once and tilts with the pointer.
+- Market band, proof panels and the terrain carry the same contour texture at low opacity.
+- Video consent state shows the intro poster instead of a black box.
+- Endmark: the logo is a window onto drifting contour relief with a slow light sweep.
+
+Generated assets: `public/assets/realms/contours-field.svg` and `contours-relief.svg`, produced by `node scripts/generate-realms-contours.mjs` (seeded noise, marching squares, smoothed). Styles live in `src/realms-redesign.css`, loaded after the other Realms stylesheets.
+
 ## Local review
 
 Run `npm run dev` and open `http://localhost:5173/profile` or `http://localhost:5173/arena`.
