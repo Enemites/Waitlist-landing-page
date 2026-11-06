@@ -61,3 +61,12 @@ Run `npm run dev` and open `http://localhost:5173/profile` or `http://localhost:
 Production build passes. Browser checks cover six content pages at 360, 390, 768 and 1440 pixels, original copy and links on nine routes, mobile navigation, root redirect, introduction-video navigation, waitlist validation/submission/reset and dynamic questionnaire controls. Additional checks verify pointer parallax, three scroll-selected phases, active-only video playback and reduced-motion behavior. No page errors, broken images or horizontal document overflow were detected.
 
 Captures and reports are stored locally under `output/playwright/` and excluded from Git. Form checks intercept requests and do not write real registrations or responses.
+
+## Competitive: teams that moved history (2026-11)
+
+The Competitive path gains a section between the match screens and the invitation: "Every great plan needed a team." Two abstract, hand-drawn SVG scenes (`src/components/product/CompetitiveLegends.tsx`, styles in `src/competitive-legends.css`) use the panel's amber palette, with the leader in amber and the team in muted sand:
+
+- Alexander the Great at Gaugamela (331 BC): a rider framed by a sunburst leads a phalanx (raised sarissas behind, lowered ones in front) toward a gap in the opposing line.
+- J. Robert Oppenheimer at Los Alamos (1943–1945): a thin figure in a porkpie hat with a pipe gestures toward an atom while physicists, chemists and engineers on the mesa send their work to the same core.
+
+Motion (sun rotation, marching, orbiting electrons, flowing routes, pipe smoke) runs only after hydration and is omitted entirely under reduced motion. Both scenes carry a descriptive `<title>`.

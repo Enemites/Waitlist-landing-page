@@ -12,6 +12,7 @@ import './value-transformations.css';
 import './realms-entry.css';
 import './casual-path.css';
 import './competitive-path.css';
+import './competitive-legends.css';
 import './realms-entry-selector.css';
 import './realms-screens.css';
 import './realms-path-themes.css';

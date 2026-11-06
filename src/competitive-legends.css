@@ -1,0 +1,50 @@
+/* Competitive: historical teams. Two abstract scenes, one leader ahead of many roles. */
+.competitive-legends { padding: 86px 0 88px; border-top: 1px solid #51422e; background: #101012; }
+.competitive-legends-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .75fr); gap: 60px; align-items: end; margin-bottom: 46px; padding-bottom: 30px; border-bottom: 1px solid #5a472f; }
+.competitive-legends-heading .product-eyebrow { font-size: 11px; line-height: 1.9; letter-spacing: .12em; }
+.product-site .competitive-legends-heading h2 { margin-top: 20px; font-size: clamp(39px, 4.1vw, 57px); font-weight: 600; line-height: 1.08; }
+.product-site .competitive-legends-heading > p { max-width: 430px; justify-self: end; font-size: 15px; line-height: 1.85; }
+.competitive-legend-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.4vw, 50px); }
+.competitive-legend-reveal { min-width: 0; }
+.competitive-legend { margin: 0; }
+.competitive-legend-art { overflow: hidden; border: 1px solid #3a3024; border-radius: 2px; background: #13110e; }
+.legend-art { display: block; width: 100%; height: auto; }
+.competitive-legend > figcaption { padding: 25px 0 0 22px; border-left: 1px solid #6b5130; margin-top: 24px; }
+.product-site .competitive-legend-label { font: 11px/1.7 "JetBrains Mono Variable", monospace; letter-spacing: .06em; text-transform: uppercase; }
+.product-site .competitive-legend h3 { margin-top: 10px; font-size: clamp(23px, 2.1vw, 29px); font-weight: 600; line-height: 1.2; letter-spacing: -.045em; }
+.product-site .competitive-legend h3 + p { max-width: 500px; margin-top: 13px; font-size: 14px; line-height: 1.8; }
+
+/* Theme contract: the panel already supplies --entry-* for the competitive path. */
+.realms-entry-panel[data-entry="competitive"] .competitive-legends-heading .product-eyebrow,
+.realms-entry-panel[data-entry="competitive"] .competitive-legend-label { color: var(--entry-accent); }
+.realms-entry-panel[data-entry="competitive"] .competitive-legend h3 { color: #eee5d7; }
+.realms-entry-panel[data-entry="competitive"] .competitive-legend h3 + p,
+.realms-entry-panel[data-entry="competitive"] .competitive-legends-heading > p { color: #b8afa2; }
+.competitive-legends + .competitive-invitation-section { padding-top: 64px; }
+.competitive-legends + .competitive-invitation-section .competitive-invitation { padding-top: 0; border-top: 0; }
+
+@media (max-width: 1100px) {
+  .competitive-legends-heading { gap: 40px; }
+}
+@media (max-width: 900px) {
+  .competitive-legends-heading { grid-template-columns: 1fr; gap: 22px; }
+  .product-site .competitive-legends-heading > p { justify-self: start; }
+  .competitive-legend-grid { grid-template-columns: 1fr; gap: 48px; }
+  .competitive-legend-reveal { max-width: 720px; }
+}
+@media (max-width: 767px) {
+  .competitive-legends { padding-block: 60px 62px; }
+  .competitive-legends-heading { margin-bottom: 32px; padding-bottom: 25px; }
+  .competitive-legends-heading .product-eyebrow { font-size: 12px; letter-spacing: .06em; }
+  .product-site .competitive-legends-heading h2 { font-size: clamp(36px, 8vw, 51px); line-height: 1.12; }
+  .product-site .competitive-legends-heading > p { font-size: 14px; }
+  .competitive-legend-grid { gap: 40px; }
+  .competitive-legend > figcaption { margin-top: 20px; padding: 20px 0 0 19px; }
+  .product-site .competitive-legend-label { font-size: 11px; letter-spacing: .03em; }
+  .product-site .competitive-legend h3 { font-size: 25px; }
+  .competitive-legends + .competitive-invitation-section { padding-top: 48px; }
+}
+@media (max-width: 375px) {
+  .product-site .competitive-legends-heading h2 { font-size: 34px; }
+  .product-site .competitive-legend h3 { font-size: 23px; }
+}
