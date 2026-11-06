@@ -62,11 +62,11 @@ Production build passes. Browser checks cover six content pages at 360, 390, 768
 
 Captures and reports are stored locally under `output/playwright/` and excluded from Git. Form checks intercept requests and do not write real registrations or responses.
 
-## Competitive: teams that moved history (2026-11)
+## Competitive: strategy and teamwork from history (2026-11)
 
-The Competitive path gains a section between the match screens and the invitation: "Every great plan needed a team." Two abstract, hand-drawn SVG scenes (`src/components/product/CompetitiveLegends.tsx`, styles in `src/competitive-legends.css`) use the panel's amber palette, with the leader in amber and the team in muted sand:
+The Competitive path has a section between the match screens and the invitation: "Every great plan needed a team." It is about strategy, teamwork and competition; the two figures are never named. Their identity is carried by the images alone, abstracted from well-known public-domain references:
 
-- Alexander the Great at Gaugamela (331 BC): a rider framed by a sunburst leads a phalanx (raised sarissas behind, lowered ones in front) toward a gap in the opposing line.
-- J. Robert Oppenheimer at Los Alamos (1943–1945): a thin figure in a porkpie hat with a pipe gestures toward an atom while physicists, chemists and engineers on the mesa send their work to the same core.
+- Strategy (`public/assets/realms/competitive-history-strategy.svg`): the Alexander Mosaic from the House of the Faun, Pompeii (c. 100 BC). The rider's windswept hair, wide eye and the horse's head are kept; a forest of raised, leaf-headed pikes stands behind as the army.
+- Teamwork (`public/assets/realms/competitive-history-teamwork.svg`): the U.S. government photograph at the Trinity site, September 1945. The man in the pale hat is the only figure in amber; the group around him stays in dark bronze.
 
-Motion (sun rotation, marching, orbiting electrons, flowing routes, pipe smoke) runs only after hydration and is omitted entirely under reduced motion. Both scenes carry a descriptive `<title>`.
+Method: tonal reduction + vector tracing, like a screen print. Mean-shift filtering flattens texture (lighter inside face/detail ellipses), non-subject areas (mosaic plaster and sky) drop to the background, luminance is split into five bands mapped to the Competitive amber palette, and each band is traced with potrace. The mosaic fragment keeps a rough, broken edge. Regenerate with `python3 scripts/abstract-competitive-history.py` (needs `pip install potracer opencv-python-headless numpy`; references download to `.cache/competitive-history/`). Each SVG is about 50 KB gzipped and loads lazily with descriptive alt text.
