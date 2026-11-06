@@ -1,13 +1,21 @@
 /* Panel-only themes. Shared hero, definition, navigation, and registration stay outside.
    Screen compositions consume the --entry-* contract without changing their pixels. */
+/* Casual: the night sky of the selector settles into moonlit graphite.
+   Lavender stays as light (the moon's wash, the tide), not as the ground itself. */
 .realms-entry-panel[data-entry="casual"] {
   --entry-accent: #b9b3f5;
-  --entry-bg: #0c1123;
-  --entry-muted: #a8b1c5;
-  --entry-ink: #eef0fb;
-  --entry-line: #30384e;
-  --entry-surface: #151b31;
-  background: radial-gradient(ellipse at 88% 8%,#8d87cf13,transparent 54%),radial-gradient(ellipse at 6% 55%,#56649c12,transparent 48%),var(--entry-bg);
+  --entry-bg: #0e0f13;
+  --entry-muted: #a9adbc;
+  --entry-ink: #eeeff6;
+  --entry-line: #2a2c37;
+  --entry-surface: #16171d;
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse 50% 520px at 84% 0, #8d87cf1c, transparent 72%),
+    radial-gradient(ellipse 40% 380px at 8% 1250px, #6f6aa80d, transparent 70%),
+    radial-gradient(ellipse 55% 460px at 50% 100%, #8d87cf14, transparent 72%),
+    linear-gradient(180deg, #0c1123 0, #0e0f18 180px, var(--entry-bg) 560px);
 }
 .realms-entry-panel[data-entry="competitive"] {
   --entry-accent: #efbd70;
@@ -50,10 +58,60 @@
 }
 .realms-entry-panel[data-entry="casual"] .casual-preview-link:hover { background: #d0cbff; border-color: #d0cbff; }
 .realms-entry-panel[data-entry="casual"] .casual-story {
+  position: relative;
+  isolation: isolate;
   margin-top: 95px;
   padding-top: 74px;
   border-color: var(--entry-line);
-  background: radial-gradient(ellipse at 50% 32%,#9a91d90b,transparent 67%);
+  background: radial-gradient(ellipse 46% 60% at 50% 30%, #9a91d90d, transparent 70%);
+}
+/* The tide: slow lines rolling under the branching story, brightest where the paths split. */
+.realms-entry-panel[data-entry="casual"] .casual-story::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 150px 0 -40px;
+  background: linear-gradient(90deg, #b9b3f5, #8f9bd6 55%, #b9b3f5);
+  opacity: .1;
+  -webkit-mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 62% 58% at 40% 55%, #000 25%, transparent 78%);
+  mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 62% 58% at 40% 55%, #000 25%, transparent 78%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  pointer-events: none;
+}
+/* The archive sits on open water: the same tide, gathered under the drawing. */
+.realms-entry-panel[data-entry="casual"] .casual-opening-world { position: relative; isolation: isolate; }
+.realms-entry-panel[data-entry="casual"] .casual-opening-world::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 18% -12% -14% -18%;
+  background: #b9b3f5;
+  opacity: .09;
+  -webkit-mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 50% 50% at 50% 55%, #000 30%, transparent 75%);
+  mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 50% 50% at 50% 55%, #000 30%, transparent 75%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  pointer-events: none;
+}
+/* A thin moonlit horizon where the story meets the open sea. */
+.realms-entry-panel[data-entry="casual"] .casual-story::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 8%;
+  right: 8%;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #b9b3f580 50%, transparent);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .realms-entry-panel[data-entry="casual"] :is(.casual-story, .casual-opening-world)::before { animation: casual-tide-drift 70s linear infinite; }
+  .realms-entry-panel[data-entry="casual"] .casual-opening-world::before { animation-duration: 95s; animation-direction: reverse; }
+}
+@keyframes casual-tide-drift {
+  to { -webkit-mask-position: -1600px 50%, 0 0; mask-position: -1600px 50%, 0 0; }
 }
 .realms-entry-panel[data-entry="casual"] .casual-story-heading { max-width: 780px; margin-inline: auto; text-align: center; }
 .realms-entry-panel[data-entry="casual"] .casual-story-heading > h2 { font-weight: 430; line-height: 1.18; letter-spacing: -.04em; }
@@ -72,9 +130,9 @@
 .realms-entry-panel[data-entry="casual"] .casual-concept-note { color: #8c96b1; }
 .realms-entry-panel[data-entry="casual"] .casual-invitation {
   padding: 29px 32px;
-  border: 1px solid #353c59;
+  border: 1px solid #2f3040;
   border-radius: 18px;
-  background: #151b2e;
+  background: radial-gradient(ellipse 60% 140% at 100% 0, #b9b3f512, transparent 70%), var(--entry-surface);
 }
 .realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { font-weight: 450; color: #e6e7f5; }
 .realms-entry-panel[data-entry="casual"] .casual-invitation-copy > p { color: #a6aec5; line-height: 1.85; }
@@ -84,7 +142,7 @@
 .realms-entry-panel[data-entry="casual"] .casual-access:hover { color: #d6d2ff; border-color: #d6d2ff; }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback p { color: var(--entry-accent); }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #c2c6dd; }
-.realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #e2e4f5; background: #10162b; border-color: #6c6a93; border-radius: 7px; }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #e2e4f5; background: #111217; border-color: #6c6a93; border-radius: 7px; }
 
 /* Focused keeps its original product palette; only the newer layout treatment remains. */
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro { padding-block: 48px 65px; }
