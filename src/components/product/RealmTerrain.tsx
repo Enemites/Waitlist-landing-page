@@ -352,7 +352,6 @@ export default function RealmTerrain({ className = "" }: { className?: string })
       >
         <canvas ref={canvas} aria-hidden="true" />
       </div>
-      <figcaption>Choose any spot on the land. The world reshapes around your choice, and earlier choices stay on the map.</figcaption>
     </figure>
   );
 }

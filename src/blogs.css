@@ -1,114 +1,211 @@
+/* The Realms Journal: stories plotted as waypoints on one map, read like field notes. */
 .realms-blogs { min-height: 100dvh; }
-.blogs-main { padding-top: clamp(140px, 13vw, 184px); }
-.blogs-heading, .blog-article-heading { text-align: center; margin-inline: auto; }
-.blogs-heading { max-width: 960px; padding-bottom: clamp(56px, 6vw, 88px); }
-.product-site .blogs-heading > .product-eyebrow, .product-site .blog-article-heading > .product-eyebrow { color: var(--product-accent); }
-.blogs-heading h1, .blog-article-heading h1 { font-size: clamp(46px, 6.5vw, 88px); line-height: 1.08; margin-block: 22px 28px; }
-.blogs-heading h1 > span { display: block; }
-.blogs-heading > p:not(.product-eyebrow), .blog-article-heading > p:not(.product-eyebrow) { max-width: 620px; margin-inline: auto; font-size: clamp(16px, 1.45vw, 19px); line-height: 1.8; }
-.blogs-heading-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; margin-top: 30px; font: 10px/1.6 "JetBrains Mono Variable", monospace; color: var(--product-muted); }
-.blogs-heading-meta > span:first-child { color: var(--product-accent); }
+.blogs-main { padding-top: clamp(112px, 11vw, 150px); }
 
-/* A large opening story leads into a staggered pair, like pages of a journal. */
-.blogs-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(56px, 6vw, 88px) clamp(36px, 6vw, 88px); padding-bottom: clamp(72px, 8vw, 120px); }
-.blog-card { min-width: 0; }
-.blog-card-featured { grid-column: 1 / -1; width: 100%; max-width: 1160px; margin: 0 auto; }
-.blog-card-supporting:nth-child(odd) { margin-top: 116px; }
-.blog-card-label { display: flex; justify-content: space-between; gap: 20px; padding-block: 18px; border-top: 1px solid var(--product-line); font: 10px/1.6 "JetBrains Mono Variable", monospace; color: var(--product-muted); }
-.blog-card-label > span:last-child { color: var(--product-accent); }
-.blog-card-link { display: block; }
-.blog-card-art { aspect-ratio: 1.5; overflow: hidden; background: var(--product-panel); border-radius: 5px; }
-.blog-card-art picture, .blog-article-art picture, .blogs-related-art picture { display: block; width: 100%; height: 100%; }
-.blog-card-art img, .blog-article-art img, .blogs-related-art img { width: 100%; height: 100%; object-fit: cover; }
-.blog-card-art img, .blogs-related-art img { transition: transform 600ms var(--brand-ease); }
-.blog-card-link:hover .blog-card-art img, .blogs-related a:hover img { transform: scale(1.025); }
-.blog-card-copy { text-align: center; padding: 30px 14px 8px; }
-.blog-card-featured .blog-card-copy { max-width: 820px; margin-inline: auto; padding-top: 38px; }
-.blog-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; font: 10px/1.7 "JetBrains Mono Variable", monospace; color: var(--product-muted); }
-.blog-meta > span:first-child { color: var(--product-accent); }
-.product-site .blog-card h2 { margin-top: 18px; font-size: clamp(28px, 2.8vw, 40px); line-height: 1.18; letter-spacing: -.045em; }
-.product-site .blog-card-featured h2 { font-size: clamp(36px, 4.3vw, 62px); }
-.blog-card p { max-width: 560px; font-size: 14px; margin: 18px auto 0; }
-.blog-card-featured p { font-size: 16px; max-width: 600px; }
-.blog-read-link { display: inline-flex; align-items: center; justify-content: center; gap: 14px; margin-top: 24px; font-size: 12px; color: var(--product-accent); }
-.blog-read-link svg { transition: transform 180ms ease; }
-.blog-card-link:hover .blog-read-link svg, .blogs-related a:hover .blog-read-link svg { transform: translate(2px, -2px); }
-.blogs-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; padding-block: 30px 42px; border-top: 1px solid var(--product-line); font-size: 12px; color: var(--product-muted); }
-.blogs-footer a, .blog-back-link, .blog-article-cta a { display: inline-flex; align-items: center; gap: 12px; color: var(--product-accent); }
+.journal-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font: 11px/1.6 "JetBrains Mono Variable", monospace; letter-spacing: .02em; color: var(--product-muted); }
+.journal-meta > span:first-child { color: var(--product-accent); }
+.journal-read { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; color: var(--product-accent); }
+.journal-read svg { transition: transform 240ms var(--brand-ease); }
 
-.blog-article-topline { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 44px; }
-.blog-article-topline > span { font: 10px/1.6 "JetBrains Mono Variable", monospace; color: var(--product-muted); }
-.blog-back-link { font-size: 12px; }
-.blog-facts { margin-top: 36px; padding: 24px; background: var(--product-panel); border: 1px solid var(--product-line); border-radius: 5px; }
-.blog-facts > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 20px; padding-block: 14px; }
-.blog-facts > div + div { border-top: 1px solid var(--product-line); }
-.blog-facts dt { font: 11px/1.8 "JetBrains Mono Variable", monospace; color: var(--product-accent); }
-.blog-facts dd { font-size: 14px; line-height: 1.8; color: var(--product-ink); }
-.blog-faq > div { margin-top: 30px; }
-.product-site .blog-faq h3 { font-size: 22px; line-height: 1.4; letter-spacing: -.025em; }
-.blog-references ul { list-style: disc; padding-left: 20px; }
-.blog-references li { margin-top: 14px; font-size: 14px; line-height: 1.8; }
-.blog-references a { color: var(--product-accent); text-decoration: underline; text-underline-offset: 4px; }
-.blog-article-heading { max-width: 1080px; margin-bottom: clamp(42px, 5vw, 68px); }
-.blog-article-heading h1 { font-size: clamp(42px, 5.5vw, 78px); }
-.blog-article-heading > p:not(.product-eyebrow) { max-width: 700px; }
-.blog-article-heading .blog-meta { margin-top: 28px; }
-.blog-article-art { max-width: 1160px; aspect-ratio: 1.5; margin-inline: auto; overflow: hidden; border-radius: 5px; background: var(--product-panel); }
-.blog-article-body { max-width: 720px; margin: clamp(48px, 6vw, 80px) auto 96px; }
-.product-site .blog-introduction { font-size: clamp(20px, 2vw, 24px); color: var(--product-ink); line-height: 1.7; }
-.blog-article-body section { margin-top: 52px; padding-top: 26px; border-top: 1px solid var(--product-line); }
-.blog-section-number { display: block; margin-bottom: 18px; font: 10px/1.6 "JetBrains Mono Variable", monospace; color: var(--product-accent); }
-.product-site .blog-article-body h2 { font-size: clamp(28px, 2.7vw, 38px); line-height: 1.2; margin-bottom: 22px; }
-.blog-article-body section p { font-size: 16px; margin-top: 18px; line-height: 1.85; }
-.blog-article-cta { margin-top: 64px; padding: 38px 30px; background: var(--product-panel); border: 1px solid var(--product-line); border-radius: 5px; text-align: center; }
-.product-site .blog-article-cta > .product-eyebrow { color: var(--product-accent); }
-.product-site .blog-article-cta h2 { margin-block: 18px 14px; }
-.blog-article-cta > p:not(.product-eyebrow) { font-size: 14px; }
-.blog-article-cta a { font-size: 13px; margin-top: 24px; }
-.blogs-related { border-top: 1px solid var(--product-line); padding-block: 48px 80px; }
-.blogs-related-heading { text-align: center; margin-bottom: 38px; }
-.product-site .blogs-related-heading > .product-eyebrow { color: var(--product-accent); }
-.product-site .blogs-related-heading h2 { font-size: clamp(30px, 3.2vw, 44px); margin-top: 14px; }
-.blogs-related > div:last-child { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); max-width: 1160px; margin-inline: auto; }
-.blogs-related a { display: block; min-width: 0; text-align: center; }
-.blogs-related-art { aspect-ratio: 1.5; overflow: hidden; border-radius: 5px; background: var(--product-panel); margin-bottom: 24px; }
-.blogs-related a > span:not(.blog-read-link) { font: 10px/1.7 "JetBrains Mono Variable", monospace; color: var(--product-accent); }
-.product-site .blogs-related h3 { max-width: 450px; font-size: clamp(26px, 2.5vw, 34px); line-height: 1.2; margin: 14px auto 0; }
+/* Illustrations are printed plates: paper inside a dark frame. */
+.journal-plate { position: relative; aspect-ratio: 1.5; overflow: hidden; border-radius: 14px; background: #eeede6; box-shadow: 0 0 0 1px #ffffff14, 0 24px 60px #0007; }
+.journal-plate picture { display: block; width: 100%; height: 100%; }
+.journal-plate img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--brand-ease), filter 400ms ease, opacity 400ms ease; }
 
-@media (max-width: 900px) {
-  .blogs-grid { column-gap: 32px; }
-  .blog-card-supporting:nth-child(odd) { margin-top: 76px; }
-  .blog-card-copy { padding-inline: 0; }
-  .blogs-related > div:last-child { gap: 28px; }
+/* Index hero: copy beside the atlas. */
+.journal-hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(32px, 5vw, 80px); }
+.product-site .journal-hero-copy > .product-eyebrow { color: var(--product-accent); }
+.product-site .journal-hero h1 { margin-top: 22px; font-size: clamp(44px, 5.4vw, 82px); line-height: 1.02; letter-spacing: -.055em; font-weight: 450; }
+.journal-hero h1 > span { display: block; }
+.product-site .journal-hero-copy > p:not(.product-eyebrow) { max-width: 430px; margin-top: 26px; font-size: 17px; }
+
+.journal-atlas { position: relative; aspect-ratio: 720 / 420; }
+.journal-atlas-terrain {
+  position: absolute;
+  inset: -6% -4%;
+  background: var(--product-accent);
+  opacity: .16;
+  -webkit-mask: url(/assets/realms/contours-relief.svg) center / cover no-repeat, radial-gradient(ellipse 60% 60% at 50% 50%, #000 35%, transparent 78%);
+  mask: url(/assets/realms/contours-relief.svg) center / cover no-repeat, radial-gradient(ellipse 60% 60% at 50% 50%, #000 35%, transparent 78%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
-@media (max-width: 600px) {
-  .blogs-main { width: calc(100% - 40px); padding-top: 136px; }
-  .blogs-heading { padding-bottom: 48px; }
-  .blogs-heading h1 { font-size: clamp(40px, 10vw, 58px); margin-block: 20px 24px; }
-  .blogs-heading > p:not(.product-eyebrow), .blog-article-heading > p:not(.product-eyebrow) { font-size: 15px; }
-  .blogs-heading-meta { margin-top: 24px; gap: 8px 18px; }
-  .blogs-grid { grid-template-columns: 1fr; gap: 40px; padding-bottom: 64px; }
-  .blog-card-featured { grid-column: auto; margin-bottom: 0; }
-  .blog-card-supporting:nth-child(odd) { margin-top: 0; }
-  .blog-card-label { font-size: 9px; padding-block: 14px; }
-  .blog-card-copy, .blog-card-featured .blog-card-copy { padding-top: 24px; }
-  .product-site .blog-card h2, .product-site .blog-card-featured h2 { font-size: clamp(29px, 7.5vw, 38px); }
-  .blog-card-featured p { font-size: 14px; }
-  .blog-article-topline { margin-bottom: 36px; }
-  .blog-article-topline > span { display: none; }
-  .blog-article-heading h1 { font-size: clamp(38px, 9.7vw, 56px); margin-block: 20px 24px; }
-  .blog-article-heading .blog-meta { gap: 8px 14px; }
-  .blog-article-body { margin-block: 38px 64px; }
-  .blog-article-body section { margin-top: 36px; padding-top: 22px; }
-  .blog-article-body section p { font-size: 15px; }
-  .blog-facts { padding: 16px; }
-  .blog-facts > div { grid-template-columns: 1fr; gap: 6px; }
-  .blog-article-cta { margin-top: 44px; padding: 30px 20px; }
-  .blogs-related { padding-block: 40px 56px; }
-  .blogs-related > div:last-child { grid-template-columns: 1fr; gap: 42px; }
-  .blogs-footer { font-size: 11px; gap: 16px; }
+.journal-atlas svg { position: relative; width: 100%; height: 100%; overflow: visible; }
+.journal-atlas-route { fill: none; stroke: var(--product-accent); stroke-opacity: .55; stroke-width: 1.5; stroke-dasharray: 2 9; stroke-linecap: round; }
+.journal-atlas-halo { fill: var(--product-accent); fill-opacity: .1; transform-box: fill-box; transform-origin: center; transform: scale(.4); opacity: 0; transition: transform 400ms var(--brand-ease), opacity 300ms ease; }
+.journal-atlas-dot { fill: #080e10; stroke: var(--product-accent); stroke-width: 2; transition: fill 200ms ease; }
+.journal-atlas-point text { font: 600 12px "JetBrains Mono Variable", monospace; fill: var(--product-muted); transition: fill 200ms ease; }
+.journal-atlas-point { cursor: pointer; }
+.journal-atlas-point.is-active .journal-atlas-halo, .journal-atlas-point:hover .journal-atlas-halo { opacity: 1; transform: scale(1); }
+.journal-atlas-point.is-active .journal-atlas-dot, .journal-atlas-point:hover .journal-atlas-dot { fill: var(--product-accent); }
+.journal-atlas-point.is-active text, .journal-atlas-point:hover text { fill: var(--product-ink); }
+.journal-atlas-point:last-of-type .journal-atlas-dot { fill: var(--product-accent); }
+
+/* Latest story */
+.journal-lead { margin-top: clamp(48px, 6vw, 88px); }
+.journal-lead-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px solid var(--product-line);
+  border-radius: 24px;
+  background: radial-gradient(ellipse 70% 90% at 100% 0%, #c4ed6c0f, transparent 60%), var(--product-panel);
+}
+.journal-lead-link:hover, .journal-lead-link.is-active { border-color: #c4ed6c55; }
+.product-site .journal-lead-copy h2 { margin-top: 20px; font-size: clamp(32px, 3.4vw, 52px); line-height: 1.08; letter-spacing: -.045em; font-weight: 500; }
+.product-site .journal-lead-copy > p { margin-top: 18px; max-width: 460px; font-size: 16px; }
+.journal-lead-copy .journal-read { margin-top: 30px; }
+.journal-lead-link:hover .journal-plate img { transform: scale(1.03); }
+.journal-lead-link:hover .journal-read svg, .journal-row:hover .journal-row-arrow, .story-next-link:hover .journal-read svg { transform: translate(3px, -3px); }
+
+/* Every story: an index you read down, with each plate developing as you reach it. */
+.journal-index { margin-top: clamp(80px, 10vw, 140px); }
+.product-site .journal-index > h2 { font: 500 12px/1 "JetBrains Mono Variable", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--product-muted); padding-bottom: 22px; }
+.journal-index ol { list-style: none; margin: 0; padding: 0; }
+.journal-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 260px 32px;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  padding-block: 30px;
+  border-top: 1px solid var(--product-line);
+  isolation: isolate;
+}
+.journal-index li:last-child .journal-row { border-bottom: 1px solid var(--product-line); }
+.journal-row::before { content: ""; position: absolute; inset: 0 -24px; z-index: -1; border-radius: 16px; background: #c4ed6c08; opacity: 0; transition: opacity 300ms ease; }
+.journal-row-number { align-self: start; padding-top: 6px; font: 500 13px/1 "JetBrains Mono Variable", monospace; color: var(--product-muted); transition: color 200ms ease; }
+.product-site .journal-row h3 { font-size: clamp(24px, 2.3vw, 34px); line-height: 1.15; letter-spacing: -.04em; font-weight: 500; transition: color 200ms ease; }
+.product-site .journal-row-copy > p { margin-top: 10px; max-width: 560px; font-size: 14.5px; line-height: 1.7; }
+.journal-row-copy .journal-meta { margin-top: 14px; }
+/* At rest a row's plate is printed in negative, dark like the page; reaching it develops the print. */
+.journal-plate--row { background: #10191b; box-shadow: 0 0 0 1px #ffffff14; }
+.journal-plate--row img { filter: invert(.94) hue-rotate(180deg) saturate(1.2); }
+.journal-row-arrow { color: var(--product-muted); transition: transform 240ms var(--brand-ease), color 200ms ease; }
+.journal-row:hover::before, .journal-row.is-active::before { opacity: 1; }
+.journal-row:hover .journal-row-number, .journal-row.is-active .journal-row-number, .journal-row:hover .journal-row-arrow, .journal-row.is-active .journal-row-arrow { color: var(--product-accent); }
+.journal-row:hover .journal-plate--row img, .journal-row.is-active .journal-plate--row img { filter: none; opacity: 1; transform: scale(1.04); }
+
+.journal-close { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px; padding-block: clamp(96px, 12vw, 160px) clamp(80px, 9vw, 120px); }
+.product-site .journal-close h2 { max-width: 760px; font-size: clamp(36px, 4.6vw, 68px); line-height: 1.05; letter-spacing: -.05em; font-weight: 450; }
+.journal-close h2 > span { display: block; }
+.journal-close-link, .story-related-cta { display: inline-flex; align-items: center; gap: 14px; }
+.journal-close-link { height: 54px; padding-inline: 26px; border-radius: 999px; background: var(--product-accent); color: #142015; font-size: 15px; font-weight: 600; }
+.journal-close-link:hover { transform: translateY(-2px); }
+.journal-close-link:active { transform: translateY(1px); }
+
+/* Story page */
+.story-progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  .story-progress { display: block; position: fixed; z-index: 70; inset: 0 0 auto; height: 2px; background: var(--product-accent); transform-origin: 0 50%; animation: story-progress linear both; animation-timeline: scroll(root); }
+}
+@keyframes story-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.story-hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: end; gap: clamp(32px, 5vw, 80px); padding-bottom: clamp(56px, 6vw, 88px); border-bottom: 1px solid var(--product-line); }
+.story-back { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 40px; font-size: 13px; color: var(--product-muted); }
+.story-back:hover { color: var(--product-accent); }
+.product-site .story-hero-copy > .product-eyebrow { color: var(--product-accent); }
+.product-site .story-hero h1 { margin-top: 18px; font-size: clamp(40px, 4.8vw, 74px); line-height: 1.04; letter-spacing: -.055em; font-weight: 450; }
+.product-site .story-dek { margin-top: 24px; max-width: 560px; font-size: 18px; line-height: 1.7; }
+.story-hero-copy .journal-meta { margin-top: 28px; }
+.journal-plate--hero { border-radius: 18px; }
+
+.story-layout { display: grid; grid-template-columns: 230px minmax(0, 700px); justify-content: space-between; gap: 64px; padding-block: clamp(56px, 6vw, 88px) clamp(80px, 8vw, 120px); }
+.story-outline { position: sticky; top: 120px; align-self: start; }
+.product-site .story-outline > p { font: 500 11px/1 "JetBrains Mono Variable", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--product-muted); margin-bottom: 18px; }
+.story-outline ol { list-style: none; margin: 0; padding: 0; }
+.story-outline a { display: block; padding: 9px 0 9px 16px; border-left: 1px solid var(--product-line); font-size: 13.5px; line-height: 1.45; color: var(--product-muted); }
+.story-outline a:hover { color: var(--product-ink); }
+.story-outline a[aria-current="true"] { color: var(--product-ink); border-left: 2px solid var(--product-accent); padding-left: 15px; }
+
+.product-site .story-lead { font-size: clamp(20px, 1.9vw, 24px); line-height: 1.6; color: var(--product-ink); letter-spacing: -.01em; }
+.story-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: 44px; overflow: hidden; border: 1px solid var(--product-line); border-radius: 16px; background: var(--product-line); }
+.story-facts > div { padding: 20px 22px; background: var(--product-panel); }
+.story-facts > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.story-facts dt { font: 500 11px/1.5 "JetBrains Mono Variable", monospace; letter-spacing: .04em; color: var(--product-accent); }
+.story-facts dd { margin: 8px 0 0; font-size: 14.5px; line-height: 1.7; color: var(--product-ink); }
+.story-body section { margin-top: clamp(52px, 5vw, 72px); scroll-margin-top: 120px; }
+.product-site .story-body h2 { font-size: clamp(28px, 2.5vw, 38px); line-height: 1.15; letter-spacing: -.04em; font-weight: 500; margin-bottom: 20px; }
+.product-site .story-body section > p { margin-top: 18px; font-size: 17px; line-height: 1.85; color: #b7c2be; }
+.story-faq details { border-top: 1px solid var(--product-line); }
+.story-faq details:last-child { border-bottom: 1px solid var(--product-line); }
+.story-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 22px; cursor: pointer; list-style: none; }
+.story-faq summary::-webkit-details-marker { display: none; }
+.product-site .story-faq h3 { font-size: 18px; line-height: 1.4; letter-spacing: -.02em; font-weight: 500; }
+.story-faq summary svg { flex-shrink: 0; color: var(--product-accent); transition: transform 240ms var(--brand-ease); }
+.story-faq details[open] summary svg { transform: rotate(45deg); }
+.product-site .story-faq details > p { margin: 0 0 24px; font-size: 16px; line-height: 1.8; }
+.story-references ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.story-references a { display: inline-flex; align-items: center; gap: 8px; padding-block: 6px; font-size: 15px; color: var(--product-accent); text-decoration: underline; text-decoration-color: #c4ed6c55; text-underline-offset: 5px; }
+
+.story-next { border-block: 1px solid var(--product-line); background: radial-gradient(ellipse 50% 120% at 85% 50%, #c4ed6c10, transparent 70%); }
+.story-next-link { display: block; padding-block: clamp(64px, 8vw, 112px); }
+.story-next-label { font: 500 11px/1 "JetBrains Mono Variable", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--product-accent); }
+.product-site .story-next h2 { max-width: 980px; margin-top: 22px; font-size: clamp(36px, 5vw, 76px); line-height: 1.04; letter-spacing: -.055em; font-weight: 450; transition: color 300ms ease; }
+.story-next-link .journal-read { margin-top: 28px; }
+.story-next-link:hover h2 { color: var(--product-accent); }
+
+.story-related { padding-block: clamp(64px, 8vw, 104px) clamp(80px, 9vw, 120px); }
+.product-site .story-related > h2 { font: 500 12px/1 "JetBrains Mono Variable", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--product-muted); margin-bottom: 28px; }
+.story-related > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.5vw, 32px); }
+.story-related-card { display: grid; gap: 20px; align-content: start; }
+.product-site .story-related-card h3 { margin-top: 10px; font-size: 21px; line-height: 1.25; letter-spacing: -.03em; font-weight: 500; }
+.story-related-card:hover .journal-plate--row img { filter: none; opacity: 1; transform: scale(1.04); }
+.story-related-card:hover h3 { color: var(--product-accent); }
+.story-related-cta { position: relative; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 10px; min-height: 100%; padding: 28px; border-radius: 14px; background: var(--product-accent); color: #142015; }
+.story-related-cta span { font-size: clamp(26px, 2.4vw, 34px); line-height: 1.05; letter-spacing: -.045em; font-weight: 600; }
+.story-related-cta small { font-size: 14px; line-height: 1.5; color: #26361e; }
+.story-related-cta svg { position: absolute; top: 24px; right: 24px; transition: transform 240ms var(--brand-ease); }
+.story-related-cta:hover svg { transform: translate(3px, -3px); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .journal-atlas-route { animation: atlas-route 2.4s .3s var(--brand-ease) both; stroke-dasharray: 2 9; }
+  .journal-hero-copy, .story-hero-copy { animation: journal-rise .9s var(--brand-ease) both; }
+  .journal-atlas, .journal-plate--hero { animation: journal-rise .9s .15s var(--brand-ease) both; }
+  @supports (animation-timeline: view()) {
+    .journal-row, .story-related-card { animation: journal-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
+  }
+}
+@keyframes atlas-route { from { stroke-dashoffset: 400; opacity: 0; } to { stroke-dashoffset: 0; opacity: 1; } }
+@keyframes journal-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 1000px) {
+  .journal-hero, .story-hero { grid-template-columns: 1fr; }
+  .journal-atlas { max-width: 680px; }
+  .journal-lead-link { grid-template-columns: 1fr; }
+  .journal-row { grid-template-columns: 56px minmax(0, 1fr) 200px; }
+  .journal-row-arrow { display: none; }
+  .story-layout { grid-template-columns: 1fr; }
+  .story-outline { display: none; }
+  .story-body { max-width: 700px; }
+  .story-related > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .story-related-cta { grid-column: 1 / -1; min-height: 180px; }
+}
+@media (max-width: 700px) {
+  .blogs-main { padding-top: 116px; }
+  .product-site .journal-hero h1 { font-size: clamp(40px, 11vw, 54px); }
+  .product-site .journal-hero-copy > p:not(.product-eyebrow) { font-size: 15px; }
+  .journal-atlas { margin-inline: -12px; }
+  .journal-lead-link { padding: 12px 12px 26px; border-radius: 20px; }
+  .journal-lead-copy { padding-inline: 8px; }
+  .product-site .journal-lead-copy > p { font-size: 15px; }
+  .journal-row { grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding-block: 26px; }
+  .journal-plate--row { display: none; }
+  .journal-row::before { inset: 0 -12px; }
+  .product-site .journal-row h3 { font-size: 23px; }
+  .journal-close { padding-block: 80px 72px; }
+  .journal-close-link { width: 100%; justify-content: center; }
+  .story-back { margin-bottom: 28px; }
+  .product-site .story-hero h1 { font-size: clamp(36px, 9.6vw, 50px); }
+  .product-site .story-dek { font-size: 16px; }
+  .story-facts { grid-template-columns: 1fr; }
+  .product-site .story-body section > p { font-size: 16px; }
+  .story-related > div { grid-template-columns: 1fr; }
+  .story-related-card .journal-plate--row { display: block; }
+  .story-related-cta { grid-column: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .blog-card-art img, .blogs-related-art img, .blog-read-link svg { transition: none; }
-  .blog-card-link:hover .blog-card-art img, .blogs-related a:hover img, .blog-card-link:hover .blog-read-link svg, .blogs-related a:hover .blog-read-link svg { transform: none; }
+  .journal-plate img, .journal-read svg, .journal-row-arrow, .journal-atlas-halo { transition: none; }
 }

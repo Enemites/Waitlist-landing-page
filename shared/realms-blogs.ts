@@ -131,3 +131,10 @@ export const findRealmsBlog = (slug: string) => REALMS_BLOGS.find(post => post.s
 export function formatBlogDate(date: string) {
   return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));
 }
+
+export function blogReadingMinutes(post: RealmsBlogPost) {
+  const words = [post.introduction, ...post.sections.flatMap(section => section.paragraphs), ...(post.faqs ?? []).map(faq => `${faq.question} ${faq.answer}`)].join(" ").split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+export const blogSectionId = (heading: string) => heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
