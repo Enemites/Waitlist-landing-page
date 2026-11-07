@@ -79,21 +79,6 @@
   mask-composite: intersect;
   pointer-events: none;
 }
-/* The archive sits on open water: the same tide, gathered under the drawing. */
-.realms-entry-panel[data-entry="casual"] .casual-opening-world { position: relative; isolation: isolate; }
-.realms-entry-panel[data-entry="casual"] .casual-opening-world::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 18% -12% -14% -18%;
-  background: #b9b3f5;
-  opacity: .09;
-  -webkit-mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 50% 50% at 50% 55%, #000 30%, transparent 75%);
-  mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 50% 50% at 50% 55%, #000 30%, transparent 75%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  pointer-events: none;
-}
 /* A thin moonlit horizon where the story meets the open sea. */
 .realms-entry-panel[data-entry="casual"] .casual-story::after {
   content: "";
@@ -107,8 +92,7 @@
   pointer-events: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .realms-entry-panel[data-entry="casual"] :is(.casual-story, .casual-opening-world)::before { animation: casual-tide-drift 70s linear infinite; }
-  .realms-entry-panel[data-entry="casual"] .casual-opening-world::before { animation-duration: 95s; animation-direction: reverse; }
+  .realms-entry-panel[data-entry="casual"] .casual-story::before { animation: casual-tide-drift 70s linear infinite; }
 }
 @keyframes casual-tide-drift {
   to { -webkit-mask-position: -1600px 50%, 0 0; mask-position: -1600px 50%, 0 0; }
@@ -187,8 +171,6 @@
 .realms-entry-panel[data-entry="competitive"] .competitive-entry-link { color: var(--entry-accent); min-height: 42px; border-bottom: 1px solid #a37a42; font: 11px/1.7 "JetBrains Mono Variable",monospace; text-transform: uppercase; letter-spacing: .06em; }
 .realms-entry-panel[data-entry="competitive"] .competitive-entry-link:hover { color: #f6d39f; border-color: #f6d39f; }
 .realms-entry-panel[data-entry="competitive"] .competitive-world-illustration > figcaption > span { color: #a99f91; font-family: "JetBrains Mono Variable",monospace; font-size: 11px; }
-.realms-entry-panel[data-entry="competitive"] .competitive-world-illustration figcaption i { background: var(--entry-accent); border-radius: 0; }
-.realms-entry-panel[data-entry="competitive"] .competitive-world-illustration figcaption > span:last-child i { background: #9a9285; }
 .realms-entry-panel[data-entry="competitive"] .competitive-matchmaking { background: #101012; border-color: #51422e; }
 .realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; padding-bottom: 30px; border-bottom: 1px solid #5a472f; }
 .realms-entry-panel[data-entry="competitive"] .competitive-matchmaking-heading .product-eyebrow { max-width: 170px; line-height: 1.9; letter-spacing: .12em; }

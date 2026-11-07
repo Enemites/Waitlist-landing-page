@@ -70,3 +70,12 @@ The Competitive path has a section between the match screens and the invitation:
 - Teamwork (`public/assets/realms/competitive-history-teamwork.svg`): the U.S. government photograph at the Trinity site, September 1945. The man in the pale hat is the only figure in amber; the group around him stays in dark bronze.
 
 Method: flat fills + ink lines, like a printed graphic-novel panel. L0 gradient minimisation flattens each reference into a few large, evenly toned regions with crisp edges (five tones, median-merged so no slivers remain); XDoG draws clean contour lines and drops specks; the leader alone takes the amber palette (with its own tonal range), everyone else dark bronze; every tone and the ink are traced with potrace into compact relative SVG paths. Regenerate with `python3 scripts/abstract-competitive-history.py` (needs `pip install potracer opencv-contrib-python-headless numpy`; references download to `.cache/competitive-history/`). The SVGs are about 85 KB and 46 KB gzipped and load lazily with descriptive alt text.
+
+## Casual and Competitive openings redrawn (2026-11)
+
+The pale green isometric dioramas at the top of the Casual and Competitive paths clashed with their panel themes. Both are replaced by inline SVG scenes drawn in each path's own palette. Copy, links and layout are unchanged.
+
+- Competitive (`CompetitiveMatchBoard`): a match briefing drawn as a playbook on one topographic map. A river crosses the board with a single contested crossing at its center (split amber/grey ring). Your team (amber, numbered) plans a route to the crossing and one to the pump gate; the opposition (grey crosses) comes from the far bank and flanks to the ford. Routes draw in on entry, runners travel along them, the river flows and a faint sweep crosses the board. The legend marks match the board (dot, dashed ring, cross).
+- Casual (`CasualSignalScene`): a nocturne. The archive stands in silhouette against a low lavender moon; its relay sends rings over the water, a moon path shimmers on the sea and the tide laps at the base. Three markers, the relay, the crossing and the lower channel, light up in turn as the first moves the story below explores. The tide overlay that sat behind the old drawing is removed because the scene now draws its own sea.
+
+Both are deterministic (seeded geometry) so prerender and hydration match. All motion is CSS and only runs under `prefers-reduced-motion: no-preference`; otherwise the finished drawing is shown. On phones the board coordinates are hidden and labels are enlarged.
