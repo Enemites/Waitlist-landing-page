@@ -27,10 +27,13 @@ Reference renders: `comp/scenes/_brandtest.js` uses every helper (render it with
    `class: 'brand-svg'` (or `style: 'position:absolute;left:0;top:0'`).
 5. Grain and vignette are a film-wide overlay (`Film.overlay`). Do not add your own grain.
 6. Prefix every SVG `id` with the scene id (all scenes' DOM exists for the whole film).
-7. Keep `onFrame` work under ~15 ms. One `Brand.terrain` per scene is fine (build ~0.3 s, frame
+7. Terrain contours are cached bitmaps: for camera zoom above ~1.3x pass `res: 2` to
+   `Brand.terrain` / `Floodgate.world({ terrain: { res: 2 } })` so close-ups stay crisp
+   (costs memory; use only where needed). Never scale a terrain canvas with CSS.
+8. Keep `onFrame` work under ~15 ms. One `Brand.terrain` per scene is fine (build ~0.3 s, frame
    ~10 ms with light pools). Avoid CSS `filter: blur()` over large areas and `backdrop-filter`.
-8. Fonts have no arrows or geometric glyphs. Draw icons in SVG.
-9. Type sizes: headlines 110–170 px (Manrope 620, tracking −0.055em); labels ≥ 20 px mono.
+9. Fonts have no arrows or geometric glyphs. Draw icons in SVG.
+10. Type sizes: headlines 110–170 px (Manrope 620, tracking −0.055em); labels ≥ 20 px mono.
    Hold every card ≥ 0.9 s + 0.3 s per word after it lands.
 
 ## Helpers (see the function comments in brand.js for every option)
