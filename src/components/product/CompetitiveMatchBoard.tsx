@@ -73,11 +73,6 @@ export default function CompetitiveMatchBoard() {
         <stop offset="0" stopColor="#c9c0b2" stopOpacity=".08" />
         <stop offset="1" stopColor="#c9c0b2" stopOpacity="0" />
       </radialGradient>
-      <linearGradient id={id("sweep")} x1="0" x2="1">
-        <stop offset="0" stopColor="#efbd70" stopOpacity="0" />
-        <stop offset=".9" stopColor="#efbd70" stopOpacity=".045" />
-        <stop offset="1" stopColor="#efbd70" stopOpacity=".22" />
-      </linearGradient>
       <marker id={id("arrow-ours")} viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#efbd70" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></marker>
       <marker id={id("arrow-theirs")} viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#a79e90" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></marker>
     </defs>
@@ -100,8 +95,6 @@ export default function CompetitiveMatchBoard() {
       <path d={RIVER} fill="none" stroke="#15191b" strokeWidth="37" strokeLinecap="round" />
       <path className="cmb-flow" d={RIVER} fill="none" stroke="#3a4144" strokeWidth="1.2" strokeDasharray="3 12" />
       <path className="cmb-flow cmb-flow-slow" d={RIVER} fill="none" stroke="#2c3235" strokeWidth="1" strokeDasharray="1 9" transform="translate(9 -4)" />
-
-      <rect className="cmb-sweep" x="-90" y="20" width="90" height="400" fill={url("sweep")} />
     </g>
     <rect x="20.5" y="20.5" width="599" height="399" fill="none" stroke="#3a3024" />
 

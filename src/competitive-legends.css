@@ -34,11 +34,7 @@
 
 .competitive-legend > figcaption { position: relative; z-index: 1; max-width: 340px; }
 .competitive-legend[data-legend="teamwork"] > figcaption { justify-self: end; text-align: right; }
-.product-site .competitive-legend-label { display: flex; align-items: center; gap: 12px; font: 11px/1.7 "JetBrains Mono Variable", monospace; letter-spacing: .08em; text-transform: uppercase; }
-.competitive-legend[data-legend="teamwork"] .competitive-legend-label { justify-content: flex-end; }
-.competitive-legend-label > span { display: inline-flex; align-items: center; gap: 12px; }
-.competitive-legend-label > span::after { content: ""; width: 30px; height: 1px; background: currentColor; opacity: .55; }
-.product-site .competitive-legend h3 { margin-top: 14px; font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; line-height: 1.16; letter-spacing: -.045em; }
+.product-site .competitive-legend h3 { margin-top: 0; font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; line-height: 1.16; letter-spacing: -.045em; }
 
 /* Symbols: cut-out figures on the page itself, like the object beside the profile headline.
    No mask and no frame; they sit side by side and stand on one shared baseline. */
@@ -51,16 +47,11 @@
 .competitive-symbol[data-symbol="accountability"] { grid-template-columns: minmax(0, 1.28fr) minmax(0, .72fr); }
 .competitive-symbol[data-symbol="accountability"] > img { grid-column: 1; }
 .competitive-symbol[data-symbol="accountability"] > figcaption { grid-column: 2; justify-self: end; }
-.competitive-symbol .competitive-legend-label { display: flex; align-items: center; gap: 12px; }
-.product-site .competitive-symbol h3 + p { margin-top: 16px; font-size: 15px; line-height: 1.8; }
-.realms-entry-panel[data-entry="competitive"] .competitive-symbol h3 + p { color: #b8afa2; }
 .realms-entry-panel[data-entry="competitive"] .competitive-symbol h3,
-.product-site .competitive-symbol h3 { margin-top: 12px; font-size: clamp(22px, 2.1vw, 30px); font-weight: 600; line-height: 1.2; letter-spacing: -.04em; }
+.product-site .competitive-symbol h3 { margin-top: 0; font-size: clamp(22px, 2.1vw, 30px); font-weight: 600; line-height: 1.2; letter-spacing: -.04em; }
 
 /* Theme contract: the panel already supplies --entry-* for the competitive path. */
-.realms-entry-panel[data-entry="competitive"] .competitive-legends-heading .product-eyebrow,
-.realms-entry-panel[data-entry="competitive"] .competitive-legend-label > span { color: var(--entry-accent); }
-.realms-entry-panel[data-entry="competitive"] .competitive-legend-label { color: #a89a85; }
+.realms-entry-panel[data-entry="competitive"] .competitive-legends-heading .product-eyebrow { color: var(--entry-accent); }
 .realms-entry-panel[data-entry="competitive"] :is(.competitive-legend, .competitive-symbol) h3 { color: #eee5d7; }
 .realms-entry-panel[data-entry="competitive"] .competitive-legends-heading > p { color: #b8afa2; }
 .competitive-legends + .competitive-invitation-section { padding-top: 64px; }
@@ -84,7 +75,6 @@
   .competitive-legend[data-legend="teamwork"] .competitive-legend-art { margin-inline: -56px; }
   .competitive-legend > figcaption,
   .competitive-legend[data-legend="teamwork"] > figcaption { justify-self: start; text-align: left; max-width: 460px; margin-top: -34px; }
-  .competitive-legend[data-legend="teamwork"] .competitive-legend-label { justify-content: flex-start; }
   .competitive-symbols { row-gap: 64px; margin-top: 64px; }
   .competitive-symbol,
   .competitive-symbol[data-symbol="accountability"] { grid-template-columns: 1fr; row-gap: 24px; }
@@ -104,10 +94,8 @@
   .competitive-legend[data-legend="teamwork"] .competitive-legend-art { margin-inline: -24px; }
   .competitive-legend > figcaption,
   .competitive-legend[data-legend="teamwork"] > figcaption { margin-top: -22px; }
-  .product-site .competitive-legend-label { font-size: 11px; letter-spacing: .04em; }
-  .product-site .competitive-legend h3 { margin-top: 10px; font-size: 25px; }
+  .product-site .competitive-legend h3 { font-size: 25px; }
   .competitive-symbols { row-gap: 52px; margin-top: 52px; }
-  .product-site .competitive-symbol h3 + p { font-size: 14px; }
   .realms-entry-panel[data-entry="competitive"] .competitive-symbol h3,
   .product-site .competitive-symbol h3 { font-size: 23px; }
   .competitive-legends + .competitive-invitation-section { padding-top: 48px; }

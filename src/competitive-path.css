@@ -10,9 +10,6 @@
 .competitive-entry-link:hover { color: #c4ed6c; }
 .competitive-path a:focus-visible { outline: 2px solid #c4ed6c; outline-offset: 5px; }
 .competitive-world-illustration { min-width: 0; margin: 0; }
-.competitive-world-illustration > figcaption { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding-inline: 3.2%; margin-top: 14px; }
-.competitive-world-illustration > figcaption > span { display: inline-flex; align-items: center; gap: 8px; color: #9aafa3; font-size: 12px; line-height: 1.6; }
-.competitive-world-illustration > figcaption > span:nth-child(2) { font-size: 11px; color: #7e9486; }
 .competitive-matchmaking { padding: 83px 0 80px; border-top: 1px solid #273a31; background: #080e10; scroll-margin-top: 110px; }
 .competitive-matchmaking-heading { margin-bottom: 44px; }
 .competitive-matchmaking-heading .product-eyebrow { font-size: 11px; }
@@ -45,14 +42,9 @@
 .competitive-match-board .cmb-team text { fill: #251c10; font-size: 9px; font-weight: 700; }
 .competitive-match-board .cmb-team-halo { fill: none; stroke: #efbd70; stroke-width: 1; opacity: .35; }
 .competitive-match-board .cmb-runner { stroke-dasharray: 5 95; stroke-dashoffset: 100; opacity: 0; }
-.competitive-world-illustration figcaption i { flex: none; width: 10px; height: 10px; }
-.competitive-world-illustration figcaption i.is-ours { border-radius: 50%; background: #efbd70; }
-.competitive-world-illustration figcaption i.is-shared { border-radius: 50%; border: 1px dashed #efbd70; }
-.competitive-world-illustration figcaption i.is-theirs { background: linear-gradient(45deg, transparent 42%, #c9c0b2 42% 58%, transparent 58%), linear-gradient(-45deg, transparent 42%, #c9c0b2 42% 58%, transparent 58%); }
 @media (prefers-reduced-motion: no-preference) {
   .competitive-match-board .cmb-flow { animation: cmb-flow 2.6s linear infinite; }
   .competitive-match-board .cmb-flow-slow { animation-duration: 4.2s; }
-  .competitive-match-board .cmb-sweep { animation: cmb-sweep 9s cubic-bezier(.45,0,.55,1) 1.2s infinite; }
   .competitive-match-board .cmb-pulse { transform-box: fill-box; transform-origin: center; animation: cmb-pulse 3.2s cubic-bezier(.23,1,.32,1) infinite; }
   .competitive-match-board .cmb-pulse-late { animation-delay: 1.6s; }
   .competitive-match-board .cmb-draw { stroke-dasharray: 100; animation: cmb-draw 1.3s cubic-bezier(.65,0,.35,1) .35s both; }
@@ -64,7 +56,6 @@
   .competitive-match-board .cmb-team-halo { transform-box: fill-box; transform-origin: center; animation: cmb-halo 2.4s ease-in-out infinite alternate; }
 }
 @keyframes cmb-flow { to { stroke-dashoffset: -15; } }
-@keyframes cmb-sweep { 0% { transform: translateX(0); opacity: 0; } 8% { opacity: 1; } 70% { opacity: 1; } 78%, 100% { transform: translateX(740px); opacity: 0; } }
 @keyframes cmb-pulse { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.1); opacity: 0; } }
 @keyframes cmb-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes cmb-arrive { from { opacity: 0; } to { opacity: 1; } }
@@ -75,8 +66,6 @@
   .competitive-intro { gap: 45px; }
   .product-site .competitive-intro h2 { font-size: 48px; }
   .competitive-intro-description { font-size: 14px; }
-  .competitive-world-illustration > figcaption { padding-inline: 5%; gap: 12px; }
-  .competitive-world-illustration > figcaption > span:nth-child(2) { display: none; }
   .competitive-matchmaking-layout { gap: 55px; }
   .competitive-invitation { gap: 45px; }
 }
@@ -95,10 +84,8 @@
   .competitive-intro-description { margin-top: 24px; font-size: 14px; line-height: 1.85; max-width: 425px; }
   .competitive-entry-link { font-size: 12px; margin-top: 25px; }
   .competitive-world-illustration { max-width: 560px; width: 100%; margin-inline: auto; }
-  .competitive-world-illustration > figcaption { padding-inline: 2%; margin-top: 12px; }
   .competitive-match-board .cmb-coords { display: none; }
   .competitive-match-board .cmb-tag { font-size: 13px; letter-spacing: .08em; }
-  .competitive-world-illustration > figcaption > span { font-size: 12px; }
   .competitive-matchmaking { padding-top: 61px; padding-bottom: 60px; scroll-margin-top: 105px; }
   .competitive-matchmaking-heading { margin-bottom: 32px; }
   .competitive-matchmaking-heading .product-eyebrow { font-size: 12px; }

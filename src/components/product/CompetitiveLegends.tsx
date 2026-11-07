@@ -6,16 +6,12 @@ import ProductReveal from "./ProductReveal";
 const scenes = [
   {
     key: "strategy",
-    index: "01",
-    label: "Strategy",
     line: "One plan. Every rank behind it.",
     image: "/assets/realms/competitive-history-strategy.svg",
     alt: "A commander in a crested helmet, lit in amber, raises his fist before a line of armoured officers on the eve of battle, drawn from a 19th-century illustration.",
   },
   {
     key: "teamwork",
-    index: "02",
-    label: "Teamwork",
     line: "Many minds. One problem.",
     image: "/assets/realms/competitive-history-teamwork.svg",
     alt: "A slim man in a pale hat, lit in amber, leans over the twisted base of a steel tower in the desert while the people around him look on, abstracted from a 1945 photograph.",
@@ -27,10 +23,7 @@ const scenes = [
 const symbols = [
   {
     key: "leadership",
-    index: "03",
-    label: "Leadership",
     line: "Make the call your team can follow.",
-    copy: "Someone reads the field first. In a Realms match, every player can take that role and set the plan the team moves on.",
     image: "/assets/realms/competitive-symbol-leadership.svg",
     width: 1200,
     height: 890,
@@ -38,10 +31,7 @@ const symbols = [
   },
   {
     key: "accountability",
-    index: "04",
-    label: "Review",
     line: "Every move, on the record.",
-    copy: "When the match ends, see the decisions each team made, who made them, and where they led.",
     image: "/assets/realms/competitive-symbol-accountability.svg",
     width: 1024,
     height: 683,
@@ -66,7 +56,6 @@ export default function CompetitiveLegends() {
               <img src={scene.image} width="960" height="640" alt={scene.alt} loading="lazy" decoding="async" />
             </div>
             <figcaption>
-              <p className="competitive-legend-label"><span>{scene.index}</span>{scene.label}</p>
               <h3>{scene.line}</h3>
             </figcaption>
           </figure>
@@ -77,9 +66,7 @@ export default function CompetitiveLegends() {
           <figure className="competitive-symbol" data-symbol={symbol.key}>
             <img src={symbol.image} width={symbol.width} height={symbol.height} alt={symbol.alt} loading="lazy" decoding="async" />
             <figcaption>
-              <p className="competitive-legend-label"><span>{symbol.index}</span>{symbol.label}</p>
               <h3>{symbol.line}</h3>
-              <p>{symbol.copy}</p>
             </figcaption>
           </figure>
         </ProductReveal>)}
