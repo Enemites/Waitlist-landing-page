@@ -612,35 +612,50 @@
 
   // ---------------------------------------------------------------------------------------
   // Archive window: a graded image sequence inside a frame with register marks and caption.
-  // o: dir (frames dir, relative to comp/), count, fps (native, e.g. 24), start (s into seq),
-  //    x, y, w, h, at, out, caption, ref, push (0.05), parent, open ('wipe'|'iris'|'cut')
+  // o: dir (frames dir, relative to comp/), count, fps (native, e.g. 24), start (scene-local
+  //    second at which frame 1 shows), x, y, w, h, at, out, caption, ref, push (0.05), parent,
+  //    open ('wipe'|'iris'|'cut'|'none'), close ('wipe'|'cut'), align ([0.5, 0.5])
+  //  playback (forwarded to ctx.sequence; frames are held at the native cadence, never blended):
+  //    rate (1; 0.75 = slowed with held frames), time (fn(localT) -> seconds into the sequence;
+  //    overrides start/rate, e.g. (lt) => 1.0 + (lt - 12) * 0.75), loop (default false)
+  //  chrome (true): outline, register marks, caption and ref. false = bare plate (the scene draws
+  //    its own frame); weave (true): +-1 px gate weave on the native cadence; pushDur (s)
+  //  src ([w, h] source frame size): enables transform(px, py), which maps a source pixel to
+  //    screen px at the current frame (fit + push + weave), for overlays that track the footage.
+  //    Assumes the parent is screen-aligned (left/top 0).
   // ---------------------------------------------------------------------------------------
   function archive(ctx, o) {
-    o = Object.assign({ x: 360, y: 160, w: 1200, h: 680, at: 0, out: null, push: 0.05, fps: 24, start: 0, open: 'wipe', caption: '', ref: '', loop: true, align: [0.5, 0.5] }, o);
+    o = Object.assign({ x: 360, y: 160, w: 1200, h: 680, at: 0, out: null, push: 0.05, fps: 24, start: 0, open: 'wipe', close: 'wipe', caption: '', ref: '', loop: false, align: [0.5, 0.5],
+      rate: 1, time: null, chrome: true, weave: true, pushDur: null, src: null }, o);
     const wrap = ctx.el('div', 'brand-archive', o.parent);
     Object.assign(wrap.style, { position: 'absolute', left: o.x + 'px', top: o.y + 'px', width: o.w + 'px', height: o.h + 'px' });
     const win = ctx.el('div', 'win', wrap);
-    Object.assign(win.style, { position: 'absolute', inset: '0', overflow: 'hidden', background: C.bg, outline: `1px solid ${rgba(C.amber, 0.38)}` });
-    const seq = ctx.sequence({ dir: o.dir, count: o.count, fps: o.fps, start: o.start, loop: o.loop, fit: 'cover', width: o.w, height: o.h, parent: win, align: o.align });
+    Object.assign(win.style, { position: 'absolute', inset: '0', overflow: 'hidden', background: C.bg, outline: o.chrome ? `1px solid ${rgba(C.amber, 0.38)}` : 'none' });
+    const seq = ctx.sequence({ dir: o.dir, count: o.count, fps: o.fps, start: o.start, rate: o.rate, time: o.time, loop: o.loop, fit: 'cover', width: o.w, height: o.h, parent: win, align: o.align });
     // gate weave: +-1 px, changes on the native cadence
     const r = ctx.rng('weave:' + o.dir);
-    const weave = Array.from({ length: 64 }, () => [Math.round(r.range(-1.2, 1.2)), Math.round(r.range(-1.2, 1.2))]);
+    const weave = Array.from({ length: 64 }, () => (o.weave ? [Math.round(r.range(-1.2, 1.2)), Math.round(r.range(-1.2, 1.2))] : [0, 0]));
+    const weaveAt = (lt) => weave[((Math.floor(lt * o.fps) % weave.length) + weave.length) % weave.length];
     const pushP = { s: 1 + o.push };
-    ctx.tl.to(pushP, { s: 1, duration: Math.max(1, (o.out != null ? o.out : ctx.duration) - o.at + 0.5), ease: 'power1.out' }, o.at);
+    const pushDur = o.pushDur != null ? o.pushDur : Math.max(1, (o.out != null ? o.out : ctx.duration) - o.at + 0.5);
+    ctx.tl.to(pushP, { s: 1, duration: pushDur, ease: 'power1.out' }, o.at);
     ctx.onFrame((lt) => {
-      const k = Math.floor(lt * o.fps) % weave.length;
-      seq.style.transform = `translate(${weave[k][0]}px, ${weave[k][1]}px) scale(${pushP.s.toFixed(5)})`;
+      const k = weaveAt(lt);
+      seq.style.transform = `translate(${k[0]}px, ${k[1]}px) scale(${pushP.s.toFixed(5)})`;
     });
     const bar = ctx.el('div', 'bar', wrap);
     Object.assign(bar.style, { position: 'absolute', top: '0', bottom: '0', left: '0', width: '6px', background: C.amber, opacity: 0 });
-    const sv = ctx.svg('svg', { width: o.w + 80, height: o.h + 80, viewBox: `-40 -40 ${o.w + 80} ${o.h + 80}`, style: 'position:absolute;left:-40px;top:-40px;overflow:visible' }, wrap);
-    const A = 22, P = 14;
-    const marks = [[-P, -P, 1, 1], [o.w + P, -P, -1, 1], [-P, o.h + P, 1, -1], [o.w + P, o.h + P, -1, -1]].map(([x, y, sx, sy]) =>
-      ctx.svg('path', { d: `M${x} ${y + A * sy} L${x} ${y} L${x + A * sx} ${y}`, stroke: C.amber, 'stroke-width': 2, fill: 'none' }, sv));
-    const cap = o.caption ? label(ctx, { text: o.caption, x: 0, y: o.h + 22, at: o.at + 0.35, size: 20, color: C.muted, parent: wrap }) : null;
-    if (cap) { cap.style.left = '0px'; }
-    const refEl = o.ref ? label(ctx, { text: o.ref, x: o.w, y: o.h + 22, at: o.at + 0.45, size: 20, color: C.amber, parent: wrap, align: 'left' }) : null;
-    if (refEl) { refEl.style.left = 'auto'; refEl.style.right = '0px'; }
+    let marks = [], cap = null, refEl = null;
+    if (o.chrome) {
+      const sv = ctx.svg('svg', { width: o.w + 80, height: o.h + 80, viewBox: `-40 -40 ${o.w + 80} ${o.h + 80}`, style: 'position:absolute;left:-40px;top:-40px;overflow:visible' }, wrap);
+      const A = 22, P = 14;
+      marks = [[-P, -P, 1, 1], [o.w + P, -P, -1, 1], [-P, o.h + P, 1, -1], [o.w + P, o.h + P, -1, -1]].map(([x, y, sx, sy]) =>
+        ctx.svg('path', { d: `M${x} ${y + A * sy} L${x} ${y} L${x + A * sx} ${y}`, stroke: C.amber, 'stroke-width': 2, fill: 'none' }, sv));
+      cap = o.caption ? label(ctx, { text: o.caption, x: 0, y: o.h + 22, at: o.at + 0.35, size: 20, color: C.muted, parent: wrap }) : null;
+      if (cap) { cap.style.left = '0px'; }
+      refEl = o.ref ? label(ctx, { text: o.ref, x: o.w, y: o.h + 22, at: o.at + 0.45, size: 20, color: C.amber, parent: wrap, align: 'left' }) : null;
+      if (refEl) { refEl.style.left = 'auto'; refEl.style.right = '0px'; }
+    }
     // open
     if (o.open === 'wipe') {
       ctx.tl.fromTo(win, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.6, ease: E.whip }, o.at);
@@ -649,15 +664,29 @@
       ctx.tl.to(bar, { opacity: 0, duration: 0.2, ease: 'none' }, o.at + 0.55);
     } else if (o.open === 'iris') {
       ctx.tl.fromTo(win, { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(75% at 50% 50%)', duration: 0.7, ease: 'power4.inOut' }, o.at);
-    } else {
+    } else if (o.open === 'cut' && o.at > 0) {
+      // completes ON the cut frame (a tween starting at `at` would still show its from-state there)
+      ctx.tl.fromTo(wrap, { opacity: 0 }, { opacity: 1, duration: 0.001, ease: 'none' }, Math.max(0, o.at - 0.001));
+    } else if (o.open === 'cut') {
       ctx.tl.fromTo(win, { opacity: 0 }, { opacity: 1, duration: 0.01, ease: 'none' }, o.at);
-    }
-    ctx.tl.fromTo(marks, { opacity: 0, scale: 1.25, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: 0.45, ease: E.enter, stagger: 0.04 }, o.at + 0.1);
+    } // 'none': visible from the start
+    if (marks.length) ctx.tl.fromTo(marks, { opacity: 0, scale: 1.25, transformOrigin: '50% 50%' }, { opacity: 1, scale: 1, duration: 0.45, ease: E.enter, stagger: 0.04 }, o.at + 0.1);
     if (o.out != null) {
-      ctx.tl.to(win, { clipPath: 'inset(0% 0% 0% 100%)', duration: 0.45, ease: 'power3.in' }, o.out);
-      ctx.tl.to([marks, cap, refEl].flat().filter(Boolean), { opacity: 0, duration: 0.25, ease: 'none' }, o.out + 0.1);
+      if (o.close === 'cut') ctx.tl.to(wrap, { opacity: 0, duration: 0.001, ease: 'none' }, Math.max(0, o.out - 0.001));
+      else {
+        ctx.tl.to(win, { clipPath: 'inset(0% 0% 0% 100%)', duration: 0.45, ease: 'power3.in' }, o.out);
+        ctx.tl.to([marks, cap, refEl].flat().filter(Boolean), { opacity: 0, duration: 0.25, ease: 'none' }, o.out + 0.1);
+      }
     }
-    return { el: wrap, win, seq, marks, caption: cap, ref: refEl };
+    /** source pixel -> screen px at the current frame (needs o.src); call from ctx.onFrame */
+    function transform(px, py, lt) {
+      const sw = o.src ? o.src[0] : o.w, sh = o.src ? o.src[1] : o.h;
+      const k = Math.max(o.w / sw, o.h / sh);
+      const fx = (o.w - sw * k) * o.align[0], fy = (o.h - sh * k) * o.align[1];
+      const s = pushP.s, wv = weaveAt(lt);
+      return [o.x + o.w / 2 + (fx + px * k - o.w / 2) * s + wv[0], o.y + o.h / 2 + (fy + py * k - o.h / 2) * s + wv[1]];
+    }
+    return { el: wrap, win, seq, marks, caption: cap, ref: refEl, push: pushP, transform };
   }
 
   // ---------------------------------------------------------------------------------------
