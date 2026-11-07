@@ -22,8 +22,8 @@ const scenes = [
   },
 ] as const;
 
-/* Symbols are drawn shape by shape in scripts/generate-competitive-symbols.mjs: flat, self-contained,
-   each standing on its own ground line, so they read as signs rather than as clips of the past. */
+/* Symbols use the same abstraction (scripts/abstract-competitive-history.py), but are shown as cut-outs:
+   only the figures the reference's frame does not cut through, on a transparent ground, with no frame or mask. */
 const symbols = [
   {
     key: "leadership",
@@ -31,9 +31,9 @@ const symbols = [
     label: "Leadership",
     line: "No one drinks until everyone can.",
     image: "/assets/realms/competitive-symbol-leadership.svg",
-    width: 630,
-    height: 410,
-    alt: "Flat symbol: in the desert, a commander pours the water from his helmet onto the sand while his army marches past on the horizon and two soldiers look on.",
+    width: 1200,
+    height: 890,
+    alt: "A commander in a windblown robe, lit in amber, pours the water from his helmet onto the ground while his soldiers and the marching column look on, abstracted from a painting.",
   },
   {
     key: "accountability",
@@ -42,8 +42,8 @@ const symbols = [
     line: "Answer for every move.",
     image: "/assets/realms/competitive-symbol-accountability.svg",
     width: 1024,
-    height: 642,
-    alt: "Flat symbol: a man in amber sits alone at a witness table before a microphone, facing two questioners, with a full gallery watching behind him.",
+    height: 683,
+    alt: "A man lit in amber sits at a witness table before a microphone, facing two questioners, with a full gallery watching behind him, abstracted from a film still.",
   },
 ] as const;
 

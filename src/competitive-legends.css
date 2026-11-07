@@ -40,13 +40,13 @@
 .competitive-legend-label > span::after { content: ""; width: 30px; height: 1px; background: currentColor; opacity: .55; }
 .product-site .competitive-legend h3 { margin-top: 14px; font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; line-height: 1.16; letter-spacing: -.045em; }
 
-/* Symbols: flat, self-contained signs on a shared floor. No mask and no frame;
-   they sit side by side and their ground lines meet in one line across the section. */
+/* Symbols: cut-out figures on the page itself, like the object beside the profile headline.
+   No mask and no frame; they sit side by side and stand on one shared baseline. */
 .competitive-symbols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; column-gap: clamp(32px, 5vw, 84px); margin-top: clamp(72px, 9vw, 132px); }
 .competitive-symbol-reveal { min-width: 0; }
 .competitive-symbol { margin: 0; }
-/* Same box for both, anchored to the bottom, so their ground lines meet in one line. */
-.competitive-symbol > img { display: block; width: 100%; height: auto; aspect-ratio: 630 / 410; object-fit: contain; object-position: 50% 100%; }
+/* Same box for both, anchored to the bottom, so the figures stand on one baseline. */
+.competitive-symbol > img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 890; object-fit: contain; object-position: 50% 100%; }
 .competitive-symbol > figcaption { margin-top: 26px; max-width: 420px; }
 .competitive-symbol .competitive-legend-label { display: flex; align-items: center; gap: 12px; }
 .realms-entry-panel[data-entry="competitive"] .competitive-symbol h3,
