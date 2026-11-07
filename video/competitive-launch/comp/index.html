@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920, height=1080, initial-scale=1">
+  <title>Realms Competitive film</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="lib/base.css">
+  <!-- core.js first: it seeds Math.random before gsap and its plugins build their tables. -->
+  <script src="lib/core.js"></script>
+  <script src="../node_modules/gsap/dist/gsap.js"></script>
+  <script src="../node_modules/gsap/dist/CustomEase.js"></script>
+  <script src="../node_modules/gsap/dist/CustomWiggle.js"></script>
+  <script src="../node_modules/gsap/dist/CustomBounce.js"></script>
+  <script src="../node_modules/gsap/dist/EasePack.js"></script>
+  <script src="../node_modules/gsap/dist/SplitText.js"></script>
+  <script src="../node_modules/gsap/dist/DrawSVGPlugin.js"></script>
+  <script src="../node_modules/gsap/dist/MorphSVGPlugin.js"></script>
+  <script src="../node_modules/gsap/dist/MotionPathPlugin.js"></script>
+  <script src="../node_modules/gsap/dist/ScrambleTextPlugin.js"></script>
+  <script src="../node_modules/gsap/dist/TextPlugin.js"></script>
+  <script src="../node_modules/gsap/dist/Physics2DPlugin.js"></script>
+</head>
+<body>
+  <div id="stage"></div>
+  <!-- Boot loads ?manifest= (default scenes/manifest.js), then each scene file it lists. -->
+  <script>Film.boot();</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+[
+ {
+  "id": "demo_one_world",
+  "text": "One world. Opposing plans.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "demo_whose_strategy",
+  "text": "Bring your team. See whose strategy holds.",
+  "voice": "af_heart",
+  "speed": 0.9,
+  "phoneme_replace": {
+   "hˌuːz": "hˈuːz"
+  }
+ }
+]

@@ -1,0 +1,19 @@
+{
+  "name": "realms-competitive-launch-video",
+  "private": true,
+  "type": "module",
+  "description": "Motion-graphics launch film for the Realms Competitive mode, rendered frame by frame in Chromium.",
+  "scripts": {
+    "render": "node engine/render.mjs",
+    "serve": "node engine/render.mjs --serve 8090",
+    "demo": "node engine/render.mjs --manifest scenes/manifest.demo.js --out .work/engine-test/demo.mp4",
+    "frames": "engine/extract-frames.sh"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0"
+  }
+}

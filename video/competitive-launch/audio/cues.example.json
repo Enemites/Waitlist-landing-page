@@ -1,0 +1,312 @@
+{
+ "comment": "30 s demo: tick ostinato build -> riser -> cut to silence at 15.5 -> DROP at 16 -> end hit at 28. 120 BPM, D minor, 1 bar = 2 s.",
+ "duration": 30.0,
+ "bpm": 120,
+ "chords": [
+  "Dm",
+  "Dm",
+  "Dm",
+  "Dm",
+  "Bb",
+  "Bb",
+  "Gm",
+  "A",
+  "Dm",
+  "Dm",
+  "Bb",
+  "Bb",
+  "Gm",
+  "A",
+  "Dm",
+  "Dm"
+ ],
+ "buses": {
+  "music": {
+   "duck": {
+    "key": "vo",
+    "depth_db": 9,
+    "attack": 0.06,
+    "release": 0.45
+   }
+  },
+  "sfx": {
+   "duck": {
+    "key": "vo",
+    "depth_db": 6
+   }
+  },
+  "vo": {
+   "chain": "vo",
+   "over_bed_lu": 8
+  }
+ },
+ "master": {
+  "lufs": -14.0,
+  "true_peak": -1.0,
+  "glue": true
+ },
+ "mutes": [
+  {
+   "from": 15.5,
+   "to": 16.0,
+   "buses": [
+    "music"
+   ],
+   "fade": 0.004
+  }
+ ],
+ "fade_out": 1.2,
+ "cues": [
+  {
+   "type": "tick_one",
+   "at": 0.0,
+   "gain_db": -3,
+   "label": "cold open tick"
+  },
+  {
+   "type": "sub_swell",
+   "hit_at": 2.0,
+   "length": 2.0,
+   "gain_db": -14
+  },
+  {
+   "type": "ticks",
+   "bar": 1,
+   "bars": 7,
+   "intensity": [
+    0.7,
+    1.0
+   ],
+   "gain_db": 0
+  },
+  {
+   "type": "drone",
+   "bar": 0,
+   "bars": 8,
+   "note": "D1",
+   "intensity": [
+    0.3,
+    0.8
+   ],
+   "gain_db": -11
+  },
+  {
+   "type": "pad",
+   "bar": 1,
+   "bars": 7,
+   "intensity": [
+    0.25,
+    0.7
+   ],
+   "gain_db": -7
+  },
+  {
+   "type": "shepard",
+   "bar": 2,
+   "bars": 6,
+   "intensity": [
+    0.15,
+    0.9
+   ],
+   "rate": 0.14,
+   "gain_db": -8
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 8.0,
+   "length": 2.0,
+   "gain_db": -14
+  },
+  {
+   "type": "braam",
+   "at": 8.0,
+   "root": "D2",
+   "length": 4.0,
+   "gain_db": -13,
+   "label": "braam"
+  },
+  {
+   "type": "bass_ostinato",
+   "bar": 4,
+   "bars": 4,
+   "intensity": [
+    0.35,
+    0.8
+   ],
+   "gain_db": -7
+  },
+  {
+   "type": "plucks",
+   "bar": 6,
+   "bars": 2,
+   "intensity": [
+    0.4,
+    0.8
+   ],
+   "gain_db": -9
+  },
+  {
+   "type": "taiko",
+   "bar": 6,
+   "bars": 2,
+   "intensity": 0.5,
+   "pattern": "X.......X...x.x.",
+   "gain_db": -7
+  },
+  {
+   "type": "riser",
+   "hit_at": 15.5,
+   "length": 4.0,
+   "gain_db": -9
+  },
+  {
+   "type": "tick_one",
+   "at": 15.5,
+   "gain_db": -6,
+   "label": "tick in the silence"
+  },
+  {
+   "type": "impact",
+   "at": 16.0,
+   "size": 1.2,
+   "gain_db": 0,
+   "label": "DROP"
+  },
+  {
+   "type": "sub_drop",
+   "at": 16.0,
+   "gain_db": -3
+  },
+  {
+   "type": "boom",
+   "at": 16.0,
+   "gain_db": -8
+  },
+  {
+   "type": "drums",
+   "bar": 8,
+   "bars": 6,
+   "intensity": 0.9,
+   "kick": "X.......X.x.....",
+   "snare": "....X.......X...",
+   "clap": "....X.......X...",
+   "hats": "..x...x...x...xx",
+   "gain_db": -3
+  },
+  {
+   "type": "bass_ostinato",
+   "bar": 8,
+   "bars": 6,
+   "intensity": 1.0,
+   "gain_db": -2
+  },
+  {
+   "type": "pad",
+   "bar": 8,
+   "bars": 6,
+   "intensity": 0.8,
+   "gain_db": -6
+  },
+  {
+   "type": "plucks",
+   "bar": 8,
+   "bars": 6,
+   "intensity": 0.9,
+   "gain_db": -5
+  },
+  {
+   "type": "taiko",
+   "bar": 8,
+   "bars": 6,
+   "intensity": 0.9,
+   "gain_db": -5
+  },
+  {
+   "type": "ticks",
+   "bar": 8,
+   "bars": 6,
+   "intensity": 0.6,
+   "gain_db": -2
+  },
+  {
+   "type": "file",
+   "path": ".work/audio/vo/demo_one_world.wav",
+   "at": 18.2,
+   "bus": "vo",
+   "gain_db": 0,
+   "label": "VO (ducks music 9 dB)"
+  },
+  {
+   "type": "ui_blip",
+   "at": 20.6,
+   "kind": "confirm",
+   "gain_db": -12
+  },
+  {
+   "type": "whoosh",
+   "at": 22.9,
+   "length": 1.2,
+   "direction": 1,
+   "gain_db": -6
+  },
+  {
+   "type": "gate_clank",
+   "at": 24.0,
+   "gain_db": -5
+  },
+  {
+   "type": "water_rush",
+   "at": 24.0,
+   "length": 4.0,
+   "intensity": 0.6,
+   "gain_db": -14
+  },
+  {
+   "type": "data_chatter",
+   "at": 25.0,
+   "length": 2.0,
+   "gain_db": -16,
+   "pan": 0.3
+  },
+  {
+   "type": "file",
+   "path": ".work/audio/vo/demo_whose_strategy.wav",
+   "at": 24.6,
+   "bus": "vo",
+   "gain_db": 0
+  },
+  {
+   "type": "riser",
+   "hit_at": 28.0,
+   "length": 2.0,
+   "f0": 300,
+   "gain_db": -8
+  },
+  {
+   "type": "resolve_swell",
+   "bar": 13,
+   "bars": 3,
+   "chords": [
+    "Dm(add9)"
+   ],
+   "swell": 0.33,
+   "intensity": 1.0,
+   "gain_db": -3
+  },
+  {
+   "type": "impact",
+   "at": 28.0,
+   "size": 1.5,
+   "sub_hz": 42,
+   "gain_db": 0,
+   "label": "END HIT"
+  },
+  {
+   "type": "braam",
+   "at": 28.0,
+   "length": 3.0,
+   "chord": "5",
+   "gain_db": -6
+  }
+ ]
+}
