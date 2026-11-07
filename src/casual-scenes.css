@@ -1,0 +1,80 @@
+/* The Tidal Archive's camera and its answers to each beat and choice, and the world posters' loops.
+   Shared by the portal, the reel and the World Maker cards. */
+.tidal-archive .tas-camera, .tidal-archive .tas-drift, .tidal-archive .tas-crossing, .tidal-archive .tas-tide { transform-box: view-box; transform-origin: 0 0; }
+.tidal-archive .tas-camera { transition: transform 1.7s cubic-bezier(.65,0,.35,1); }
+.tidal-archive[data-beat="arrive"] .tas-camera { transform: translate(-136px, -40px) scale(1.15); }
+.tidal-archive[data-beat="signal"] .tas-camera { transform: translate(-654px, -127px) scale(1.9); }
+.tidal-archive[data-outcome="relay"] .tas-camera { transform: translate(-128px, -202px) scale(1.3); }
+.tidal-archive[data-outcome="crossing"] .tas-camera { transform: translate(-183px, -290px) scale(1.45); }
+.tidal-archive[data-outcome="channel"] .tas-camera { transform: translate(-540px, -460px) scale(1.5); }
+.tidal-archive .tas-drift { transform-origin: 600px 500px; }
+.tidal-archive .tas-glint { opacity: .8; }
+.tidal-archive .tas-signal circle { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.tidal-archive .tas-beacon, .tidal-archive .tas-beacon-halo { transition: opacity 900ms ease; }
+.tidal-archive[data-outcome="crossing"] :is(.tas-beacon, .tas-beacon-halo, .tas-signal) { opacity: 0; }
+.tidal-archive .tas-answer { opacity: 0; transition: opacity 600ms ease 1.2s; }
+.tidal-archive .tas-answer-rings circle { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.tidal-archive[data-outcome="relay"] .tas-answer { opacity: 1; }
+.tidal-archive .tas-crossing { transition: transform 1.6s cubic-bezier(.65,0,.35,1) .5s; }
+.tidal-archive[data-outcome="crossing"] .tas-crossing { transform: translateY(-24px); }
+.tidal-archive .tas-crossing-lights { opacity: 0; transition: opacity 600ms ease 1.6s; }
+.tidal-archive[data-outcome="crossing"] .tas-crossing-lights { opacity: 1; }
+.tidal-archive .tas-tide { transition: transform 2.4s cubic-bezier(.45,0,.2,1) .6s; }
+.tidal-archive[data-outcome="relay"] .tas-tide { transform: translateY(-17px); }
+.tidal-archive[data-outcome="channel"] .tas-tide { transform: translateY(-8px); }
+.tidal-archive .tas-stone-top { transition: fill 500ms ease; }
+.tidal-archive[data-outcome="channel"] .tas-stone-top { fill: #d5d0ff; }
+.tidal-archive .tas-arch { transition: fill 900ms ease 1.4s; }
+.tidal-archive[data-outcome="channel"] .tas-arch { fill: #b9b3f5; }
+.tidal-archive .tas-reserve, .tidal-archive .tas-reserve-glow { transition: opacity 1.2s ease 1s; }
+.tidal-archive:is([data-outcome="relay"], [data-outcome="crossing"]) .tas-reserve { opacity: .2; }
+.tidal-archive:is([data-outcome="relay"], [data-outcome="crossing"]) .tas-reserve-glow { opacity: 0; }
+.world-poster { display: block; }
+.world-poster :is(.wp-sway, .wp-fog) { transform-box: view-box; }
+@media (prefers-reduced-motion: no-preference) {
+  .world-poster .wp-rise circle { animation: wp-rise linear infinite; }
+  .world-poster .wp-twinkle circle:nth-child(3n) { animation: tas-twinkle 3.2s ease-in-out infinite alternate; }
+  .world-poster .wp-snow circle { animation: wp-snow linear infinite; }
+  .world-poster .wp-fog { animation: wp-fog 26s ease-in-out infinite alternate; }
+  .world-poster .wp-fog-slow { animation-duration: 38s; animation-direction: alternate-reverse; }
+  .world-poster .wp-sway { animation: wp-sway 5s ease-in-out infinite alternate; }
+  .world-poster .wp-lantern { animation: wp-lantern ease-in-out infinite alternate; }
+  .world-poster .wp-chime { animation: wp-chime 4s ease-in-out infinite alternate; }
+  .world-poster .wp-beam { animation: wp-beam 5s ease-in-out infinite alternate; }
+  .world-poster .wp-fall { stroke-dasharray: 100 400; animation: wp-fall 6s ease-in infinite; }
+  .casual-portal-stage[data-open="true"] .casual-portal-feed .world-poster * { animation-play-state: paused; }
+  .tidal-archive .tas-drift { animation: tas-drift 16s ease-in-out infinite alternate; }
+  .tidal-archive .tas-signal circle { animation: tas-ring 4.8s cubic-bezier(.2,.6,.35,1) infinite; }
+  .tidal-archive .tas-signal circle:nth-child(2) { animation-delay: 1.6s; }
+  .tidal-archive .tas-signal circle:nth-child(3) { animation-delay: 3.2s; }
+  .tidal-archive[data-beat="signal"] .tas-signal circle { animation-duration: 2.4s; }
+  .tidal-archive[data-beat="signal"] .tas-signal circle:nth-child(2) { animation-delay: .8s; }
+  .tidal-archive[data-beat="signal"] .tas-signal circle:nth-child(3) { animation-delay: 1.6s; }
+  .tidal-archive .tas-beacon-halo { transform-box: fill-box; transform-origin: center; animation: tas-beacon 2.4s ease-in-out infinite alternate; }
+  .tidal-archive .tas-glint { animation: tas-glint 3.6s ease-in-out infinite alternate; }
+  .tidal-archive .tas-twinkle { animation: tas-twinkle 3s ease-in-out infinite alternate; }
+  .tidal-archive .tas-reserve-glow { animation: tas-reserve 4s ease-in-out infinite; }
+  .tidal-archive[data-outcome="relay"] .tas-answer-rings circle { animation: tas-ring 3s cubic-bezier(.2,.6,.35,1) 1.4s infinite; }
+  .tidal-archive[data-outcome="relay"] .tas-answer-rings circle:nth-child(2) { animation-delay: 2.9s; }
+  .tidal-archive[data-outcome="relay"] .tas-answer { animation: tas-blink 1.2s steps(2, jump-none) 1.8s infinite; }
+  .tidal-archive[data-outcome="channel"] .tas-stone-top { animation: tas-step 700ms ease-out both; }
+}
+@keyframes tas-drift { from { transform: scale(1); } to { transform: scale(1.04) translate(-6px, 4px); } }
+@keyframes tas-ring { 0% { transform: scale(1); opacity: .85; } 100% { transform: scale(11); opacity: 0; } }
+@keyframes tas-beacon { from { transform: scale(.8); opacity: .2; } to { transform: scale(1.6); opacity: .55; } }
+@keyframes tas-glint { from { opacity: .35; } to { opacity: .95; } }
+@keyframes tas-twinkle { from { opacity: .15; } to { opacity: .95; } }
+@keyframes tas-reserve { 0%, 100% { opacity: .9; } 50% { opacity: .45; } }
+@keyframes tas-blink { 0% { opacity: 1; } 100% { opacity: .2; } }
+@keyframes tas-step { from { fill: #26253f; } to { fill: #d5d0ff; } }
+@keyframes wp-rise { from { transform: translate(0, 40px); opacity: 0; } 20% { opacity: 1; } to { transform: translate(14px, -160px); opacity: 0; } }
+@keyframes wp-snow { from { transform: translate(-20px, -120px); } to { transform: translate(40px, 160px); } }
+@keyframes wp-fog { from { transform: translateX(-80px); } to { transform: translateX(80px); } }
+@keyframes wp-sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes wp-lantern { from { transform: translate(-6px, 24px); } to { transform: translate(6px, -36px); } }
+@keyframes wp-chime { from { opacity: .7; } to { opacity: 1; } }
+@keyframes wp-beam { from { opacity: .08; } to { opacity: .24; } }
+@keyframes wp-fall { 0%, 70% { stroke-dashoffset: 100; opacity: 0; } 72% { opacity: 1; } 100% { stroke-dashoffset: -400; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .tidal-archive :is(.tas-camera, .tas-crossing, .tas-tide) { transition: none !important; }
+}

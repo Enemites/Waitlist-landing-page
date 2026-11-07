@@ -9,43 +9,13 @@ import { useId, type ReactNode } from "react";
 
 export type WorldId = "orchard" | "observatory" | "lift" | "delta";
 
-export type World = {
-  id: WorldId;
-  name: string;
-  tag: string;
-  hook: string;
-  moves: [string, string, string];
-};
+export type World = { id: WorldId; name: string; short: string; genre: string; color: string };
 
 export const worlds: World[] = [
-  {
-    id: "orchard",
-    name: "The Glass Orchard",
-    tag: "Dusk / Hills",
-    hook: "The trees ring when the wind turns. Today, not one of them rings.",
-    moves: ["Climb the tallest tree", "Follow the last echo", "Wake the gardener"],
-  },
-  {
-    id: "observatory",
-    name: "The Salt Observatory",
-    tag: "Night / Salt flats",
-    hook: "A star went missing last night. The telescope saw where it fell.",
-    moves: ["Read the telescope log", "Walk toward the glow", "Ask the keeper"],
-  },
-  {
-    id: "lift",
-    name: "The Last Lift",
-    tag: "Morning / Peaks",
-    hook: "The cable car stopped halfway across. The radio still crackles.",
-    moves: ["Answer the radio", "Climb onto the roof", "Wait for the wind"],
-  },
-  {
-    id: "delta",
-    name: "The Lantern Delta",
-    tag: "Night / River",
-    hook: "Every lantern on the river carries a promise. One of them has your name.",
-    moves: ["Catch your lantern", "Follow it downriver", "Find who wrote it"],
-  },
+  { id: "orchard", name: "The Glass Orchard", short: "Glass Orchard", genre: "Mystery", color: "#ff7a59" },
+  { id: "observatory", name: "The Salt Observatory", short: "Salt Observatory", genre: "Chase", color: "#3ee6c8" },
+  { id: "lift", name: "The Last Lift", short: "Last Lift", genre: "Rescue", color: "#7fb2ff" },
+  { id: "delta", name: "The Lantern Delta", short: "Lantern Delta", genre: "Quest", color: "#ffb23f" },
 ];
 
 export function seeded(seed: number) {

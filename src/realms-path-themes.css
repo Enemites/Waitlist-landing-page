@@ -1,21 +1,20 @@
 /* Panel-only themes. Shared hero, definition, navigation, and registration stay outside.
    Screen compositions consume the --entry-* contract without changing their pixels. */
-/* Casual: the night sky of the selector settles into moonlit graphite.
-   Lavender stays as light (the moon's wash, the tide), not as the ground itself. */
+/* Casual: a playground at night. Deep violet ground, party colours on top; pink is the path's accent. */
 .realms-entry-panel[data-entry="casual"] {
-  --entry-accent: #b9b3f5;
-  --entry-bg: #0e0f13;
-  --entry-muted: #a9adbc;
-  --entry-ink: #eeeff6;
-  --entry-line: #2a2c37;
-  --entry-surface: #16171d;
+  --entry-accent: #ff6ad5;
+  --entry-bg: #0f0a1f;
+  --entry-muted: #b6acdd;
+  --entry-ink: #f4f1ff;
+  --entry-line: #2f2452;
+  --entry-surface: #1d1340;
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(ellipse 50% 520px at 84% 0, #8d87cf1c, transparent 72%),
-    radial-gradient(ellipse 40% 380px at 8% 1250px, #6f6aa80d, transparent 70%),
-    radial-gradient(ellipse 55% 460px at 50% 100%, #8d87cf14, transparent 72%),
-    linear-gradient(180deg, #0c1123 0, #0e0f18 180px, var(--entry-bg) 560px);
+    radial-gradient(ellipse 50% 520px at 84% 0, #ff6ad51a, transparent 72%),
+    radial-gradient(ellipse 40% 420px at 6% 1700px, #3ee6c812, transparent 70%),
+    radial-gradient(ellipse 55% 460px at 90% 2900px, #ffd23f0f, transparent 72%),
+    linear-gradient(180deg, #140d2b 0, #110b24 400px, var(--entry-bg) 900px);
 }
 .realms-entry-panel[data-entry="competitive"] {
   --entry-accent: #efbd70;
@@ -45,16 +44,17 @@
 /* Casual: the invitation closes the path as a soft panel. */
 .realms-entry-panel[data-entry="casual"] .casual-invitation {
   padding: 29px 32px;
-  border: 1px solid #2f3040;
-  border-radius: 18px;
-  background: radial-gradient(ellipse 60% 140% at 100% 0, #b9b3f512, transparent 70%), var(--entry-surface);
+  border: 2px solid #3d2a74;
+  border-radius: 24px;
+  background: radial-gradient(ellipse 60% 140% at 100% 0, #ff6ad51f, transparent 70%), var(--entry-surface);
+  box-shadow: 0 10px 0 #120b26;
 }
-.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { font-weight: 450; color: #e6e7f5; }
+.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { color: #fff; font-family: "Bricolage Grotesque Variable", sans-serif; font-weight: 800; letter-spacing: -.035em; }
 .realms-entry-panel[data-entry="casual"] .casual-invitation-copy > p { color: #a6aec5; line-height: 1.85; }
 .realms-entry-panel[data-entry="casual"] .casual-share { color: #d1d4e9; }
 .realms-entry-panel[data-entry="casual"] .casual-share:hover { color: #ffffff; }
 .realms-entry-panel[data-entry="casual"] .casual-access { color: var(--entry-accent); border-color: #77749d; }
-.realms-entry-panel[data-entry="casual"] .casual-access:hover { color: #d6d2ff; border-color: #d6d2ff; }
+.realms-entry-panel[data-entry="casual"] .casual-access:hover { color: #ffb3ea; border-color: #ffb3ea; }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback p { color: var(--entry-accent); }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #c2c6dd; }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #e2e4f5; background: #111217; border-color: #6c6a93; border-radius: 7px; }

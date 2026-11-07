@@ -15,6 +15,7 @@
     "assets:favicon": "node scripts/build-favicon.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource-variable/manrope": "^5.3.0",
     "@fontsource/instrument-serif": "^5.3.0",
