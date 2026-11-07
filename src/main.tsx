@@ -11,6 +11,7 @@ import './product.css';
 import './value-transformations.css';
 import './realms-entry.css';
 import './casual-path.css';
+import './casual-realm.css';
 import './competitive-path.css';
 import './competitive-legends.css';
 import './realms-entry-selector.css';

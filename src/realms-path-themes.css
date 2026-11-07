@@ -42,76 +42,7 @@
 .realms-entry-panel[data-entry]:not([data-entry="focused"])::selection,
 .realms-entry-panel[data-entry]:not([data-entry="focused"]) ::selection { color: var(--entry-bg); background: var(--entry-accent); }
 
-/* Casual: unhurried space, soft edges, and a story that opens out from the center. */
-.realms-entry-panel[data-entry="casual"] .casual-path { padding-top: 53px; }
-.realms-entry-panel[data-entry="casual"] .casual-entry-layout { grid-template-columns: .78fr 1.22fr; gap: clamp(45px,7vw,108px); }
-.realms-entry-panel[data-entry="casual"] .casual-entry-copy h2 { font-size: clamp(43px,4.5vw,65px); font-weight: 420; line-height: 1.13; letter-spacing: -.045em; }
-.realms-entry-panel[data-entry="casual"] .casual-entry-copy > p { line-height: 1.95; max-width: 330px; }
-.realms-entry-panel[data-entry="casual"] .casual-preview-link {
-  min-height: 49px;
-  padding-inline: 25px 21px;
-  border-color: var(--entry-accent);
-  border-radius: 999px;
-  background: var(--entry-accent);
-  color: #23223d;
-  font-weight: 600;
-}
-.realms-entry-panel[data-entry="casual"] .casual-preview-link:hover { background: #d0cbff; border-color: #d0cbff; }
-.realms-entry-panel[data-entry="casual"] .casual-story {
-  position: relative;
-  isolation: isolate;
-  margin-top: 95px;
-  padding-top: 74px;
-  border-color: var(--entry-line);
-  background: radial-gradient(ellipse 46% 60% at 50% 30%, #9a91d90d, transparent 70%);
-}
-/* The tide: slow lines rolling under the branching story, brightest where the paths split. */
-.realms-entry-panel[data-entry="casual"] .casual-story::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 150px 0 -40px;
-  background: linear-gradient(90deg, #b9b3f5, #8f9bd6 55%, #b9b3f5);
-  opacity: .1;
-  -webkit-mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 62% 58% at 40% 55%, #000 25%, transparent 78%);
-  mask: url(/assets/realms/casual-tide.svg) 0 50% / 1600px 100% repeat-x, radial-gradient(ellipse 62% 58% at 40% 55%, #000 25%, transparent 78%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  pointer-events: none;
-}
-/* A thin moonlit horizon where the story meets the open sea. */
-.realms-entry-panel[data-entry="casual"] .casual-story::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: 8%;
-  right: 8%;
-  top: -1px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #b9b3f580 50%, transparent);
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .realms-entry-panel[data-entry="casual"] .casual-story::before { animation: casual-tide-drift 70s linear infinite; }
-}
-@keyframes casual-tide-drift {
-  to { -webkit-mask-position: -1600px 50%, 0 0; mask-position: -1600px 50%, 0 0; }
-}
-.realms-entry-panel[data-entry="casual"] .casual-story-heading { max-width: 780px; margin-inline: auto; text-align: center; }
-.realms-entry-panel[data-entry="casual"] .casual-story-heading > h2 { font-weight: 430; line-height: 1.18; letter-spacing: -.04em; }
-.realms-entry-panel[data-entry="casual"] .casual-story-heading > p { margin-inline: auto; max-width: 450px; line-height: 1.9; }
-.realms-entry-panel[data-entry="casual"] .casual-story-layout { gap: 76px; margin-top: 54px; }
-.realms-entry-panel[data-entry="casual"] .casual-story-branches { display: flex; flex-direction: column; gap: 18px; }
-.realms-entry-panel[data-entry="casual"] .casual-story-branches > article {
-  padding: 21px 0 21px 25px;
-  border: 0;
-  border-left: 2px solid #5e5b87;
-  border-radius: 0 16px 16px 0;
-  background: linear-gradient(90deg,#b9b3f508,transparent);
-}
-.realms-entry-panel[data-entry="casual"] .casual-story-branches h3 { color: #e5e7f6; font-weight: 450; letter-spacing: -.025em; }
-.realms-entry-panel[data-entry="casual"] .casual-story-branches p { font-size: 14px; line-height: 1.9; }
-.realms-entry-panel[data-entry="casual"] .casual-concept-note { color: #8c96b1; }
+/* Casual: the invitation closes the path as a soft panel. */
 .realms-entry-panel[data-entry="casual"] .casual-invitation {
   padding: 29px 32px;
   border: 1px solid #2f3040;
@@ -188,8 +119,6 @@
 .realms-entry-panel[data-entry="competitive"] .competitive-invitation > div > p { color: #a89a85; }
 
 @media (max-width: 1100px) {
-  .realms-entry-panel[data-entry="casual"] .casual-entry-layout { gap: 44px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-layout { gap: 40px; }
   .realms-entry-panel[data-entry="casual"] .casual-invitation { padding-inline: 27px; }
   .realms-entry-panel[data-entry="focused"] .focused-entry-intro .product-container { grid-template-columns: minmax(145px,.35fr) minmax(0,1fr); column-gap: 38px; }
   .realms-entry-panel[data-entry="focused"] .values-opening { gap: 42px; }
@@ -198,26 +127,10 @@
   .realms-entry-panel[data-entry="competitive"] .competitive-intro h2 { font-size: clamp(44px,4.5vw,48px); }
 }
 @media (max-width: 900px) {
-  .realms-entry-panel[data-entry="casual"] .casual-entry-layout { grid-template-columns: 1fr; gap: 33px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-layout { grid-template-columns: 1fr; gap: 30px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-branches { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 21px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-branches > article { padding-left: 19px; }
   .realms-entry-panel[data-entry="competitive"] .competitive-intro { grid-template-columns: 1fr; gap: 35px; }
   .realms-entry-panel[data-entry="competitive"] .competitive-intro-copy { max-width: 620px; }
 }
 @media (max-width: 767px) {
-  .realms-entry-panel[data-entry="casual"] .casual-path { padding-top: 34px; }
-  .realms-entry-panel[data-entry="casual"] .casual-entry-copy h2 { font-size: clamp(39px,9.6vw,54px); line-height: 1.13; }
-  .realms-entry-panel[data-entry="casual"] .casual-entry-copy > p { line-height: 1.9; }
-  .realms-entry-panel[data-entry="casual"] .casual-entry-layout { gap: 33px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story { margin-top: 57px; padding-top: 49px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-heading { text-align: left; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-heading > h2 { line-height: 1.2; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-heading > p { margin-inline: 0; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-layout { margin-top: 31px; gap: 27px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-branches { display: flex; gap: 15px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-branches > article { padding: 20px 13px 20px 20px; }
-  .realms-entry-panel[data-entry="casual"] .casual-story-branches p { font-size: 14px; }
   .realms-entry-panel[data-entry="casual"] .casual-invitation { padding: 25px 22px; border-radius: 14px; }
   .realms-entry-panel[data-entry="casual"] .casual-invitation-actions { gap: 8px 20px; }
   .realms-entry-panel[data-entry="focused"] .focused-entry-intro { padding-block: 33px 48px; }
