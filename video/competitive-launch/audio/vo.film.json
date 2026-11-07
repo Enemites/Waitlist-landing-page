@@ -1,0 +1,103 @@
+[
+ {
+  "id": "v01",
+  "text": "Every great plan needed a team.",
+  "voice": "af_heart",
+  "speed": 0.84
+ },
+ {
+  "id": "v02",
+  "text": "Read the field.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "v03",
+  "text": "Take a role.",
+  "voice": "af_heart",
+  "speed": 0.84
+ },
+ {
+  "id": "v04",
+  "text": "Move before the other side does.",
+  "voice": "af_heart",
+  "speed": 0.86
+ },
+ {
+  "id": "v05",
+  "text": "Realms. Competitive.",
+  "voice": "af_heart",
+  "speed": 0.9,
+  "sentence_pause": 0.4
+ },
+ {
+  "id": "v06",
+  "text": "One world. Opposing plans.",
+  "voice": "af_heart",
+  "speed": 0.9,
+  "sentence_pause": 0.45
+ },
+ {
+  "id": "v07",
+  "text": "Bring your team. Match against another.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "v08",
+  "text": "Start with people you know, or find a team to join.",
+  "voice": "af_heart",
+  "speed": 0.82
+ },
+ {
+  "id": "v09",
+  "text": "Read the same situation.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "v10",
+  "text": "Each team brings its own strategy.",
+  "voice": "af_heart",
+  "speed": 0.86
+ },
+ {
+  "id": "v11",
+  "text": "Divide responsibilities and make the call together.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "v12",
+  "text": "Your decisions and the other team's moves change what happens next.",
+  "voice": "af_heart",
+  "speed": 0.86
+ },
+ {
+  "id": "v13",
+  "text": "Every move, on the record.",
+  "voice": "af_heart",
+  "speed": 0.84
+ },
+ {
+  "id": "v14",
+  "text": "Coordinate your decisions, and see whose strategy holds.",
+  "voice": "af_heart",
+  "speed": 0.9,
+  "phoneme_replace": {
+   "hˌuːz": "hˈuːz"
+  }
+ },
+ {
+  "id": "v15",
+  "text": "Bring this challenge to your group.",
+  "voice": "af_heart",
+  "speed": 0.82
+ },
+ {
+  "id": "v16",
+  "text": "Get match updates.",
+  "voice": "af_heart",
+  "speed": 0.9
+ }
+]
