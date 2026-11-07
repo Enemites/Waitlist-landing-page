@@ -29,7 +29,7 @@ const PrivacyPolicyPage = () => {
                   Last updated: <time dateTime="2026-10-09">October 9, 2026</time>
                 </p>
                 <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
-                  This Privacy Policy explains how Enemites collects, uses, and protects information
+                  This Privacy Policy explains how Realms collects, uses, and protects information
                   when you join the waitlist, request early access, explore demos, or use available
                   learning simulations and AI mentor experiences.
                 </p>
@@ -38,7 +38,7 @@ const PrivacyPolicyPage = () => {
               <div className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/45 p-4 sm:p-5 text-xs sm:text-sm leading-relaxed sm:leading-[1.6] text-[#AFBAB6]">
                 <p className="font-semibold text-[var(--nova-void)]">Current product status</p>
                 <p className="mt-1.5 sm:mt-2">
-                  Enemites is in a waitlist and private beta stage. Data practices may become more
+                  Realms is in a waitlist and private beta stage. Data practices may become more
                   detailed as more features, simulations, and account systems become available.
                 </p>
               </div>
@@ -52,7 +52,7 @@ const PrivacyPolicyPage = () => {
                   Summary
                 </p>
                 <p>We do not sell personal information.</p>
-                <p>We use data to run and improve Enemites.</p>
+                <p>We use data to run and improve Realms.</p>
                 <p>You can contact us about your data.</p>
               </div>
             </aside>
@@ -63,7 +63,7 @@ const PrivacyPolicyPage = () => {
                   1. Information We Collect
                 </h2>
                 <p className="mt-3">
-                  The information we collect depends on how you interact with Enemites. It may include:
+                  The information we collect depends on how you interact with Realms. It may include:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>
@@ -92,7 +92,7 @@ const PrivacyPolicyPage = () => {
                   2. How We Use Information
                 </h2>
                 <p className="mt-3">
-                  We use information to operate, test, and improve Enemites. This includes:
+                  We use information to operate, test, and improve Realms. This includes:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>Managing the waitlist, private beta, and early access invitations.</li>
@@ -194,7 +194,7 @@ const PrivacyPolicyPage = () => {
                   10. Changes to This Privacy Policy
                 </h2>
                 <p className="mt-3">
-                  As Enemites evolves, we may update this Privacy Policy. If we make material changes,
+                  As Realms evolves, we may update this Privacy Policy. If we make material changes,
                   we will update the last updated date and, where appropriate, provide additional
                   notice. Where consent is required for a new use, we will request it separately.
                 </p>
@@ -203,7 +203,7 @@ const PrivacyPolicyPage = () => {
               <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[var(--nova-void)] p-5 text-[var(--nova-bone)] sm:p-7">
                 <h2 className="nova-display text-xl font-medium">11. Contact</h2>
                 <p className="mt-3 text-[rgba(232,228,217,0.75)]">
-                  If you have questions about this Privacy Policy or how Enemites handles data,
+                  If you have questions about this Privacy Policy or how Realms handles data,
                   contact us at:
                 </p>
                 <a
