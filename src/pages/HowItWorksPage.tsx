@@ -12,7 +12,7 @@ const steps = [
     label: "Step 01",
     title: "Enter Realms",
     description:
-      "Enemites starts with a short mission brief, then shapes the simulation around your field, level, and decision context.",
+      "Realms starts with a short mission brief, then shapes the simulation around your field, level, and decision context.",
     metric: "03 min",
     metricLabel: "briefing",
     span: "col-span-1 md:col-span-2 md:row-span-2",
@@ -69,7 +69,7 @@ const journey = [
     phase: "After",
     title: "Your thinking becomes readable",
     description:
-      "Enemites turns the run into a map of choices, missed paths, and capability growth that can be discussed or shared.",
+      "Realms turns the run into a map of choices, missed paths, and capability growth that can be discussed or shared.",
     items: ["Decision map", "Growth summary", "Reusable capability artifact"],
   },
 ];
@@ -81,9 +81,9 @@ const HowItWorksPage = () => {
       <section className="how-product-hero product-section">
         <div className="product-container how-hero-layout">
           <ProductReveal className="how-hero-copy">
-            <p className="product-eyebrow">How Enemites works</p>
+            <p className="product-eyebrow">How Realms works</p>
             <h1>From confusion to <span>capability</span> in one run.</h1>
-            <p>Enemites turns problem-based learning into a responsive world. You enter a scenario, make decisions, observe consequences, then leave with a readable trace of how you think.</p>
+            <p>Realms turns problem-based learning into a responsive world. You enter a scenario, make decisions, observe consequences, then leave with a readable trace of how you think.</p>
             <div className="how-hero-actions">
               <Button asChild className="product-cta"><Link to="/realms#join-waitlist">Join waitlist</Link></Button>
               <Button asChild variant="outline" className="product-secondary"><Link to="/realms">Back to intro</Link></Button>
@@ -108,8 +108,8 @@ const HowItWorksPage = () => {
       </section>
       <section className="product-keep product-section">
         <div className="product-container keep-layout">
-          <ProductReveal className="keep-copy"><h2>Proof that explains the path, not only the score.</h2><p>After each run, Enemites records the moments that matter: what you chose, how you acted, what changed, how you explained it, and which capability improved.</p><Button asChild className="product-cta"><Link to="/realms/about-us">Meet the builders</Link></Button></ProductReveal>
-          <ProductReveal className="keep-art"><img src="/assets/capability-proof-1280.webp" srcSet="/assets/capability-proof-640.webp 640w, /assets/capability-proof-1280.webp 1280w" sizes="(max-width:767px) 100vw, 50vw" width="1280" height="640" decoding="async" alt="Abstract Enemites capability path in a dark spatial environment" loading="lazy" /></ProductReveal>
+          <ProductReveal className="keep-copy"><h2>Proof that explains the path, not only the score.</h2><p>After each run, Realms records the moments that matter: what you chose, how you acted, what changed, how you explained it, and which capability improved.</p><Button asChild className="product-cta"><Link to="/realms/about-us">Meet the builders</Link></Button></ProductReveal>
+          <ProductReveal className="keep-art"><img src="/assets/capability-proof-1280.webp" srcSet="/assets/capability-proof-640.webp 640w, /assets/capability-proof-1280.webp 1280w" sizes="(max-width:767px) 100vw, 50vw" width="1280" height="640" decoding="async" alt="Abstract Realms capability path in a dark spatial environment" loading="lazy" /></ProductReveal>
         </div>
       </section>
     </main>

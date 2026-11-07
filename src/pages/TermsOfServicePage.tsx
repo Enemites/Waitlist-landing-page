@@ -29,7 +29,7 @@ const TermsOfServicePage = () => {
                   Last updated: <time dateTime="2026-10-09">October 9, 2026</time>
                 </p>
                 <p className="mt-3 sm:mt-5 max-w-3xl text-xs sm:text-base leading-relaxed sm:leading-[1.7] text-[#AFBAB6] md:text-lg">
-                  These Terms govern your access to Enemites, a private beta learning environment
+                  These Terms govern your access to Realms, a private beta learning environment
                   that turns problem-based learning into adaptive world simulations with an AI
                   mentor.
                 </p>
@@ -38,7 +38,7 @@ const TermsOfServicePage = () => {
               <div className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/45 p-4 sm:p-5 text-xs sm:text-sm leading-relaxed sm:leading-[1.6] text-[#AFBAB6]">
                 <p className="font-semibold text-[var(--nova-void)]">Current product status</p>
                 <p className="mt-1.5 sm:mt-2">
-                  Enemites is currently offered through a waitlist and early access experience.
+                  Realms is currently offered through a waitlist and early access experience.
                   Features, simulations, and mentor behavior may change while the product is being
                   tested.
                 </p>
@@ -52,7 +52,7 @@ const TermsOfServicePage = () => {
                 <p className="nova-mono text-xs uppercase tracking-[0.18em] text-[var(--nova-brand)]">
                   Summary
                 </p>
-                <p>Use Enemites responsibly.</p>
+                <p>Use Realms responsibly.</p>
                 <p>Early access can change.</p>
                 <p>AI feedback needs judgment.</p>
               </div>
@@ -64,20 +64,20 @@ const TermsOfServicePage = () => {
                   1. Acceptance of Terms
                 </h2>
                 <p className="mt-3">
-                  By accessing Enemites, joining the waitlist, requesting early access, exploring
+                  By accessing Realms, joining the waitlist, requesting early access, exploring
                   demos, or using any available simulation or AI mentor experience, you agree to
-                  these Terms. If you do not agree, you should not use Enemites.
+                  these Terms. If you do not agree, you should not use Realms.
                 </p>
               </section>
 
               <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">
-                  2. Who Enemites Is For
+                  2. Who Realms Is For
                 </h2>
                 <p className="mt-3">
-                  Enemites is built for students, learners, and problem solvers who want to train
+                  Realms is built for students, learners, and problem solvers who want to train
                   decision making and problem-solving ability through short, adaptive learning
-                  simulations. Learners under 13 may join the waitlist through a parent or guardian who registers their own contact details using our email invitation. A parent may complete public questionnaires with their own information, without identifying the child. Parent permission for the waitlist does not create or authorize a child account. Additional age and parental-permission requirements may apply by region. You are responsible for making sure your use of Enemites follows
+                  simulations. Learners under 13 may join the waitlist through a parent or guardian who registers their own contact details using our email invitation. A parent may complete public questionnaires with their own information, without identifying the child. Parent permission for the waitlist does not create or authorize a child account. Additional age and parental-permission requirements may apply by region. You are responsible for making sure your use of Realms follows
                   applicable laws, school or campus rules, and age requirements in your region.
                 </p>
               </section>
@@ -87,7 +87,7 @@ const TermsOfServicePage = () => {
                   3. Waitlist and Early Access
                 </h2>
                 <p className="mt-3">
-                  Enemites may be available only as a waitlist, private beta, limited access demo, or
+                  Realms may be available only as a waitlist, private beta, limited access demo, or
                   experimental environment. Joining this waitlist is free and does not create a paid or renewing subscription. By joining the waitlist or requesting access, you:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
@@ -101,7 +101,7 @@ const TermsOfServicePage = () => {
 
               <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
                 <h2 className="nova-display text-xl font-medium text-[var(--nova-void)]">Age Appropriate Service</h2>
-                <p className="mt-3">When learning features launch, Enemites plans separate safeguards for child and adult use, including age appropriate content and mentor responses, limits on adult-only scenarios and social interaction, and parent controls where required. Adults may receive different content or features. These learning features are not available on the current waitlist. Actual safeguards and child-data practices will be explained before launch, and any required parental permission will be obtained before the relevant data collection.</p>
+                <p className="mt-3">When learning features launch, Realms plans separate safeguards for child and adult use, including age appropriate content and mentor responses, limits on adult-only scenarios and social interaction, and parent controls where required. Adults may receive different content or features. These learning features are not available on the current waitlist. Actual safeguards and child-data practices will be explained before launch, and any required parental permission will be obtained before the relevant data collection.</p>
               </section>
 
               <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[#131D20]/55 p-5 sm:p-7">
@@ -109,12 +109,12 @@ const TermsOfServicePage = () => {
                   4. Responsible Use
                 </h2>
                 <p className="mt-3">
-                  You agree to use Enemites for learning, reflection, and capability development. You
+                  You agree to use Realms for learning, reflection, and capability development. You
                   agree not to:
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5">
                   <li>Bypass security, exploit bugs, overload systems, or interfere with stability.</li>
-                  <li>Use Enemites to create, rehearse, or encourage harmful, abusive, or illegal acts.</li>
+                  <li>Use Realms to create, rehearse, or encourage harmful, abusive, or illegal acts.</li>
                   <li>
                     Misrepresent yourself, impersonate another person, or attempt to reverse
                     engineer non-public systems.
@@ -127,8 +127,8 @@ const TermsOfServicePage = () => {
                   5. Learning Data and Experience Logs
                 </h2>
                 <p className="mt-3">
-                  Enemites is designed to record meaningful parts of a learning run, including choices,
-                  reasoning, reflections, decision paths, and progress indicators. This helps Enemites
+                  Realms is designed to record meaningful parts of a learning run, including choices,
+                  reasoning, reflections, decision paths, and progress indicators. This helps Realms
                   adapt the experience and build a clearer picture of problem-solving capability.
                 </p>
                 <p className="mt-3">
@@ -142,10 +142,10 @@ const TermsOfServicePage = () => {
                   6. No Guaranteed Outcomes
                 </h2>
                 <p className="mt-3">
-                  Enemites is intended to support learning and problem-solving practice. We do not
+                  Realms is intended to support learning and problem-solving practice. We do not
                   guarantee specific academic, career, admission, hiring, or life outcomes. You
                   remain responsible for how you use feedback, simulation results, and any decisions
-                  you make outside Enemites.
+                  you make outside Realms.
                 </p>
               </section>
 
@@ -154,14 +154,14 @@ const TermsOfServicePage = () => {
                   7. Intellectual Property
                 </h2>
                 <p className="mt-3">
-                  Enemites, including its interface, simulations, scenarios, visual assets, feedback
-                  systems, and product experience, is owned by Enemites or its licensors unless stated
+                  Realms, including its interface, simulations, scenarios, visual assets, feedback
+                  systems, and product experience, is owned by Realms or its licensors unless stated
                   otherwise. You may not copy, redistribute, sell, or commercially exploit these
                   materials without permission.
                 </p>
                 <p className="mt-3">
                   You keep ownership of original content you submit, such as reflections or written
-                  responses, but you grant Enemites permission to process that content to operate,
+                  responses, but you grant Realms permission to process that content to operate,
                   improve, and personalize the service.
                 </p>
               </section>
@@ -171,9 +171,9 @@ const TermsOfServicePage = () => {
                   8. Experimental AI Mentor
                 </h2>
                 <p className="mt-3">
-                  The AI mentor and adaptive systems in Enemites are experimental. They may provide
+                  The AI mentor and adaptive systems in Realms are experimental. They may provide
                   incomplete, inaccurate, or unsuitable feedback. Use your own judgment, and consult
-                  teachers, mentors, or qualified professionals before relying on Enemites feedback for
+                  teachers, mentors, or qualified professionals before relying on Realms feedback for
                   important decisions.
                 </p>
               </section>
@@ -183,9 +183,9 @@ const TermsOfServicePage = () => {
                   9. Limitation of Liability
                 </h2>
                 <p className="mt-3">
-                  To the maximum extent permitted by law, Enemites and its team will not be liable for
+                  To the maximum extent permitted by law, Realms and its team will not be liable for
                   indirect, incidental, special, consequential, or punitive damages, or for loss of
-                  data, opportunities, profits, or reputation arising from your use of Enemites. You
+                  data, opportunities, profits, or reputation arising from your use of Realms. You
                   use the service at your own risk.
                 </p>
               </section>
@@ -195,9 +195,9 @@ const TermsOfServicePage = () => {
                   10. Changes to These Terms
                 </h2>
                 <p className="mt-3">
-                  Because Enemites is actively evolving, we may update these Terms from time to time.
+                  Because Realms is actively evolving, we may update these Terms from time to time.
                   If we make material changes, we will update the last updated date and, where
-                  appropriate, provide additional notice. Continued use of Enemites after changes take
+                  appropriate, provide additional notice. Continued use of Realms after changes take
                   effect means you accept the updated Terms.
                 </p>
               </section>
@@ -205,7 +205,7 @@ const TermsOfServicePage = () => {
               <section className="rounded-xl border border-[var(--nova-void)]/10 bg-[var(--nova-void)] p-5 text-[var(--nova-bone)] sm:p-7">
                 <h2 className="nova-display text-xl font-medium">11. Contact</h2>
                 <p className="mt-3 text-[rgba(232,228,217,0.75)]">
-                  If you have questions about these Terms or how Enemites works, contact us at:
+                  If you have questions about these Terms or how Realms works, contact us at:
                 </p>
                 <a
                   href="mailto:support@enemites.com"
