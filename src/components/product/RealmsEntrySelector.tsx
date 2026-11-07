@@ -20,12 +20,14 @@ const entries = [
     label: "Competitive",
     reason: "Face another team",
     routes: [
-      "M480 440C400 412 356 362 320 304C294 262 270 214 252 182",
-      "M12 92C58 90 108 102 156 124C190 140 218 158 240 174",
+      // Both sides meet at the foot of the flag, so the two routes read as one contested line.
+      "M480 440C400 412 356 362 320 304C292 258 276 214 248 180",
+      "M12 92C58 90 108 102 156 124C190 140 222 150 248 180",
     ],
     end: { x: 248, y: 172 },
     rival: { x: 12, y: 92 },
-    labelAt: { x: 248, y: 140, anchor: "middle" },
+    // Below-left of the summit, clear of both routes so the label never cuts a line.
+    labelAt: { x: 232, y: 214, anchor: "end" },
   },
   {
     id: "focused",
