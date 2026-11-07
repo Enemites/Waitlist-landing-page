@@ -61,3 +61,12 @@ Run `npm run dev` and open `http://localhost:5173/profile` or `http://localhost:
 Production build passes. Browser checks cover six content pages at 360, 390, 768 and 1440 pixels, original copy and links on nine routes, mobile navigation, root redirect, introduction-video navigation, waitlist validation/submission/reset and dynamic questionnaire controls. Additional checks verify pointer parallax, three scroll-selected phases, active-only video playback and reduced-motion behavior. No page errors, broken images or horizontal document overflow were detected.
 
 Captures and reports are stored locally under `output/playwright/` and excluded from Git. Form checks intercept requests and do not write real registrations or responses.
+
+## Competitive: strategy and teamwork from history (2026-11)
+
+The Competitive path has a section between the match screens and the invitation: "Every great plan needed a team." It is about strategy, teamwork and competition; the two figures are never named. Their identity is carried by the illustrations alone, drawn from public-domain references:
+
+- Strategy (`public/assets/realms/competitive-history-strategy.svg`): André Castaigne, "Alexander addresses his officers before the battle of Issus" (1898–1899). The commander in the crested helmet raises his fist in amber; the armoured officers stand behind him in dark bronze.
+- Teamwork (`public/assets/realms/competitive-history-teamwork.svg`): the U.S. government photograph at the Trinity site, September 1945. The man in the pale hat is the only figure in amber; the group around him stays in dark bronze.
+
+Method: flat fills + ink lines, like a printed graphic-novel panel. L0 gradient minimisation flattens each reference into a few large, evenly toned regions with crisp edges (five tones, median-merged so no slivers remain); XDoG draws clean contour lines and drops specks; the leader alone takes the amber palette (with its own tonal range), everyone else dark bronze; every tone and the ink are traced with potrace into compact relative SVG paths. Regenerate with `python3 scripts/abstract-competitive-history.py` (needs `pip install potracer opencv-contrib-python-headless numpy`; references download to `.cache/competitive-history/`). The SVGs are about 85 KB and 46 KB gzipped and load lazily with descriptive alt text.
