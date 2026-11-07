@@ -41,7 +41,8 @@ CONFIGS = {
     "strategy": {
         "src": "Alexander_addresses_his_officers_before_the_battle_of_Issus_by_Andre_Castaigne_(1898-1899).jpg",
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/{path}/960px-{name}",
-        "crop": (16, 290, 944, 909),
+        "crop": (-140, 160, 944, 883),
+        "paper": (245, 245, 245),
         "lam": .06,
         "percentiles": [12, 30, 55, 80],
         "xdog": {"sigma": 1.5, "k": 1.6, "p": 18, "eps": .6, "phi": 12},
@@ -93,7 +94,11 @@ def drop_specks(mask, min_area):
 def build(cfg):
     img = cv2.imread(str(source(cfg)), cv2.IMREAD_COLOR)
     x0, y0, x1, y1 = cfg["crop"]
-    img = cv2.resize(img[y0:y1, x0:x1], SIZE, interpolation=cv2.INTER_AREA)
+    # A crop may reach past the reference; the margin is filled with its paper tone,
+    # which gives the scene room to dissolve around the leader.
+    pad = [max(0, -y0), max(0, y1 - img.shape[0]), max(0, -x0), max(0, x1 - img.shape[1])]
+    img = cv2.copyMakeBorder(img, *pad, cv2.BORDER_CONSTANT, value=cfg.get("paper", (255, 255, 255)))
+    img = cv2.resize(img[y0 + pad[0]:y1 + pad[0], x0 + pad[2]:x1 + pad[2]], SIZE, interpolation=cv2.INTER_AREA)
     scale = SIZE[0] / (x1 - x0)
 
     flat = cv2.ximgproc.l0Smooth(img, None, cfg["lam"], 2.0)

@@ -1,22 +1,49 @@
-/* Competitive: strategy and teamwork, told through two abstracted scenes from history. */
-.competitive-legends { padding: 86px 0 88px; border-top: 1px solid #51422e; background: #101012; }
-.competitive-legends-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .75fr); gap: 60px; align-items: end; margin-bottom: 46px; padding-bottom: 30px; border-bottom: 1px solid #5a472f; }
+/* Competitive: strategy and teamwork, told through two scenes from history.
+   No frames. Each illustration dissolves into the page, lit around its leader,
+   and the two scenes zigzag across the section with their captions beside them. */
+.competitive-legends { padding: 86px 0 96px; border-top: 1px solid #51422e; background: #101012; overflow-x: clip; }
+.competitive-legends-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .75fr); gap: 60px; align-items: end; padding-bottom: 30px; border-bottom: 1px solid #5a472f; }
 .competitive-legends-heading .product-eyebrow { font-size: 11px; line-height: 1.9; letter-spacing: .12em; }
 .product-site .competitive-legends-heading h2 { margin-top: 20px; font-size: clamp(39px, 4.1vw, 57px); font-weight: 600; line-height: 1.08; }
 .product-site .competitive-legends-heading > p { max-width: 360px; justify-self: end; font-size: 15px; line-height: 1.85; }
-.competitive-legend-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.4vw, 50px); }
+
+.competitive-legend-stage { display: grid; margin-top: 8px; }
 .competitive-legend-reveal { min-width: 0; }
-.competitive-legend { margin: 0; }
-.competitive-legend-art { overflow: hidden; border: 1px solid #3a3024; border-radius: 2px; background: #13110e; }
-.competitive-legend-art > img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; transition: transform 900ms cubic-bezier(.23, 1, .32, 1); }
-.competitive-legend:hover .competitive-legend-art > img { transform: scale(1.025); }
-.competitive-legend > figcaption { padding: 4px 0 2px 20px; border-left: 1px solid #6b5130; margin-top: 22px; }
-.product-site .competitive-legend-label { font: 11px/1.7 "JetBrains Mono Variable", monospace; letter-spacing: .06em; text-transform: uppercase; }
-.product-site .competitive-legend h3 { margin-top: 8px; font-size: clamp(22px, 2vw, 27px); font-weight: 600; line-height: 1.25; letter-spacing: -.04em; }
+.competitive-legend-reveal + .competitive-legend-reveal { margin-top: clamp(-120px, -7vw, -48px); }
+.competitive-legend { position: relative; display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, .7fr); column-gap: clamp(20px, 3vw, 44px); align-items: center; margin: 0; }
+.competitive-legend[data-legend="teamwork"] { grid-template-columns: minmax(0, .7fr) minmax(0, 1.75fr); }
+.competitive-legend[data-legend="teamwork"] .competitive-legend-art { order: 2; }
+
+.competitive-legend-art { --spot-x: 34%; --spot-y: 42%; --fade-x: 45%; --fade-y: 46%; min-width: 0; margin-left: clamp(-56px, -4vw, -16px); }
+.competitive-legend[data-legend="teamwork"] .competitive-legend-art { --spot-x: 38%; --spot-y: 42%; --fade-x: 50%; --fade-y: 48%; margin-left: 0; margin-right: clamp(-56px, -4vw, -16px); }
+.competitive-legend-art > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  /* An inscribed ellipse fades to nothing before any edge, so no box shape remains; a soft spotlight keeps the leader brightest and lets the group recede. */
+  -webkit-mask-image:
+    radial-gradient(ellipse 72% 88% at var(--spot-x) var(--spot-y), #000 38%, rgba(0, 0, 0, .66) 72%, rgba(0, 0, 0, .45) 100%),
+    radial-gradient(closest-side at var(--fade-x) var(--fade-y), #000 34%, rgba(0, 0, 0, .78) 56%, rgba(0, 0, 0, .38) 78%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(ellipse 72% 88% at var(--spot-x) var(--spot-y), #000 38%, rgba(0, 0, 0, .66) 72%, rgba(0, 0, 0, .45) 100%),
+    radial-gradient(closest-side at var(--fade-x) var(--fade-y), #000 34%, rgba(0, 0, 0, .78) 56%, rgba(0, 0, 0, .38) 78%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.competitive-legend > figcaption { position: relative; z-index: 1; max-width: 340px; }
+.competitive-legend[data-legend="teamwork"] > figcaption { justify-self: end; text-align: right; }
+.product-site .competitive-legend-label { display: flex; align-items: center; gap: 12px; font: 11px/1.7 "JetBrains Mono Variable", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.competitive-legend[data-legend="teamwork"] .competitive-legend-label { justify-content: flex-end; }
+.competitive-legend-label > span { display: inline-flex; align-items: center; gap: 12px; }
+.competitive-legend-label > span::after { content: ""; width: 30px; height: 1px; background: currentColor; opacity: .55; }
+.product-site .competitive-legend h3 { margin-top: 14px; font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; line-height: 1.16; letter-spacing: -.045em; }
 
 /* Theme contract: the panel already supplies --entry-* for the competitive path. */
 .realms-entry-panel[data-entry="competitive"] .competitive-legends-heading .product-eyebrow,
-.realms-entry-panel[data-entry="competitive"] .competitive-legend-label { color: var(--entry-accent); }
+.realms-entry-panel[data-entry="competitive"] .competitive-legend-label > span { color: var(--entry-accent); }
+.realms-entry-panel[data-entry="competitive"] .competitive-legend-label { color: #a89a85; }
 .realms-entry-panel[data-entry="competitive"] .competitive-legend h3 { color: #eee5d7; }
 .realms-entry-panel[data-entry="competitive"] .competitive-legends-heading > p { color: #b8afa2; }
 .competitive-legends + .competitive-invitation-section { padding-top: 64px; }
@@ -24,30 +51,40 @@
 
 @media (max-width: 1100px) {
   .competitive-legends-heading { gap: 40px; }
+  .competitive-legend { grid-template-columns: minmax(0, 1.6fr) minmax(0, .8fr); }
+  .competitive-legend[data-legend="teamwork"] { grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr); }
 }
 @media (max-width: 900px) {
   .competitive-legends-heading { grid-template-columns: 1fr; gap: 22px; }
   .product-site .competitive-legends-heading > p { justify-self: start; }
-  .competitive-legend-grid { grid-template-columns: 1fr; gap: 48px; }
-  .competitive-legend-reveal { max-width: 720px; }
+  .competitive-legend-stage { gap: 44px; margin-top: 0; }
+  .competitive-legend-reveal + .competitive-legend-reveal { margin-top: 0; }
+  .competitive-legend,
+  .competitive-legend[data-legend="teamwork"] { grid-template-columns: 1fr; }
+  .competitive-legend[data-legend="teamwork"] .competitive-legend-art { order: 0; }
+  /* Full bleed: the scene runs to the screen edges and fades there. */
+  .competitive-legend-art,
+  .competitive-legend[data-legend="teamwork"] .competitive-legend-art { margin-inline: -56px; }
+  .competitive-legend > figcaption,
+  .competitive-legend[data-legend="teamwork"] > figcaption { justify-self: start; text-align: left; max-width: 460px; margin-top: -34px; }
+  .competitive-legend[data-legend="teamwork"] .competitive-legend-label { justify-content: flex-start; }
 }
 @media (max-width: 767px) {
-  .competitive-legends { padding-block: 60px 62px; }
-  .competitive-legends-heading { margin-bottom: 32px; padding-bottom: 25px; }
+  .competitive-legends { padding-block: 60px 66px; }
+  .competitive-legends-heading { padding-bottom: 25px; }
   .competitive-legends-heading .product-eyebrow { font-size: 12px; letter-spacing: .06em; }
   .product-site .competitive-legends-heading h2 { font-size: clamp(36px, 8vw, 51px); line-height: 1.12; }
   .product-site .competitive-legends-heading > p { font-size: 14px; }
-  .competitive-legend-grid { gap: 40px; }
-  .competitive-legend > figcaption { margin-top: 18px; padding-left: 17px; }
-  .product-site .competitive-legend-label { font-size: 11px; letter-spacing: .03em; }
-  .product-site .competitive-legend h3 { font-size: 23px; }
+  .competitive-legend-stage { gap: 36px; }
+  .competitive-legend-art,
+  .competitive-legend[data-legend="teamwork"] .competitive-legend-art { margin-inline: -24px; }
+  .competitive-legend > figcaption,
+  .competitive-legend[data-legend="teamwork"] > figcaption { margin-top: -22px; }
+  .product-site .competitive-legend-label { font-size: 11px; letter-spacing: .04em; }
+  .product-site .competitive-legend h3 { margin-top: 10px; font-size: 25px; }
   .competitive-legends + .competitive-invitation-section { padding-top: 48px; }
 }
 @media (max-width: 375px) {
   .product-site .competitive-legends-heading h2 { font-size: 34px; }
-  .product-site .competitive-legend h3 { font-size: 21px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .competitive-legend-art > img { transition: none; }
-  .competitive-legend:hover .competitive-legend-art > img { transform: none; }
+  .product-site .competitive-legend h3 { font-size: 22px; }
 }
