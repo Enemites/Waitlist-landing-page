@@ -9,6 +9,18 @@
  *   node engine/render.mjs --manifest scenes/manifest.demo.js --out .work/engine-test/demo.mp4
  */
 Film.manifest([
-  // { id: '_demo', file: '_demo.js', duration: 8 },
-  // { id: '_demo_outro', file: '_demo_outro.js', duration: 3, overlap: 0.8 },
+  { id: 's01-hook-live', file: 's01-hook-live.js', duration: 3 },
+  { id: 's02-freeze-rewind', file: 's02-freeze-rewind.js', duration: 2 },
+  { id: 's03-every-great-plan', file: 's03-every-great-plan.js', duration: 8, overlap: 1 },
+  { id: 's04-hinge-title', file: 's04-hinge-title.js', duration: 4 },
+  { id: 's05-one-world', file: 's05-one-world.js', duration: 6 },
+  { id: 's06-form-your-team', file: 's06-form-your-team.js', duration: 6 },
+  { id: 's07-find-your-opposition', file: 's07-find-your-opposition.js', duration: 6 },
+  { id: 's08-make-your-move', file: 's08-make-your-move.js', duration: 10 },
+  { id: 's09-last-seen', file: 's09-last-seen.js', duration: 2 },
+  { id: 's10-coordinate-commit-adapt', file: 's10-coordinate-commit-adapt.js', duration: 6 },
+  { id: 's11-the-match', file: 's11-the-match.js', duration: 4 },
+  { id: 's12-on-the-record', file: 's12-on-the-record.js', duration: 2 },
+  { id: 's13-see-whose-strategy-holds', file: 's13-see-whose-strategy-holds.js', duration: 6 },
+  { id: 's14-make-your-next-move', file: 's14-make-your-next-move.js', duration: 8 },
 ]);

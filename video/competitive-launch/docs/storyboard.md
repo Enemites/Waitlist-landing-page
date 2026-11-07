@@ -1,0 +1,1303 @@
+# Locked storyboard: THE NODE: Realms Competitive launch film (locked storyboard, 72 s)
+
+Locked by the creative director after the four-lens panel (brand, craft, feasibility, audience).
+
+- Base: the highest-scoring treatment, 'product' (30/40), with the best ideas grafted from 'history' (28/40), 'map' (27.5/40) and 'director' (17/40), and every must-fix applied.
+- Spec: 1920x1080, 30 fps, 120 BPM (1 bar = 2.0 s), 72 s, 14 scenes.
+- VO: 91 words.
+- Machine-readable twin: `storyboard.json`, the exact returned object.
+
+## Logline
+
+A live 3 v 3 Floodgate match freezes at 08:14 and rewinds past the start of the round, back into a century of teams who planned together. The water rises again into one shared world: Realms Competitive. Two teams, the same challenge, opposing plans. The match plays forward to the exact frame we froze, goes past it, adapts, and is kept on the record. See whose strategy holds. Get match updates.
+
+## Concept
+
+THE NODE CARRIES THE PLAN. One amber point never cuts. It is the marker of our coordinator, Jules (JK): a 12 px #f6d39f core, a 24 px amber ring and a soft glow, pulsing once every 3 beats. The film is that point's journey.
+- It is born when a live match freezes at 08:14.
+- It rides the rewind back through the round and into the archive, where it sits on the one spot where people coordinate: a plotter's rake (1943), a lantern on a levee (The River), a controller's head (Apollo 8), the bow of a racing crew (1904).
+- It floods back into one shared world as Atlas's marker. Our plan is drawn out of it, then theirs.
+- It leads the team into the match, commits, adapts, and becomes the playhead of the match record.
+- It ends on the tip of the 'Get match updates' arrow: the plan is handed to the viewer.
+
+Around the node there is ONE WORLD and ONE CLOCK.
+- The world is the Floodgate valley from design/screen-compositions/competitive.html, built with the existing Floodgate.world. Both teams' summits, the river, the objective ring and every route live in it. Nothing switches to a second map system.
+- The clock is the match clock, and every tick in the score is that clock. When the rewind reaches 08:32 it rolls one notch further: every reel steps up by one, so 08:32 becomes 19:43, the colon closes, and it reads 1943. When the archive floods back into the world, every reel steps down by one and it reads 08:32 again. History and the match are one continuous briefing.
+
+WHY IT FITS THE BRAND
+- Realms Competitive is about teams making one plan in a shared world against another team's plan.
+- The brand's graphic language is already a node-and-route language: numbered team markers, dashed routes with arrowheads, pulse rings around objectives, register marks, contour lines and mono labels. The film uses that language as its grammar, not as decoration.
+- The node gives the eye one thing to follow across archive, world and interface, so the 'Every great plan needed a team' heritage and the product read as one film.
+- The clock gives tension without loudness, as a match briefing should: tactical, calm and intelligent, never an esports hype reel.
+
+TRANSITION VOCABULARY: five devices, each with one meaning, and nothing else.
+1. NODE MATCH CUT: a hard cut on a beat while the node holds its screen position. Meaning: the same team across eras and shots.
+2. DRAIN / FLOOD: the signature topographic threshold dissolve. The picture changes along contour lines, keyed on distance from the river, with a 1.5 px amber front. Meaning: a change of era. It is used exactly twice: match to archive at 4.0 s, and archive to world at 12.5 s.
+3. ALONG A ROUTE: the camera rides or follows a drawn line. Meaning: a plan in motion (the planned-matchmaking whip, the reroute).
+4. INTO / OUT OF A RING: a dolly into, or a clip closing onto, an objective ring. Meaning: commitment (the lobby rings, the match arrival, the final medallion).
+5. GRID-CELL CUT: 2 frames of A-L x 01-08 checkerboard. Meaning: peak tempo. It is used only twice, in the 52-56 s montage.
+
+HOUSE RULES
+- Vega is red-orange #dd6248 (banner #c9503a) everywhere: archive tag, routes, triangles, banners, lobby ring.
+- Bone-grey #c9c0b2 means 'not yet known' and appears only on the planned-matchmaking line.
+- One moving route at a time. Ours is drawn before theirs, except in the Adapt beat, where theirs causes ours.
+- Every UI and world frame carries the slug 'REALMS · COMPETITIVE · INTERFACE CONCEPT' inside title-safe.
+- Archive is about 9 s (12%), always amber-graded and framed. Years are shown only where they are true: the 1943 odometer runs over 1943 footage only.
+- Every number comes from the brief: ROUND 2, 1-1, a countdown derived from the 08:31-08:14 range (never below 08:04), 62% (never more), OBJECTIVE 2 OF 3, 3 V 3, LAST SEEN 0:20.
+
+## Scene table
+
+| # | id | time (s) | bars | what happens | VO (global start) |
+|---|---|---|---|---|---|
+| 1 | `s01-hook-live` | 0-3 | 1.1-2.3 | Live Floodgate match at 08:17-08:14; alert lifted to 40 px; camera pushes toward the Crossing | - |
+| 2 | `s02-freeze-rewind` | 3-5 | 2.3-3.3 | Freeze at 08:14; the node is born on JK; the match rewinds to 08:32 into a framed board window | - |
+| 3 | `s03-every-great-plan` | 4-12 (overlap 1.0) | 3.1-7.1 | Drain to 1943 (odometer 08:32 -> 1943); node rides rake, lantern, head, bow; red ring on the rival boat | v01 4.60 "Every great plan needed a team."<br>v02 7.25 "Read the field."<br>v03 8.75 "Take a role."<br>v04 10.25 "Move before the other side does." |
+| 4 | `s04-hinge-title` | 12-16 | 7.1-9.1 | Back to the 1943 table; rising-water flood into the Floodgate world (1943 -> 08:32); title hit: Enemites / Realms / COMPETITIVE | v05 14.30 "Realms. Competitive." |
+| 5 | `s05-one-world` | 16-22 | 9.1-12.1 | 'One world. / Opposing plans.' over the full valley; our route, then theirs, to the ring; banners; dive onto the Atlas summit | v06 16.30 "One world. Opposing plans."<br>v07 20.20 "Bring your team. Match against another." |
+| 6 | `s06-form-your-team` | 22-28 | 12.1-15.1 | Contour becomes the lobby ring; JK, NC, EK snap in; ATLAS stamps (D5); planned-matchmaking line leaves | v08 24.30 "Start with people you know, or find a team to join." |
+| 7 | `s07-find-your-opposition` | 28-34 | 15.1-18.1 | Whip along the line to Vega's identical ring; 'The same challenge. / Another approach.'; river becomes the versus line; score pill lands (F5) | v09 30.00 "Read the same situation."<br>v10 32.60 "Each team brings its own strategy." |
+| 8 | `s08-make-your-move` | 34-44 | 18.1-23.1 | Grid snap; clock 08:32 -> 08:14; Jules's call lifted, PLAN AGREED (A5), objective 0 -> 62%, Vega contests; loop closes on the hook frame | v11 36.50 "Divide responsibilities and make the call together." |
+| 9 | `s09-last-seen` | 44-46 | 23.1-24.1 | Breath: push to the LAST SEEN ghost; music muted 45-46; one tick | - |
+| 10 | `s10-coordinate-commit-adapt` | 46-52 | 24.1-27.1 | One low hit; 'Coordinate.' / 'Commit.' / 'Adapt.' with live action; Vega's route to the pump, then our reroute | v12 50.40 "Your decisions and the other team's moves change what happens next." |
+| 11 | `s11-the-match` | 52-56 | 27.1-29.1 | Peak: 8 beat cuts on one living map (2 grid-cell cuts); clock stops at 08:04 | - |
+| 12 | `s12-on-the-record` | 56-58 | 29.1-30.1 | Review fold: every route kept as the record; node is the playhead; 08:19 / 08:26 / 08:31 markers | v13 56.10 "Every move, on the record." |
+| 13 | `s13-see-whose-strategy-holds` | 58-64 | 30.1-33.1 | 'See whose / strategy holds.' over both plans; breath #3; the world shrinks into the objective ring (medallion) | v14 58.40 "Coordinate your decisions, and see whose strategy holds."<br>v15 63.80 "Bring this challenge to your group." |
+| 14 | `s14-make-your-next-move` | 64-72 | 33.1-37.1 | Lockup, 'Make your next move.', 'Get match updates' + URL + status; node settles on the arrow tip; sonic logo; silence | v16 67.20 "Get match updates." |
+
+Film length = sum of durations (73) minus overlaps (1) = **72 s**. Archive is about 9 s (12%). Breaths fall at 18.2-20.2, 44-46 and 61.3-63.8. The one low hit is at 46.0.
+
+## Per-scene detail
+
+### s01-hook-live: 0-3 s (3 s, bars 1.1-2.3)
+
+**Picture**
+
+Local time = global time. In medias res: the finished Floodgate match, live, from frame 0. There is no black, no logo and no voice, so the shot works muted in a feed.
+- 0.00: the full interface concept is readable on the first frame.
+  - World: the river flows; the objective ring sits at 62%; the gate, pump station and crossing are in place; EK's watch cone is on; two Vega triangles and the LAST SEEN ghost sit under fog on the far bank.
+  - UI chrome: topbar 'Floodgate · Team challenge · 3 v 3' and 'All players connected'; score pill 'Atlas 1 | ROUND 2 08:17 | 1 Vega'; Atlas roster with MOVING / RESTORING / HOLDING chips; team channel with the three messages and the pinned plan; objective panel at 62% with its alert row.
+  - State: Match.state(m = 497).
+  - The HUD register corners and the slug 'REALMS · COMPETITIVE · INTERFACE CONCEPT' are already on.
+  - Camera: the world camera pushes from MATCH (zoom 0.80 on product point (800,520)) to HOOK (zoom 0.96 on (900,470), toward the Crossing) over 0.00-3.00, power1.inOut. Only the world moves; the chrome stays still.
+- 0.50 (beat 2): LIFT on the one string that matters.
+  - The alert row 'Vega is contesting the crossing' rises out of the objective panel as a 40 px lift card: a 2.1x clone with an 18 px red dot in #f0a08f, centred at x 960 with its top at y 792, 10 f power3.out.
+  - A 1 px amber leader runs from the card back to its row.
+  - Everything else dims to 40% under one overlay.
+  - Both Vega triangles fire red-orange pulse rings (scale 1 to 1.8, opacity .6 to 0, 30 f) at 0.50, 1.50 and 2.50.
+- 1.00: the clock flips 08:17 to 08:16 (split-flap, steps(1) plus a 3 f settle). The 'CONTESTED / Crossing' map label re-scrambles.
+- 2.00: the clock flips to 08:15.
+- 2.50-2.83: the lift card drops back into the panel (10 f power2.in) and the dim lifts.
+- 3.00: the clock reads 08:14 on the cut frame. s02 takes over on an identical frame.
+
+**On-screen text**
+
+- REALMS · COMPETITIVE · INTERFACE CONCEPT
+- Floodgate · Team challenge · 3 v 3
+- All players connected
+- Atlas 1 | ROUND 2 08:17 / 08:16 / 08:15 | 1 Vega
+- Atlas · YOUR TEAM: Jules · Coordination · MOVING / Nora · Power systems · RESTORING / Emre · Crossing · HOLDING
+- Team channel · ATLAS ONLY: Jules 08:31 / Nora 08:26 / Emre 08:19 (the brief's three messages)
+- PLAN AGREED · Restore gate power first · 3 roles assigned
+- OBJECTIVE 2 OF 3 · Restore gate power · 62%
+- Vega is contesting the crossing (lifted to 40 px)
+- Pump station · Floodgate / OBJECTIVE · Crossing / CONTESTED · LAST SEEN 0:20
+
+**VO**
+
+None.
+
+**Sound**
+
+- 0.00: room tone, plus the ticks layer (8ths, accent on each beat) at -30 dB, drone D2 (brightness 0.3, intensity 0.2) and a river bed (water_rush, intensity 0.3, -30 dB). Nothing below 40 Hz.
+- 0.50: alert (reps 2, -14 dB), synced to the lift.
+- 1.00 and 2.00: one flap click per clock step (tick_one, tone 1.4, -20 dB). There is no click at 3.00: the 08:14 flip lands inside s02's 2-frame hard stop.
+- No music bed: the clock is the tension.
+
+**Assets**
+
+- design/screen-compositions/competitive.html (layout, copy, coordinates)
+- video/competitive-launch/comp/lib/floodgate.js (Floodgate.world + Floodgate.ui)
+- video/competitive-launch/comp/lib/brand.js (hud, label, counter)
+- video/competitive-launch/comp/lib/match.js (new, shared)
+- public/assets/realms/screens/competitive-main-2000.webp (look reference only)
+
+**Transition out**
+
+Invisible cut on 3.00. s02 rebuilds the identical frame with the same builder, Match.state and camera, then freezes it.
+
+**Build notes**
+
+SHARED KIT. Build this first (about 6 h); every scene depends on it.
+
+(1) comp/lib/match.js
+- Match.state(F, U, m) is a pure function of m = match-seconds remaining (512 = 08:32 down to 484 = 08:04, the lowest clock in the film). It sets token positions along their routes, route draw fractions, the Vega triangles and fog, the ghost, objective progress (max 0.62), message visibility and type-on fraction, member chips, the pinned card, the alert row and the CONTESTED / LAST SEEN labels.
+- Keyframes are listed in s08 and s10.
+- buildMatchScreen(ctx, opts) builds Floodgate.world plus Floodgate.ui plus the HUD, and is reused by s01, s02, s08, s09, s10, s11 and s12. Export the camera presets MATCH and HOOK.
+- LIFT helper: clone a UI node into a top layer at 1.6-2.1x (DOM text, so it stays crisp), add a 1 px amber leader back to its source, and dim everything else to 40% under one #0b0c0e overlay. No blur and no backdrop-filter.
+- Film-only layout override, for title-safe and a 20 px minimum:
+  - topbar, score and signal: top +26 px;
+  - roster and channel: inset 84 px from the frame edge;
+  - objective: bottom 64 px;
+  - every 15-16 px mono in floodgate.js goes to 20 px.
+
+(2) Terrain
+- Add a module-level bake cache to Brand.terrain, keyed by (seed, w, h, step, res). All 14 scenes then share ONE baked base/bright bitmap at res 2, and each scene owns only its 1920x1080 display canvas. Without the cache, every scene bakes its own 115 MB.
+- Floodgate.world gets a `margin: 240` option: bake product [-240, 1840] x [-240, 1240] and feather the outer 120 units to #0b0c0e, so no preset ever shows a terrain edge.
+- Cap the world zoom at 2.4 (1.2x the res-2 bitmap).
+- Close-ups always use the world camera (F.T.state.zoom). Never apply a CSS scale to terrain.
+
+(3) comp/lib/contourflood.js (the drain/flood device)
+- Precompute N' = 0.55 x valueNoise + 0.45 x (distance to the river / max) over a screen rect at half resolution (Float32Array).
+- Per frame: build an alpha mask for threshold t, upscale it with drawImage, and composite it 'destination-in' over the archive layer (about 6 ms).
+- The amber front is a 1.5 px stroke of precomputed marching-squares iso-polylines of N' at 46 levels (one per frame of a 45 f move). Stroke the level nearest t. This is crisp and cheap.
+
+(4) comp/lib/node.js and handoffs.js
+- THE NODE: core r 6 px #f6d39f; ring r 12 px, 1.5 px #efbd70; a pre-rendered 120 px radial glow PNG at 35%; a pulse ring every 3 beats (scale 1 to 2.2, opacity .6 to 0, 45 f), driven in onFrame from a list of pulse times; a 1-beat size step (1.0 to 1.25 to 1.0) on every cut, so the eye finds it again.
+- handoffs.js stores the node's screen position at every cut.
+
+(5) comp/lib/routes.js
+All route paths in product units (see s05, s06, s07, s08 and s10). Routes are dashed paths revealed by a solid DrawSVG mask path, because DrawSVG cannot draw a dashed stroke. Arrowheads are SVG chevrons. The record in s12 and s13 is the union of these paths.
+
+(6) comp/lib/camera.js
+- One camera keyframe table per act, keyed on GLOBAL time and read in onFrame(lt, gt): Act A 0-16, Act B 16-34, Act C 34-56, Act D 56-72. Retiming one act does not cascade into the others.
+- Interpolate zoom in log space.
+- Presets: MATCH, HOOK, WINDOW, OVERVIEW, OVERVIEW_WIDE, LOBBY_A, LOBBY_V, GHOST, C1-C3, M1-M8, MEDALLION.
+
+(7) HUD
+- Brand.hud({inset: 72, tc: false}), plus the slug as a Brand.label at x 120, top 990, 20 px mono #a89a85 (title-safe; the hud's own slug position, y 1038, is not).
+- Slug text: 'REALMS · COMPETITIVE · INTERFACE CONCEPT' on world and UI frames; 'REALMS · COMPETITIVE' on archive plates; 'REWIND' with an SVG double triangle in s02; none on the end card.
+
+(8) Logo
+- Draw public/assets/logo.png to a canvas and recolour it with 'source-in' and #f2eee7. Do not use Brand.mark's approximate MARK_BARS. comp/assets/enemites-mark.svg (traced 1:1 from logo.png) is an acceptable vector alternative.
+- Slant measured from the logo.png alpha: stem edges lean 25-29 deg from vertical, bar end cuts lean 37.6 deg from horizontal. Set Brand.SLANT = 27 for any slanted wipe; the existing 34 matches neither.
+
+(9) Library gaps
+- Brand.archive must forward ctx.sequence's time/rate (slow-downs) and default to loop:false.
+- No scene-level grain: the film-wide overlay already adds it.
+
+s01 SPECIFICS (about 2 h on top of the kit)
+- The camera is the only mover besides the clock, the pulses and the lift.
+- Clock text = format(497 - floor(lt)).
+- The 3.00 frame must equal s08 at 43.5: same Match.state(494), same HOOK camera, same chips and messages. Verify with --stills 3.0,43.5 and accept differences in the HUD slug only.
+- Phone check: at 0.5-2.5 the lift card is the only text larger than 30 px.
+
+### s02-freeze-rewind: 3-5 s (2 s, bars 2.3-3.3)
+
+**Picture**
+
+Local 0 = 3.0.
+- 0.00 FREEZE at 08:14.
+  - River flow, pulses and the camera push stop dead on the cut frame.
+  - The HUD corners snap 8 px inward (2 f). The slug flips to an SVG double triangle plus 'REWIND'.
+  - THE NODE is born: JK's token gets the node ring and glow and fires its first pulse (scale 1 to 2.2, 45 f). This is the one to watch.
+- 0.07-1.00 REWIND.
+  - Proxy m runs 494 to 512 (power2.in, accelerating) through Match.state, so the match plays backwards in under a second: the alert drops; the red route un-draws; Vega slides back into the fog; the ghost fades; ring and bar drain from 62% to 0; messages un-type from the bottom up; chips flip back; the pinned card un-stamps.
+  - EK, NC and JK (the node) slide back along their routes into their lobby slots on the Atlas summit.
+  - The score-pill clock flaps UP from 08:14 to 08:32, one step per match-second.
+- 0.40 / 0.50 / 0.60 / 0.70: the UI exits, one panel per step, each 10 f power2.in: objective out the bottom, channel out to the right, roster out to the left, topbar and signal up.
+  - 0.50-0.70: the score pill's team segments fold into its clock cell.
+  - 0.60-1.00: the cell ('ROUND 2 / 08:xx') glides to just above the board window's top-left corner (x 440, y 96).
+- 0.20-1.00: the world camera pulls back from HOOK to WINDOW (zoom 0.96 to 0.56 on (800,520), power3.inOut). At the same time a rectangular clip closes from full frame to the board window (x 440-1480, y 150-930, 1040 x 780), and the HUD corners ride the clip onto the window corners.
+- 1.00 (4.0): round start, 08:32. A framed, empty valley; three Atlas tokens on their summit; the node on JK.
+  - s03 takes over on top (overlap 1.0) and drains this frame.
+  - s02 holds the frame underneath until 5.0 and hides its own clock cell at 1.00, because s03 owns the odometer.
+
+**On-screen text**
+
+- REWIND (HUD slug, with an SVG double triangle)
+- ROUND 2
+- 08:14 -> 08:32 (clock flaps up)
+
+**VO**
+
+None.
+
+**Sound**
+
+- 0.00-0.07: HARD STOP. Every bus is muted for 2 frames (mutes 3.00-3.07).
+- 0.07-1.00: tape_scrub (length 0.95, direction -1, -12 dB); reverse_swell (Dm, length 1.0) with hit_at 4.0; data_chatter (length 0.9, density 30, -20 dB) as the clock rattles up.
+- 0.40 / 0.50 / 0.60 / 0.70: four short whooshes (length 0.4, pans -0.5 / +0.6 / -0.6 / 0) on the panel exits.
+- The ticks and drone stop at 3.00.
+
+**Assets**
+
+- video/competitive-launch/comp/lib/match.js
+- video/competitive-launch/comp/lib/floodgate.js
+- video/competitive-launch/comp/lib/node.js
+
+**Transition out**
+
+Owned by s03 from 4.0. The world inside the window drains along its contour lines toward the river and reveals a 1943 plotting table (the drain device).
+
+**Build notes**
+
+- Same builder as s01 (buildMatchScreen).
+- Never reverse a timeline: tween proxy m on ctx.tl and call Match.state in onFrame. Clock text = format(ceil(m)).
+- UI exits are plain 10 f translate-plus-opacity tweens, with no ghost clones.
+- Window clip: clip-path inset() on the world container, tweened as a proxy. The corners are the HUD paths, moved in onFrame from the same proxy.
+- Write the node's screen position at 4.0 (T.toScreen of JK's lobby slot under WINDOW) into handoffs.js; s03 reads it.
+- About 1.5 h.
+
+### s03-every-great-plan: 4-12 s (8 s, bars 3.1-7.1)
+
+**Picture**
+
+Local 0 = 4.0. Overlap 1.0: this scene owns the drain. Archive is always inside a framed window with amber register marks, a mono caption under the bottom-left edge and REF nn at the bottom-right. Every plate is amber-graded, held at its native cadence (no frame blending), with ±1 px gate weave and a 3% push. Slug: 'REALMS · COMPETITIVE'.
+- 0.00-1.00 DRAIN (the signature dissolve, reversed).
+  - Inside the 1040 x 780 window, the world drains along its contour lines toward the river.
+  - Underneath it, warroom-filter-map-overhead (1943, SD 960 x 720 at 1.083x; frames 0.0-1.0 s at native 29 fps) shows through: a gridded map table with river lines and markers, plotters reaching in with long rakes.
+  - The world stays visible where N' < t, with t running 1 to 0 (power1.inOut). A 1.5 px amber front rides the waterline.
+- 0.00-0.33: the node glides (10 f expo.inOut) from JK's summit to a table marker near the window centre-left (position solved in handoffs.js, about (760,600)).
+- 0.00-0.50: ODOMETER. Each of the 4 reels steps up by one (0 to 1, 8 to 9, 3 to 4, 2 to 3; steps(1) plus a 3 f settle; reels 2 f apart), so the clock reads 19:43.
+  - 0.50: the colon closes (reels 2 and 3 meet, 6 f), so it reads 1943.
+  - 0.25-0.60: 'ROUND 2' scrambles to 'ARCHIVE'.
+- 0.50: caption 'ARCHIVE · FILTER CENTRE' / 'REF 01'.
+- 1.00 (5.0) NODE MATCH CUT to warroom-plotters-rakes (1943, same film): clip 2.7-4.7 s, the trio of plotters in headsets with their rakes, in the same 1040 x 780 window. Human faces from here on.
+  - The node glides 8 f to the middle plotter's rake head and rides it (3 measured keyframes, stepped on the clip's frames).
+  - 1.50 / 1.75 / 2.00 (5.5 / 5.75 / 6.0): three amber team markers (Brand.token r 16 px, numerals 1 2 3 in JetBrains Mono 600 20 px, #1b140a) stamp onto the three rake heads with a 2 f overshoot. Marker 1 is the node.
+  - 1.50-2.40: 2 px amber telestrator strokes draw along each rake handle, on twos.
+- 3.00 (7.0) NODE MATCH CUT to river-levee-silhouette (The River, HD): clip 0.6-2.1 s at 24 fps. The window snaps to 1280 x 800 (4 f power3.out, corners follow).
+  - The node sits on the man's lantern and rides it about 150 px to the right (5 keyframes on the 24 fps frames).
+  - 3.00-3.30: the odometer scrambles out. The year readout appears only over 1943 footage.
+  - Caption 'ARCHIVE · THE RIVER' / 'REF 02'.
+- 4.50 (8.5) NODE MATCH CUT to mc-apollo8-huddle (NASA 1968, HD): clip 2.0-3.5 s, four controllers leaning in over one console, in the 1280 x 800 window.
+  - The node lands on the nearest controller's head.
+  - 4.60-5.10: three amber telestrator circles (2 px, slight wobble, overdrawn to 110%) draw around three heads, on twos, 4 f apart, starting with the node's head.
+  - Caption 'ARCHIVE · MISSION CONTROL' / 'REF 03'.
+- 6.00 (10.0) NODE MATCH CUT to sport-two-crews-1904 (Library of Congress, HD): clip 0.0-2.0 s at 24 fps, our crew in the foreground and the rival boat level on the horizon.
+  - The node sits on our bow.
+  - 6.10-6.70: a straight 3 px amber course line draws ahead of the bow toward the right window edge (DrawSVG 18 f), and an SVG chevron pops on its last frame.
+  - 7.25 (11.25, on 'other side'): the Vega mark, a red-orange ring (28 px, 3 px #dd6248), stamps onto the rival boat with a 2 f overshoot and tracks it (3 keyframes). The first sight of 'them' uses Vega's own emblem.
+  - Caption 'ARCHIVE · BOAT RACE' / 'REF 04'.
+  - 7.50-8.00: the plate dims from 100% to 75%.
+- 8.00: hard cut (s04).
+
+**On-screen text**
+
+- ARCHIVE 1943 (odometer: 08:32 -> 19:43 -> 1943; ROUND 2 -> ARCHIVE)
+- ARCHIVE · FILTER CENTRE / REF 01
+- ARCHIVE · THE RIVER / REF 02
+- ARCHIVE · MISSION CONTROL / REF 03
+- ARCHIVE · BOAT RACE / REF 04
+- team markers 1 · 2 · 3
+- REALMS · COMPETITIVE (slug)
+
+**VO**
+
+v01, 4.6-6.6: "Every great plan needed a team." ('team' lands on the third marker stamp, about 6.0-6.3)
+v02, 7.25-8.3: "Read the field." (over the lantern)
+v03, 8.75-9.7: "Take a role." ('role' on the telestrator circles)
+v04, 10.25-12.1: "Move before the other side does." ('other side' on the red ring stamp at 11.25)
+
+**Sound**
+
+- 4.0: pad (Dm, lofi fx, intensity 0.25) enters. Pocket-watch ticks (ticks layer, 8ths) at -28 dB. From 5.0: drone D1.
+- 4.0-4.5: four odometer flap clicks (tick_one, 2 f apart) and one for the colon at 4.5. Under the drain, water_rush with fx reverse (length 1.2, -24 dB).
+- Plate cuts at 5.0, 7.0, 8.5 and 10.0: a projector-shutter click (ui_blip tick, freq 600, -18 dB) on the cut frame, plus a low whoosh (length 0.6, weight 0.7, -22 dB) that starts 12 f early and peaks on the cut.
+- 5.5 / 5.75 / 6.0: wooden taps for the team markers (stamp weight 0.35, -20 dB).
+- 8.6 / 8.73 / 8.87: marker squeaks for the circles (ui_blip select at 1600 / 1800 / 2000 Hz, -22 dB).
+- 10.1: pencil scratch under the course line (tape_scrub length 0.6, direction +1, -24 dB).
+- 11.25: dry stamp (weight 0.6) on the rival ring.
+- Music ducks 9 dB under the VO.
+
+**Assets**
+
+- warroom-filter-map-overhead
+- warroom-plotters-rakes
+- river-levee-silhouette
+- mc-apollo8-huddle
+- sport-two-crews-1904
+- video/competitive-launch/comp/lib/contourflood.js (new)
+- video/competitive-launch/comp/lib/node.js + handoffs.js (new)
+
+**Transition out**
+
+Hard cut on 12.0 (bar 7.1) back to the 1943 overhead table (s04). The node holds its screen position.
+
+**Build notes**
+
+- Archive in this scene: drain 4.0-5.0 (partial), then 7.0 s fully visible (5.0-12.0).
+- Sequences: use the graded sequences already in .work/frames/<slug> (amber). If a plate reads flat, re-extract with engine/extract-frames.sh ... --grade amber --contrast 1.15 --black 0.06 --white 0.95 (--grain 10 for SD, 7 for HD). Play each with ctx.sequence at its native fps (24 for The River and 1904, 29 for Eyes Aloft, 30 for NASA), via Brand.archive with loop:false.
+- Windows: SD plates use 1040 x 780 (1.083x, within the 1.1x SD rule); HD plates use 1280 x 800 (sources downscaled to 0.889x).
+- Node alignment:
+  - Render stills of each plate, measure the feature (rake head, lantern, head, bow) at 3-5 frames, and store the points in handoffs.js.
+  - Node position = plateTransform(feature(t)), quantised to the plate's frame times.
+  - Shift each HD window up to ±80 px so the feature lands under the node on the cut frame. Where the margin is not enough (the 4:3 SD plates have none), the node glides 8 f to the feature.
+- Telestrator strokes run on twos: Math.floor(f/2)*2.
+- Captions carry the source name but no year. The odometer is the only year, and it shows only over Eyes Aloft (1943) footage. This keeps the years correct and deliberate.
+- Avoid insignia in hero frames: none is visible in these crops.
+- Do not register the board grid onto the oblique overhead table. Draw nothing on the table except the node.
+- About 4 h.
+
+### s04-hinge-title: 12-16 s (4 s, bars 7.1-9.1)
+
+**Picture**
+
+Local 0 = 12.0.
+- 0.00 (12.0, bar 7.1) NODE MATCH CUT back to warroom-filter-map-overhead (1943): frames 1.0-2.8 s slowed to 0.75x (held frames, native cadence), in the 1040 x 780 window (x 440-1480, y 150-930).
+  - The node sits on a table marker (an 8 f glide if needed).
+  - The odometer scrambles back in: 'ARCHIVE 1943'. Caption 'ARCHIVE · FILTER CENTRE' / 'REF 01'.
+  - 0.25 / 0.50: amber markers 2 and 3 stamp beside the node; the team carries over from the rakes.
+- 0.50-2.00 (12.5-14.0) RISING-WATER FLOOD (the signature dissolve, forward; music only, no voice).
+  - Inside the window, the Floodgate world rises out of the river and spreads along its contour lines, replacing the table. t runs 0 to 1 over 45 f, power1.inOut, with the 1.5 px amber front. World camera: the WINDOW preset.
+  - 1.00-1.75 (13.0-13.75) ODOMETER: the colon opens (6 f) and each reel steps down by one (1 to 0, 9 to 8, 4 to 3, 3 to 2), so '1943' reads '08:32'. 'ARCHIVE' scrambles to 'ROUND 2'.
+  - The caption scrambles to 'FLOODGATE · TEAM CHALLENGE · 3 V 3', and the slug regains '· INTERFACE CONCEPT'.
+  - 1.25-1.75: the node glides along a short arc onto JK's place on the Atlas summit (hill A, product (380,320); screen about (607,372) under WINDOW). It is the only Atlas token shown until the team forms in s06.
+- 1.75-2.25 (13.75-14.25): the window opens to full frame.
+  - The clip expands (power3.inOut, 15 f), the HUD corners slide out to the frame corners, and the world camera moves from WINDOW to OVERVIEW (zoom 0.56 to 0.80 on (820,510)), so the whole valley fills the frame with both summits visible.
+  - The odometer cell and caption fade out over 14.0-14.3.
+- 2.00 (14.0, bar 8.1) TITLE, on the metal-latch accent.
+  - The world drops to 28% (one #0b0c0e overlay at 72%).
+  - 2.00: the Enemites mark (logo.png recoloured ink, 64 px tall) and 'Enemites' (Manrope 600, 44 px) wipe in at top centre (y 330), along the mark's 27 deg stem lean (15 f expo.out).
+  - 2.05: 'Realms' (Manrope 620, 260 px, tracking -0.055em, ink, centred on baseline 640) rises in its mask (18 f expo.out, weight 560 to 620).
+  - 2.50 (14.5): the eyebrow 'COMPETITIVE / TEAM AGAINST TEAM' scrambles in under it (Brand.eyebrow: SVG diamond plus JetBrains Mono 26 px, tracking .13em; 'COMPETITIVE' amber, '/ TEAM AGAINST TEAM' muted; baseline 730).
+  - 3.00 and 3.50: the node pulses on the dimmed summit.
+- 4.00 (16.0): the lockup leaves on the beat as a cut, and the overlay lifts (6 f). s05 starts on the same OVERVIEW frame at full brightness.
+
+**On-screen text**
+
+- ARCHIVE 1943 -> ROUND 2 08:32 (odometer)
+- ARCHIVE · FILTER CENTRE / REF 01 -> FLOODGATE · TEAM CHALLENGE · 3 V 3
+- team markers 1 · 2 · 3
+- Enemites
+- Realms
+- COMPETITIVE / TEAM AGAINST TEAM
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug, from 13.25)
+
+**VO**
+
+(12.1-14.3: no voice; the hinge is music only)
+v05, 14.3-15.85: "Realms. Competitive." (sentence_pause 0.4; 'Realms' as the wordmark lands)
+
+**Sound**
+
+- 12.0: shutter click plus a short downward whoosh (direction -1, length 0.5, -20 dB).
+- 12.0: bass_ostinato enters (intensity 0.4 to 0.7 over the bar), with light taiko.
+- 12.5-14.0: water_rush swell (intensity 0.5, -18 dB) under the flood front.
+- 13.0-13.75: odometer flap clicks (tick_one, one per reel step, plus the colon).
+- riser (length 2.0, f0 180, f1 4200) with hit_at 14.0.
+- 14.0 TITLE ACCENT: gate_clank (size 1.1, latch true, -10 dB) plus stamp (weight 1.0). A metal latch with no sub content: the film's one low hit is saved for 46.0.
+- 14.0-16.0: ticks and ostinato stop for the bar; a Dm(add9) pad swells (intensity 0.5).
+- 14.5: relay clicks under the eyebrow scramble (data_chatter length 0.4, -24 dB).
+
+**Assets**
+
+- warroom-filter-map-overhead
+- public/assets/logo.png (recoloured to #f2eee7 via canvas source-in)
+- video/competitive-launch/comp/lib/contourflood.js
+- video/competitive-launch/comp/lib/floodgate.js (shared bake, margin 240)
+
+**Transition out**
+
+The lockup leaves as a cut on the 16.0 downbeat. s05 begins on the identical OVERVIEW world at full brightness, so the headline rises over a fully realised shared world.
+
+**Build notes**
+
+- Same contourflood helper as s03, with t running 0 to 1. Mask the archive layer only; this scene's Floodgate.world sits underneath, clipped to the window.
+- Window-to-full-frame: one clip proxy drives the clip-path inset on the world container and the HUD corner positions.
+- The odometer is one shared component (Brand.counter style reels: overflow-hidden columns stepped by translateY, steps(1) plus a 3 f settle, colon as its own element).
+- Logo: canvas source-in recolour, revealed by a clip-path polygon whose edge leans 27 deg.
+- Hold check: 'Realms' is fully in at about 14.65 and leaves at 16.0 (1.35 s, above the 1.2 s minimum for one word); the eyebrow is a label.
+- Archive in this scene: 0.5 s fully visible plus the 1.5 s flood.
+- About 3 h.
+
+### s05-one-world: 16-22 s (6 s, bars 9.1-12.1)
+
+**Picture**
+
+Local 0 = 16.0.
+- Camera: OVERVIEW (centre (820,510), zoom 0.80), drifting to zoom 0.84 on (810,505) by 5.25. This is the drift-only rule while type is up: at most 8% zoom and 40 px.
+- Screen positions: the Atlas summit (hill A) is at about (432,312), the Vega summit (hill V, product (1260,690)) at about (1488,756), and the Floodgate ring at about (936,600).
+- A left scrim (#0b0c0e 72% to 0 over x 0-1150) sits under the headline.
+- 0.00 (16.0, bar 9.1): line 1 'One world.' rises at x 120, baseline 760.
+  - Manrope 620, 150 px, ink #f2eee7, tracking -0.055em; words yPercent 110 to 0 in masks, 20 f expo.out, 3 f word stagger; weight settles 560 to 620 over 24 f.
+  - At the same time every contour brightens once: a light pulse from the Floodgate (state.pulse 0 to 1 over 1.5 s) shows off the shared terrain.
+- 0.50: line 2 'Opposing plans.' rises in amber #efbd70, baseline 900. It lands at about 17.2.
+- 1.50-2.25 (17.5-18.25) OUR PLAN.
+  - An amber route (3 px, 10/8 dash, round caps) draws out of the node on the Atlas summit, via the pump station, to the Floodgate. Product path: M380 320 C450 330 510 360 562 399 S720 500 784 548.
+  - Draw: 22 f power2.inOut. A 9 px amber runner rides the head; the node stays home. The chevron arrowhead pops on 18.25.
+- 2.50-3.25 (18.5-19.25) THEIR PLAN, drawn only after ours: a red-orange #dd6248 route in the same style, from the Vega summit via the Crossing to the ring. Product path: M1260 690 C1240 560 1100 440 1004 396 S870 470 818 548. Its arrowhead pops on 19.25.
+- 3.50 (19.5): the Floodgate ring fires a pulse ring (scale 1 to 2.2, 0.6 to 0, 45 f), and both arrowheads pulse together: one objective, two plans. 'Floodgate' (Manrope 600, 26 px) and 'OBJECTIVE' (mono 20 px, muted) scramble in beside the ring, in screen space at constant size.
+  - 3.50: line 1 exits (9 f power2.in). 4.00: line 2 exits.
+- 4.00 (20.0, bar 11.1): the amber Atlas banner (Brand.banner side 'atlas', diamond emblem, cloth 120 x 260 px) unrolls up from the Atlas summit (14 f expo.out) and sways ±1.5 deg on twos.
+- 4.75 (20.75): the red-orange Vega banner (ring emblem) unrolls on the Vega summit.
+- 5.25-6.00 (21.25-22.0) INTO A RING: the camera dives onto the Atlas summit (zoom 0.84 to 2.2, power3.inOut, arriving at LOBBY_A exactly on 22.0). A light pool blooms the summit's contours, and its 4th contour (radius about 60 product units) is left framed at screen right for s06.
+
+**On-screen text**
+
+- One world.
+- Opposing plans.
+- Floodgate
+- OBJECTIVE
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+v06, 16.3-18.2: "One world. Opposing plans." (sentence_pause 0.45; 'world' as line 1 lands at about 16.7, 'Opposing' as line 2 lands at about 17.2. The headline is heard and read, one of the four deliberate exceptions.)
+(18.2-20.2: breath #1, no voice, while one route at a time draws)
+v07, 20.2-22.3: "Bring your team. Match against another." ('team' on the amber banner, 'another' on the red banner)
+
+**Sound**
+
+- 16.0: pad (chords per bar), a sub pulse from bass_ostinato on beats 1 and 3 only (pattern 'R.......R.......', intensity 0.4), and the ticks back at -28 dB.
+- 17.5: pencil whoosh for our route (whoosh pitch 1.8, weight 0.15, length 0.75, pan -0.4). 18.5: the same for theirs (pitch 1.6, pan +0.4).
+- 18.25 and 19.25: ui_blip select on each arrowhead.
+- 19.5: sonar ping on the ring pulse (ui_blip confirm, freq 880, length 0.8, verb plate 0.3).
+- Breath #1 (18.2-20.2): no new layers enter.
+- 20.0 and 20.75: stamp (weight 0.5) plus a cloth whoosh (weight 0.3, -22 dB) for each banner.
+- 21.25-22.0: dive whoosh (length 0.9, direction -1) peaking on 22.0.
+
+**Assets**
+
+- video/competitive-launch/comp/lib/floodgate.js (world, ring, labels)
+- video/competitive-launch/comp/lib/routes.js (OUR_PLAN, THEIR_PLAN)
+- video/competitive-launch/comp/lib/brand.js (headline, banner, route, objective)
+- public/assets/realms/entry-map.svg (banner and route-end style reference)
+
+**Transition out**
+
+INTO A RING: the camera dives onto the Atlas summit, and the summit's contour ring becomes s06's lobby ring.
+
+**Build notes**
+
+- Routes live in T.group (world coordinates, vector-effect: non-scaling-stroke) inside one SVG.
+- Labels and banners are screen-space, positioned each frame from T.toScreen, so they keep a constant size.
+- The headline is screen-space (Brand.headline). The camera follows the drift-only rule while it is up.
+- Scrim: one gradient div, no filters.
+- Banner sway: an onFrame sine, quantised with Math.floor(f/2)*2.
+- Check with ?guides=1 that line 2 clears the slug at y 990 (descenders end at about 935).
+- Hold check: line 2 is in at about 17.2 and exits at 20.0 (2.8 s, above the 2.1 s needed for 4 words).
+- About 2 h.
+
+### s06-form-your-team: 22-28 s (6 s, bars 12.1-15.1)
+
+**Picture**
+
+Local 0 = 22.0.
+- Camera: LOBBY_A puts the Atlas summit apex at screen (1340,560), zoom 2.2. It drifts to 2.3 by 5.0, then rises to 1.4 heading east over 5.0-6.0.
+- Layout: type stays in the left five columns (x 120-1060); the ring holds the right of frame.
+- 0.00 (22.0, bar 12.1): the chapter label '01 —— FORM YOUR TEAM' scrambles in top-left (Brand.chapter, mono 24 px, '01' in amber; x 120, y 150). The amber banner stands at the apex. The node (JK's token with the node ring) sits at the apex.
+- 0.50 CONTOUR BECOMES RING: the summit contour at about 60 product units (about 198 px on screen) brightens to 2 px amber and morphs into a perfect circle (MorphSVG, 0.5 s power3.inOut). This is the lobby ring. Three empty dashed slots appear (44 px circles, 1.5 px amber at 50%, dash 3/4): top (1340,362), lower-left (1169,659), lower-right (1511,659).
+- 1.00 (23.0): line 1 'Bring friends.' (Manrope 620, 120 px, ink) at x 120, baseline 380.
+- 1.50: line 2 'Or join a team.' (amber) at baseline 510. It lands at about 24.2.
+- 1.50 / 2.00 / 2.50 (23.5 / 24.0 / 24.5): one marker per beat snaps into its slot (2 f overshoot plus a pulse ring). Each marker is an amber filled 44 px circle with initials in mono 600 20 px #1b140a.
+  - JK (the node) steps from the apex into the lower-left slot on a short dashed trail.
+  - NC drops from above into the top slot.
+  - EK slides in from the right into the lower-right slot.
+  - Screen-space mono 20 px labels scramble beside each: 'JULES · COORDINATION' (right-aligned at (1150,715)), 'NORA · POWER SYSTEMS' (centred at (1340,318)), 'EMRE · CROSSING' (left-aligned at (1530,715)).
+- 3.00-3.50 (25.0-25.5): 1.5 px amber lines at 60% join the three markers into a triangle, drawn on twos. The team decides how it will work together.
+- 4.00 (26.0, bar 14.1) LANDING #1: 'ATLAS' (Manrope 600, 64 px, amber) stamps centred under the ring (baseline 840), with 'YOUR TEAM' (mono 20 px, muted) at 880. The ring pulses. Motif note 1 (D5).
+- 5.00 (27.0): line 1 exits (9 f power2.in). 5.50: line 2 exits and the chapter label scrambles out.
+- 5.00-6.00 (27.0-28.0) PLANNED MATCHMAKING.
+  - A bone-grey #c9c0b2 dashed line (1.5 px, dash 4/6) starts drawing east from the ring toward the river (DrawSVG, power1.in).
+  - Three bone dots step on at its head on the beats 27.0 / 27.5 / 28.0 (opacity steps(1)).
+  - A mono 20 px bone label 'PLANNED MATCHMAKING' rides above the dots (scrambles in at 27.25).
+  - There is no searching or found state: the feature is planned, and the label says so.
+  - The camera rises with the line.
+
+**On-screen text**
+
+- 01 —— FORM YOUR TEAM
+- Bring friends.
+- Or join a team.
+- JULES · COORDINATION
+- NORA · POWER SYSTEMS
+- EMRE · CROSSING
+- ATLAS
+- YOUR TEAM
+- PLANNED MATCHMAKING
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+v08, 24.3-27.9: "Start with people you know, or find a team to join." (It starts once 'Or join a team.' has landed, so the eye reads the card first, then listens.)
+
+**Sound**
+
+- 22.0: the plucks ostinato enters (pattern 0121012101210121, intensity 0.4); bass_ostinato goes to the full pattern (RrrRrrRrRrrRrrRr, intensity 0.5).
+- 22.5: ui_blip confirm for the ring morph.
+- 23.5 / 24.0 / 24.5: stamp (weight 0.5) plus ui_blip select, rising 1320 / 1480 / 1760 Hz, one per marker.
+- 25.0: data_chatter (length 0.3, -22 dB) for the triangle.
+- 26.0 LANDING NOTE 1: ui_blip select at freq 587.33 (D5), verb hall 0.25, plus stamp (weight 0.6) and gate_clank (size 0.4, latch) as ATLAS stamps.
+- 27.0 / 27.5 / 28.0: ui_blip tick (1200 Hz, -24 dB) for the stepping dots, plus a low data_chatter bed (-24 dB).
+- riser (length 1.5) with hit_at 28.4, peaking at the whip.
+
+**Assets**
+
+- design/screen-compositions/competitive.html (roster names, roles, initials)
+- video/competitive-launch/comp/lib/floodgate.js (shared terrain, hill A at product (380,320))
+- video/competitive-launch/comp/lib/brand.js (chapter, headline, token)
+
+**Transition out**
+
+ALONG A ROUTE: the camera rises with the bone-grey planned-matchmaking line as it leaves the lobby heading east. s07 whips along it.
+
+**Build notes**
+
+- Lobby ring source: at build time, ray-march the shared height function around the hill A apex (64 rays) for the level whose mean radius is closest to 60 product units. That gives a closed polyline: export it as an SVG path in world coordinates and MorphSVG it to a circle with the same centre.
+- Markers and labels are screen-space from T.toScreen, so they keep a constant size. Fly-ins are short MotionPath tweens added to the slot's projected position each frame.
+- Keep the JK label clear of the headline: line 2 ends at about x 1000, y 540.
+- Mirror build: write s06 and s07 from ONE function with side = 'atlas' | 'vega', so the two framings and type positions match exactly.
+- Hold check: line 2 is in at about 24.2 and exits at 27.5 (3.3 s, above the 2.7 s needed for 6 words).
+- About 3 h, including the mirror function.
+
+### s07-find-your-opposition: 28-34 s (6 s, bars 15.1-18.1)
+
+**Picture**
+
+Local 0 = 28.0.
+- 0.00-0.75 (28.0-28.75) WHIP ALONG THE ROUTE.
+  - The world camera whips along the planned-matchmaking line, across the river, to the Vega summit. Keys: LOBBY_A' (zoom 1.4), then mid-river (zoom 0.9), then LOBBY_V (Vega summit apex at screen (1340,560), zoom 2.2); expo.inOut.
+  - Motion blur: 5 ghost copies of the terrain canvas offset along the velocity (alpha .5 / .3 / .2 / .12 / .08), only on frames where speed exceeds 40 px per frame.
+  - The bone line draws ahead of the camera and ends on the Vega summit at 0.75. The 'PLANNED MATCHMAKING' label and dots ride its head and fade at 0.75.
+- 0.75 (28.75): the Vega summit contour morphs into the same lobby ring (same radius, same framing as s06), drawn 2 px in red-orange #dd6248. The red Vega banner stands at the apex. The floodgate.js fog gradient half-veils the camp.
+  - The chapter label '02 —— FIND YOUR OPPOSITION' scrambles in top-left (x 120, y 150).
+  - Line 1 'The same challenge.' (ink, 120 px) rises at x 120, baseline 380: exactly where 'Bring friends.' stood.
+- 1.00 / 1.25 / 1.50 (29.0 / 29.25 / 29.5): three red-orange Vega triangles (Brand.rivalToken, 28 px) stamp into slots at different angles from ours: right (1538,560), upper-left (1241,389), lower-left (1241,731). Another approach.
+- 1.25: line 2 'Another approach.' (amber) at baseline 510. It lands at about 29.95.
+- 1.75 (29.75): 'VEGA' (Manrope 600, 64 px, #dd6248) stamps under the ring (baseline 840).
+- 4.50 (32.5): line 1 exits. 5.00 (33.0): line 2 and the chapter label exit.
+- 4.50-5.00 (32.5-33.0): the camera pulls back from LOBBY_V to OVERVIEW_WIDE (centre (820,520), zoom 0.72), power3.inOut. Both camps are now in one valley.
+- 5.00 (33.0) THE RIVER BECOMES THE VERSUS LINE.
+  - The west bank takes a 6% amber fill and the east bank a 5% #dd6248 fill. The coastline flares to 70% for 0.5 s.
+  - 'ATLAS' (mono 24 px, amber) scrambles in on the west bank (about (520,420)), 'VEGA' (mono 24 px, red-orange) on the east bank (about (1400,700)), and 'TEAM CHALLENGE · 3 V 3' (mono 22 px, muted) at top centre.
+  - Both summits keep their small rings and banners.
+- 5.50-6.00 (33.5-34.0) LANDING #2.
+  - The two bank labels and 'TEAM CHALLENGE · 3 V 3' fly (15 f power3.inOut) into the score pill, which builds around them at top centre: 'Atlas 1 | ROUND 2 08:32 | 1 Vega' (Floodgate.ui score; 1-1 from the brief, no 0-0 flap).
+  - The topbar 'Floodgate · Team challenge · 3 v 3' builds at top-left.
+  - The bank tints fade to 0.
+  - The pill lands on 34.0 (bar 18.1) with motif note 2 (F5).
+
+**On-screen text**
+
+- PLANNED MATCHMAKING (leaving with the line)
+- 02 —— FIND YOUR OPPOSITION
+- The same challenge.
+- Another approach.
+- VEGA
+- ATLAS
+- TEAM CHALLENGE · 3 V 3
+- Atlas 1 | ROUND 2 08:32 | 1 Vega
+- Floodgate · Team challenge · 3 v 3
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+v09, 30.0-31.4: "Read the same situation." (over Vega's identical ring)
+v10, 32.6-34.7: "Each team brings its own strategy." ('own strategy' as the banks split at 33.0)
+
+**Sound**
+
+- 28.0-28.75: whoosh (length 1.0, peak 0.4, so it peaks at 28.4; direction +1, weight 0.7).
+- 28.75: stamp (weight 0.8) on arrival. Not an impact: the one low hit is saved.
+- 29.0 / 29.25 / 29.5: ui_blip deny (freq 660) for the triangles; the rival gets a lower tone.
+- 29.75: stamp (weight 0.8) for VEGA.
+- 32.5-33.0: whoosh (direction -1, length 0.6) on the pull-back.
+- 33.0: gate_clank (size 1.0, latch true, -12 dB) as the banks split, plus reverse_cymbal with hit_at 33.0 and relay clicks (data_chatter length 0.4, -22 dB) under the labels.
+- 33.5: two short whooshes (length 0.5, pans -0.6 and +0.6) converging on the score pill.
+- 34.0 LANDING NOTE 2: ui_blip select at freq 698.46 (F5) plus stamp (weight 0.6).
+
+**Assets**
+
+- video/competitive-launch/comp/lib/floodgate.js (fog gradient, Vega triangles, score pill and topbar markup)
+- video/competitive-launch/comp/lib/routes.js (MATCHMAKING line)
+- video/competitive-launch/comp/lib/brand.js (rivalToken, banner, label)
+- scratchpad live-entry.png (amber diamond / red ring banner reference)
+
+**Transition out**
+
+The score pill lands on 34.0. INTO A RING: s08 opens with the Floodgate objective ring pulsing as the camera settles into the match framing.
+
+**Build notes**
+
+- Mirror of s06 (side = 'vega'). The Vega ring uses the same baked-contour-to-circle morph, about hill V.
+- Whip ghosting: copy the terrain display canvas to an offscreen canvas once per frame, then composite 5 offset copies. Never redraw the world 5 times.
+- Bank tint: one Path2D polygon per bank (the RIVER polyline closed to the domain corners), filled at low alpha. No blend modes.
+- Labels into the pill: read the docked pill's segment rects at build, tween the labels' left/top/font-size proxies to them, then show the real pill DOM on the landing frame (a 1-frame swap, no crossfade).
+- The versus moment is restrained: river hairline, 5-6% tints, banners. No full-frame colour fields.
+- Hold check: line 2 is in at about 29.95 and exits at 33.0 (3.05 s, above the 2.4 s needed for 5 words).
+- About 3 h.
+
+### s08-make-your-move: 34-44 s (10 s, bars 18.1-23.1)
+
+**Picture**
+
+Local 0 = 34.0. The live match plays forward from 08:32, and every Atlas message lands as the clock shows its own timestamp.
+- Clock: one match-second per beat. m(t) = 512 - (t - 34.5)/0.5 (global t), giving 08:32 at 34.5, 08:31 at 35.0, 08:26 at 37.5, 08:19 at 41.0 and 08:14 at 43.5.
+- Match.state(F, U, m) drives the world and the UI.
+- At most one new readable string per beat, carried by a LIFT while the rest dims to 40%. There is no headline in this scene.
+- 0.00 (34.0, bar 18.1) INTO THE RING + GRID SNAP.
+  - The Floodgate ring fires its pulse on the arrival frame, while the camera settles from OVERVIEW_WIDE to MATCH (zoom 0.72 to 0.80, power3.out, 15 f).
+  - A-L / 01-08 board lines draw over the map (1 px amber at 10%, DrawSVG 12 f, staggered outward from the objective cell 1 f apart). Coordinate letters and numbers scramble along the map's top and left edges (mono 20 px, muted). The grid settles to 6% by 35.0.
+- 0.25: the UI panels enter at functional speed (10 f power3.out, 2 f stagger): roster on the left; the channel shell on the right, with the message area reserved but empty; the objective panel at the bottom, bar at 0% and no alert.
+  - The chapter label '03 —— MAKE YOUR MOVE' scrambles in centred under the score pill (y 132) and scrambles out at 1.75.
+- 0.50 (34.5): the clock starts at 08:32.
+- 1.00-2.50 (35.0-36.5) LIFT: JULES, at 08:31.
+  - His message types into the channel (0.6 s) and lifts: a 2x clone ('Jules 08:31' plus 'Nora, take the pump station. Emre, watch the crossing.' at 42 px, 2 lines, max width 860 px) at x 880-1740, y 220-420, with a leader back to its row.
+  - JK's chip flips to MOVING.
+  - Tifo zones light as the words land: amber cell fills at 12% around the pump station at 35.4 and the crossing at 35.6.
+  - 2.50: the lift drops back into the channel.
+- 2.50-3.50 (36.5-37.5): NC's amber dashed route draws from the lobby to the pump station (on twos), and NC travels it.
+  - 3.50 (37.5, 08:26): Nora's message types into the dimmed channel (not lifted). NC's chip flips to RESTORING.
+- 4.00 (38.0, bar 20.1) LIFT + LANDING #3, on the VO's 'make the call'.
+  - The pinned card 'PLAN AGREED' / 'Restore gate power first' / '3 roles assigned' stamps into the channel (scale 1.06 to 1, 2 f overshoot) and lifts at 1.7x until 39.0.
+  - Motif note 3 (A5).
+- 4.25-5.25 (38.25-39.25): EK's route draws to the crossing approach and EK travels it. His chip flips to HOLDING and the watch cone fades on at 39.25.
+- 5.00-6.50 (39.0-40.5) LIFT: OBJECTIVE.
+  - The objective panel lifts at 1.6x: 'OBJECTIVE 2 OF 3' / 'Restore gate power'. Bar and percentage fill 0 to 62% in steps(12), one step per 8th; the Floodgate ring arc fills in sync and the gate bars glow.
+  - It stops exactly at 62%.
+- 6.50 / 6.75 (40.5 / 40.75): two Vega triangles slide out of the fog on the far bank (12 f expo.out).
+- 7.00 (41.0, 08:19): Emre's message types into the dimmed channel.
+- 7.25-7.90 (41.25-41.9): only now does their red-orange route draw from the triangles toward the Crossing (one active route). 'CONTESTED' scrambles over the Crossing label at 41.5.
+- 7.90: the alert row appears in the objective panel.
+- 8.00 (42.0): the LAST SEEN ghost (dashed red ring with a faint triangle) and 'LAST SEEN 0:20' (mono 20 px) fade on.
+- 8.25-9.00 (42.25-43.0) LIFT: the alert 'Vega is contesting the crossing', lifted exactly as in the hook (same 40 px card), then returned.
+- 8.00-9.50: the camera eases from MATCH to HOOK (zoom 0.80 to 0.96 toward (900,470), power3.inOut).
+- 9.50 (43.5, 08:14): the frame matches the hook's 3.0 frame: same state, same camera, node ring on JK. We are back where the film began, now knowing how we got here. Hold to 10.0.
+
+**On-screen text**
+
+- Atlas 1 | ROUND 2 08:32 -> 08:14 | 1 Vega
+- 03 —— MAKE YOUR MOVE
+- A-L / 01-08 (grid labels)
+- Jules 08:31 · Nora, take the pump station. Emre, watch the crossing. (lifted, 42 px)
+- MOVING / RESTORING / HOLDING (chips)
+- Nora 08:26 · On it. Call if they commit to the route. (dimmed, not lifted)
+- PLAN AGREED · Restore gate power first · 3 roles assigned (lifted)
+- OBJECTIVE 2 OF 3 · Restore gate power · 0 -> 62% (lifted)
+- Emre 08:19 · Two of them by the crossing. Holding the approach. (dimmed, not lifted)
+- Pump station · Floodgate / OBJECTIVE · Crossing / CONTESTED · LAST SEEN 0:20
+- Vega is contesting the crossing (lifted, 40 px)
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+v11, 36.5-39.1: "Divide responsibilities and make the call together." (It starts as Jules's lift drops back, so no voice runs over his message; 'call' lands on PLAN AGREED at 38.0.)
+(39.1-50.4: no voice. The picture and the score carry Vega's arrival, the loop closing, the breath and the hit.)
+Team messages are typed only. There are no voiced comms.
+
+**Sound**
+
+- 34.0: drums enter (kick X...X...X...X..., snare ....X.......X..., hats; intensity 0.5 to 0.8). Sonar ping on the ring pulse (ui_blip confirm, freq 880). data_chatter (length 0.4) for the grid snap.
+- 34.5 onward: ticks one per beat (accent each bar). The ticks are the on-screen clock.
+- 35.0: typing (length 0.6, rate 12, -28 dB) plus ui_blip type.
+- 36.0: taiko enters (0.5 to 0.8).
+- 36.5 and 38.25: marker squeak plus a small whoosh (pans -0.3 / +0.2) on each Atlas route.
+- 37.5: ui_blip type.
+- 38.0 LANDING NOTE 3: ui_blip select at freq 880 (A5) plus stamp (weight 1.0).
+- 39.0-40.5: ui_blip tick (-24 dB) on each fill step, in 8ths.
+- 40.5: low whoosh (pitch 0.8) as Vega emerges.
+- 41.0: ui_blip type.
+- 41.25: lower whoosh (pitch 0.7) on their route.
+- 42.25: alert (reps 2, -12 dB) on the alert lift.
+- shepard riser 38.0-44.0 (rate 0.12, pulse 0.5, intensity 0.2 to 0.9), peaking on 44.0.
+- Music ducks 9 dB under the VO.
+
+**Assets**
+
+- design/screen-compositions/competitive.html (panel CSS, score pill, messages, pinned plan, objective, marker and label positions)
+- video/competitive-launch/comp/lib/match.js (Match.state, LIFT)
+- video/competitive-launch/comp/lib/floodgate.js
+- video/competitive-launch/comp/lib/routes.js (JK, NC, EK, VEGA_CROSSING)
+- public/assets/realms/screens/competitive-main-2000.webp (look reference only)
+
+**Transition out**
+
+Invisible cut on 44.0: s09 continues the same frozen-clock screen and pushes in on the LAST SEEN ghost.
+
+**Build notes**
+
+MATCH.STATE KEYFRAMES (m = match-seconds remaining)
+- 512: tokens in their lobby slots on hill A; no routes; objective 0.
+- 511: Jules's message plus JK MOVING; zones 510.2 / 509.8.
+- 511 to 505: JK travels JK_ROUTE (M380 320 C470 360 600 420 684 484).
+- 508 to 507: NC_ROUTE draws (M380 320 C440 330 520 380 562 440). 507 to 506: NC travels.
+- 506: NC RESTORING plus Nora's message.
+- 505: PLAN AGREED.
+- 504.5 to 503: EK_ROUTE draws (M380 320 C540 300 760 360 920 420). 504 to 502.5: EK travels; HOLDING and the cone at 502.5.
+- 503 to 500: progress 0 to 0.62.
+- 500 / 499.5: Vega triangles out of the fog.
+- 499: Emre's message.
+- 498.5 to 497.2: VEGA_CROSSING route draws (M1140 524 C1110 500 1080 470 1056 448, from the lower triangle to the Crossing's far end); CONTESTED at 498.
+- 497.2: alert row.
+- 497: ghost plus LAST SEEN.
+- Everything is final for m ≤ 497. That is why the hook (m 497 to 494) shows the complete state.
+
+BUILD
+- UI text uses the functional speed (10-12 f power3.out, no stagger).
+- Lifts come from the shared LIFT helper: scale plus a small shadow (0 12px 30px), with the rest dimmed by one overlay. No filter blur.
+- The objective ring arc uses pathLength 100 with stroke-dasharray tweened to 62.
+- Grid snap is recipe 4: draw the lines, scramble the labels. Do not clip-reveal the match layer; the world is already there.
+- Keep onFrame under 15 ms: one shared terrain, cached contours.
+- About 4 h.
+
+### s09-last-seen: 44-46 s (2 s, bars 23.1-24.1)
+
+**Picture**
+
+Local 0 = 44.0. The breath: the only near-still shot in the film. The clock holds 08:14.
+- 0.00 (44.0, bar 23.1): the Shepard riser peaks into a held note.
+  - The camera pushes from HOOK to GHOST (centred on the ghost at product (1060,640), zoom 0.96 to 1.6, power1.out over 2.0 s).
+  - Everything except the ghost dims: the UI to 30% under one overlay, and the world under one radial-gradient div (a transparent hole of r 160 px at the ghost's projected position, over #0b0c0e at 60%).
+  - The fog band drifts 60 px in from the right over the bar.
+- 0.25: 'LAST SEEN 0:20' re-scrambles beside the ghost at 24 px (screen-space, bone #c9c0b2).
+- 0.50: the ghost's dashed ring starts to turn (12 deg/s, onFrame).
+- 1.00 (45.0): the music is gone. One tick. The ghost triangle flickers once (opacity .45 to .12 to .3 over 4 frames).
+- 1.50 (45.5): the dashed ring steps 15 deg (steps(1)) and its stroke pulses 70 to 100 to 70% (9 f).
+- 2.00 (46.0): handed to s10's hit.
+
+**On-screen text**
+
+- LAST SEEN 0:20
+- Atlas 1 | ROUND 2 08:14 | 1 Vega (dimmed)
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+None.
+
+**Sound**
+
+- 44.0: the riser peaks. The music drops 6 dB over 44.0-45.0.
+- 45.0-46.0: the music bus is MUTED (4 ms fade): the last 2 beats of bar 23.
+- 45.0: tick_one (-18 dB) with the ghost flicker.
+- Throughout: room tone and a faint river (water_rush intensity 0.12, -32 dB).
+- 45.2-46.0: a quiet reverse_cymbal on the sfx bus (length 0.8, -22 dB) with hit_at 46.0.
+
+**Assets**
+
+- video/competitive-launch/comp/lib/match.js (shared screen at m = 494)
+- design/screen-compositions/competitive.html (ghost, fog)
+
+**Transition out**
+
+Hard cut out of the silence on 46.0 (bar 24.1), onto the film's one low hit.
+
+**Build notes**
+
+- A cheap scene: buildMatchScreen at m = 494, plus one dimming div and one radial-hole div. No filters.
+- Something still changes on every beat: 0.25, 0.5, 1.0, 1.5.
+- Breathe by holding, never by cutting to black.
+- About 45 min.
+
+### s10-coordinate-commit-adapt: 46-52 s (6 s, bars 24.1-27.1)
+
+**Picture**
+
+Local 0 = 46.0.
+- Layout for bars 24-26:
+  - A word card in the left third, over a charcoal gradient scrim (#0b0c0e 94% to 0 across x 0-1100).
+  - The live match in the right two-thirds: world-camera presets frame the action at x 1000-1800.
+  - Roster and channel are hidden (thin match rule). The score pill is redrawn above the scrim so the clock stays crisp. The slug stays.
+- Clock: one match-second per second, 08:13 at 46.0 down to 08:08 at 51.0.
+- 0.00 (46.0, bar 24.1) THE ONE LOW HIT.
+  - Hard cut to preset C1 (centre (760,500), zoom 1.3: JK, NC, EK and the gate).
+  - The clock flips from 08:14 to 08:13: we are past the hook's moment.
+  - 'Coordinate.' (Manrope 620, 150 px, ink) rises at x 120, baseline 600 (12 f expo.out).
+  - 0.50-1.25: on twos, 1.5 px amber hairlines (slight wobble) draw from JK to NC and from JK to EK; the arrowheads pop at 1.25. The node pulses on JK.
+  - 1.75: the word exits up (9 f power2.in).
+- 2.00 (48.0, bar 25.1): hard cut to preset C2 (centre (740,520), zoom 1.6: JK and the gate). 'Commit.' rises.
+  - 2.25-3.50: JK commits. His dashed amber route draws from his post (684,484) to the ring edge (760,540) (JK_COMMIT), and JK advances along it to (722,512), power2.inOut.
+  - 3.00: the 62% arc and the gate bars glow once. The percentage does not change.
+  - 3.75: the word exits.
+- 4.00 (50.0, bar 26.1): hard cut to preset C3 (centre (840,560), zoom 1.2: the dam, the pump and the far-bank ghost). 'Adapt.' rises in AMBER, the turn word.
+  - 4.25-4.90: their move. The LAST SEEN ghost resolves into a solid red triangle, and its red-orange route draws across the dam toward the pump station (VEGA_PUMP: M1060 640 C960 640 860 590 816 566 S700 470 612 430). The arrowhead pops at 4.90.
+  - 5.10-5.75: only then, our counter. JK's forward route fades (6 f), and a new amber route draws from JK back to cover the pump (JK_REROUTE: M722 512 C690 480 650 450 606 436). The arrowhead pops at 5.75 and JK starts along it.
+  - 5.75: the word exits.
+
+**On-screen text**
+
+- Coordinate.
+- Commit.
+- Adapt.
+- Atlas 1 | ROUND 2 08:13 -> 08:08 | 1 Vega
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+v12, 50.4-54.4: "Your decisions and the other team's moves change what happens next." ('the other team's moves' over their red route, 'change what happens next' over our reroute and the first montage cuts; it continues into s11)
+
+**Sound**
+
+- 46.0 THE ONE LOW HIT, filtered: impact (size 1.3, brightness 0.3, sub_hz 44, -6 dB) plus sub_drop (f0 90 to 27, -10 dB). No braam, and no other sub event anywhere in the film.
+- The full groove returns at peak: bass 0.9, drums 0.85, taiko 0.85, plucks 0.6, ticks.
+- 47.75 and 49.75: whooshes (length 0.5) peaking on each card cut, at 48.0 and 50.0.
+- 46.5-47.25: marker squeaks on twos (ui_blip select). 47.25: wooden taps (stamp weight 0.35) on the arrowheads.
+- 48.0: stamp (weight 0.8) plus a taiko accent. 48.25: pencil whoosh under JK's route.
+- 50.0: stamp (weight 0.9) plus a taiko accent. 50.25: low whoosh (pitch 0.8) on their route. 51.1: marker squeak on our reroute.
+
+**Assets**
+
+- video/competitive-launch/comp/lib/match.js (Match.state, extended to m = 484)
+- video/competitive-launch/comp/lib/routes.js (JK_COMMIT, VEGA_PUMP, JK_REROUTE)
+- video/competitive-launch/comp/lib/brand.js (headline, route)
+
+**Transition out**
+
+Hard cut on 52.0 (bar 27.1) into the first of eight beat cuts (s11). The reroute is still drawing.
+
+**Build notes**
+
+- Match.state keyframes past the hook: m = 493 - floor(t - 46) for the clock.
+  - JK_COMMIT draws over 492.75 to 491.5.
+  - Ghost becomes a triangle at 489.75; VEGA_PUMP draws 489.75 to 489.1.
+  - JK_REROUTE draws 488.9 to 488.25.
+- Word cards use Brand.headline with one line at 150 px ('Coordinate.' is about 820 px, inside the scrim). The scrim is one gradient div.
+- The duplicate score pill above the scrim is a second Floodgate score node bound to the same clock.
+- Telestrator lines use Brand.route with a 1.5 px noise2D wobble, timed on twos.
+- Camera presets are hard sets (no tween) on each card downbeat.
+- Hold check: each one-word card is in by about +0.4 s and holds 1.35 s (minimum 1.2 s).
+- About 3 h.
+
+### s11-the-match: 52-56 s (4 s, bars 27.1-29.1)
+
+**Picture**
+
+Local 0 = 52.0. THE PEAK: eight hard cuts, one per beat.
+- All eight are camera presets on one living-map instance, chosen by floor(lt / 0.5) and set directly with no tween, so every cut is hard. Motion peaks land on the cut frame or 1 frame after.
+- No headline type: only the map's own labels and the score pill (top centre, above everything). The slug stays.
+- Clock: 08:07 at 52.0, then 08:06, 08:05, and 08:04 at 55.0, where it stops. It never goes below 08:04.
+- 0.00 (52.0) M1 WIDE, centre (800,500), zoom 0.80: both plans visible, ours solid amber and theirs dashed red-orange. The Vega triangles slide 40 px toward the Crossing (12 f expo.out).
+- 0.50 M2 EMRE, centre EK (920,420), zoom 2.2: EK's pulse ring fires and his watch cone flares from 12% to 20% to 12%.
+- 1.00 M3 PUMP, centre (575,420), zoom 2.2, entered by GRID-CELL CUT #1 (for 2 frames, alternate A-L x 01-08 cells show the new framing; the rest are charcoal): NC at the pump, with a mono 22 px amber 'RESTORING' tag pulsing beside him; the red triangle enters frame right.
+- 1.50 M4 JULES, centre (700,490), zoom 2.0: JK advances 24 px along the reroute while a runner dash travels it; the node pulses.
+- 2.00 M5 GATE, centre (800,560), zoom 2.2: the 62% arc glows and the gate bars flicker once (steps).
+- 2.50 M6 VEGA, the red triangle about 60% of the way along VEGA_PUMP, zoom 2.4: it edges forward 16 px and a red runner dash travels its route.
+- 3.00 M7 CROSSING, centre (1004,396), zoom 2.4, entered by GRID-CELL CUT #2: the second Vega triangle edges toward the bridge while EK's cone holds; the 'CONTESTED' label pulses.
+- 3.50 M8 SCORE: a DOM-only macro of the score pill, scaled 2.2x and centred (crisp DOM text): 'Atlas 1 | ROUND 2 08:04 | 1 Vega', with a flap on 08:04. The outcome is left open.
+- 4.00 (56.0): s12 folds this frame into the review.
+
+**On-screen text**
+
+- RESTORING
+- CONTESTED
+- Atlas 1 | ROUND 2 08:07 -> 08:04 | 1 Vega
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+v12 continues until about 54.4 ('...change what happens next.' over M1-M5). The rest of the montage is music only.
+
+**Sound**
+
+- One board impact on each of the 8 cuts, alternating stamp (weight 0.7) and gate_clank (size 0.5, latch false), at -16 dB. Never an impact or a sub.
+- The grid-cell cuts add a dry click (ui_blip tick) at 53.0 and 55.0.
+- 55.5: flap click on the score macro.
+- Drums, taiko, bass and plucks at full. riser (length 2.0) with hit_at 56.0, which s12's tape scrub 'rewinds'.
+- Music ducks 9 dB under the tail of v12.
+
+**Assets**
+
+- video/competitive-launch/comp/lib/match.js
+- video/competitive-launch/comp/lib/camera.js (presets M1-M8)
+- video/competitive-launch/comp/lib/floodgate.js
+
+**Transition out**
+
+Hard cut on 56.0 (bar 29.1) into the review fold (s12): the one-bar hold after the eight cuts.
+
+**Build notes**
+
+- One scene, one map instance. presets[floor(lt / 0.5)] gives the world camera for M1-M7. M8 hides the world and scales the score pill DOM instead, because terrain is never CSS-scaled.
+- Grid-cell cut: a 12 x 8 div lattice over the new framing. On the first frame alternate cells are #0b0c0e; on the second every cell is clear. No second render is needed.
+- Every preset zoom is at most 2.4, on the res-2 shared bake.
+- The film's maximum cut rate is here: 8 cuts, then the 1-bar hold.
+- About 2 h.
+
+### s12-on-the-record: 56-58 s (2 s, bars 29.1-30.1)
+
+**Picture**
+
+Local 0 = 56.0. The one-bar hold after the peak. The record is shown in the product's own terms.
+- 0.00-0.60 (56.0-56.6) THE FOLD, a callback to the rewind.
+  - The world clips into a review window (x 320-1600, y 150-690; 1 px amber frame plus register corners), while the world camera fits the whole match (zoom 0.6 on (820,500)).
+  - The objective panel stretches into a timeline track (left/top/width tween to x 160-1760, y 860; a 2 px #ffffff17 line with a tick every match-second from 08:31 to 08:04), under the header 'ROUND 2 · REVIEW' (mono 22 px).
+  - THE WORLD REMEMBERS: every route drawn in the film stays on the map as the record, at 70%. Ours in amber: OUR_PLAN, NC, EK, JK, JK_COMMIT, JK_REROUTE. Theirs in red-orange: THEIR_PLAN, VEGA_CROSSING, VEGA_PUMP.
+- 0.60-2.00 (56.6-58.0): THE NODE BECOMES THE PLAYHEAD.
+  - The node (12 px core on a 1 px vertical amber line) scrubs from 08:04 at the right back to 08:31 at the left (power2.inOut).
+  - Match.state rewinds in lockstep: tokens and triangles walk back while the routes stay as the record.
+  - Track markers pop (scale 1 to 1.4 to 1, 6 f) as the playhead crosses them, and their labels scramble in (mono 20 px): '08:19 · EMRE' (about 57.3), '08:26 · NORA' (about 57.7), '08:31 · JULES' (58.0).
+  - Red-orange dots, unlabelled, mark where Vega contested and where the ghost resolved.
+
+**On-screen text**
+
+- ROUND 2 · REVIEW
+- 08:19 · EMRE
+- 08:26 · NORA
+- 08:31 · JULES
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug)
+
+**VO**
+
+v13, 56.1-57.9: "Every move, on the record." ('record' as the playhead lands)
+
+**Sound**
+
+- 56.0: bass, drums, taiko and ticks stop. The clock is no longer running: we are reviewing.
+- 56.1-57.9: tape_scrub (length 1.8, direction -1, -14 dB), a callback to the rewind.
+- The pad thins to Dm (intensity 0.35).
+- ui_blip tick (2200 Hz, -22 dB) on each marker pop, synced to picture.
+- reverse_cymbal with hit_at 58.0.
+
+**Assets**
+
+- video/competitive-launch/comp/lib/match.js (Match.state rewind)
+- video/competitive-launch/comp/lib/routes.js (union of all routes)
+- video/competitive-launch/comp/lib/floodgate.js (objective panel -> track)
+
+**Transition out**
+
+Hard cut on 58.0 (bar 30.1). The window opens back to full frame, and the record's two plans, meeting at the Floodgate ring, become the payoff's background.
+
+**Build notes**
+
+- Fold: tween the world container's clip-path inset and F.T.state.zoom together. Tween the objective panel's left/top/width to the track rect, then fade its children.
+- Playhead: proxy m tweened from 484 to 511 (power2.inOut) feeds Match.state. Track x = 160 + (511 - m) / 27 x 1600, reading right to left. Pop a marker in onFrame when m crosses it.
+- Only the brief's three message times are labelled.
+- Routes come from routes.js; nothing new is invented.
+- About 2 h.
+
+### s13-see-whose-strategy-holds: 58-64 s (6 s, bars 30.1-33.1)
+
+**Picture**
+
+Local 0 = 58.0.
+- 0.00 (58.0, bar 30.1): the payoff accent.
+  - The review chrome (track, labels, window frame) dissolves in 6 f, and the clip opens back to full frame.
+  - The world keeps the record: contours at 100%, tint dimmed to 35%, our amber plan and their red-orange plan meeting at the Floodgate ring, and both small banners on their summits.
+  - The camera holds OVERVIEW, drifting from zoom 0.80 to 0.84. A left scrim sits under the type.
+- 0.50-1.25: an amber runner dash travels our plan (under 'Coordinate your decisions').
+- 1.50 (59.5): line 1 'See whose' (Manrope 620, 160 px, ink) rises at x 120, baseline 760, landing on the VO's 'see whose'.
+- 2.00 (60.0): line 2 'strategy holds.' (amber) rises at baseline 910 and lands at about 60.7. A red-orange runner dash travels their plan.
+- 3.00 (61.0): the Floodgate ring pulses and both arrowheads pulse. There is no score change and no winner.
+- 3.30-5.80 (61.3-63.8): BREATH #3, before the CTA. No voice.
+- 4.00-5.50 (62.0-63.5) INTO THE RING (reversed iris).
+  - The world shrinks into the objective ring: a circular clip closes from the half-diagonal (1102 px) to r 300, centred at (1420,540), power4.inOut.
+  - At the same time the world camera moves from OVERVIEW to MEDALLION (zoom 0.84 to 0.20, with the valley centre travelling to screen (1420,540)).
+  - A 2 px amber ring rides the clip edge and stays. Inside are the river, both summits marked with small emblems (an amber diamond and a red-orange ring, 14 px, replacing the banners), and both plans meeting at the centre ring.
+  - The medallion then turns slowly (0.6 deg/s, onFrame).
+- 5.00 (63.0): line 1 exits (9 f power2.in). 5.50 (63.5): line 2 exits.
+- 5.50 (63.5): the medallion fires its pulse ring (scale 1 to 2.2, 45 f).
+- 6.00 (64.0): s14 takes over on the identical medallion.
+
+**On-screen text**
+
+- See whose
+- strategy holds.
+- REALMS · COMPETITIVE · INTERFACE CONCEPT (slug, until 62.0)
+
+**VO**
+
+v14, 58.4-61.3: "Coordinate your decisions, and see whose strategy holds." (the thesis: the type shows its key phrase, landing on 'see whose'; phoneme_replace {"hˌuːz": "hˈuːz"})
+(61.3-63.8: breath #3, no voice)
+v15 starts at 63.8, under this scene's last frames (see s14).
+
+**Sound**
+
+- 58.0 PAYOFF ACCENT: a wood-and-metal board impact (stamp weight 1.3 plus gate_clank size 1.4, latch true). Deliberately not a second low hit.
+- Pad Bb (bar 30), F (bar 31), Gm (bar 32). Sparse plucks (0.3). Ticks return softly (quarters, -30 dB).
+- 61.3-63.8 breath: pad and ticks only.
+- 62.0-63.5: rising whoosh (length 1.5, pitch 1.2, weight 0.3) as the world shrinks.
+- 63.5: sonar ping on the medallion pulse (ui_blip confirm, freq 880, verb plate 0.3).
+
+**Assets**
+
+- video/competitive-launch/comp/lib/floodgate.js (shared terrain)
+- video/competitive-launch/comp/lib/routes.js (record: OUR_PLAN, THEIR_PLAN)
+- video/competitive-launch/comp/lib/brand.js (headline)
+
+**Transition out**
+
+The medallion holds through the cut on 64.0 (bar 33.1). s14 rebuilds it identically and builds the lockup beside it.
+
+**Build notes**
+
+- Medallion: CSS clip-path circle() on the terrain canvas element plus the SVG route group, with its radius driven by a proxy on ctx.tl. The 2 px ring is an SVG circle that follows the same proxy.
+- Place the valley centre at screen (1420,540) by setting state.cx = centreX - (1420 - 960) / zoom (and the same for cy).
+- Hide the score pill and roster. The slug fades out at 62.0, because the medallion is a brand mark, not UI.
+- Hold check: the card is fully in at about 60.7 and line 1 exits at 63.0 (2.3 s, above the 2.1 s needed for 4 words).
+- About 2 h.
+
+### s14-make-your-next-move: 64-72 s (8 s, bars 33.1-37.1)
+
+**Picture**
+
+Local 0 = 64.0.
+- The medallion stays on the right: centre (1420,540), r 300, turning 0.6 deg/s, the 2 px amber ring at its edge. Everything else sits in a left column from x 120.
+- The HUD corners stay at 50%. There is no slug.
+- 0.00 (64.0, bar 33.1) LOCKUP, top-left.
+  - The Enemites mark (logo.png recoloured to ink, 56 px tall, at x 120, y 150) and 'Enemites' (Manrope 600, 40 px) wipe in along the mark's 27 deg stem lean (15 f expo.out).
+  - 0.25: 'Realms' (Manrope 620, 180 px, tracking -0.055em, ink) rises in its mask at baseline 400 (18 f expo.out, weight 560 to 620).
+  - 0.75: 'COMPETITIVE / TEAM AGAINST TEAM' (mono 24 px, tracking .13em, amber diamond, 'COMPETITIVE' amber and the rest muted) scrambles in at baseline 460.
+- 2.00 (66.0, bar 34.1): 'Make your' (Manrope 620, 110 px, ink) rises at baseline 640. 2.50: 'next move.' (amber) at baseline 760, landing at about 67.2.
+- 3.00 (67.0) CTA ROW, wiping in left to right (10 f power3.out):
+  - an amber #efbd70 button at x 120, y 820, 520 x 76, radius 8, reading 'Get match updates' (Manrope 600, 30 px, #1b140a), with a 22 px SVG arrow at its right end (the fonts have no arrow glyph);
+  - 'enemites.com/realms' (JetBrains Mono 500, 26 px, #eee5d7) at x 680, vertically centred on the button.
+- 3.00-3.60 THE BATON: the node leaves the medallion ring at its 9 o'clock point (1120,540) and travels a short arc (MotionPath, 18 f power3.inOut) to the tip of the button's arrow (about (618,858)). It stays there, pulsing every 3 beats.
+- 3.50 (67.5): 'IN DEVELOPMENT · PRIVATE BETA' (mono 20 px, muted #b8afa2, tracking .12em) at baseline 940.
+- 4.00 (68.0, bar 35.1): sonic logo. The medallion's two emblems (diamond, ring) pulse once; the node pulses on the A5 at 68.5.
+  - Credit line fades in at baseline 1004 (inside title-safe): 'ARCHIVAL FOOTAGE: NASA · U.S. NATIONAL ARCHIVES · U.S. ARMY AIR FORCES · LIBRARY OF CONGRESS' (mono 20 px, #a89a85 at 70%).
+- 4.00-8.00 (68.0-72.0): hold the full end card: lockup, 'Make your next move.', button with arrow, URL, status, the medallion and the baton at the arrow tip.
+  - The CTA is on screen from 67.0 to 72.0 (5.0 s).
+  - Something still moves every beat: the medallion turns, and the node pulses at 68.5, 70.0 and 71.5.
+  - The picture holds to the last frame: no fade and no cut to black.
+
+**On-screen text**
+
+- Enemites
+- Realms
+- COMPETITIVE / TEAM AGAINST TEAM
+- Make your
+- next move.
+- Get match updates
+- enemites.com/realms
+- IN DEVELOPMENT · PRIVATE BETA
+- ARCHIVAL FOOTAGE: NASA · U.S. NATIONAL ARCHIVES · U.S. ARMY AIR FORCES · LIBRARY OF CONGRESS
+
+**VO**
+
+v15, 63.8-65.8: "Bring this challenge to your group." (over the lockup build; 'Make your next move.' answers it on screen only after it ends)
+v16, 67.2-68.3: "Get match updates." (as the button wipes in: the CTA, heard and read)
+
+**Sound**
+
+- 64.0: a soft reverse_swell (Gm, length 1.5, -18 dB) lands under the lockup.
+- Pad Gm (bar 33), then A (bar 34) for suspense. The ticks (the match clock) continue in quarters; the last tick is at 67.5.
+- 67.0: quiet ui_blip confirm (1760 Hz, -20 dB) as the button wipes in.
+- 68.0 SONIC LOGO, the three landing notes resolved: ui_blip select at 587.33 (D5) on 68.0, 698.46 (F5) on 68.25 and 880 (A5) on 68.5, verb hall 0.35. A plucks echo follows (one bar, chords override 'Dm', pattern '0.1.2...........'), then resolve_swell Dm(add9) (length 3.5, swell 0.3) from 68.0.
+- Tail reverb to about 71.3. fade_out 70.8-71.6. All buses MUTED 71.6-72.0: the last 12 frames are silent.
+
+**Assets**
+
+- public/assets/logo.png (recoloured to #f2eee7 via canvas source-in)
+- video/competitive-launch/comp/lib/floodgate.js (medallion terrain)
+- video/competitive-launch/comp/lib/node.js
+- inline SVG arrow and diamond (the fonts have no arrow or geometric glyphs)
+
+**Transition out**
+
+End of film. The last frame is the lockup, the CTA, the medallion and the baton at the arrow tip, in silence.
+
+**Build notes**
+
+- All DOM and SVG, plus the shared terrain canvas inside the medallion clip.
+- Logo: canvas source-in recolour; do not use CSS mask or background-image, which may not be decoded on the first frame. Reveal it with a clip-path whose edge leans 27 deg.
+- The button is a DOM rounded rect with an inline SVG arrow. Its arrow-tip coordinate is exported for the node's MotionPath end point.
+- Keep everything inside 90% title-safe (x 96-1824, y 54-1026); check with ?guides=1. The credit line spans about x 120-1290 at y 988-1008, below the medallion (bottom 840).
+- No pricing, no dates, no 'available now'.
+- Readable words at once: 'Make your next move.' plus 'Get match updates' (7), plus the lockup and mono labels.
+- About 2 h.
+
+## VO script with timings
+
+| id | start-end (s) | line | words | sync |
+|---|---|---|---|---|
+| v01 | 4.60-6.60 | Every great plan needed a team. | 6 | 'team' on the third marker stamp (about 6.0-6.3) |
+| v02 | 7.25-8.30 | Read the field. | 3 | over the lantern on the levee |
+| v03 | 8.75-9.70 | Take a role. | 3 | 'role' on the telestrator circles |
+| v04 | 10.25-12.10 | Move before the other side does. | 6 | 'other side' on the red ring stamp (11.25) |
+| v05 | 14.30-15.85 | Realms. Competitive. | 2 | sentence_pause 0.4; 'Realms' as the wordmark lands |
+| v06 | 16.30-18.20 | One world. Opposing plans. | 4 | sentence_pause 0.45; 'world' on line 1 (16.7), 'Opposing' on line 2 (17.2) |
+| v07 | 20.20-22.30 | Bring your team. Match against another. | 6 | 'team' on the amber banner (20.0), 'another' on the red banner (20.75-21.2) |
+| v08 | 24.30-27.90 | Start with people you know, or find a team to join. | 11 | starts once 'Or join a team.' has landed |
+| v09 | 30.00-31.40 | Read the same situation. | 4 | over Vega's identical lobby ring |
+| v10 | 32.60-34.70 | Each team brings its own strategy. | 6 | 'own strategy' on the bank split (33.0) |
+| v11 | 36.50-39.10 | Divide responsibilities and make the call together. | 7 | 'call' on PLAN AGREED (38.0) |
+| v12 | 50.40-54.40 | Your decisions and the other team's moves change what happens next. | 11 | 'other team's moves' on their red route, 'change' on our reroute |
+| v13 | 56.10-57.90 | Every move, on the record. | 5 | 'record' as the playhead lands |
+| v14 | 58.40-61.30 | Coordinate your decisions, and see whose strategy holds. | 8 | 'see whose' on type line 1 (59.5); phoneme_replace {hˌuːz: hˈuːz} |
+| v15 | 63.80-65.80 | Bring this challenge to your group. | 6 | over the lockup build; the type answers after it ends |
+| v16 | 67.20-68.30 | Get match updates. | 3 | as the button wipes in |
+| | | **Total** | **91** | about 33 s of speech in 72 s |
+
+```text
+Narrator: Kokoro af_heart at speed 0.9 (about 140 wpm). A calm, confident, close-mic briefing read, never announcer-loud.
+Render one file per line with audio/tts.py --align and place each at its global start time below.
+Re-snap each start from the Whisper word timings so the stressed word lands on its picture event, with ±0.25 s slack, and keep at least 0.4 s between lines.
+16 lines, 91 words, about 33 s of speech in a 72 s film.
+
+v01  04.60-06.60  Every great plan needed a team.  [6 words; 'team' on the third marker stamp (about 6.0-6.3)]
+v02  07.25-08.30  Read the field.  [3 words; over the lantern on the levee]
+v03  08.75-09.70  Take a role.  [3 words; 'role' on the telestrator circles]
+v04  10.25-12.10  Move before the other side does.  [6 words; 'other side' on the red ring stamp (11.25)]
+      (12.1-14.3: no voice; the hinge flood is music only)
+v05  14.30-15.85  Realms. Competitive.  [2 words; sentence_pause 0.4; 'Realms' as the wordmark lands]
+v06  16.30-18.20  One world. Opposing plans.  [4 words; sentence_pause 0.45; 'world' on line 1 (16.7), 'Opposing' on line 2 (17.2)]
+      (18.2-20.2: breath #1, no voice)
+v07  20.20-22.30  Bring your team. Match against another.  [6 words; 'team' on the amber banner (20.0), 'another' on the red banner (20.75-21.2)]
+v08  24.30-27.90  Start with people you know, or find a team to join.  [11 words; starts once 'Or join a team.' has landed]
+v09  30.00-31.40  Read the same situation.  [4 words; over Vega's identical lobby ring]
+v10  32.60-34.70  Each team brings its own strategy.  [6 words; 'own strategy' on the bank split (33.0)]
+v11  36.50-39.10  Divide responsibilities and make the call together.  [7 words; 'call' on PLAN AGREED (38.0)]
+      (39.1-50.4: no voice; Vega arrives, the loop closes, the breath, the hit, Coordinate. Commit.)
+v12  50.40-54.40  Your decisions and the other team's moves change what happens next.  [11 words; 'other team's moves' on their red route, 'change' on our reroute]
+v13  56.10-57.90  Every move, on the record.  [5 words; 'record' as the playhead lands]
+v14  58.40-61.30  Coordinate your decisions, and see whose strategy holds.  [8 words; 'see whose' on type line 1 (59.5); phoneme_replace {hˌuːz: hˈuːz}]
+      (61.3-63.8: breath #3, no voice)
+v15  63.80-65.80  Bring this challenge to your group.  [6 words; over the lockup build; the type answers after it ends]
+v16  67.20-68.30  Get match updates.  [3 words; as the button wipes in]
+
+COPY
+- Every line is approved copy (CompetitivePath / CompetitiveLegends / RealmsScreens), a clean clause-boundary trim of it, or the product name.
+- The spine of the read is the approved paragraph 'Bring your team. Match against another. Read the same situation, coordinate your decisions, and see whose strategy holds.', spread across 20.2, 30.0 and 58.4 s.
+- The legacy act reads the site's 'Every great plan needed a team.' / 'Read the field. Take a role. Move before the other side does.'.
+- No line mentions matchmaking, availability, dates or prices. There are no voiced team comms: Jules, Nora and Emre are typed only.
+
+TYPE VS VO
+- On-screen type never transcribes the VO, except four deliberate heard-and-read lines: the product name (v05), the headline 'One world. Opposing plans.' (v06), the thesis key phrase 'See whose / strategy holds.' (v14), and the CTA 'Get match updates' (v16).
+- Every other card complements its line: 'Bring friends. / Or join a team.' over v08; 'The same challenge. / Another approach.' over v09; 'Coordinate.' / 'Commit.' / 'Adapt.' with v12; 'Make your next move.' after v15.
+- No full VO sentence ever runs over a different full on-screen sentence. Jules's lifted message plays in a VO-free window (35.0-36.5).
+
+PRODUCTION
+- audio/tts.py lines.json --align with voice af_heart, speed 0.9, default sentence_pause 0.32.
+- v05 uses sentence_pause 0.4 and v06 uses 0.45.
+- v14 uses the README's 'whose' stress fix: phoneme_replace {"hˌuːz": "hˈuːz"}.
+- Then run synth.py check: VO WER in the mix equals the clean WER, and the VO sits 6-10 LU over the bed.
+```
+
+## Music plan
+
+```text
+120 BPM, 4/4. 1 bar = 2.0 s = 60 frames; 1 beat = 15 frames; bar n starts at 2(n-1) s. Key: D minor. 36 bars = 72 s. Score from audio/synth.py layers.
+
+Through-lines:
+- The tick is the match clock.
+- Each step lands its result on a downbeat with one note of a 3-note amber motif: D5 at 26.0 (ATLAS), F5 at 34.0 (score pill), A5 at 38.0 (PLAN AGREED).
+- The same three notes, resolved, are the sonic logo at 68.0.
+
+CHORDS, one per bar (cue-sheet 'chords'): 1 Dm (drone only) | 2 Dm | 3 Dm | 4 Dm | 5 Bb | 6 Gm | 7 A | 8 Dm(add9) | 9 Dm | 10 Bb | 11 Gm | 12 Dm | 13 Dm | 14 Bb | 15 Bb | 16 Gm | 17 A | 18 Dm | 19 Bb | 20 Gm | 21 A | 22 A | 23 Asus4 | 24 Dm | 25 Bb | 26 Gm | 27 A | 28 A | 29 Dm | 30 Bb | 31 F | 32 Gm | 33 Gm | 34 A | 35 Dm(add9) | 36 Dm(add9).
+
+SECTIONS (intensity 0-10)
+- Bars 1-2 (0-4) HOOK and FREEZE, intensity 2.
+  - From 0.0: no bed; ticks layer (8ths, accent per beat) at -30 dB, drone D2, river bed (water_rush) at -30 dB. Nothing below 40 Hz.
+  - 0.5: alert, synced to the lift. 1.0 and 2.0: flap clicks on the clock.
+  - 3.00-3.07: SILENCE BEAT 1, a hard stop with every bus muted for 2 frames on the freeze.
+  - 3.07-4.0: tape_scrub rewind plus a reverse_swell (Dm) landing on 4.0, and data_chatter as the clock rattles up.
+- Bars 3-6 (4-12) LEGACY, intensity 3.
+  - 4.0-4.5: odometer flap clicks.
+  - Pad with lofi fx (Dm Dm Bb Gm), drone D1 from 5.0, pocket-watch ticks (8ths) at -28 dB.
+  - On every plate cut (5.0, 7.0, 8.5, 10.0): a projector-shutter click plus a low whoosh peaking on the cut.
+  - Wooden taps at 5.5/5.75/6.0, marker squeaks at 8.6-8.9, stamp on the rival ring at 11.25.
+- Bar 7 (12-14) HINGE, intensity 3 to 6. Music only, no VO.
+  - 12.0: bass_ostinato enters with light taiko.
+  - 12.5-14.0: water_rush swells under the rising-water flood.
+  - 13.0-13.75: odometer flap clicks.
+  - riser with hit_at 14.0.
+- Bar 8 (14-16) TITLE, intensity 5.
+  - 14.0 TITLE ACCENT: gate_clank (size 1.1, latch) plus stamp. A metal latch with no sub content.
+  - Ticks and ostinato stop for the bar under a Dm(add9) pad swell.
+- Bars 9-11 (16-22) ONE WORLD, intensity 4.
+  - Pad plus a sub pulse on beats 1 and 3 (bass_ostinato 'R.......R.......'); ticks return.
+  - Pencil whooshes for our route at 17.5 (pan left), then theirs at 18.5 (pan right).
+  - 19.5: sonar ping (ui_blip confirm 880 Hz) on the ring pulse.
+  - BREATH #1, 18.2-20.2: no voice and no new layers.
+  - 20.0 and 20.75: banner stamps.
+  - The dive whoosh peaks on 22.0.
+- Bars 12-14 (22-28) 01 FORM YOUR TEAM, intensity 5.
+  - Plucks ostinato and full bass_ostinato enter at 22.0.
+  - Ascending select blips at 23.5/24.0/24.5.
+  - 26.0: LANDING NOTE 1, D5 (ui_blip select at freq 587.33) plus stamp and a light gate_clank.
+  - Stepping-dot ticks at 27.0/27.5/28.0; riser with hit_at 28.4.
+- Bars 15-17 (28-34) 02 FIND YOUR OPPOSITION, intensity 6.
+  - Whip whoosh peaking at 28.4; arrival stamp at 28.75; low 'deny' blips for the Vega triangles; stamp for VEGA.
+  - 33.0: gate_clank latch plus reverse_cymbal as the river becomes the versus line.
+  - 34.0: LANDING NOTE 2, F5 (698.46 Hz), as the score pill lands.
+- Bars 18-22 (34-44) 03 MAKE YOUR MOVE, intensity 6.5 to 8.5.
+  - Drums enter at 34.0 and taiko at 36.0.
+  - Ticks one per beat from 34.5: the clock steps one match-second per beat.
+  - ui_blip type on each message (35.0, 37.5, 41.0).
+  - 38.0: LANDING NOTE 3, A5 (880 Hz), on PLAN AGREED.
+  - Fill ticks 39.0-40.5; alert at 42.25.
+  - shepard riser 38.0-44.0, peaking on 44.0.
+- Bar 23 (44-46) BREATH #2, LAST SEEN, intensity 1.
+  - The music drops 6 dB over 44-45.
+  - 45.0-46.0: SILENCE BEAT 2, the music bus muted for the last 2 beats.
+  - One tick_one at 45.0 with the ghost flicker, room tone and a faint river. A quiet reverse_cymbal on the sfx bus into 46.0.
+- Bars 24-26 (46-52) THE DROP: COORDINATE. COMMIT. ADAPT., intensity 9.5.
+  - 46.0 THE ONE LOW HIT, the film's only filtered low event: impact (size 1.3, brightness 0.3, sub_hz 44) plus sub_drop (90 to 27 Hz). No braam.
+  - Then the full groove: bass 0.9, drums 0.85, taiko 0.85, plucks 0.6, ticks.
+  - Stamp plus a taiko accent on 'Commit.' (48.0) and 'Adapt.' (50.0); marker squeaks and pencil whooshes on the routes.
+- Bars 27-28 (52-56) THE MATCH, the peak, intensity 10.
+  - 8 beat cuts, each with a board impact (alternating stamp 0.7 and gate_clank 0.5, -16 dB, no sub).
+  - Dry clicks on the two grid-cell cuts (53.0, 55.0); flap click at 55.5.
+  - riser with hit_at 56.0.
+- Bar 29 (56-58) REVIEW, the one-bar hold, intensity 4.
+  - At 56.0 drums, taiko, bass and ticks stop: the clock is no longer running.
+  - A tape_scrub 'rewinds' the riser (callback to the hook); the pad thins to Dm.
+  - Blips on each marker pop; reverse_cymbal into 58.0.
+- Bars 30-32 (58-64) PAYOFF and MEDALLION, intensity 5 to 3.
+  - 58.0 PAYOFF ACCENT: stamp 1.3 plus gate_clank 1.4 (wood and metal, no sub).
+  - Pad Bb F Gm, sparse plucks, soft quarter-note ticks.
+  - BREATH #3, 61.3-63.8: pad and ticks only.
+  - 62.0-63.5: rising whoosh as the world shrinks into the ring; sonar ping at 63.5.
+- Bars 33-36 (64-72) CTA, intensity 3 to 5 to 0.
+  - Pad Gm then A (suspense); a soft swell under the lockup at 64.0.
+  - Ticks continue to their last tick at 67.5. 67.0: quiet confirm blip as the button wipes in.
+  - 68.0 FINAL HIT, the SONIC LOGO: D5 (68.0), F5 (68.25), A5 (68.5) as ui_blip select at the exact frequencies (hall 0.35), with a one-bar plucks echo, resolving into resolve_swell Dm(add9) (length 3.5). Dm(add9), not major, because the outcome is left open.
+  - Tail to about 71.3; fade_out 70.8-71.6.
+  - 71.6-72.0: SILENCE BEAT 3, all buses muted for the last 12 frames.
+
+KEY MOMENTS
+- Freeze stop: 3.00.
+- Title latch: 14.0 (bar 8.1).
+- Landing notes: 26.0 / 34.0 / 38.0.
+- Breath and drop-out: 45.0-46.0.
+- THE DROP, the one low hit: 46.0 (bar 24.1).
+- Peak montage: 52-56.
+- Payoff accent: 58.0.
+- Sonic logo / final hit: 68.0-68.5 (bar 35.1).
+- Final silence: 71.6-72.0.
+
+MIX (cue-sheet buses)
+- Music ducks 9 dB keyed from VO (attack 0.06, release 0.45, hold 0.25). The sfx bus ducks 4 dB.
+- VO chain 'vo' with over_bed_lu 8.
+- Master: -14.0 LUFS integrated, -1.0 dBTP, glue on.
+- Mutes: 3.00-3.07 (all buses), 45.0-46.0 (music), 71.6-72.0 (all).
+- Every SFX is quantised to the 120 BPM grid unless it is synced to a picture event (clock flaps, message arrivals, stamps). Whooshes start 10-14 frames before their cut and peak on it.
+- Checks: synth.py render with --stems, synth.py check (VO WER in the mix equals the clean WER), measure.py (no clipping, no NaN, |DC| < 1e-4).
+```
+
+## What was grafted from each candidate
+
+- **product (base, highest overall: 30/40):** In-medias-res live hook with freeze and rewind, closed when the hero returns to the identical 08:14 frame at 43.5 and goes past it on the hit. Match.state as one pure function of match time. Messages land as the clock shows their own timestamps. LIFT for the one string that matters. Adapt as ghost -> triangle -> red route -> our reroute. 'ROUND 2 · REVIEW' fold with the playhead scrub. INTERFACE CONCEPT slug. Three landing notes that spell the sonic logo.
+- **history (28/40):** THE NODE as the through-line, held on every cut. The archive triad 'Read the field. / Take a role. / Move before the other side does.' with the opposition mark stamped on the rival boat on 'other side'. The odometer hinge (here played both ways: 08:32 -> 1943 and 1943 -> 08:32). The rising-water flood of the 1943 map table into the world, music only. The title hit around 14 s with VO 'Realms. Competitive.'. The baton ending on the CTA arrow tip.
+- **map (27.5/40):** 'One world. / Opposing plans.' over the fully realised shared valley, ours-then-theirs routes converging on the ring, both banners. Contour-becomes-lobby-ring with exact mirror framing for 01 and 02. Whip along the matchmaking line. The river as the versus hairline with restrained bank tints. 'The world remembers': every route kept as the record. The CTA medallion. Drift-only rule while type is up.
+- **director (17/40):** Both live-site banners (amber diamond, red ring) arriving with the reveal.
+
+## Must-fix ledger (panel must-fixes and where they are answered)
+
+| must-fix | how the locked board answers it |
+|---|---|
+| Name the product early; exact logo | The slug 'REALMS · COMPETITIVE · INTERFACE CONCEPT' is on from frame 0. The title hit at 14.0 shows the Enemites mark + 'Enemites' + 'Realms' + 'COMPETITIVE / TEAM AGAINST TEAM', with the VO 'Realms. Competitive.'. Lockup reprised at the end. Logo drawn from logo.png (canvas recolour), not approximate bars. Slant measured once: 27 deg (stem). |
+| INTERFACE CONCEPT on every UI frame, title-safe | Slug at x 120, y 990 on every world/UI frame; never in the credit line. End card: 'IN DEVELOPMENT · PRIVATE BETA'. No dates, prices or 'available now'. |
+| Matchmaking stays planned | The VO never mentions matchmaking. On screen there is only a bone-grey dashed line, stepping dots and the label 'PLANNED MATCHMAKING'. No SEARCHING or MATCH FOUND. |
+| No voiced comms | Team messages are typed only. |
+| Verbatim approved copy | 91 VO words, all approved or clean trims. 'Bring your team. Match against another.' is in the VO. The button reads exactly 'Get match updates'. None of the banned paraphrases appear. |
+| Only the brief's numbers | ROUND 2, 1-1 throughout (no 0-0 flap). Clock range 08:32-08:04, derived from 08:31-08:14. 62% is the maximum (it fills 0 -> 62 and stops). OBJECTIVE 2 OF 3, 3 V 3, LAST SEEN 0:20. No winner shown. |
+| Archive captions and budget | Captions name the true source; the only year shown is 1943, over 1943 footage. warroom-floor-map-hands is not used. About 9 s of archive (12%), always framed and amber-graded; SD at 1.083x and HD downscaled. The archive starts only after the 4 s live hook. |
+| Credit line lists only sources used | NASA (Apollo 8), U.S. National Archives (The River), U.S. Army Air Forces (Eyes Aloft), Library of Congress (1904 boat race). No 'Internet Archive'. |
+| Rival colour consistent | Vega is red-orange everywhere, including the archive tag (a red ring) and its lobby ring. Bone appears only on the planned-matchmaking line. |
+| Five understanding beats | Team vs team: banners, ATLAS vs VEGA, 3 V 3. Same world: identical mirrored lobby rings and one valley. Coordinate: Jules's call and PLAN AGREED. Adapt: ghost -> red route -> our reroute. Review: the record track with the three timestamps. |
+| Thin match scene | The hero has no headline; there is one lift at a time and at most one new string per beat. Word cards run with the roster and channel hidden. Mono text is at least 20 px. |
+| 'One world. Opposing plans.' over a realised world | From 16.0, over the full valley at full brightness. No ghost blueprint anywhere. |
+| CTA hold | Lockup, 'Make your next move.', button with SVG arrow, URL and status are on screen together from 67.0 to 72.0 (5 s). The picture holds to the last frame; the last 12 frames are silent. |
+| Tactical tone, one low hit | The only filtered low hit is at 46.0. The title, versus and payoff use metal and wood accents with no sub. No braam, no countdown to zero, no full-frame colour fields. |
+| Craft: one through-line, five devices | Node match cut, drain/flood (used twice), along a route, into a ring, grid-cell cut (used twice). |
+| Craft: real peak, then hold | Three word cards with hard cuts, then 8 beat cuts (52-56), then the one-bar review hold. |
+| Craft and feasibility: crisp close-ups | World camera only, with a res-2 shared bake (cache) and zoom capped at 2.4. The score macro is DOM-only. Terrain margin of 240 so no edge ever shows. |
+| Feasibility: no new world kit | Everything is built on Floodgate.world / Floodgate.ui / Brand helpers plus match.js, contourflood.js, node.js, routes.js and camera.js. Camera tables are split per act. |
+| Feasibility: SD plates, oblique table | No registration onto the oblique 1943 table; it is only flooded away. The tug-of-war rope match is dropped. |
+| Feasibility: audio only uses synth.py features | No per-cue HPF/LPF. Sonic-logo notes are ui_blip at explicit frequencies. VO lines that need sync are separate files. |
+| Audience: hook in 0-3 s; product by 10 s | The live match is on frame 0, the alert is lifted to 40 px at 0.5, and the world and UI are back by 14 s. |
+| Audience: emotional spine early | 'Every great plan needed a team.' over real faces at 4.6-6.6. |
+| Audience: say and show the thesis | '...see whose strategy holds' is spoken, and 'See whose / strategy holds.' is shown at 59.5. |
+| Audience: no split attention; VO budget | At most about 6 s of near-continuous VO. Gaps of at least 0.4 s. No voice over Jules's lifted message. |
+| Audience: no single-register stretch over about 15 s | Live UI, then archive, then world plus title, then in-world lobby, then whip/versus, then live UI, then word cards, then montage, then review, then type card, then end card. |
+
+## Build order (one engineer)
+
+1. Shared kit (about 6 h): match.js (Match.state, buildMatchScreen, LIFT, film-safe layout); Brand.terrain bake cache, Floodgate margin and res 2; contourflood.js; node.js + handoffs.js; routes.js; camera.js (per-act tables); HUD slug; logo recolour; Brand.archive time/rate and loop:false.
+2. Live-UI scenes on one builder: s01, s02, s08, s09, s10, s11, s12.
+3. World scenes: s04 (flood and title), s05, then s06/s07 from one mirror function, then s13 and s14 (medallion and end card).
+4. Archive: s03 (handoffs measured from stills).
+5. Render contact sheets every 0.5 s, then check the stills at 3.0 vs 43.5 (loop closure), ?guides=1 for title-safe, and onFrame under 15 ms.
