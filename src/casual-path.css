@@ -6,7 +6,33 @@
 .casual-preview-link:hover { background: #d6f79d; border-color: #d6f79d; }
 .casual-preview-link:active { transform: translateY(1px); }
 .casual-opening-world { min-width: 0; }
-.casual-archive-drawing { display: block; width: 100%; height: auto; overflow: visible; }
+.casual-signal-scene { display: block; width: 100%; height: auto; overflow: visible; font-family: "JetBrains Mono Variable", monospace; }
+.casual-signal-scene .css-waypoint text { fill: #c9c4fb; font-size: 9px; letter-spacing: .14em; }
+.casual-signal-scene .css-waypoint-n { fill: #7e78bf; }
+.casual-signal-scene .css-glint { opacity: .8; }
+.casual-signal-scene .css-signal circle { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .casual-signal-scene .css-signal circle { transform-box: fill-box; transform-origin: center; animation: css-signal 4.8s cubic-bezier(.2,.6,.35,1) infinite; }
+  .casual-signal-scene .css-signal circle:nth-child(2) { animation-delay: 1.6s; }
+  .casual-signal-scene .css-signal circle:nth-child(3) { animation-delay: 3.2s; }
+  .casual-signal-scene .css-beacon { transform-box: fill-box; transform-origin: center; animation: css-beacon 2.4s ease-in-out infinite alternate; }
+  .casual-signal-scene .css-glint { animation: css-glint 3.6s ease-in-out infinite alternate; }
+  .casual-signal-scene .css-twinkle { animation: css-twinkle 3s ease-in-out infinite alternate; }
+  .casual-signal-scene .css-tide { animation: css-tide 7s ease-in-out infinite alternate; }
+  .casual-signal-scene .css-channel { animation: css-channel 2.8s linear infinite; }
+  .casual-signal-scene .css-reserve { animation: css-reserve 5s ease-in-out infinite; }
+  .casual-signal-scene .css-waypoint { animation: css-waypoint 9s ease-in-out calc(var(--i) * 3s - 9s) infinite; opacity: .45; }
+  .casual-signal-scene .css-waypoint-ring { transform-box: fill-box; transform-origin: center; animation: css-waypoint-ring 9s ease-in-out calc(var(--i) * 3s - 9s) infinite; }
+}
+@keyframes css-signal { 0% { transform: scale(1); opacity: .85; } 100% { transform: scale(11); opacity: 0; } }
+@keyframes css-beacon { from { transform: scale(.8); opacity: .2; } to { transform: scale(1.5); opacity: .5; } }
+@keyframes css-glint { from { opacity: .35; } to { opacity: .95; } }
+@keyframes css-twinkle { from { opacity: .15; } to { opacity: .95; } }
+@keyframes css-tide { from { transform: translateY(1px); } to { transform: translateY(-4px); } }
+@keyframes css-channel { to { stroke-dashoffset: -12; } }
+@keyframes css-reserve { 0%, 100% { opacity: .3; } 50% { opacity: .08; } }
+@keyframes css-waypoint { 0%, 30% { opacity: 1; } 38%, 100% { opacity: .45; } }
+@keyframes css-waypoint-ring { 0% { transform: scale(1); opacity: 1; } 30% { transform: scale(1.6); opacity: .9; } 38%, 100% { transform: scale(1); opacity: .5; } }
 .casual-story { margin-top: 80px; padding-top: 64px; border-top: 1px solid #263a2d; scroll-margin-top: 115px; }
 .casual-story-heading { max-width: 850px; }
 .product-site .casual-story-heading > h2 { font-size: clamp(36px, 4vw, 55px); line-height: 1.14; }
@@ -58,6 +84,7 @@
   .product-site .casual-entry-copy > p { margin-top: 23px; font-size: 14px; max-width: 365px; }
   .casual-preview-link { margin-top: 26px; min-height: 46px; font-size: 12px; }
   .casual-opening-world { width: calc(100% + 12px); margin-inline: -6px; }
+  .casual-signal-scene .css-waypoint text { font-size: 14px; letter-spacing: .1em; }
   .casual-story { margin-top: 43px; padding-top: 42px; scroll-margin-top: 105px; }
   .product-site .casual-story-heading > h2 { font-size: clamp(32px, 7.7vw, 43px); }
   .product-site .casual-story-heading > p { margin-top: 22px; font-size: 14px; }

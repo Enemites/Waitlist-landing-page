@@ -1,39 +1,7 @@
 import { useId, useRef, useState, type ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Check, Copy } from "lucide-react";
 import { scrollToWaitlist } from "../../lib/scroll";
-
-function ArchiveScene() {
-  const titleId = useId();
-  return <svg className="casual-archive-drawing" viewBox="0 0 640 370" role="img" aria-labelledby={titleId}>
-    <title id={titleId}>A tidal archive connected to the shore by one crossing, with a relay on its roof and a lower channel below.</title>
-    <path d="M55 213 351 73 598 191 303 332Z" fill="#e3ece5" />
-    <g fill="none" stroke="#c2d4c8" strokeWidth="2" strokeLinecap="round"><path d="m84 230 39-18m144 104 46-22m187-43 46-22m-306-81 29-14m227 45 38-18" /><path d="m104 253 22-10m240 58 31-14m115-82 23-11" /></g>
-    <path d="m37 244 112-53 103 49-112 53Z" fill="#e5e8dc" />
-    <path d="m37 244 103 49v17L37 261Z" fill="#d4dccc" />
-    <path d="m140 293 112-53v17l-112 53Z" fill="#b9c9b8" />
-    <path d="m57 244 91-43 82 39-91 43Z" fill="none" stroke="#f8faf4" strokeWidth="2" />
-    <path d="m320 179 130-61 111 53-130 61Z" fill="#dce3d6" />
-    <path d="m320 179 111 53v20l-111-53Z" fill="#b7c8b6" />
-    <path d="m431 232 130-61v20l-130 61Z" fill="#a3baa6" />
-    <path d="m360 88 86-40 80 38-86 41Z" fill="#f0f1e8" />
-    <path d="m360 88 80 39v76l-80-39Z" fill="#d3ddce" />
-    <path d="m440 127 86-41v77l-86 40Z" fill="#b7cbb8" />
-    <path d="m374 85 72-33 65 31-72 34Z" fill="#e1e7da" />
-    <path d="m395 142 22 11v37l-22-11Z" fill="#789080" />
-    <path d="m401 149 10 5v26l-10-5Z" fill="#c7d3c0" />
-    <g stroke="#8aa58c" strokeWidth="4" strokeLinecap="square"><path d="m375 115 0 21m10-16v21m78-7v19m13-25v19m13-25v19m13-25v19" /></g>
-    <path d="m447 105 12-6 12 6-12 6Z" fill="#9bb39c" />
-    <path d="M459 102V52" stroke="#5f7d68" strokeWidth="3" />
-    <circle cx="459" cy="47" r="5" fill="#8aa58c" />
-    <path d="m163 264 14 7 188-89-14-7Z" fill="#e8ecdf" />
-    <path d="m177 271 188-89v12l-188 89Z" fill="#a5b9a4" />
-    <path d="m165 257 188-89m-176 96 188-89" fill="none" stroke="#7b987e" strokeWidth="2" />
-    <path d="M226 251v30m59-58v28m58-57v25" stroke="#99b09a" strokeWidth="3" />
-    <path d="m106 258 21-10 26 12-21 10Z" fill="#cad6c2" />
-    <path d="m106 258 26 12v9l-26-12Zm26 12 21-10v9l-21 10Z" fill="#a7bda7" />
-    <path d="m456 230 21-10v20l-21 10Z" fill="#9eb39f" />
-  </svg>;
-}
+import CasualSignalScene from "./CasualSignalScene";
 
 /** One reserve branches into three distinct possibilities, without interface framing. */
 function ConsequenceDiagram() {
@@ -99,7 +67,7 @@ export default function CasualPath({ children }: { children?: ReactNode }) {
     <section className="casual-entry" aria-labelledby="casual-world-heading">
       <div className="product-container casual-entry-layout">
         <div className="casual-entry-copy"><h2 id="casual-world-heading">A signal.<br />Then, <span>your move.</span></h2><p>A coastal archive. A rising tide. One power reserve. Where would you go first?</p><a className="casual-preview-link" href="#casual-signal">Follow the signal <ArrowDownRight size={18} strokeWidth={1.5} aria-hidden="true" /></a></div>
-        <div className="casual-opening-world"><ArchiveScene /></div>
+        <div className="casual-opening-world"><CasualSignalScene /></div>
       </div>
     </section>
 
