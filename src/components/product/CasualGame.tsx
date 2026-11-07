@@ -2,13 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { Sparkles, Trophy, KeyRound } from "lucide-react";
 
 /*
- * The light game layer that runs across the Casual path: three secrets hidden around the page,
- * three endings of the Tidal Archive to collect, and toasts when something is found.
+ * The light game layer that runs across the Casual path: three secrets hidden around the page and
+ * the endings of each playable opening to collect, with a toast when something is found. There is
+ * no floating counter; the World Maker's locked place is where the hunt shows itself.
  * Progress is kept in this browser only, as a convenience; the page works the same without it.
  */
 
 export type SecretId = "falling-star" | "bottle" | "odd-bulb";
-export type EndingId = "relay" | "crossing" | "channel";
 
 export const secretNames: Record<SecretId, { name: string; hint: string }> = {
   "falling-star": { name: "A falling star", hint: "Look up when you arrive somewhere." },
@@ -16,25 +16,19 @@ export const secretNames: Record<SecretId, { name: string; hint: string }> = {
   "odd-bulb": { name: "The odd bulb", hint: "One light on the machine isn't like the others." },
 };
 
-export const endingNames: Record<EndingId, string> = { relay: "The Answer", crossing: "The Way Back", channel: "The Undertow" };
-
 type Toast = { id: number; kind: "secret" | "ending" | "unlock"; title: string; detail: string };
-type Progress = { secrets: SecretId[]; endings: EndingId[] };
-type GameApi = Progress & { findSecret: (id: SecretId) => void; findEnding: (id: EndingId) => void; unlocked: boolean };
+type Progress = { secrets: SecretId[]; endings: string[] };
+type GameApi = Progress & { findSecret: (id: SecretId) => void; findEnding: (id: string, name: string) => void; unlocked: boolean };
 
 const GameContext = createContext<GameApi>({ secrets: [], endings: [], unlocked: false, findSecret: () => undefined, findEnding: () => undefined });
 export const useCasualGame = () => useContext(GameContext);
 
 const STORAGE_KEY = "realms-casual-progress";
 const SECRET_IDS = Object.keys(secretNames) as SecretId[];
-const ENDING_IDS = Object.keys(endingNames) as EndingId[];
 
 export function CasualGameProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<Progress>({ secrets: [], endings: [] });
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const [visible, setVisible] = useState(false);
-  const [hintOpen, setHintOpen] = useState(false);
-  const area = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
 
   useEffect(() => {
@@ -42,19 +36,11 @@ export function CasualGameProvider({ children }: { children: ReactNode }) {
       const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as Partial<Progress> | null;
       if (saved) setProgress({
         secrets: (saved.secrets ?? []).filter((id): id is SecretId => SECRET_IDS.includes(id as SecretId)),
-        endings: (saved.endings ?? []).filter((id): id is EndingId => ENDING_IDS.includes(id as EndingId)),
+        endings: (saved.endings ?? []).filter((id): id is string => typeof id === "string" && id.includes(":")),
       });
     } catch { /* Progress is optional. */ }
   }, []);
 
-
-  useEffect(() => {
-    const node = area.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { rootMargin: "-30% 0px -30% 0px" });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
 
   const toast = useCallback((item: Omit<Toast, "id">) => {
     const id = nextId.current++;
@@ -77,39 +63,28 @@ export function CasualGameProvider({ children }: { children: ReactNode }) {
     if (now.secrets.includes(id)) return;
     const secrets = [...now.secrets, id];
     commit({ ...now, secrets });
-    toast({ kind: "secret", title: "Secret found!", detail: `${secretNames[id].name} · ${secrets.length} of 3` });
-    if (secrets.length === SECRET_IDS.length) window.setTimeout(() => toast({ kind: "unlock", title: "Explorer!", detail: "A secret place is now in the World Maker." }), 900);
+    toast({ kind: "secret", title: "You found a secret", detail: `${secretNames[id].name} · ${secrets.length} of 3` });
+    if (secrets.length === SECRET_IDS.length) window.setTimeout(() => toast({ kind: "unlock", title: "Secret place unlocked", detail: "It's on the World Maker's place reel now." }), 900);
   }, [toast]);
 
-  const findEnding = useCallback((id: EndingId) => {
+  const findEnding = useCallback((id: string, name: string) => {
     const now = current.current;
     if (now.endings.includes(id)) return;
     const endings = [...now.endings, id];
     commit({ ...now, endings });
-    toast({ kind: "ending", title: endings.length === ENDING_IDS.length ? "Every ending found!" : "Ending unlocked", detail: `${endingNames[id]} · ${endings.length} of 3` });
+    toast({ kind: "ending", title: "New ending", detail: `${name} · ${endings.length} of 9` });
   }, [toast]);
 
   const unlocked = progress.secrets.length === SECRET_IDS.length;
   const api = useMemo(() => ({ ...progress, unlocked, findSecret, findEnding }), [progress, unlocked, findSecret, findEnding]);
 
   return <GameContext.Provider value={api}>
-    <div ref={area}>{children}</div>
+    {children}
     <div className="casual-toasts" aria-live="polite">
       {toasts.map(t => <div key={t.id} className="casual-toast" data-kind={t.kind}>
         <span className="casual-toast-icon" aria-hidden="true">{t.kind === "secret" ? <Sparkles size={18} /> : t.kind === "ending" ? <Trophy size={18} /> : <KeyRound size={18} />}</span>
         <span><strong>{t.title}</strong><span>{t.detail}</span></span>
       </div>)}
-    </div>
-    <div className="casual-hud" data-visible={visible} data-complete={unlocked}>
-      <button type="button" className="casual-hud-chip" aria-expanded={hintOpen} aria-controls="casual-hud-hints" onClick={() => setHintOpen(open => !open)}>
-        <Sparkles size={16} aria-hidden="true" />
-        <span><span className="casual-hud-word">Secrets </span><b>{progress.secrets.length}/3</b><span className="sr-only"> found</span></span>
-        <span className="casual-hud-dots" aria-hidden="true">{SECRET_IDS.map(id => <i key={id} data-found={progress.secrets.includes(id)} />)}</span>
-      </button>
-      <div id="casual-hud-hints" className="casual-hud-hints" hidden={!hintOpen}>
-        <p>{unlocked ? "All three found. Spin the World Maker to visit the secret place." : "Three things are hidden on this page. Find them to unlock a secret place."}</p>
-        <ul>{SECRET_IDS.map(id => <li key={id} data-found={progress.secrets.includes(id)}>{progress.secrets.includes(id) ? secretNames[id].name : secretNames[id].hint}</li>)}</ul>
-      </div>
     </div>
   </GameContext.Provider>;
 }
@@ -124,6 +99,6 @@ export function CasualSecret({ id, label, className = "", children }: { id: Secr
 /** A one-shot burst of confetti, restarted by changing its key. */
 export function CasualBurst({ x = "50%", y = "50%", count = 16 }: { x?: string; y?: string; count?: number }) {
   return <span className="casual-burst" style={{ left: x, top: y }} aria-hidden="true">
-    {Array.from({ length: count }, (_, i) => <i key={i} style={{ "--a": `${(360 / count) * i + (i % 2) * 9}deg`, "--d": `${46 + (i % 3) * 22}px`, "--c": ["#ffd23f", "#ff6ad5", "#3ee6c8", "#ff7a59", "#b9b3f5"][i % 5] } as CSSProperties} />)}
+    {Array.from({ length: count }, (_, i) => <i key={i} style={{ "--a": `${(360 / count) * i + (i % 2) * 9}deg`, "--d": `${46 + (i % 3) * 22}px` } as CSSProperties} />)}
   </span>;
 }

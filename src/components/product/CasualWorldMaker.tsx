@@ -1,33 +1,34 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
-import { Check, Dices, Link2, Lock, LockOpen, Star } from "lucide-react";
+import { Check, Dices, Link2, Lock, LockOpen, Shuffle, Star } from "lucide-react";
 import CasualWorldPoster, { worlds, type WorldId } from "./CasualWorldPoster";
 import TidalArchiveScene from "./TidalArchiveScene";
-import { CasualBurst, CasualSecret, useCasualGame } from "./CasualGame";
+import { CasualBurst, CasualSecret, secretNames, useCasualGame, type SecretId } from "./CasualGame";
 
 /*
  * The World Maker: a slot machine with three reels (a place, a moment, a twist). Each spin deals a
- * world card: the place's poster under the moment's weather, the twist as its premise, and three
- * first moves. Hold a reel to keep it. Cards can be shared as a link. The secret place appears on
- * the place reel once the three secrets on the page are found.
+ * world card: the place's art under the moment's weather, the twist as its premise, and three first
+ * moves. Hold a reel to keep it. Cards can be sent to a friend, who opens them ready to remix. The
+ * secret place appears on the place reel once the three secrets on the page are found.
  */
 
 export type PlaceId = WorldId | "archive" | "upside";
 
-type Place = { id: PlaceId; label: string; name: string; color: string; secret?: boolean };
+type Place = { id: PlaceId; label: string; name: string; secret?: boolean };
 type Moment = { id: string; label: string; phrase: string };
 type Twist = { id: string; label: string; line: string; genre: string; moves: [string, string, string] };
 
 const places: Place[] = [
-  ...worlds.slice(0, 2).map(w => ({ id: w.id, label: w.short, name: w.name, color: w.color })),
-  { id: "archive", label: "Tidal Archive", name: "The Tidal Archive", color: "#b9b3f5" },
-  ...worlds.slice(2).map(w => ({ id: w.id, label: w.short, name: w.name, color: w.color })),
-  { id: "upside", label: "Upside-down Archive", name: "The Upside-down Archive", color: "#ff6ad5", secret: true },
+  ...worlds.slice(0, 2).map(w => ({ id: w.id, label: w.short, name: w.name })),
+  { id: "archive", label: "Tidal Archive", name: "The Tidal Archive" },
+  ...worlds.slice(2).map(w => ({ id: w.id, label: w.short, name: w.name })),
+  { id: "upside", label: "Upside-down Archive", name: "The Upside-down Archive", secret: true },
 ];
 
 const moments: Moment[] = [
   { id: "sunset", label: "Last sunset", phrase: "At the last sunset" },
-  { id: "blackout", label: "Blackout", phrase: "During a blackout" },
   { id: "festival", label: "Festival night", phrase: "On festival night" },
+  { id: "blackout", label: "Blackout", phrase: "During a blackout" },
+  { id: "snow", label: "First snow", phrase: "On the morning of the first snow" },
   { id: "storm", label: "Storm", phrase: "In the middle of a storm" },
   { id: "flood", label: "After the flood", phrase: "The morning after the flood" },
   { id: "fog", label: "Thick fog", phrase: "In fog so thick you can't see your hands" },
@@ -35,12 +36,13 @@ const moments: Moment[] = [
 
 const twists: Twist[] = [
   { id: "gravity", label: "Gravity flips", line: "Gravity flips every hour, on the hour.", genre: "Puzzle", moves: ["Tie yourself down", "Ride the next flip", "Find who's flipping it"] },
+  { id: "rivals", label: "Best friend, other team", line: "Your best friend is on the other team.", genre: "Rivals", moves: ["Make a secret deal", "Play to win", "Switch sides"] },
   { id: "forgotten", label: "Nobody knows you", line: "Everyone here has forgotten your name.", genre: "Mystery", moves: ["Borrow someone's name", "Find who remembers", "Write yours everywhere"] },
+  { id: "crew", label: "Everyone joins", line: "Everyone you meet wants to join your crew.", genre: "Party", moves: ["Say yes to all of them", "Hold auditions", "Run for it"] },
   { id: "map", label: "Living map", line: "The map redraws itself every time you blink.", genre: "Explore", moves: ["Try not to blink", "Follow the newest road", "Draw your own map"] },
   { id: "key", label: "Stranger's key", line: "A stranger presses a key into your hand and runs.", genre: "Chase", moves: ["Chase the stranger", "Find the lock", "Hide the key"] },
   { id: "yesterday", label: "Doors to yesterday", line: "Every door here opens onto yesterday.", genre: "Time loop", moves: ["Fix one mistake", "Warn someone", "Stay a little longer"] },
   { id: "strike", label: "Animal strike", line: "The animals have gone on strike.", genre: "Comedy", moves: ["Hear their demands", "Cross the picket line", "Join the strike"] },
-  { id: "shadow", label: "Runaway shadow", line: "Your shadow has started walking a step ahead of you.", genre: "Weird", moves: ["Follow it", "Race it", "Ask where it's going"] },
 ];
 
 const REPEAT = 5;
@@ -63,7 +65,8 @@ function WorldArt({ place }: { place: PlaceId }) {
 }
 
 export default function CasualWorldMaker({ request }: { request?: { place: PlaceId; nonce: number } }) {
-  const { unlocked } = useCasualGame();
+  const { unlocked, secrets } = useCasualGame();
+  const [fromFriend, setFromFriend] = useState(false);
   const [pick, setPick] = useState<Pick>([0, 2, 0]);
   const [held, setHeld] = useState<[boolean, boolean, boolean]>([false, false, false]);
   const [motion, setMotion] = useState<ReelMotion[]>(() => reelsDef.map((r, i) => ({ pos: rest(r.items.length, [0, 2, 0][i]), ms: 0 })));
@@ -88,7 +91,7 @@ export default function CasualWorldMaker({ request }: { request?: { place: Place
     if (!value) return;
     const [p, m, t] = value.split(".");
     const next: Pick = [places.findIndex(x => x.id === p), moments.findIndex(x => x.id === m), twists.findIndex(x => x.id === t)];
-    if (next.every(i => i >= 0)) { settle(next); setDeal(d => d + 1); }
+    if (next.every(i => i >= 0)) { settle(next); setDeal(d => d + 1); setFromFriend(true); }
     return () => timers.current.forEach(window.clearTimeout);
   }, []);
 
@@ -137,13 +140,21 @@ export default function CasualWorldMaker({ request }: { request?: { place: Place
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request?.nonce]);
 
+  // Remixing a friend's world keeps their place and moment and spins a new twist.
+  const remix = () => {
+    const hold: [boolean, boolean, boolean] = [true, true, false];
+    setHeld(hold);
+    setFromFriend(false);
+    spin(hold);
+  };
+
   const toggleHold = (reel: number) => setHeld(current => current.map((h, i) => i === reel ? !h : h) as [boolean, boolean, boolean]);
 
   const place = places[pick[0]];
   const moment = moments[pick[1]];
   const twist = twists[pick[2]];
   const stars = rarity(pick);
-  const holo = stars === 3 || unlocked;
+  const shine = stars === 3 || unlocked;
 
   async function copyLink() {
     const url = new URL("/realms", window.location.origin);
@@ -178,7 +189,7 @@ export default function CasualWorldMaker({ request }: { request?: { place: Place
       <div className="casual-maker-heading">
         <p className="casual-eyebrow">World Maker</p>
         <h2 id="casual-maker-heading">Spin up <span>a world.</span></h2>
-        <p>Pick a place, a moment and a twist, or let the machine choose. In Realms, our AI world model imagines everything else around it.</p>
+        <p>Pick a place, a moment and a twist, or let the machine choose. Send it to a friend and see what they make of it. In Realms, our AI world model imagines everything else around it.</p>
       </div>
 
       <div className="casual-maker-layout">
@@ -200,7 +211,7 @@ export default function CasualWorldMaker({ request }: { request?: { place: Place
                   <div className="casual-slot-strip" style={{ transform: `translateY(calc(${1 - motion[r].pos} * var(--slot-h)))`, transitionDuration: `${motion[r].ms}ms` }}>
                     {Array.from({ length: REPEAT }, (_, copy) => items.map((item, i) => {
                       const locked = r === 0 && (item as Place).secret && !unlocked;
-                      return <span key={`${copy}-${i}`} className="casual-slot-item" data-locked={locked} style={r === 0 ? { "--item-c": (item as Place).color } as CSSProperties : undefined}>
+                      return <span key={`${copy}-${i}`} className="casual-slot-item" data-locked={locked}>
                         {locked ? <><Lock size={14} />???</> : item.label}
                       </span>;
                     }))}
@@ -218,15 +229,23 @@ export default function CasualWorldMaker({ request }: { request?: { place: Place
             <Dices size={20} strokeWidth={2.2} aria-hidden="true" />{spinning ? "Spinning…" : made ? "Spin again" : "Spin a world"}
           </button>
           <p className="casual-machine-count">{made ? `Worlds made: ${made}` : "Tip: hold a reel to keep it between spins."}</p>
+          {!unlocked && <details className="casual-machine-locked">
+            <summary><Lock size={13} aria-hidden="true" />One place is locked. Three secrets are hidden on this page ({secrets.length} found).</summary>
+            <ul>{(Object.keys(secretNames) as SecretId[]).map(id => <li key={id} data-found={secrets.includes(id)}>{secrets.includes(id) ? `Found: ${secretNames[id].name}` : secretNames[id].hint}</li>)}</ul>
+          </details>}
           <button type="button" className="casual-machine-lever" onClick={() => spin()} tabIndex={-1} aria-hidden="true"><i /></button>
         </div>
 
         <div className="casual-card-stage">
-          <article key={deal} ref={card} className="casual-card" data-holo={holo} data-rarity={stars} style={{ "--card-c": place.color } as CSSProperties} onPointerMove={tilt} onPointerLeave={untilt}>
+          {fromFriend && <div className="casual-card-friend">
+            <p><strong>A friend sent you this world.</strong> Keep their place and moment, and spin a twist of your own.</p>
+            <button type="button" className="casual-btn casual-btn-small" onClick={remix} disabled={spinning}><Shuffle size={16} aria-hidden="true" />Remix it</button>
+          </div>}
+          <article key={deal} ref={card} className="casual-card" data-shine={shine} data-rarity={stars} onPointerMove={tilt} onPointerLeave={untilt}>
             <div className="casual-card-inner">
               <div className="casual-card-art" data-moment={moment.id}>
                 <WorldArt place={place.id} />
-                <span className="casual-card-fx" aria-hidden="true">{moment.id === "festival" && Array.from({ length: 14 }, (_, i) => <i key={i} />)}</span>
+                <span className="casual-card-fx" aria-hidden="true">{(moment.id === "festival" || moment.id === "snow") && Array.from({ length: 14 }, (_, i) => <i key={i} />)}</span>
                 <span className="casual-card-genre">{twist.genre}</span>
                 <span className="casual-card-stars" aria-label={`${rarityName[stars]} world`}>{Array.from({ length: 3 }, (_, i) => <Star key={i} size={14} fill={i < stars ? "currentColor" : "none"} aria-hidden="true" />)}</span>
               </div>
@@ -236,8 +255,8 @@ export default function CasualWorldMaker({ request }: { request?: { place: Place
               <p className="casual-card-moves-label">Your first move?</p>
               <ul className="casual-card-moves">{twist.moves.map(move => <li key={move}>{move}</li>)}</ul>
               <div className="casual-card-foot">
-                <span className="casual-card-rarity">{rarityName[stars]}{holo && stars === 3 ? " · holo" : ""}</span>
-                <button type="button" className="casual-card-share" onClick={copyLink}>{copied === "copied" ? <Check size={15} aria-hidden="true" /> : <Link2 size={15} aria-hidden="true" />}{copied === "copied" ? "Link copied" : "Share this world"}</button>
+                <span className="casual-card-rarity">{rarityName[stars]}</span>
+                <button type="button" className="casual-card-share" onClick={copyLink}>{copied === "copied" ? <Check size={15} aria-hidden="true" /> : <Link2 size={15} aria-hidden="true" />}{copied === "copied" ? "Link copied" : "Send to a friend"}</button>
               </div>
             </div>
             <span className="casual-card-foil" aria-hidden="true" />

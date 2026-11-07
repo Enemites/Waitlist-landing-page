@@ -1,4 +1,6 @@
 import { useId, type ReactNode } from "react";
+import { particles, ridge, seeded } from "./casualArt";
+import { KiteHill, MidnightFunfair, RooftopRelay, SnowballSiege, TheDeep } from "./CasualWorldScenes";
 
 /*
  * World posters for the Casual path: flat, layered landscapes in the manner of a travel poster.
@@ -7,58 +9,21 @@ import { useId, type ReactNode } from "react";
  * inside x 330-870, y 170-830. Geometry is seeded, so the server render and hydration match.
  */
 
-export type WorldId = "orchard" | "observatory" | "lift" | "delta";
+export type WorldId = "orchard" | "observatory" | "lift" | "delta" | "kites" | "rooftop" | "snowball" | "funfair" | "deep";
 
-export type World = { id: WorldId; name: string; short: string; genre: string; color: string };
+export type World = { id: WorldId; name: string; short: string; genre: string; mood: "calm" | "lively" };
 
 export const worlds: World[] = [
-  { id: "orchard", name: "The Glass Orchard", short: "Glass Orchard", genre: "Mystery", color: "#ff7a59" },
-  { id: "observatory", name: "The Salt Observatory", short: "Salt Observatory", genre: "Chase", color: "#3ee6c8" },
-  { id: "lift", name: "The Last Lift", short: "Last Lift", genre: "Rescue", color: "#7fb2ff" },
-  { id: "delta", name: "The Lantern Delta", short: "Lantern Delta", genre: "Quest", color: "#ffb23f" },
+  { id: "kites", name: "Kite Hill", short: "Kite Hill", genre: "With friends", mood: "lively" },
+  { id: "rooftop", name: "Rooftop Relay", short: "Rooftop Relay", genre: "Action", mood: "lively" },
+  { id: "orchard", name: "The Glass Orchard", short: "Glass Orchard", genre: "Mystery", mood: "calm" },
+  { id: "snowball", name: "Snowball Siege", short: "Snowball Siege", genre: "Team battle", mood: "lively" },
+  { id: "observatory", name: "The Salt Observatory", short: "Salt Observatory", genre: "Chase", mood: "calm" },
+  { id: "funfair", name: "Midnight Funfair", short: "Midnight Funfair", genre: "Spooky", mood: "lively" },
+  { id: "lift", name: "The Last Lift", short: "Last Lift", genre: "Rescue", mood: "calm" },
+  { id: "deep", name: "The Deep", short: "The Deep", genre: "Thrill", mood: "lively" },
+  { id: "delta", name: "The Lantern Delta", short: "Lantern Delta", genre: "Quest", mood: "calm" },
 ];
-
-export function seeded(seed: number) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-type Ridge = { d: string; at: (x: number) => number };
-
-/** A horizon line from layered sines. "peaks" folds them for sharp summits. */
-export function ridge(seed: number, base: number, amp: number, kind: "soft" | "peaks" = "soft", wave = 1): Ridge {
-  const random = seeded(seed);
-  const parts = [0, 1, 2].map(i => ({ f: (0.004 + random() * 0.003) * (i + 1) * wave, p: random() * Math.PI * 2, w: [0.55, 0.3, 0.15][i] }));
-  const at = (x: number) => {
-    let v = 0;
-    for (const part of parts) {
-      const s = Math.sin(x * part.f + part.p);
-      v += part.w * (kind === "peaks" ? 1 - Math.abs(s) * 2 : s);
-    }
-    return base - amp * v;
-  };
-  let d = "M-20 1000";
-  for (let x = -20; x <= 1220; x += 12) d += `L${x} ${at(x).toFixed(1)}`;
-  return { d: `${d}L1220 1000Z`, at };
-}
-
-function particles(seed: number, count: number, box: [number, number, number, number]) {
-  const random = seeded(seed);
-  return Array.from({ length: count }, () => ({
-    x: Math.round(box[0] + random() * (box[2] - box[0])),
-    y: Math.round(box[1] + random() * (box[3] - box[1])),
-    r: +(0.8 + random() * 2.2).toFixed(2),
-    o: +(0.35 + random() * 0.6).toFixed(2),
-    delay: -Math.round(random() * 9000),
-    dur: Math.round(7000 + random() * 8000),
-  }));
-}
 
 function Orchard({ id }: { id: (name: string) => string }) {
   const far = ridge(11, 640, 40);
@@ -203,14 +168,19 @@ function Delta({ id }: { id: (name: string) => string }) {
   </>;
 }
 
-const skies: Record<WorldId, { stops: [string, string][]; extra?: ReactNode }> = {
+const skies: Partial<Record<WorldId, { stops: [string, string][] }>> = {
   orchard: { stops: [["0", "#2b1030"], [".45", "#a53a5c"], [".66", "#ff8a62"], ["1", "#ffc48c"]] },
   observatory: { stops: [["0", "#040b18"], [".55", "#0c3140"], [".72", "#1f6170"], ["1", "#2c7a80"]] },
   lift: { stops: [["0", "#9eb4e6"], [".5", "#dcdff2"], ["1", "#fbe9df"]] },
   delta: { stops: [["0", "#07041a"], [".5", "#26103f"], [".64", "#5a1d4f"], ["1", "#120624"]] },
 };
 
-const scenes: Record<WorldId, (props: { id: (name: string) => string }) => ReactNode> = { orchard: Orchard, observatory: Observatory, lift: Lift, delta: Delta };
+const scenes: Record<WorldId, (props: { id: (name: string) => string }) => ReactNode> = {
+  orchard: Orchard, observatory: Observatory, lift: Lift, delta: Delta,
+  kites: KiteHill, funfair: MidnightFunfair, deep: TheDeep,
+  rooftop: ({ id }) => <RooftopRelay id={id} beat="choose" />,
+  snowball: ({ id }) => <SnowballSiege id={id} beat="choose" />,
+};
 
 export default function CasualWorldPoster({ world, label }: { world: WorldId; label?: string }) {
   const uid = useId().replace(/:/g, "");
@@ -219,7 +189,7 @@ export default function CasualWorldPoster({ world, label }: { world: WorldId; la
   return <svg className="world-poster" data-world={world} viewBox="0 0 1200 1000" preserveAspectRatio="xMidYMid slice" role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
     <defs>
       <linearGradient id={id("sky")} x1="0" y1="0" x2="0" y2="1">
-        {skies[world].stops.map(([offset, color]) => <stop key={offset} offset={offset} stopColor={color} />)}
+        {(skies[world]?.stops ?? []).map(([offset, color]) => <stop key={offset} offset={offset} stopColor={color} />)}
       </linearGradient>
       <radialGradient id={id("planet")} cx=".35" cy=".3" r=".8">
         <stop offset="0" stopColor="#f2fffb" /><stop offset=".6" stopColor="#9fe6d3" /><stop offset="1" stopColor="#3d8f8a" />

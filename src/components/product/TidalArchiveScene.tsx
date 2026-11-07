@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { seeded } from "./CasualWorldPoster";
+import { seeded } from "./casualArt";
 
 /*
  * The Tidal Archive, drawn once on a 1200 x 1000 canvas and shown with "slice", so it fills a wide
