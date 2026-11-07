@@ -22,6 +22,31 @@ const scenes = [
   },
 ] as const;
 
+/* Symbols are drawn shape by shape in scripts/generate-competitive-symbols.mjs: flat, self-contained,
+   each standing on its own ground line, so they read as signs rather than as clips of the past. */
+const symbols = [
+  {
+    key: "leadership",
+    index: "03",
+    label: "Leadership",
+    line: "No one drinks until everyone can.",
+    image: "/assets/realms/competitive-symbol-leadership.svg",
+    width: 630,
+    height: 410,
+    alt: "Flat symbol: in the desert, a commander pours the water from his helmet onto the sand while his army marches past on the horizon and two soldiers look on.",
+  },
+  {
+    key: "accountability",
+    index: "04",
+    label: "Accountability",
+    line: "Answer for every move.",
+    image: "/assets/realms/competitive-symbol-accountability.svg",
+    width: 1024,
+    height: 642,
+    alt: "Flat symbol: a man in amber sits alone at a witness table before a microphone, facing two questioners, with a full gallery watching behind him.",
+  },
+] as const;
+
 export default function CompetitiveLegends() {
   return <section className="competitive-legends" aria-labelledby="competitive-legends-heading">
     <div className="product-container">
@@ -41,6 +66,17 @@ export default function CompetitiveLegends() {
             <figcaption>
               <p className="competitive-legend-label"><span>{scene.index}</span>{scene.label}</p>
               <h3>{scene.line}</h3>
+            </figcaption>
+          </figure>
+        </ProductReveal>)}
+      </div>
+      <div className="competitive-symbols">
+        {symbols.map((symbol, index) => <ProductReveal key={symbol.key} className="competitive-symbol-reveal" delay={index * .08}>
+          <figure className="competitive-symbol" data-symbol={symbol.key}>
+            <img src={symbol.image} width={symbol.width} height={symbol.height} alt={symbol.alt} loading="lazy" decoding="async" />
+            <figcaption>
+              <p className="competitive-legend-label"><span>{symbol.index}</span>{symbol.label}</p>
+              <h3>{symbol.line}</h3>
             </figcaption>
           </figure>
         </ProductReveal>)}
