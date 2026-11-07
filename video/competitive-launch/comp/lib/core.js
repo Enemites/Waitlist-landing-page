@@ -344,6 +344,8 @@
   // ---------------------------------------------------------------------------------------
   // Registration API
   // ---------------------------------------------------------------------------------------
+  const globalFns = [];
+  let overlayEl = null;
   const Film = {
     fps: FPS, width: W, height: H,
     utils: { mulberry32, hashStr, rng, noise2D, noise3D, fbm, el, svg },
@@ -356,6 +358,13 @@
     manifest(list) {
       if (!Array.isArray(list)) throw new Error('Film.manifest([...]) expects an array');
       manifest = list.filter(Boolean);
+    },
+    // Film-wide layer above every scene (grain, vignette, letterbox). fn(t) runs after all
+    // scenes on every seek; same purity rules as ctx.onFrame.
+    overlay(fn) { if (typeof fn !== 'function') throw new Error('Film.overlay(fn) needs a function'); globalFns.push(fn); return fn; },
+    overlayRoot() {
+      if (!overlayEl) { overlayEl = el('div', 'film-overlay', null); overlayEl.id = 'film-overlay'; }
+      return overlayEl;
     },
     boot,
   };
@@ -544,6 +553,7 @@
         return pre.decode().catch(() => { throw new Error('svg <image> failed to load: ' + href); });
       }));
 
+      if (overlayEl) stage.appendChild(overlayEl); // no z-index: its children join the stage stacking context so blend modes see the scenes
       if (P.get('guides') === '1') buildGuides();
       if (P.get('hud') === '1' || P.get('guides') === '1') { hud = el('div', '', stage); hud.id = 'film-hud'; }
 
@@ -602,6 +612,11 @@
         for (const fn of s.seqFns) fn(s.lt, t);
         for (const fn of s.frameFns) fn(s.lt, t);
         perScene[s.id] = +(nowNative() - a).toFixed(2);
+      }
+      if (globalFns.length && P.get('overlay') !== '0') {
+        const a = nowNative();
+        for (const fn of globalFns) fn(t);
+        perScene['@overlay'] = +(nowNative() - a).toFixed(2);
       }
     } finally {
       inSeek = false;

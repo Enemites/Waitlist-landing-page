@@ -186,6 +186,9 @@ body {
 .film-scene.is-off { display: none; }
 /* Direct svg/canvas children of a scene root are full-frame layers stacked in DOM order. */
 .film-scene > svg, .film-scene > canvas { position: absolute; left: 0; top: 0; }
+/* Full-frame SVG layers made by Brand helpers stay full-frame even inside nested layer divs. */
+.film-scene svg[class^="brand-"], .film-scene svg[class*=" brand-"] { position: absolute; left: 0; top: 0; }
+.film-scene canvas.film-fill { position: absolute; left: 0; top: 0; }
 
 /* Canvas / sequence helpers fill their parent unless styled otherwise. */
 .film-fill { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -195,6 +198,9 @@ body {
 .t-mono { font-family: var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); font-weight: 500; }
 .t-amber { color: var(--amber); }
 .t-muted { color: var(--muted); }
+
+#film-overlay { position: absolute; inset: 0; pointer-events: none; }
+#film-overlay > * { position: absolute; left: 0; top: 0; }
 
 /* ---- Determinism guard ---------------------------------------------------------------------
  * CSS animations and transitions run on the wall clock, so they are forbidden. This rule makes
