@@ -15,7 +15,7 @@ import ProductReveal from "@/components/product/ProductReveal";
 import ValueTransformations from "@/components/product/ValueTransformations";
 import CasualPath from "@/components/product/CasualPath";
 import CompetitivePath from "@/components/product/CompetitivePath";
-import RealmsEntrySelector, { TRAVEL_SECONDS } from "@/components/product/RealmsEntrySelector";
+import RealmsEntrySelector from "@/components/product/RealmsEntrySelector";
 import RealmsEntryScenery from "@/components/product/RealmsEntryScenery";
 import RealmsScreens from "@/components/product/RealmsScreens";
 import { ArrowUpRight, Play } from "lucide-react";
@@ -227,7 +227,7 @@ const IntroductionPage = () => {
         </section>
 
         <section className="realms-entry" data-entry={entry} aria-labelledby="realms-entry-title">
-          <RealmsEntryScenery travel={TRAVEL_SECONDS} />
+          <RealmsEntryScenery />
           <div className="product-container">
             <div className="realms-entry-heading">
               <h2 id="realms-entry-title">Your way into <span>Realms.</span></h2>
