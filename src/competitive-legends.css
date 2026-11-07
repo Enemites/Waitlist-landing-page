@@ -42,13 +42,18 @@
 
 /* Symbols: cut-out figures on the page itself, like the object beside the profile headline.
    No mask and no frame; they sit side by side and stand on one shared baseline. */
-.competitive-symbols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; column-gap: clamp(32px, 5vw, 84px); margin-top: clamp(72px, 9vw, 132px); }
+.competitive-symbols { display: grid; row-gap: clamp(64px, 8vw, 120px); margin-top: clamp(80px, 10vw, 140px); }
 .competitive-symbol-reveal { min-width: 0; }
-.competitive-symbol { margin: 0; }
-/* Same box for both, anchored to the bottom, so the figures stand on one baseline. */
-.competitive-symbol > img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 890; object-fit: contain; object-position: 50% 100%; }
-.competitive-symbol > figcaption { margin-top: 26px; max-width: 420px; }
+/* Like the profile headline: copy on one side, the figure standing free on the other; the sides alternate. */
+.competitive-symbol { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr); column-gap: clamp(32px, 6vw, 96px); align-items: center; margin: 0; }
+.competitive-symbol > img { grid-column: 2; grid-row: 1; display: block; width: 100%; height: auto; }
+.competitive-symbol > figcaption { grid-column: 1; grid-row: 1; max-width: 400px; }
+.competitive-symbol[data-symbol="accountability"] { grid-template-columns: minmax(0, 1.28fr) minmax(0, .72fr); }
+.competitive-symbol[data-symbol="accountability"] > img { grid-column: 1; }
+.competitive-symbol[data-symbol="accountability"] > figcaption { grid-column: 2; justify-self: end; }
 .competitive-symbol .competitive-legend-label { display: flex; align-items: center; gap: 12px; }
+.product-site .competitive-symbol h3 + p { margin-top: 16px; font-size: 15px; line-height: 1.8; }
+.realms-entry-panel[data-entry="competitive"] .competitive-symbol h3 + p { color: #b8afa2; }
 .realms-entry-panel[data-entry="competitive"] .competitive-symbol h3,
 .product-site .competitive-symbol h3 { margin-top: 12px; font-size: clamp(22px, 2.1vw, 30px); font-weight: 600; line-height: 1.2; letter-spacing: -.04em; }
 
@@ -80,8 +85,13 @@
   .competitive-legend > figcaption,
   .competitive-legend[data-legend="teamwork"] > figcaption { justify-self: start; text-align: left; max-width: 460px; margin-top: -34px; }
   .competitive-legend[data-legend="teamwork"] .competitive-legend-label { justify-content: flex-start; }
-  .competitive-symbols { grid-template-columns: 1fr; row-gap: 56px; margin-top: 64px; }
-  .competitive-symbol-reveal { max-width: 720px; }
+  .competitive-symbols { row-gap: 64px; margin-top: 64px; }
+  .competitive-symbol,
+  .competitive-symbol[data-symbol="accountability"] { grid-template-columns: 1fr; row-gap: 24px; }
+  .competitive-symbol > img,
+  .competitive-symbol[data-symbol="accountability"] > img { grid-column: 1; grid-row: 1; max-width: 720px; }
+  .competitive-symbol > figcaption,
+  .competitive-symbol[data-symbol="accountability"] > figcaption { grid-column: 1; grid-row: 2; justify-self: start; }
 }
 @media (max-width: 767px) {
   .competitive-legends { padding-block: 60px 66px; }
@@ -96,8 +106,8 @@
   .competitive-legend[data-legend="teamwork"] > figcaption { margin-top: -22px; }
   .product-site .competitive-legend-label { font-size: 11px; letter-spacing: .04em; }
   .product-site .competitive-legend h3 { margin-top: 10px; font-size: 25px; }
-  .competitive-symbols { row-gap: 48px; margin-top: 52px; }
-  .competitive-symbol > figcaption { margin-top: 20px; }
+  .competitive-symbols { row-gap: 52px; margin-top: 52px; }
+  .product-site .competitive-symbol h3 + p { font-size: 14px; }
   .realms-entry-panel[data-entry="competitive"] .competitive-symbol h3,
   .product-site .competitive-symbol h3 { font-size: 23px; }
   .competitive-legends + .competitive-invitation-section { padding-top: 48px; }

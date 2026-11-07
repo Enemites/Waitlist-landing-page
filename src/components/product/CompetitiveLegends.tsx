@@ -29,7 +29,8 @@ const symbols = [
     key: "leadership",
     index: "03",
     label: "Leadership",
-    line: "No one drinks until everyone can.",
+    line: "Make the call your team can follow.",
+    copy: "Someone reads the field first. In a Realms match, every player can take that role and set the plan the team moves on.",
     image: "/assets/realms/competitive-symbol-leadership.svg",
     width: 1200,
     height: 890,
@@ -38,8 +39,9 @@ const symbols = [
   {
     key: "accountability",
     index: "04",
-    label: "Accountability",
-    line: "Answer for every move.",
+    label: "Review",
+    line: "Every move, on the record.",
+    copy: "When the match ends, see the decisions each team made, who made them, and where they led.",
     image: "/assets/realms/competitive-symbol-accountability.svg",
     width: 1024,
     height: 683,
@@ -77,6 +79,7 @@ export default function CompetitiveLegends() {
             <figcaption>
               <p className="competitive-legend-label"><span>{symbol.index}</span>{symbol.label}</p>
               <h3>{symbol.line}</h3>
+              <p>{symbol.copy}</p>
             </figcaption>
           </figure>
         </ProductReveal>)}
