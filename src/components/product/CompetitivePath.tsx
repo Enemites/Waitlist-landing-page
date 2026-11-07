@@ -22,7 +22,6 @@ export default function CompetitivePath({ children }: { children?: ReactNode }) 
         </div>
         <figure className="competitive-world-illustration">
           <CompetitiveMatchBoard />
-          <figcaption><span><i className="is-ours" />Your team</span><span><i className="is-shared" />One shared challenge</span><span><i className="is-theirs" />The opposition</span></figcaption>
         </figure>
       </div>
     </section>

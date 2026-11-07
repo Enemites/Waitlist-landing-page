@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 
 /**
  * Scenery around the entry map: each mode gets its own surroundings, not just a recolored map.
- * Casual is a moonlit night over distant ridges, Focused is a lens drawn tight on one summit,
+ * Casual is a moonlit night over distant ridges, Focused is a quiet lens drawn on one summit,
  * Competitive is an arena with banners for both sides. All decorative.
  */
 
@@ -48,36 +48,12 @@ function CasualScenery() {
   );
 }
 
-function FocusedScenery({ travel }: { travel: number }) {
-  const ticks = Array.from({ length: 41 }, (_, i) => i);
+function FocusedScenery() {
   return (
-    <>
-      <svg className="scn-lens" viewBox="-400 -400 800 800">
-        <circle r="120" className="scn-lens-ring" />
-        <circle r="210" className="scn-lens-ring scn-lens-ring--faint" />
-        <g className="scn-lens-dial">
-          <circle r="300" className="scn-lens-ring scn-lens-ring--dash" />
-        </g>
-        <g className="scn-lens-dial scn-lens-dial--reverse">
-          {Array.from({ length: 72 }, (_, i) => (
-            <line key={i} x1="0" y1={i % 6 === 0 ? -372 : -380} x2="0" y2="-388" transform={`rotate(${i * 5})`} className="scn-lens-tick" />
-          ))}
-        </g>
-        <path d="M-396 0h60M336 0h60M0 -396v60M0 336v60" className="scn-lens-cross" />
-      </svg>
-      <svg className="scn-altimeter" viewBox="0 0 48 400" preserveAspectRatio="xMidYMid meet">
-        {ticks.map((i) => (
-          <line key={i} x1={i % 5 === 0 ? 14 : 22} x2="32" y1={i * 10} y2={i * 10} className={i % 5 === 0 ? "scn-alt-major" : "scn-alt-minor"} />
-        ))}
-        <line x1="32" x2="32" y1="0" y2="400" className="scn-alt-rail" />
-        {/* Climbs in step with the route traveler (same duration, same document clock). */}
-        <g className="scn-alt-marker">
-          <path d="M36 0l10 -6v12Z" />
-          <line x1="8" x2="32" y1="0" y2="0" />
-          <animateTransform attributeName="transform" type="translate" dur={`${travel}s`} repeatCount="indefinite" values="0 400;0 0" />
-        </g>
-      </svg>
-    </>
+    <svg className="scn-lens" viewBox="-400 -400 800 800">
+      <circle r="120" className="scn-lens-ring" />
+      <circle r="210" className="scn-lens-ring scn-lens-ring--faint" />
+    </svg>
   );
 }
 
@@ -106,11 +82,11 @@ function CompetitiveScenery() {
   );
 }
 
-export default function RealmsEntryScenery({ travel }: { travel: { focused: number } }) {
+export default function RealmsEntryScenery() {
   return (
     <div className="realms-atmos" aria-hidden="true">
       <div className="realms-atmos-layer realms-atmos-layer--casual"><CasualScenery /></div>
-      <div className="realms-atmos-layer realms-atmos-layer--focused"><FocusedScenery travel={travel.focused} /></div>
+      <div className="realms-atmos-layer realms-atmos-layer--focused"><FocusedScenery /></div>
       <div className="realms-atmos-layer realms-atmos-layer--competitive"><CompetitiveScenery /></div>
     </div>
   );

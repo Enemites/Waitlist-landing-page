@@ -2,9 +2,8 @@ import { useId } from "react";
 
 /*
  * A nocturne: a coastal archive stands against a low moon, its relay sending
- * a signal out over a rising tide. Three quiet markers hold the three first
- * moves the story below explores: the relay, the crossing, the lower channel.
- * Geometry is deterministic so the server render and hydration match.
+ * a signal out over a rising tide. Geometry is deterministic so the server
+ * render and hydration match.
  */
 
 const HORIZON = 288;
@@ -57,24 +56,13 @@ const stars = (() => {
   }).filter(star => !star.nearMoon);
 })();
 
-function Waypoint({ x, y, lx, ly, n, label, anchor = "start", index }: { x: number; y: number; lx: number; ly: number; n: string; label: string; anchor?: "start" | "end" | "middle"; index: number }) {
-  const tx = anchor === "end" ? lx - 6 : anchor === "start" ? lx + 6 : lx;
-  const ty = anchor === "middle" ? ly - 8 : ly + 3;
-  return <g className="css-waypoint" style={{ ["--i" as string]: index }}>
-    <path d={`M${x} ${y}L${lx} ${ly}`} stroke="#8d87cf" strokeWidth="1" strokeDasharray="2 3" fill="none" />
-    <circle className="css-waypoint-ring" cx={x} cy={y} r="7" fill="none" stroke="#b9b3f5" strokeWidth="1" />
-    <circle cx={x} cy={y} r="2.6" fill="#eeeff6" />
-    <text x={tx} y={ty} textAnchor={anchor}><tspan className="css-waypoint-n">{n}</tspan> {label}</text>
-  </g>;
-}
-
 export default function CasualSignalScene() {
   const uid = useId().replace(/:/g, "");
   const id = (name: string) => `css-${uid}-${name}`;
   const url = (name: string) => `url(#${id(name)})`;
 
   return <svg className="casual-signal-scene" viewBox="0 0 640 440" role="img" aria-labelledby={id("title")}>
-    <title id={id("title")}>A coastal archive at night stands against a low moon. A relay on its roof sends a signal over the water, a thin crossing links it to the shore, and the tide is rising toward a lower channel beneath it.</title>
+    <title id={id("title")}>A coastal archive at night stands against a low moon. A relay on its roof sends a signal over the water, a thin crossing links it to the shore, and the tide is rising.</title>
     <defs>
       <radialGradient id={id("moon")} cx=".38" cy=".34" r=".75">
         <stop offset="0" stopColor="#f6f4ff" />
@@ -162,9 +150,6 @@ export default function CasualSignalScene() {
         <rect x="190" y={HORIZON - 3} width="360" height="20" fill={url("tide")} />
         <path d={`M190 ${HORIZON - 3}h360`} stroke="#8d87cf" strokeWidth=".9" strokeDasharray="14 6 3 6" opacity=".8" />
       </g>
-
-      {/* The lower channel: a passage beneath the waterline */}
-      <path className="css-channel" d={`M346 ${HORIZON + 10}C330 330 288 344 236 352`} fill="none" stroke="#b9b3f5" strokeWidth="1.2" strokeDasharray="1 5" strokeLinecap="round" />
     </g>
 
     {/* The signal */}
@@ -175,12 +160,5 @@ export default function CasualSignalScene() {
     </g>
     <circle cx={MAST_TIP.x} cy={MAST_TIP.y} r="3.4" fill="#ffffff" />
     <circle className="css-beacon" cx={MAST_TIP.x} cy={MAST_TIP.y} r="7" fill="#d5d0ff" opacity=".35" />
-
-    {/* Three first moves */}
-    <g className="css-waypoints">
-      <Waypoint index={0} x={MAST_TIP.x} y={MAST_TIP.y} lx={326} ly={70} anchor="end" n="01" label="THE RELAY" />
-      <Waypoint index={1} x={268} y={HORIZON - 7} lx={236} ly={236} anchor="middle" n="02" label="THE CROSSING" />
-      <Waypoint index={2} x={236} y={352} lx={204} ly={398} anchor="middle" n="03" label="THE LOWER CHANNEL" />
-    </g>
   </svg>;
 }

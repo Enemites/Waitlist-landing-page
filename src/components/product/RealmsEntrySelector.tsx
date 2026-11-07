@@ -1,7 +1,7 @@
-import { useRef, type KeyboardEvent } from "react";
+import { useRef, type CSSProperties, type KeyboardEvent } from "react";
 
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import RealmsModeAmbience from "./RealmsModeAmbience";
+import RealmsNightSky from "./RealmsNightSky";
 
 export type EntryId = "casual" | "focused" | "competitive";
 
@@ -20,18 +20,20 @@ const entries = [
     label: "Competitive",
     reason: "Face another team",
     routes: [
-      "M480 440C400 412 356 362 320 304C294 262 270 214 252 182",
-      "M12 92C58 90 108 102 156 124C190 140 218 158 240 174",
+      // Both sides meet at the foot of the flag, so the two routes read as one contested line.
+      "M480 440C400 412 356 362 320 304C292 258 276 214 248 180",
+      "M12 92C58 90 108 102 156 124C190 140 222 150 248 180",
     ],
     end: { x: 248, y: 172 },
     rival: { x: 12, y: 92 },
-    labelAt: { x: 248, y: 144, anchor: "middle" },
+    // Below-left of the summit, clear of both routes so the label never cuts a line.
+    labelAt: { x: 232, y: 214, anchor: "end" },
   },
   {
     id: "focused",
     label: "Focused",
     reason: "Pursue a field",
-    routes: ["M480 440C480 400 472 374 486 346C500 318 460 302 474 272C488 242 494 222 484 198C481 190 480 184 480 178"],
+    routes: ["M480 440C482 390 506 350 500 300S474 222 480 180"],
     end: { x: 480, y: 165 },
     labelAt: { x: 460, y: 150, anchor: "end" },
   },
@@ -48,11 +50,18 @@ const entries = [
 const TRAILHEAD = { x: 480, y: 440 };
 
 // Each mode moves at its own pace: a wander, a steady climb, a race to the same summit.
-export const TRAVEL_SECONDS: Record<EntryId, number> = { casual: 11, focused: 4.6, competitive: 2.6 };
+const TRAVEL: Record<EntryId, { seconds: number; ease: string }> = {
+  casual: { seconds: 9, ease: "cubic-bezier(.45, 0, .55, 1)" },
+  focused: { seconds: 4.2, ease: "linear" },
+  competitive: { seconds: 2.4, ease: "cubic-bezier(.3, 0, .2, 1)" },
+};
 
 function Marker({ id, x, y }: { id: EntryId; x: number; y: number }) {
   if (id === "focused") return <path className="route-marker" d={`M${x} ${y - 9}l8 13h-16Z`} />;
-  if (id === "competitive") return <path className="route-marker" d={`M${x} ${y - 8}l8 8-8 8-8-8Z`} />;
+  // A flag planted on the contested summit: whoever gets there first holds it.
+  if (id === "competitive") {
+    return <path className="route-marker" d={`M${x - 1} ${y + 8}V${y - 15}h15l-4.5 6 4.5 6H${x + 1}V${y + 8}Z`} />;
+  }
   return <circle className="route-marker route-marker--open" cx={x} cy={y} r="6.5" />;
 }
 
@@ -107,17 +116,15 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
                   <g key={d}>
                     <path className="route-hit" d={d} />
                     <path className="route-trail" d={d} />
+                    <path className="route-casing" d={d} pathLength={1} />
                     <path className="route-line" d={d} pathLength={1} />
-                  </g>
-                ))}
-                {selected && !reduce && entry.routes.map((d) => (
-                  <g key={`travel-${d}`} className="route-traveler">
-                    <circle r="11" className="route-traveler-halo" />
-                    <circle r="4" />
-                    {entry.id === "focused" ? (
-                      <animateMotion dur={`${TRAVEL_SECONDS[entry.id]}s`} repeatCount="indefinite" path={d} calcMode="linear" keyPoints="0;1" keyTimes="0;1" />
-                    ) : (
-                      <animateMotion dur={`${TRAVEL_SECONDS[entry.id]}s`} repeatCount="indefinite" path={d} calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines={entry.id === "casual" ? "0.45 0 0.55 1" : "0.3 0 0.2 1"} />
+                    {selected && !reduce && (
+                      <path
+                        className="route-pulse"
+                        d={d}
+                        pathLength={1}
+                        style={{ "--travel": `${TRAVEL[entry.id].seconds}s`, "--travel-ease": TRAVEL[entry.id].ease } as CSSProperties}
+                      />
                     )}
                   </g>
                 ))}
@@ -129,7 +136,7 @@ export default function RealmsEntrySelector({ value, onChange }: EntrySelectorPr
               </g>
             );
           })}
-          {!reduce && <RealmsModeAmbience key={value} mode={value} travel={TRAVEL_SECONDS[value]} />}
+          {!reduce && value === "casual" && <RealmsNightSky />}
           <g className="route-start">
             <circle cx={TRAILHEAD.x} cy={TRAILHEAD.y} r="11" className="route-start-ring" />
             <circle cx={TRAILHEAD.x} cy={TRAILHEAD.y} r="4.5" />
