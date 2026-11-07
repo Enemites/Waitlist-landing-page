@@ -1,21 +1,16 @@
 /* Panel-only themes. Shared hero, definition, navigation, and registration stay outside.
    Screen compositions consume the --entry-* contract without changing their pixels. */
-/* Casual: the night sky of the selector settles into moonlit graphite.
-   Lavender stays as light (the moon's wash, the tide), not as the ground itself. */
+/* Casual: a neutral stage, like a video app. White, black and grey; colour comes from the worlds. */
 .realms-entry-panel[data-entry="casual"] {
-  --entry-accent: #b9b3f5;
-  --entry-bg: #0e0f13;
-  --entry-muted: #a9adbc;
-  --entry-ink: #eeeff6;
-  --entry-line: #2a2c37;
-  --entry-surface: #16171d;
+  --entry-accent: #ffffff;
+  --entry-bg: #0b0b0f;
+  --entry-muted: #a3a3ad;
+  --entry-ink: #f5f5f7;
+  --entry-line: #26262e;
+  --entry-surface: #141418;
   position: relative;
   isolation: isolate;
-  background:
-    radial-gradient(ellipse 50% 520px at 84% 0, #8d87cf1c, transparent 72%),
-    radial-gradient(ellipse 40% 380px at 8% 1250px, #6f6aa80d, transparent 70%),
-    radial-gradient(ellipse 55% 460px at 50% 100%, #8d87cf14, transparent 72%),
-    linear-gradient(180deg, #0c1123 0, #0e0f18 180px, var(--entry-bg) 560px);
+  background: var(--entry-bg);
 }
 .realms-entry-panel[data-entry="competitive"] {
   --entry-accent: #efbd70;
@@ -45,19 +40,19 @@
 /* Casual: the invitation closes the path as a soft panel. */
 .realms-entry-panel[data-entry="casual"] .casual-invitation {
   padding: 29px 32px;
-  border: 1px solid #2f3040;
-  border-radius: 18px;
-  background: radial-gradient(ellipse 60% 140% at 100% 0, #b9b3f512, transparent 70%), var(--entry-surface);
+  border: 1px solid #ffffff1a;
+  border-radius: 24px;
+  background: var(--entry-surface);
 }
-.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { font-weight: 450; color: #e6e7f5; }
-.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > p { color: #a6aec5; line-height: 1.85; }
-.realms-entry-panel[data-entry="casual"] .casual-share { color: #d1d4e9; }
+.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { color: #fff; font-family: "Bricolage Grotesque Variable", sans-serif; font-weight: 800; letter-spacing: -.035em; }
+.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > p { color: #a3a3ad; line-height: 1.85; }
+.realms-entry-panel[data-entry="casual"] .casual-share { color: #d4d4dc; }
 .realms-entry-panel[data-entry="casual"] .casual-share:hover { color: #ffffff; }
-.realms-entry-panel[data-entry="casual"] .casual-access { color: var(--entry-accent); border-color: #77749d; }
-.realms-entry-panel[data-entry="casual"] .casual-access:hover { color: #d6d2ff; border-color: #d6d2ff; }
+.realms-entry-panel[data-entry="casual"] .casual-access { color: var(--entry-accent); border-color: #ffffff59; }
+.realms-entry-panel[data-entry="casual"] .casual-access:hover { color: #ffffff; border-color: #ffffff; }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback p { color: var(--entry-accent); }
-.realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #c2c6dd; }
-.realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #e2e4f5; background: #111217; border-color: #6c6a93; border-radius: 7px; }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #c9c9d1; }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #f5f5f7; background: #111114; border-color: #ffffff33; border-radius: 10px; }
 
 /* Focused keeps its original product palette; only the newer layout treatment remains. */
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro { padding-block: 48px 65px; }
