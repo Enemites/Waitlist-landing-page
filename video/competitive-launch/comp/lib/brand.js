@@ -127,7 +127,7 @@
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
       const v = height(c * cell, r * cell); field[r * cols + c] = v; if (v < lo) lo = v; if (v > hi) hi = v;
     }
-    const pal = o.palette === 'rival'
+    const pal = typeof o.palette === 'object' ? Object.assign({ line: C.amber, bright: C.amberLight, low: '#0e0d0b', high: '#1c1712', water: '#0a0a0b' }, o.palette) : o.palette === 'rival'
       ? { line: C.rival, bright: C.rivalLight, low: '#100b0a', high: '#1d1210', water: '#0a0909' }
       : o.palette === 'bone'
         ? { line: C.bone, bright: C.ink, low: '#0e0e0e', high: '#191816', water: '#09090a' }
@@ -170,8 +170,8 @@
       for (let i = 0; i < field.length; i++) {
         const v = field[i];
         let rgb;
-        if (sea != null && v < sea) rgb = Wt;
-        else { const tt = clamp((Math.floor((v - lo) / o.step) * o.step) / (hi - lo), 0, 1); rgb = [0, 1, 2].map((j) => Math.round(L[j] + (Hh[j] - L[j]) * tt)); }
+        if (sea != null && v < sea) rgb = pal.waterShallow ? (() => { const S2 = hexRgb(pal.waterShallow); const tt = clamp(1 + (v - sea) / 0.35, 0, 1); return [0, 1, 2].map((j) => Math.round(Wt[j] + (S2[j] - Wt[j]) * tt)); })() : Wt;
+        else { const tt = sea != null ? clamp((Math.floor((v - sea) / o.step) * o.step) / 0.7, 0, 1) : clamp((Math.floor((v - lo) / o.step) * o.step) / (hi - lo), 0, 1); rgb = [0, 1, 2].map((j) => Math.round(L[j] + (Hh[j] - L[j]) * tt)); }
         img.data[i * 4] = rgb[0]; img.data[i * 4 + 1] = rgb[1]; img.data[i * 4 + 2] = rgb[2]; img.data[i * 4 + 3] = 255;
       }
       const small = document.createElement('canvas'); small.width = cols; small.height = rows;
@@ -180,8 +180,8 @@
     }
     bg.lineJoin = 'round'; bg.lineCap = 'round';
     strokeLevels(bg, () => true, (g, isIndex, under, coast) => {
-      if (coast) { g.strokeStyle = rgba(pal.line, 0.55); g.lineWidth = 1.6; }
-      else if (under) { g.strokeStyle = rgba(pal.line, 0.07); g.lineWidth = 0.9; }
+      if (coast) { g.strokeStyle = pal.coast || rgba(pal.line, 0.55); g.lineWidth = 1.6; }
+      else if (under) { g.strokeStyle = pal.seaLine || rgba(pal.line, 0.07); g.lineWidth = 0.9; }
       else { g.strokeStyle = rgba(pal.line, isIndex ? 0.31 : 0.17); g.lineWidth = isIndex ? 1.7 : 1.05; }
     });
     // bright layer: contours only, full strength (shown through light pools / pulse rings)
