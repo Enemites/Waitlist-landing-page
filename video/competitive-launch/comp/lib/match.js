@@ -62,18 +62,20 @@
  *   503 -> 500     objective 0 -> 62% in steps(12) (ring arc, bar, % text); gate bars glow
  *   500 / 499.5    Vega triangles slide out of the fog (0.8 m expo.out)
  *   499            Emre's message
- *   498.5 -> 497.2 VEGA_CROSSING draws;  498 CONTESTED scrambles in
+ *   498.5 -> 497.2 VEGA_CROSSING draws;  498 CONTESTED scrambles in (letters only, like every scramble)
  *   497.2 -> 497   alert row 'Vega is contesting the crossing'
  *   497.3 -> 497   LAST SEEN ghost + 'LAST SEEN 0:20'.   Everything is FINAL for 494 <= m <= 497.
  *   Past the hook (s10/s11; they assume m = 494 - (t - 46), i.e. continuous m = 494 - lt in s10):
  *   491.75 -> 491.1 JK_COMMIT draws ahead of him; 491.5 -> 490.5 JK advances to (722,512)
  *                  [picture 48.25-48.9 / 48.5-49.5: the arrowhead leads the token]
+ *   490            ADAPT: every route except VEGA_PUMP / JK_REROUTE steps down to 35% (VEGA_CROSSING, JK_COMMIT;
+ *                  the settled Atlas trails are already at 32%)
  *   489.75         ghost resolves into a solid triangle (K.gtri); VEGA_PUMP draws 489.75 -> 489.1
  *   488.9 -> 488.7 JK's forward route fades;  JK_REROUTE draws 488.9 -> 488.25; JK starts along it
  *   489.1 -> 484   the resolved triangle travels VEGA_PUMP (u = 0.6 at 485.5, s11 M6)
  *   488 -> 487.6   both Vega triangles slide ~40 px toward the Crossing (s11 M1)
- *   Atlas routes settle to 32% 1.5 m after their token arrives; red routes stay 100% until a newer
- *   red route starts. Override any of it in your own onFrame (registered after build) or M.pre.
+ *   Atlas routes settle to 32% 1.5 m after their token arrives; red routes stay 100% until ADAPT (490),
+ *   where only VEGA_PUMP and JK_REROUTE stay at 100%. Override any of it in your own onFrame (registered after build) or M.pre.
  *   Match.state also works on a bare Floodgate.world (no buildMatchScreen): tokens, Vega, ghost,
  *   labels, cone and objective are set; routes / chrome / pulses need buildMatchScreen.
  *   s01 3.0 == s08 43.5: both are state(494) under HOOK with ambient tau 3.0. For s08, pass
@@ -116,7 +118,8 @@
  *                  digitsTop 112, digitsLine 32}, slug } for s03; HANDOFF['s01-hook-live@3.0'] for s08
  *   To rebuild the s02 4.0 frame pixel-identically (s03 drain): Match.buildMatchScreen(ctx, { m: 512,
  *   tau: -15, camera: 'WINDOW', ui: false, hud: false }) + M.setClip(HANDOFF[...].window).
- *   Match.fmt(sec) 'mm:ss'.  Match.scramble(text, u, seed, mode) deterministic scramble ('in'|'resolve')
+ *   Match.fmt(sec) 'mm:ss'.  Match.scramble(text, u, seed, mode) deterministic scramble ('in'|'resolve');
+ *                  letters only, digits/punctuation never scramble
  *   Match.SLUG     'REALMS · COMPETITIVE · INTERFACE CONCEPT'
  */
 (function () {
@@ -178,13 +181,21 @@
   const ROUTES = {
     OUR_PLAN: 'M380 320 C450 330 510 360 562 399 S720 500 784 548',
     THEIR_PLAN: 'M1260 690 C1240 560 1100 440 1004 396 S870 470 818 548',
-    JK: 'M380 320 C470 360 600 420 684 484',
+    // JK swings south of the pump station on his way to the gate (Jules sends NORA to the pump: the
+    // picture must not show him standing on it). His token clears the building by 27+ units, his trail
+    // clears Nora's post (562,440); same end point, so the hook state (494) keeps every token in place.
+    JK: 'M380 320 C412 444 548 500 684 484',
     NC: 'M380 320 C440 330 520 380 562 440',
     EK: 'M380 320 C540 300 760 360 920 420',
     VEGA_CROSSING: 'M1140 524 C1110 500 1080 470 1056 448',
     JK_COMMIT: 'M684 484 L760 540',
-    VEGA_PUMP: 'M1060 640 C960 640 860 590 816 566 S700 470 612 430',
-    JK_REROUTE: 'M722 512 C690 480 650 450 606 436',
+    // ADAPT (s10/s11): their move causes our reroute, so the two lines never share a corridor.
+    // VEGA_PUMP runs under the objective ring (outside it), crosses below the dam's south-west end,
+    // passes 58+ units south of JK and ends on the pump's SOUTH-EAST corner (heading NNW).
+    // JK_REROUTE leaves JK northward, arcs north of the conduit and ends on the pump's EAST side
+    // (heading W). The two stay 50+ units apart everywhere (tips 54 apart).
+    VEGA_PUMP: 'M1060 640 C960 652 830 668 736 624 S648 516 604 440',
+    JK_REROUTE: 'M722 512 C722 462 692 406 604 386',
   };
   const RIVAL_ROUTES = { THEIR_PLAN: 1, VEGA_CROSSING: 1, VEGA_PUMP: 1 };
   const SAMPLERS = {};
@@ -202,6 +213,7 @@
   const MSG_T = [KEYS.jkMsg, KEYS.noraMsg, KEYS.emreMsg];
   const CHIPS = [['Moving', KEYS.jkMoving, false], ['Restoring', KEYS.ncRestoring, true], ['Holding', KEYS.ekHolding, false]];
   const ROUTE_REST = 0.32;
+  const ADAPT_REST = 0.35;     // every other route during ADAPT (m <= 490)
 
   const lobby = (px, py, sx, sy, zoom) => ({ x: px - (sx - W / 2) / (zoom * S), y: py - (sy - H / 2) / (zoom * S), zoom });
   const CAM = {
@@ -255,20 +267,24 @@
   };
 
   // deterministic scramble. mode 'in': revealed left to right with a scrambled leading edge;
-  // 'resolve': every char scrambled, resolving left to right.
-  const SCR = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·/';
+  // 'resolve': every char scrambled, resolving left to right. Only LETTERS scramble: digits and
+  // punctuation are shown as themselves the moment they are reached ('in') or from the start ('resolve').
+  // letters only: digits, punctuation and spaces are never scrambled (numeric slots type on / swap)
+  const SCR = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const isLetter = (ch) => (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
+  const scr = (ch, i, step, s0) => { const c = SCR[hash(i, step, s0) % SCR.length]; return ch >= 'a' ? c.toLowerCase() : c; };
   function hash(a, b, c) { let h = (a * 374761393 + b * 668265263 + c * 2147483647) | 0; h = (h ^ (h >>> 13)) * 1274126177 | 0; return (h ^ (h >>> 16)) >>> 0; }
   function scramble(text, u, seed, mode) {
     if (u >= 1) return text;
-    if (u <= 0) return mode === 'resolve' ? text.replace(/[^ ]/g, (ch, i) => SCR[hash(i, 0, sh(seed)) % SCR.length]) : '';
+    if (u <= 0) return mode === 'resolve' ? text.replace(/[A-Za-z]/g, (ch, i) => scr(ch, i, 0, sh(seed))) : '';
     const L = text.length, step = Math.floor(u * 24), s0 = sh(seed);
     const rev = Math.floor(u * L);
     let out = '';
     for (let i = 0; i < L; i++) {
       const ch = text[i];
-      if (i < rev || ch === ' ') { out += ch; continue; }
+      if (i < rev) { out += ch; continue; }
       if (mode !== 'resolve' && i > rev + 3) break;
-      out += SCR[hash(i, step, s0) % SCR.length];
+      out += isLetter(ch) ? scr(ch, i, step, s0) : ch;     // non-letters show as themselves (stable)
     }
     return out;
   }
@@ -376,8 +392,11 @@
     setRoute(Rt.JK, uJ, lerp(1, ROUTE_REST, seg(m, 505, 503.5)));
     setRoute(Rt.NC, seg(m, 508, 507), lerp(1, ROUTE_REST, seg(m, 506, 504.5)));
     setRoute(Rt.EK, seg(m, 504.5, 503), lerp(1, ROUTE_REST, seg(m, 502.5, 501)));
-    setRoute(Rt.VEGA_CROSSING, seg(m, 498.5, 497.2), lerp(1, 0.6, seg(m, 489.75, 489.25)));
-    setRoute(Rt.JK_COMMIT, seg(m, 491.75, 491.1), 1 - seg(m, 488.9, 488.7));
+    // ADAPT (m <= 490: s10 4.0 'Adapt.' cut -> s11): every route except VEGA_PUMP and JK_REROUTE steps
+    // down to ~35% on the cut, so the beat reads as one red move and one amber answer
+    const adapt = m <= 490.01 ? ADAPT_REST : 1;
+    setRoute(Rt.VEGA_CROSSING, seg(m, 498.5, 497.2), adapt);
+    setRoute(Rt.JK_COMMIT, seg(m, 491.75, 491.1), adapt * (1 - seg(m, 488.9, 488.7)));
     setRoute(Rt.VEGA_PUMP, seg(m, 489.75, 489.1), 1);
     setRoute(Rt.JK_REROUTE, seg(m, 488.9, 488.25), 1);
     setRoute(Rt.OUR_PLAN, 0, 0); setRoute(Rt.THEIR_PLAN, 0, 0);

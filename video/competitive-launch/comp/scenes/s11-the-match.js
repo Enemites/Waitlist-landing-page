@@ -74,9 +74,9 @@
       PRESETS.forEach((p, i) => { if (i) M.camera.cut(i * 0.5, p); });
       gsap.set([U.topbar, U.signal, U.roster, U.channel, U.objective], { autoAlpha: 0 });
 
-      // ours solid amber, theirs dashed red-orange: our live plan (the reroute) is drawn solid, so it
-      // reads clearly under Vega's dashed route in the shared corridor to the pump (the settled
-      // trails stay dashed at 32%)
+      // ours solid amber, theirs dashed red-orange: our live plan (the reroute) is drawn solid. The two
+      // reach the pump from different sides (theirs from the south-east, under JK; ours from the east,
+      // north of the conduit); every other route sits at ~35% through the whole peak (match.js, m <= 490)
       ['JK_REROUTE', 'JK_COMMIT'].forEach((n) => K.routes[n].line.removeAttribute('stroke-dasharray'));
       // a soft dark corner behind the slug so it reads over close-ups
       const corner = ctx.el('div', 's11-corner', ctx.root);
@@ -161,7 +161,7 @@
           el.setAttribute('opacity', (u < 0.12 ? u / 0.12 : u > 0.8 ? (1 - u) / 0.2 : 1).toFixed(3));
         };
         run(runA, 1.5, 0.14, 0.9);
-        run(runV, 2.5, 0.39, 0.66);                 // from the triangle to the gate (stays in frame)
+        run(runV, 2.5, 0.39, 0.6);                  // from the triangle past the gate (ends under the ring, in frame)
 
         // M5: arc glow (3 f up, 12 f down) + gate bars flicker once, in steps
         const gu = lt - 2.0;

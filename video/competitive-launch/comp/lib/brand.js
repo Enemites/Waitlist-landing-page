@@ -8,7 +8,7 @@
  *   Brand.C / Brand.BEAT / Brand.BAR / Brand.E          palette, tempo, eases
  *   Brand.terrain(ctx, o)        living topographic world (cached contours + camera + light)
  *   Brand.hud(ctx, o)            register corners, edge ticks, slug + timecode (the overlay system)
- *   Brand.eyebrow(ctx, o)        diamond + scrambled mono label
+ *   Brand.eyebrow(ctx, o)        diamond + scrambled mono label (scramble policy: letters only, data never; see scrambleFrame)
  *   Brand.headline(ctx, o)       masked word reveal, amber turn line, beat offsets, exit
  *   Brand.chapter(ctx, o)        "01 / Form your team" chapter card
  *   Brand.label(ctx, o)          small scrambled mono label anywhere (HUD text)
@@ -36,7 +36,9 @@
   };
   const BPM = 120, BEAT = 0.5, BAR = 2.0;
   const E = { enter: 'expo.out', exit: 'power2.in', camera: 'power3.inOut', whip: 'expo.inOut', ui: 'power3.out', hud: 'none' };
-  const SCRAMBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·/';
+  // Scramble glyphs are LETTERS ONLY: a scramble never puts an invented number, year or clock in a
+  // slot. Digits are never scrambled (see scrambleFrame).
+  const SCRAMBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ·/';
   const SLANT = 34; // degrees: the lean of the Enemites mark bars, used for diagonal splits
 
   const U = () => Film.utils;
@@ -321,8 +323,87 @@
   // ---------------------------------------------------------------------------------------
   // Type
   // ---------------------------------------------------------------------------------------
+  // ---- scramble policy (film-wide) -------------------------------------------------------------
+  //  * Letters scramble through SCRAMBLE (A-Z · /) only, clamped to the target length (the text never
+  //    runs longer than what it resolves to), revealing left to right; lowercase targets scramble in
+  //    lowercase. Spaces and punctuation hold; characters already right (same char, same place in the
+  //    old text) hold.
+  //  * Any token holding a digit is a DATA slot (years, the nn of REF nn, clocks, '3 V 3', percentages,
+  //    timestamps): it is never scrambled, it types on cleanly left to right as the reveal reaches it,
+  //    so only true digits are ever drawn.
+  //  * Numeric char sets (chars made of digits only, e.g. '0123456789'): a clean type-on when the
+  //    slot was empty, otherwise a hard swap on the tween's first frame (and a hard clear to '').
+  //  scrambleFrame is a pure function (from, to, u in [0,1], { seed, time, chars }) -> string;
+  //  scenes that own a text slot in ctx.onFrame can call it directly.
+  const isDigitSet = (chars) => typeof chars === 'string' && chars.length > 0 && /^[0-9]+$/.test(chars);
+  const isLetter = (ch) => /[A-Za-z]/.test(ch);
+  function sHash(str) { let h = 0x811c9dc5; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193); } return h >>> 0; }
+  function sMix(h) { h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16; return h >>> 0; }
+  // per-character flags: true on DATA tokens (whitespace-separated tokens holding a digit, e.g. '1943',
+  // '74', '08:32', '72%', '1937-38'; plus a lone letter between two of them, the 'V' of '3 V 3')
+  function dataMask(str) {
+    const m = new Array(str.length).fill(false), toks = [];
+    str.replace(/\S+/g, (w, i) => { toks.push({ a: i, b: i + w.length, w, d: /[0-9]/.test(w) }); return w; });
+    toks.forEach((t, k) => { if (!t.d && t.w.length === 1 && isLetter(t.w) && toks[k - 1] && toks[k - 1].d && toks[k + 1] && toks[k + 1].d) t.v = true; });
+    toks.forEach((t) => { if (t.d || t.v) for (let j = t.a; j < t.b; j++) m[j] = true; });
+    return m;
+  }
+  function scrambleFrame(from, to, u, o) {
+    from = from == null ? '' : String(from); to = to == null ? '' : String(to);
+    o = o || {};
+    if (!(u > 0)) return from;
+    if (u >= 1 || from === to) return to;
+    if (isDigitSet(o.chars)) return from === '' ? to.slice(0, Math.ceil(u * to.length)) : to; // type-on / hard swap
+    let set = typeof o.chars === 'string' && o.chars ? o.chars.replace(/[0-9]/g, '') : SCRAMBLE;
+    if (!set) set = SCRAMBLE;
+    const seed = o.seed >>> 0 || sHash(from + '|' + to);
+    const step = Math.floor((o.time != null ? o.time : u) * 16 + 1e-6);
+    const glyph = (i, ch) => {
+      const g = set[sMix((seed ^ Math.imul(i + 1, 0x9e3779b1) ^ Math.imul(step + 7, 0x85ebca77)) >>> 0) % set.length];
+      return ch === ch.toLowerCase() && ch !== ch.toUpperCase() ? g.toLowerCase() : g;
+    };
+    let out = '';
+    if (to === '') {
+      // scramble OUT: the old text shrinks from the right; letters scramble, data slots hold
+      const n = Math.ceil(from.length * (1 - u)), dm = dataMask(from);
+      for (let i = 0; i < n; i++) { const ch = from[i]; out += isLetter(ch) && !dm[i] ? glyph(i, ch) : ch; }
+      return out;
+    }
+    const L = to.length, dm = dataMask(to), RD = 0.25;
+    const vis = from.length >= L ? L : from.length + Math.ceil((L - from.length) * Math.min(1, u / 0.5));
+    for (let i = 0; i < vis; i++) {
+      const ch = to[i];
+      if (u >= RD + (1 - RD) * (i + 1) / L || from[i] === ch) out += ch;   // revealed / already right
+      else if (dm[i]) out += ' ';                                            // data slot: types on, never scrambles
+      else if (isLetter(ch)) out += glyph(i, ch);
+      else out += ch;                                                        // spaces + punctuation hold
+    }
+    return out.replace(/\s+$/, '');
+  }
+  // GSAP plugin: a pure function of the tween's progress (no history), so any seek order gives the
+  // same frame. The old text is read when the tween first renders (the engine pre-rolls in order).
+  if (window.gsap && !(gsap.plugins && gsap.plugins.filmScramble)) {
+    gsap.registerPlugin({
+      name: 'filmScramble',
+      rawVars: 1,
+      init(target, v, tween) {
+        const o = v !== null && typeof v === 'object' ? v : { text: v };
+        this.el = target; this.tw = tween; this.from = target.textContent || ''; this.to = String(o.text == null ? '' : o.text); this.chars = o.chars; this.seed = null;
+      },
+      render(ratio, d) {
+        if (d.seed === null) d.seed = sHash(d.to + '|' + d.from + '|' + (d.tw ? d.tw._start : 0).toFixed(4));
+        const dur = d.tw ? d.tw.duration() : 0;
+        const s = scrambleFrame(d.from, d.to, ratio, { seed: d.seed, time: ratio * dur, chars: d.chars });
+        if (d.el.textContent !== s) d.el.textContent = s;
+      },
+    });
+  }
+  /** Scramble an element's text to `text` on the timeline (policy above). chars: optional glyph set;
+   *  a digits-only set marks a numeric slot (type-on / hard swap, never scrambled). */
   function scrambleTo(tl, elm, text, at, dur, chars) {
-    tl.to(elm, { duration: dur != null ? dur : Math.max(0.35, Math.min(1.1, text.length * 0.045)), ease: 'none', scrambleText: { text, chars: chars || SCRAMBLE, revealDelay: 0.2, speed: 0.8 } }, at);
+    text = String(text == null ? '' : text);
+    const d = dur != null ? dur : Math.max(0.35, Math.min(1.1, text.length * 0.045));
+    tl.to(elm, { duration: Math.max(0.001, d), ease: 'none', filmScramble: { text, chars } }, at);
   }
 
   /** Small mono label. o: text, x, y, at, size (>=18), color, align ('left'|'right'|'center'), out, parent, scramble (default true) */
@@ -789,7 +870,7 @@
   }
 
   window.Brand = {
-    C, BPM, BEAT, BAR, E, SCRAMBLE, SLANT, W, H,
+    C, BPM, BEAT, BAR, E, SCRAMBLE, SLANT, W, H, scrambleFrame,
     rgba, clamp, lerp, smooth, gauss, distToPath,
     terrain, hud, label, eyebrow, headline, chapter, bindText, counter, scrambleTo,
     mark, lockup, banner, token, cross, rivalToken, objective, route, archive,

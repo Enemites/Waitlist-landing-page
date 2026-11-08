@@ -3,18 +3,18 @@
  * The medallion holds through the 64.0 cut: it is rebuilt by the MEDALLION KIT (verbatim copy of s13's)
  * from the same film-time functions (camera, rotation 0.6 deg/s, pulse ring of 63.5 still expanding),
  * so the cut is invisible. THE NODE sits on the ring's 9 o'clock point (1120,540).
- *   0.00  LOCKUP: the Enemites mark (logo.png recoloured to ink, 56 px, x 120 / y 150) + 'Enemites'
+ *   0.00  LOCKUP: the Enemites mark (logo.png recoloured to ink, 56 px, x 120 / y 120) + 'Enemites'
  *         (Manrope 600 40 px) wipe in along the mark's 27 deg stem lean (15 f expo.out).
- *   0.25  'Realms' (Manrope 620 180 px, -0.055em) rises in its mask at baseline 400 (18 f expo.out,
- *         weight 560 -> 620).
- *   0.75  diamond + 'COMPETITIVE / TEAM AGAINST TEAM' (mono 24, .13em) scrambles in at baseline 460.
- *   2.00  'Make your' (110 px, ink) rises at baseline 640; 2.50 'next move.' (amber) at 760, lands 67.27.
- *   3.00  CTA ROW wipes in left to right (10 f power3.out): amber button 520 x 76 at (120,820), r 8,
- *         'Get match updates' + 22 px SVG arrow; 'enemites.com/realms' at x 680, centred on the button.
- *   3.00-3.60  THE BATON: the node leaves the ring at 9 o'clock and arcs (18 f power3.inOut) onto the
- *         tip of the button's arrow (ARROW_TIP, 618,858; the SVG arrow's head stops 14 px short and points
- *         into it). On the amber its disc goes solid ink, its glow is clipped to the button and its pulse
- *         ring turns ink-dark, so it reads as the arrow's light point; it pulses on 68.5, 70.0, 71.5.
+ *   0.25  'Realms' (Manrope 620 180 px, -0.055em, ink) rises in its mask at baseline 360 (18 f expo.out,
+ *         weight 560 -> 620); 0.50 'Competitive' (Manrope 620 76 px, amber) under it at baseline 448.
+ *   0.75  diamond + 'TEAM AGAINST TEAM' (mono 24, .13em, muted) scrambles in at baseline 500.
+ *   2.00  'Make your' (110 px, ink) rises at baseline 650; 2.50 'next move.' (amber) at 770, lands 67.27.
+ *   3.00  CTA ROW wipes in left to right (10 f power3.out): amber button 520 x 76 at (120,816), r 8,
+ *         'Get match updates' + 22 px SVG arrow; 'enemites.com/realms' at x 718, centred on the button.
+ *   3.00-3.60  THE BATON: the node leaves the ring at 9 o'clock and arcs (18 f power3.inOut) to its dock
+ *         on the charcoal 26 px past the button's right edge (NODE_DOCK 678.75,854), in its normal amber
+ *         look with glow; the button's arrow points at it, the URL sits 26 px past it. It pulses on 68.5,
+ *         70.0, 71.5.
  *   3.50  'IN DEVELOPMENT · PRIVATE BETA' (mono 20, muted) scrambles in at baseline 940.
  *   4.00  SONIC LOGO: the Atlas diamond pulses (68.0, D5), the Vega ring (68.25, F5), the node (68.5,
  *         A5). The archival credit line fades in at baseline 1004.
@@ -241,11 +241,17 @@
 
   // ---- end-card layout (screen px) ----
   const COL = 120;                                         // the left column's ink edge
-  const MARK = { x: COL, y: 150, h: 56 };
-  const BTN = { x: COL, y: 820, w: 520, h: 76, r: 8, padL: 32, arrow: 22 };
-  const ARROW_TIP = [BTN.x + BTN.w - 22, BTN.y + BTN.h / 2];          // the baton's end point (618, 858)
-  const ARROW_GAP = 14;                                    // the SVG arrow's head stops 14 px short: it points INTO the node
-  const URL_X = 680;
+  // baselines of the left column, top to bottom (mark row, 'Realms', 'Competitive', eyebrow, the two
+  // headline lines, CTA row, status; the credit line is the footer)
+  const MARK = { x: COL, y: 120, h: 56 };
+  const Y = { realms: 360, mode: 448, eye: 500, make: 650, next: 770, status: 940, credit: 1004 };
+  const MODE_PX = 76;                                      // 'Competitive' (amber Manrope) under 'Realms'
+  const BTN = { x: COL, y: 816, w: 520, h: 76, r: 8, padL: 32, arrow: 22 };
+  const NODE_R = 12.75;                                    // NodeMark ring r 12 + half its 1.5 px stroke
+  const DOCK_GAP = 26;                                     // clear charcoal between button edge and ring, and ring and URL
+  const NODE_DOCK = [BTN.x + BTN.w + DOCK_GAP + NODE_R, BTN.y + BTN.h / 2]; // the baton's end point (678.75, 854)
+  const ARROW_TIP_X = BTN.w - 16;                          // the button's arrow (button space) points right at the node
+  const URL_X = Math.round(NODE_DOCK[0] + NODE_R + DOCK_GAP); // 718: even spacing button | node | URL
 
   Film.scene({
     id: ID,
@@ -308,35 +314,34 @@
         row.style.clipPath = e >= rw + SL - 0.5 ? '' : `polygon(-10px -10px, ${(e + SL / 2).toFixed(1)}px -10px, ${(e - SL / 2).toFixed(1)}px ${MARK.h + 10}px, -10px ${MARK.h + 10}px)`;
       });
 
-      // ---- (2) 'Realms' 180 px, baseline 400 ----
-      kLine(ctx, { text: 'Realms', x: COL, base: 400, size: 180, color: C.ink, at: 0.25, dur: 18 / FPS, parent: card });
+      // ---- (2) 'Realms' 180 px (ink) over (3) 'Competitive' 76 px (amber): the mode this film launches ----
+      kLine(ctx, { text: 'Realms', x: COL, base: Y.realms, size: 180, color: C.ink, at: 0.25, dur: 18 / FPS, parent: card });
+      kLine(ctx, { text: 'Competitive', x: COL, base: Y.mode, size: MODE_PX, color: C.amber, at: 0.5, dur: 18 / FPS, parent: card });
 
-      // ---- (3) eyebrow: diamond + COMPETITIVE (amber) + / TEAM AGAINST TEAM (muted), baseline 460 ----
-      const eye = ctx.el('div', 's14-eye', card, '<span class="dia"></span><span class="a"></span><span class="m"></span>');
+      // ---- (4) eyebrow: diamond + TEAM AGAINST TEAM (mono 24, muted) ----
+      const eye = ctx.el('div', 's14-eye', card, '<span class="dia"></span><span class="m"></span>');
       Object.assign(eye.style, { position: 'absolute', left: '0px', top: '0px', display: 'flex', alignItems: 'baseline', font: '500 24px/24px var(--mono)', letterSpacing: '.13em', textTransform: 'uppercase', whiteSpace: 'pre' });
-      const ea = eye.querySelector('.a'), em = eye.querySelector('.m'), dia = eye.querySelector('.dia');
-      ea.style.color = C.amber; em.style.color = C.muted;
-      em.style.marginLeft = '0.73em';                       // one mono space (0.6em + .13em tracking) before the slash
+      const em = eye.querySelector('.m'), dia = eye.querySelector('.dia');
+      em.style.color = C.muted;
       const DS = 12, DD = DS * Math.SQRT2;                  // diamond: 12 px square, 17 px across
       Object.assign(dia.style, { display: 'inline-block', width: DS + 'px', height: DS + 'px', background: C.amber, flex: 'none', marginLeft: ((DD - DS) / 2).toFixed(2) + 'px', marginRight: (16 + (DD - DS) / 2).toFixed(2) + 'px' });
-      ea.textContent = 'COMPETITIVE';
+      em.textContent = 'TEAM AGAINST TEAM';
       eye.style.left = COL + 'px';
       const ebo = baselineOffset(eye);
-      eye.style.top = (460 - ebo).toFixed(2) + 'px';
+      eye.style.top = (Y.eye - ebo).toFixed(2) + 'px';
       // the diamond's centre on the caps' middle (flex baseline puts its bottom on the baseline)
       dia.style.transform = '';
       dia.style.position = 'relative';
-      dia.style.top = (-(ink('500 24px "JetBrains Mono Variable"', 'C').asc / 2 - DS / 2)).toFixed(2) + 'px';
-      ea.textContent = '';
+      dia.style.top = (-(ink('500 24px "JetBrains Mono Variable"', 'T').asc / 2 - DS / 2)).toFixed(2) + 'px';
+      em.textContent = '';
       tl.fromTo(dia, { scale: 0, rotation: -90 }, { scale: 1, rotation: 45, duration: 0.5, ease: 'back.out(2)' }, 0.75);
-      B.scrambleTo(tl, ea, 'COMPETITIVE', 0.8, 0.36);
-      B.scrambleTo(tl, em, '/ TEAM AGAINST TEAM', 0.85, 0.42);
+      B.scrambleTo(tl, em, 'TEAM AGAINST TEAM', 0.8, 0.42);
 
-      // ---- (4) 'Make your' / 'next move.' ----
-      kLine(ctx, { text: 'Make your', x: COL, base: 640, size: 110, color: C.ink, at: 2.0, parent: card });
-      kLine(ctx, { text: 'next move.', x: COL, base: 760, size: 110, color: C.amber, at: 2.5, parent: card });
+      // ---- (5) 'Make your' / 'next move.' ----
+      kLine(ctx, { text: 'Make your', x: COL, base: Y.make, size: 110, color: C.ink, at: 2.0, parent: card });
+      kLine(ctx, { text: 'next move.', x: COL, base: Y.next, size: 110, color: C.amber, at: 2.5, parent: card });
 
-      // ---- (5) CTA row: button (DOM rounded rect + inline SVG arrow) + URL, wiping in left to right ----
+      // ---- (6) CTA row: button (DOM rounded rect + inline SVG arrow) + URL, wiping in left to right ----
       const cta = ctx.el('div', 's14-layer s14-cta', card);
       const btn = ctx.el('div', 's14-btn', cta);
       Object.assign(btn.style, { position: 'absolute', left: BTN.x + 'px', top: BTN.y + 'px', width: BTN.w + 'px', height: BTN.h + 'px', borderRadius: BTN.r + 'px', background: C.amber });
@@ -346,7 +351,7 @@
       bl.style.left = (BTN.padL - ink(lf, 'Get match updates').left).toFixed(2) + 'px';
       bl.style.top = (BTN.h / 2 + ink(lf, 'H').asc / 2 - baselineOffset(bl)).toFixed(2) + 'px';
       const asv = ctx.svg('svg', { width: BTN.w, height: BTN.h, viewBox: `0 0 ${BTN.w} ${BTN.h}`, style: 'position:absolute;left:0;top:0;overflow:visible' }, btn);
-      const ax = ARROW_TIP[0] - BTN.x - ARROW_GAP, ay = BTN.h / 2;
+      const ax = ARROW_TIP_X, ay = BTN.h / 2;
       ctx.svg('path', { d: `M${ax - BTN.arrow} ${ay} L${ax - 1} ${ay} M${ax - 8.5} ${ay - 7.5} L${ax} ${ay} L${ax - 8.5} ${ay + 7.5}`, fill: 'none', stroke: '#1b140a', 'stroke-width': 2.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, asv);
       const url = ctx.el('div', 's14-url', cta, 'enemites.com/realms');
       const uf = '500 26px "JetBrains Mono Variable"';
@@ -356,53 +361,36 @@
       const ctaW = URL_X + ink(uf, 'enemites.com/realms').w + 40 - BTN.x;
       tl.fromTo(cta, { clipPath: `inset(0px ${W - BTN.x}px 0px ${BTN.x - 4}px)` }, { clipPath: `inset(0px ${W - BTN.x - ctaW}px 0px ${BTN.x - 4}px)`, duration: 10 / FPS, ease: 'power3.out' }, 3.0);
 
-      // ---- (6) status + (7) archival credit ----
+      // ---- (7) status + (8) archival credit ----
       const status = ctx.el('div', 's14-mono', card, '');
       status.style.color = C.muted;
       status.textContent = 'IN DEVELOPMENT · PRIVATE BETA';
       status.style.left = (COL - ink('500 20px "JetBrains Mono Variable"', 'I').left).toFixed(2) + 'px';
-      status.style.top = (940 - baselineOffset(status)).toFixed(2) + 'px';
+      status.style.top = (Y.status - baselineOffset(status)).toFixed(2) + 'px';
       status.textContent = '';
       B.scrambleTo(tl, status, 'IN DEVELOPMENT · PRIVATE BETA', 3.5, 0.6);
       const CREDIT = 'ARCHIVAL FOOTAGE: NASA · U.S. NATIONAL ARCHIVES · U.S. ARMY AIR FORCES · LIBRARY OF CONGRESS';
       const credit = ctx.el('div', 's14-mono', card, CREDIT);
       Object.assign(credit.style, { color: C.muted3, letterSpacing: '.08em' });
       credit.style.left = (COL - ink('500 20px "JetBrains Mono Variable"', 'A').left).toFixed(2) + 'px';
-      credit.style.top = (1004 - baselineOffset(credit)).toFixed(2) + 'px';
+      credit.style.top = (Y.credit - baselineOffset(credit)).toFixed(2) + 'px';
       tl.fromTo(credit, { opacity: 0 }, { opacity: 0.7, duration: 0.5, ease: 'power1.inOut' }, 4.0);
 
-      // ---- THE NODE: on the ring until 67.0, then the baton onto the arrow tip ----
+      // ---- THE NODE: on the ring until 67.0, then the baton (67.0-67.6) to its dock on the charcoal just
+      //      past the button, where the button's arrow points at it; it keeps its normal amber look and glow ----
       let N = null;
       const io3 = ez('power3.inOut');
-      const P0 = NODE_RING, P3 = ARROW_TIP;
+      const P0 = NODE_RING, P3 = NODE_DOCK;
       const C1 = [P0[0] - 150, P0[1] + 20], C2 = [P3[0] + 150, P3[1] - 210];   // leaves outward (left), lands from above-right
       const LAND = 3.0 + 18 / FPS;
-      let pulseEl = null;
       ctx.onFrame((lt) => {
         if (!N) return;
         const u = io3(seg(lt, 3.0, LAND)), v = 1 - u;
         N.p.x = v * v * v * P0[0] + 3 * v * v * u * C1[0] + 3 * v * u * u * C2[0] + u * u * u * P3[0];
         N.p.y = v * v * v * P0[1] + 3 * v * v * u * C1[1] + 3 * v * u * u * C2[1] + u * u * u * P3[1];
-        // on the button: the node layer is clipped to the button (its glow becomes a soft hot spot on the
-        // amber, its pulse ring turns ink-dark so the 68.5 / 70.0 / 71.5 pulses read on amber)
-        const onBtn = lt >= LAND;
-        N.p.glow = onBtn ? 0.3 * ez('power2.out')(seg(lt, LAND, LAND + 10 / FPS)) : 0.35 * (1 - seg(lt, LAND - 6 / FPS, LAND));
-        const cp = onBtn ? `url(#${ID}-btnclip)` : null;
-        if (cp) { if (nodeG.getAttribute('clip-path') !== cp) nodeG.setAttribute('clip-path', cp); } else if (nodeG.hasAttribute('clip-path')) nodeG.removeAttribute('clip-path');
-        const sc = onBtn ? '#1b140a' : C.amberLight;
-        if (pulseEl && pulseEl.getAttribute('stroke') !== sc) pulseEl.setAttribute('stroke', sc);
-        // its ring disc goes solid ink on the amber, so the core reads as a light point at the arrow's tip
-        const fu = seg(lt, LAND - 3 / FPS, LAND + 3 / FPS);
-        const rf = fu <= 0 ? 'rgba(11,12,14,.55)' : `rgba(${Math.round(lerp(11, 27, fu))},${Math.round(lerp(12, 20, fu))},${Math.round(lerp(14, 10, fu))},${(0.55 + 0.45 * fu).toFixed(3)})`;
-        if (N.ring.getAttribute('fill') !== rf) N.ring.setAttribute('fill', rf);
       });
       const nsv = ctx.svg('svg', { class: 'brand-svg s14-node' }, root);
-      const ndefs = ctx.svg('defs', {}, nsv);
-      const bclip = ctx.svg('clipPath', { id: `${ID}-btnclip` }, ndefs);
-      ctx.svg('rect', { x: BTN.x, y: BTN.y, width: BTN.w, height: BTN.h, rx: BTN.r }, bclip);
-      const nodeG = ctx.svg('g', {}, nsv);
-      N = NodeMark.create(ctx, { parent: nodeG, x: P0[0], y: P0[1], pulses: [0.5, 2.0, 4.5, 6.0, 7.5] });
-      pulseEl = N.inner.children[1];                        // NodeMark: glow, pulse, ring, core
+      N = NodeMark.create(ctx, { parent: nsv, x: P0[0], y: P0[1], pulses: [0.5, 2.0, 4.5, 6.0, 7.5] });
     },
   });
 })();

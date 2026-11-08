@@ -15,6 +15,8 @@
  *      (red pulse) into a solid triangle; VEGA_PUMP draws 4.25-4.90, arrowhead pops at 4.90 and the
  *      triangle lunges along it. 5.10 JK's forward route fades; JK_REROUTE draws 5.10-5.75, its
  *      arrowhead pops at 5.75 and JK starts along it (ours solid amber, as in s11). 5.75 the word exits.
+ *      From 4.00 every other route sits at ~35% (match.js ADAPT), the two lines reach the pump from
+ *      different sides (Vega south-east, JK east), 50+ units apart.
  *      6.00 hard cut into s11.
  */
 (function () {
@@ -66,8 +68,10 @@
       // thin match: roster, channel, objective, topbar and signal hidden; the score pill stays on the
       // top layer (above the scrim), the HUD corners and the slug stay
       gsap.set([U.topbar, U.signal, U.roster, U.channel, U.objective], { autoAlpha: 0 });
-      // ours solid amber, theirs dashed red-orange (as in s11): the reroute is drawn solid, so it reads
-      // against Vega's dashed route in the shared corridor to the pump
+      // ours solid amber, theirs dashed red-orange (as in s11): the reroute is drawn solid. From the
+      // 'Adapt.' cut (m 490) every other route steps down to ~35% (match.js), so the card reads as one red
+      // move (under the ring, south of JK, onto the pump's south-east corner) and one amber answer (JK
+      // north of the conduit onto the pump's east side)
       K.routes.JK_REROUTE.line.removeAttribute('stroke-dasharray');
 
       // ---- the charcoal scrim under the word card (#0b0c0e 94% -> 0 across x 0-1100), one div

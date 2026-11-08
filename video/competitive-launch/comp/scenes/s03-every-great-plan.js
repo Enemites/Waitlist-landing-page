@@ -92,6 +92,9 @@
       const expoIO = gsap.parseEase('expo.inOut'), p2io = gsap.parseEase('power2.inOut'), p2o = gsap.parseEase('power2.out');
       const clamp = B.clamp, lerp = B.lerp;
       const fr = (lt) => Math.round(lt * FPS);
+      // which plate is on screen (0 table, 1 rakes, 2 river, 3 apollo, 4 crews): the plates open ON
+      // their cut frame (Brand.archive 'cut'), so a slot keyed on this swaps on the same frame
+      const plateIdx = (lt) => (lt < 1.0 - 1e-4 ? 0 : lt < 3.0 - 1e-4 ? 1 : lt < 4.5 - 1e-4 ? 2 : lt < 6.0 - 1e-4 ? 3 : 4);
       const twos = (lt) => Math.floor(fr(lt) / 2) * 2 / FPS;
 
       ctx.css(`
@@ -99,7 +102,7 @@
         [data-scene="${ID}"] .s03-full { position:absolute; left:0; top:0; width:${W}px; height:${H}px; }
         [data-scene="${ID}"] .s03-odo { position:absolute; left:0; top:0; color:${C.ink}; }
         [data-scene="${ID}"] .s03-odo .lab { font: 500 20px/20px var(--mono); letter-spacing:.12em; color:${C.muted2}; text-transform:uppercase; white-space:pre; height:20px; }
-        [data-scene="${ID}"] .s03-odo .clk, [data-scene="${ID}"] .s03-odo .txt { position:absolute; left:0; top:28px; height:32px; display:flex; font: 600 28px/32px var(--mono); white-space:pre; }
+        [data-scene="${ID}"] .s03-odo .clk { position:absolute; left:0; top:28px; height:32px; display:flex; font: 600 28px/32px var(--mono); white-space:pre; }
         [data-scene="${ID}"] .s03-odo .reel { position:relative; overflow:hidden; height:32px; width:1ch; }
         [data-scene="${ID}"] .s03-odo .strip { position:absolute; left:0; top:0; width:1ch; text-align:center; }
         [data-scene="${ID}"] .s03-odo .colon { overflow:hidden; height:32px; text-align:center; transform: translateY(-2px); } /* s02's flap colon sits 2 px higher */
@@ -314,7 +317,6 @@
       const odo = ctx.el('div', 's03-odo', root);
       const lab = ctx.el('div', 'lab', odo, 'ROUND 2');
       const clk = ctx.el('div', 'clk', odo);
-      const txt = ctx.el('div', 'txt', odo, '1943');
       const digits0 = [0, 8, 3, 2];
       const reels = digits0.map((d, i) => {
         const r = ctx.el('div', 'reel', clk);
@@ -346,23 +348,30 @@
         colonEl.style.width = (chW * c).toFixed(2) + 'px';
         colonEl.style.opacity = c.toFixed(3);
         odo.style.left = R.x + 'px'; odo.style.top = (R.y - 66) + 'px';
+        // the year readout lives only over 1943 footage (table + rakes): the whole cell leaves ON the
+        // 3.0 cut to The River (1937-38), so no year is ever drawn over a plate that is not 1943
+        const vis = plateIdx(lt) <= 1 ? '' : 'hidden';
+        if (odo.style.visibility !== vis) odo.style.visibility = vis;
       });
       B.scrambleTo(tl, lab, 'ARCHIVE', 0.25, 0.35);
-      // 3.00-3.30 the year scrambles out: the year readout lives only over 1943 footage
-      tl.fromTo(txt, { opacity: 0 }, { opacity: 1, duration: 0.001, ease: 'none' }, 2.999);
-      tl.to(clk, { opacity: 0, duration: 0.001, ease: 'none' }, 2.999);
-      B.scrambleTo(tl, txt, '', 3.0, 0.3, '0123456789');
-      B.scrambleTo(tl, lab, '', 3.0, 0.3);
 
-      // ---- caption + REF under the frame ----
-      const cap = B.label(ctx, { text: 'ARCHIVE · FILTER CENTRE', x: 0, y: 0, at: 0.5, size: 20, color: C.muted, dur: 0.4 });
-      // REF nn: the word holds, only the number rolls on each plate cut
+      // ---- caption + REF under the frame: both read the SAME plate index as the footage and swap
+      //      on the cut frame itself (no scramble on a cut, no number ever scrambled) ----
+      const cap = B.label(ctx, { text: '', x: 0, y: 0, size: 20, color: C.muted, scramble: false });
+      // REF nn: the word holds, only the number swaps on each plate cut
       const ref = ctx.el('div', 'brand-label', root, '<span class="w">REF\u00a0</span><span class="n"></span>');
       Object.assign(ref.style, { position: 'absolute', font: '500 20px/1 var(--mono)', letterSpacing: '.12em', color: C.amber, textTransform: 'uppercase', whiteSpace: 'pre' });
       const refW = ref.querySelector('.w'), refN = ref.querySelector('.n');
-      tl.fromTo(refW, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 0.55); B.scrambleTo(tl, refN, '01', 0.6, 0.25, '0123456789');
-      [[3.0, 'ARCHIVE · THE RIVER', '02'], [4.5, 'ARCHIVE · MISSION CONTROL', '03'], [6.0, 'ARCHIVE · BOAT RACE', '04']].forEach(([t, c, r]) => {
-        B.scrambleTo(tl, cap, c, t, 0.32); B.scrambleTo(tl, refN, r, t, 0.2, '0123456789');
+      tl.fromTo(refW, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: 'none' }, 0.55);
+      const CAPS = ['ARCHIVE · FILTER CENTRE', 'ARCHIVE · FILTER CENTRE', 'ARCHIVE · THE RIVER', 'ARCHIVE · MISSION CONTROL', 'ARCHIVE · BOAT RACE'];
+      const REFS = ['01', '01', '02', '03', '04'];
+      const capSeed = 0x5303ca9;
+      ctx.onFrame((lt) => {
+        // 0.50-0.90 the first caption scrambles in (letters only); from then on it is the plate's
+        const c = lt < 0.5 ? '' : lt < 0.9 ? B.scrambleFrame('', CAPS[0], (lt - 0.5) / 0.4, { seed: capSeed, time: lt - 0.5 }) : CAPS[plateIdx(lt)];
+        if (cap.textContent !== c) cap.textContent = c;
+        const r = lt < 0.6 ? '' : REFS[plateIdx(lt)];
+        if (refN.textContent !== r) refN.textContent = r;
       });
       ctx.onFrame(() => {
         cap.style.left = R.x + 'px'; cap.style.top = (R.y + R.h + 22) + 'px';

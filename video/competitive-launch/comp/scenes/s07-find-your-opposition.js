@@ -482,6 +482,23 @@
   }
   // ======================================== END KIT ========================================
 
+  // 'PLANNED / MATCHMAKING' on the planned-matchmaking line (s06 + s07, outside the shared kit): mono 24 px,
+  // bone at full strength with a dark halo, two lines, pinned above the line head; drawn even before the
+  // line starts (f = 0: at its first point). Call the returned fn after mm.draw with the label opacity.
+  function kMMLabel(mm, F) {
+    const lab = mm.lab;
+    lab.innerHTML = 'PLANNED<br>MATCHMAKING';
+    Object.assign(lab.style, { font: '600 24px/28px var(--mono)', letterSpacing: '.12em', color: C.bone,
+      textShadow: '0 0 12px rgba(11,12,14,.95), 0 0 4px rgba(11,12,14,.9), 0 0 2px rgba(11,12,14,.9)' });
+    return (v) => {
+      if (v <= 0.001) { if (lab.style.opacity !== '0') lab.style.opacity = '0'; return; }
+      const pd = partialD(F, mm.R, clamp(mm.p.f, 1e-4, 1)), a = pd.a * Math.PI / 180;
+      lab.style.left = (pd.tip[0] + Math.cos(a) * 16 - 4).toFixed(1) + 'px';
+      lab.style.top = (pd.tip[1] + Math.sin(a) * 16 - 78).toFixed(1) + 'px';
+      lab.style.opacity = v >= 0.999 ? '1' : v.toFixed(3);
+    };
+  }
+
   Film.scene({
     id: ID,
     duration: 6,
@@ -579,7 +596,7 @@
       const lobA = kLobby(ctx, F, ov, 'atlas'); lobA.p.m = 1; lobA.p.a = 0.95; lobA.p.w = 2;
       const lobV = kLobby(ctx, F, ov, 'vega');
       const mm = kMM(ctx, ov, htm);
-      mm.lab.textContent = 'PLANNED MATCHMAKING';
+      const mmLabel = kMMLabel(mm, F);                   // 'PLANNED / MATCHMAKING' exactly as s06 leaves it
       mm.p.f = MM_HEAD_S06; mm.p.dots = 3; mm.p.lab = 1;
       const bA = kBanner(ctx, ov, 'atlas', T0); bA.p.rise = 1; bA.p.cloth = 1;
       const bV = kBanner(ctx, ov, 'vega', T0); bV.p.rise = 1; bV.p.cloth = 1;
@@ -644,7 +661,11 @@
       const fly = (text, col0, col1, size0, size1, ls0, ls1, at, disp) => {
         const el = ctx.el('div', 's07-fly', flyL, '');
         el.style.color = col0;
-        B.scrambleTo(tl, el, text, at, 0.25);
+        // letters scramble, digits never do: 'TEAM CHALLENGE · 3 V 3' types on with its digits stable
+        if (/\d/.test(text)) {
+          const seed = ID + '-fly-' + text;
+          ctx.onFrame((lt) => { const s = lt < at ? '' : Match.scramble(text, (lt - at) / 0.25, seed, 'in'); if (el.textContent !== s) el.textContent = s; });
+        } else B.scrambleTo(tl, el, text, at, 0.25);
         const meas = (sz, ls) => { el.textContent = text; el.style.fontSize = sz + 'px'; el.style.letterSpacing = ls + 'em'; const r = el.getBoundingClientRect(); el.textContent = ''; return { w: r.width, h: r.height }; };
         const f = { el, col0, col1, size0, size1, ls0, ls1, m0: meas(size0, ls0), m1: meas(size1, ls1) };
         if (disp) {
@@ -691,6 +712,7 @@
         const gA = lobA.geo(), gV = lobV.geo();
         if (foA.a > 0.002) focus.draw(gA.c[0], gA.c[1], foA.a); else focus.draw(gV.c[0], gV.c[1], foV.a);
         mm.draw(F, z);
+        mmLabel(mm.p.lab);                                 // pinned to the head until 28.75, out by 28.9
         bA.p.s = bV.p.s = bannerScale(z);
         bA.draw(gA.c[0], gA.c[1], lt); bV.draw(gV.c[0], gV.c[1], lt);
         // Atlas: JK (the node), NC, EK hold their slots, then fold into Match.SLOTS as match tokens

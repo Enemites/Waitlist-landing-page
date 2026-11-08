@@ -2,8 +2,9 @@
  * back to the 1943 filter-centre table; markers 2 and 3 join the node; the RISING-WATER FLOOD
  * (ContourFlood, t 0 -> 1, 12.5-14.0) replaces the table with the Floodgate world along its
  * contour lines while the odometer rolls 1943 -> 08:32; the window opens to full frame on
- * OVERVIEW and the title lands on 14.0 (bar 8.1): Enemites mark + 'Enemites', 'Realms',
- * COMPETITIVE / TEAM AGAINST TEAM. Ends as a cut on 16.0 into s05's identical OVERVIEW world.
+ * OVERVIEW and the title lands on 14.0 (bar 8.1): Enemites mark + 'Enemites', 'Realms' (ink) over
+ * 'Competitive' (amber, 150 px, up by 14.5), TEAM AGAINST TEAM eyebrow. The title dim lifts under the
+ * lockup over the last 6 f, so the 16.0 cut lands on s05's identical OVERVIEW world at full brightness.
  * Local 0 = film 12.0.
  */
 (function () {
@@ -32,6 +33,8 @@
   // table plaques (source px): the node's marker, and the two markers that join it
   const MARK_NODE = { 31: [371, 412], 40: [373, 415], 84: [373, 416] };
   const MARK_2 = [505, 528], MARK_3 = [265, 312];
+  // title lockup (baselines, screen px): mark row / 'Realms' (ink) / 'Competitive' (amber) / eyebrow
+  const ROW_Y = 282, REALMS_BASE = 565, MODE_PX = 150, MODE_BASE = 712, EYE_BASE = 800;
 
   Film.scene({
     id: ID,
@@ -65,7 +68,7 @@
         [data-scene="${ID}"] .s04-bg { position:absolute; inset:0; background:${C.bg}; }
         [data-scene="${ID}"] .s04-odo { position:absolute; left:${WIN.x}px; top:${WIN.y - 66}px; color:${C.ink}; }
         [data-scene="${ID}"] .s04-odo .lab { font: 500 20px/20px var(--mono); letter-spacing:.12em; color:${C.muted2}; text-transform:uppercase; white-space:pre; height:20px; }
-        [data-scene="${ID}"] .s04-odo .clk, [data-scene="${ID}"] .s04-odo .txt { position:absolute; left:0; top:28px; height:32px; display:flex; font: 600 28px/32px var(--mono); white-space:pre; }
+        [data-scene="${ID}"] .s04-odo .clk { position:absolute; left:0; top:28px; height:32px; display:flex; font: 600 28px/32px var(--mono); white-space:pre; }
         [data-scene="${ID}"] .s04-odo .reel { position:relative; overflow:hidden; height:32px; width:1ch; }
         [data-scene="${ID}"] .s04-odo .strip { position:absolute; left:0; top:0; width:1ch; text-align:center; }
         [data-scene="${ID}"] .s04-odo .colon { overflow:hidden; height:32px; text-align:center; }
@@ -75,6 +78,8 @@
         [data-scene="${ID}"] .s04-row .word { font: 600 44px/1 var(--display); letter-spacing:-0.02em; color:${C.ink}; white-space:nowrap; }
         [data-scene="${ID}"] .s04-realms { position:absolute; left:0; width:${W}px; text-align:center; overflow:hidden; padding: 0 0 .1em; }
         [data-scene="${ID}"] .s04-realms span { display:inline-block; font: 620 260px/1 var(--display); letter-spacing:-0.055em; color:${C.ink}; padding: 0 .06em; }
+        [data-scene="${ID}"] .s04-realms.mode { padding: 0 0 ${Math.round(MODE_PX * 0.32)}px; } /* the mask keeps the p's descender */
+        [data-scene="${ID}"] .s04-realms.mode span { font-size: ${MODE_PX}px; color:${C.amber}; }
         [data-scene="${ID}"] .s04-eye { position:absolute; display:flex; align-items:center; gap:18px; font: 500 26px/26px var(--mono); letter-spacing:.13em; text-transform:uppercase; white-space:pre; }
         [data-scene="${ID}"] .s04-eye .dia { width:13px; height:13px; background:${C.amber}; flex:none; }
       `);
@@ -148,6 +153,9 @@
       // ---- title dim: the world drops to 14 % on the latch (14.0) ----
       const dim = ctx.el('div', 's04-dim', root);
       tl.fromTo(dim, { opacity: 0 }, { opacity: 0.86, duration: 4 / FPS, ease: 'power2.out', immediateRender: false }, 2.0);
+      // ... and lifts UNDER the lockup over the last 6 frames (15.80 -> 15.967 = 0), so the world is at full
+      // brightness on the 16.0 cut into s05's OVERVIEW frame
+      tl.to(dim, { opacity: 0, duration: 5 / FPS, ease: 'power2.out' }, 4 - 6 / FPS);
 
       // ---- HUD: corners ride from the window to the frame (inset 72); ticks arrive with the frame ----
       const hudH = B.hud(ctx, { inset: 72, tc: false, drawIn: false, slug: '' });
@@ -170,9 +178,8 @@
 
       // ---- ODOMETER: 1943 -> 19:43 -> 08:32 ----
       const odo = ctx.el('div', 's04-odo', root);
-      const lab = ctx.el('div', 'lab', odo, '');
+      const lab = ctx.el('div', 'lab', odo, 'ARCHIVE');
       const clk = ctx.el('div', 'clk', odo);
-      const txt = ctx.el('div', 'txt', odo, '');
       const from = [1, 9, 4, 3];
       const reels = from.map((d, i) => {
         const r = ctx.el('div', 'reel', clk);
@@ -192,24 +199,27 @@
         const c = p2io(clamp((lt - 1.0) / (6 / FPS), 0, 1)); // the colon opens on 13.0
         colonEl.style.width = (chW * c).toFixed(2) + 'px'; colonEl.style.opacity = c.toFixed(3);
       });
-      // scramble back in over the cut, then hand over to the reels (same glyphs, same place)
-      B.scrambleTo(tl, txt, '1943', 0.0, 0.3, '0123456789');
-      B.scrambleTo(tl, lab, 'ARCHIVE', 0.0, 0.3);
-      tl.fromTo(clk, { opacity: 0 }, { opacity: 1, duration: 0.001, ease: 'none' }, 0.333);
-      tl.to(txt, { opacity: 0, duration: 0.001, ease: 'none' }, 0.333);
-      B.scrambleTo(tl, lab, 'ROUND 2', 1.0, 0.35);
+      // 'ARCHIVE' + 1943 are on the cut frame itself (this plate IS 1943: the year is true here); the
+      // label is a pure function of time: 1.00-1.35 'ARCHIVE' -> 'ROUND 2' (letters scramble, the 2 types on)
+      ctx.onFrame((lt) => {
+        const s = lt < 1.0 ? 'ARCHIVE' : B.scrambleFrame('ARCHIVE', 'ROUND 2', (lt - 1.0) / 0.35, { seed: 0x5404ab1, time: lt - 1.0 });
+        if (lab.textContent !== s) lab.textContent = s;
+      });
       tl.to(odo, { opacity: 0, duration: 0.3, ease: 'none' }, 2.0);
 
       // ---- caption + REF ----
-      const cap = ctx.el('div', 'brand-label', root, 'ARCHIVE · BOAT RACE');
+      const cap = ctx.el('div', 'brand-label', root, 'ARCHIVE · FILTER CENTRE');
       Object.assign(cap.style, { position: 'absolute', left: WIN.x + 'px', top: (WIN.y + WIN.h + 22) + 'px', font: '500 20px/1 var(--mono)', letterSpacing: '.12em', color: C.muted, textTransform: 'uppercase', whiteSpace: 'pre' });
-      const ref = ctx.el('div', 'brand-label', root, '<span class="w">REF\u00a0</span><span class="n">04</span>');
-      const refW = ref.querySelector('.w'), refN = ref.querySelector('.n');
+      const ref = ctx.el('div', 'brand-label', root, '<span class="w">REF\u00a0</span><span class="n">01</span>');
       Object.assign(ref.style, { position: 'absolute', right: (W - WIN.x - WIN.w) + 'px', top: (WIN.y + WIN.h + 22) + 'px', font: '500 20px/1 var(--mono)', letterSpacing: '.12em', color: C.amber, textTransform: 'uppercase', whiteSpace: 'pre' });
-      B.scrambleTo(tl, cap, 'ARCHIVE · FILTER CENTRE', 0.0, 0.32);
-      B.scrambleTo(tl, refN, '01', 0.0, 0.2, '0123456789');
-      B.scrambleTo(tl, cap, 'FLOODGATE · TEAM CHALLENGE · 3 V 3', 1.0, 0.5);
-      B.scrambleTo(tl, refN, '', 1.0, 0.2, '0123456789'); tl.to(refW, { opacity: 0, duration: 0.2, ease: 'none' }, 1.1);
+      // the table's caption + REF 01 are there ON the cut frame (keyed on this plate, no scramble); 1.00-1.50
+      // the caption turns into the world's (letters scramble, '3 V 3' types on), REF leaves as one block
+      const CAP0 = 'ARCHIVE · FILTER CENTRE', CAP1 = 'FLOODGATE · TEAM CHALLENGE · 3 V 3';
+      ctx.onFrame((lt) => {
+        const s = lt < 1.0 ? CAP0 : B.scrambleFrame(CAP0, CAP1, (lt - 1.0) / 0.5, { seed: 0x5404ca9, time: lt - 1.0 });
+        if (cap.textContent !== s) cap.textContent = s;
+      });
+      tl.to(ref, { opacity: 0, duration: 0.2, ease: 'none' }, 1.0);
       tl.to(cap, { opacity: 0, duration: 0.3, ease: 'none' }, 2.0);
 
       // ---- slug: regains '· INTERFACE CONCEPT' as the world returns (13.25) ----
@@ -228,7 +238,7 @@
       row.appendChild(cv);
       const word = ctx.el('div', 'word', row, 'Enemites');
       const rw = row.getBoundingClientRect().width;
-      row.style.left = Math.round(W / 2 - rw / 2) + 'px'; row.style.top = (330 - MH / 2) + 'px';
+      row.style.left = Math.round(W / 2 - rw / 2) + 'px'; row.style.top = (ROW_Y - MH / 2) + 'px';
       const SL = Math.tan(27 * Math.PI / 180) * MH; // the edge leans like the mark's stems
       const wipe = { e: -SL };
       tl.fromTo(wipe, { e: -SL }, { e: rw + SL, duration: 15 / FPS, ease: 'expo.out', immediateRender: false }, 2.0);
@@ -239,27 +249,33 @@
         row.style.clipPath = e >= rw + SL - 0.5 ? '' : `polygon(-10px -10px, ${(e + SL / 2).toFixed(1)}px -10px, ${(e - SL / 2).toFixed(1)}px ${MH + 10}px, -10px ${MH + 10}px)`;
       });
       void word;
-      // (2) 'Realms' 260 px, centred on baseline 640, rises in its mask with a 560 -> 620 weight settle
-      const rm = ctx.el('div', 's04-realms', title);
-      const rs = ctx.el('span', '', rm, 'Realms');
-      const probe = ctx.el('span', '', rs); Object.assign(probe.style, { display: 'inline-block', width: '0px', height: '0px', verticalAlign: 'baseline', padding: '0' });
-      const base = probe.getBoundingClientRect().top - rm.getBoundingClientRect().top; rs.removeChild(probe);
-      rm.style.top = (640 - base).toFixed(1) + 'px';
-      const wt = { w: 560 };
-      tl.fromTo(rs, { yPercent: 112 }, { yPercent: 0, duration: 18 / FPS, ease: 'expo.out' }, 2.05);
-      tl.fromTo(wt, { w: 560 }, { w: 620, duration: 24 / FPS, ease: 'power2.out', immediateRender: false }, 2.05);
-      ctx.onFrame(() => { rs.style.fontWeight = String(Math.round(wt.w)); });
-      // (3) eyebrow on 14.5: diamond + COMPETITIVE (amber) + / TEAM AGAINST TEAM (muted), baseline 730
-      const eye = ctx.el('div', 's04-eye', title, '<span class="dia"></span><span class="a"></span><span class="m"></span>');
-      const ea = eye.querySelector('.a'), em = eye.querySelector('.m'), dia = eye.querySelector('.dia');
-      ea.style.color = C.amber; em.style.color = C.muted;
-      ea.textContent = 'COMPETITIVE'; em.textContent = ' / TEAM AGAINST TEAM';
+      // (2) 'Realms' 260 px (ink) and (3) 'Competitive' 150 px (amber): the brand's ink / amber two-line
+      // lockup, each centred on its baseline, rising in its mask with a 560 -> 620 weight settle.
+      // 'Competitive' (the mode this film launches) is fully up by 14.5 and holds to the cut.
+      function titleLine(text, base, at, dur, cls, from) {
+        const m = ctx.el('div', 's04-realms' + (cls ? ' ' + cls : ''), title);
+        const sp = ctx.el('span', '', m, text);
+        const probe = ctx.el('span', '', sp); Object.assign(probe.style, { display: 'inline-block', width: '0px', height: '0px', verticalAlign: 'baseline', padding: '0' });
+        const b0 = probe.getBoundingClientRect().top - m.getBoundingClientRect().top; sp.removeChild(probe);
+        m.style.top = (base - b0).toFixed(1) + 'px';
+        const wt = { w: 560 };
+        tl.fromTo(sp, { yPercent: from || 112 }, { yPercent: 0, duration: dur, ease: 'expo.out' }, at);
+        tl.fromTo(wt, { w: 560 }, { w: 620, duration: 24 / FPS, ease: 'power2.out', immediateRender: false }, at);
+        ctx.onFrame(() => { const v = String(Math.round(wt.w)); if (sp.style.fontWeight !== v) sp.style.fontWeight = v; });
+        return sp;
+      }
+      titleLine('Realms', REALMS_BASE, 2.05, 18 / FPS);
+      titleLine('Competitive', MODE_BASE, 2.2, 16 / FPS, 'mode', 140); // starts below its deeper mask
+      // (4) eyebrow on 14.5: diamond + TEAM AGAINST TEAM (mono 26, muted), centred under the mode name
+      const eye = ctx.el('div', 's04-eye', title, '<span class="dia"></span><span class="m"></span>');
+      const em = eye.querySelector('.m'), dia = eye.querySelector('.dia');
+      em.style.color = C.muted;
+      em.textContent = 'TEAM AGAINST TEAM';
       const ew = eye.getBoundingClientRect().width;
-      ea.textContent = ''; em.textContent = '';
-      eye.style.left = Math.round(W / 2 - ew / 2) + 'px'; eye.style.top = (730 - 21) + 'px';
-      tl.fromTo(dia, { scale: 0, rotation: -90 }, { scale: 1, rotation: 45, duration: 0.5, ease: 'back.out(2)' }, 2.5);
-      B.scrambleTo(tl, ea, 'COMPETITIVE', 2.5, 0.36);
-      B.scrambleTo(tl, em, ' / TEAM AGAINST TEAM', 2.55, 0.42);
+      em.textContent = '';
+      eye.style.left = Math.round(W / 2 - ew / 2) + 'px'; eye.style.top = (EYE_BASE - 21) + 'px';
+      tl.fromTo(dia, { scale: 0, rotation: -90 }, { scale: 1, rotation: 45, duration: 0.5, ease: 'back.out(2)' }, 2.45);
+      B.scrambleTo(tl, em, 'TEAM AGAINST TEAM', 2.5, 0.42);
     },
   });
 })();

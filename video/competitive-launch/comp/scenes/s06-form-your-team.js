@@ -3,7 +3,11 @@
  * 01 —— FORM YOUR TEAM. The summit contour becomes the lobby ring (22.5); JK (the node), NC and EK
  * snap into their slots on the beats 23.5 / 24.0 / 24.5; the team joins into a triangle; ATLAS stamps
  * on 26.0 (landing note D5). 27.0-28.0: PLANNED MATCHMAKING leaves east as a bone dashed line and the
- * camera rises with it to LOBBY_A2, where s07 whips along the line.
+ * camera rises with it to LOBBY_A2, where s07 whips along the line. The label 'PLANNED / MATCHMAKING'
+ * (mono 24, bone, no scramble: matchmaking is planned, not released) is fully in by 27.0 and rides the
+ * line head until 28.75 (s07). The pump station and its conduit stay hidden while the lobby close-up
+ * holds (they would sit unlabelled, clipped at the right edge): out over 22.0-22.3, back with the rise
+ * over 27.0-27.9.
  * Mirror build: the lobby (kLobby / kMarker / kBanner) is side-agnostic and shared with s07.
  */
 (function () {
@@ -481,6 +485,23 @@
   }
   // ======================================== END KIT ========================================
 
+  // 'PLANNED / MATCHMAKING' on the planned-matchmaking line (s06 + s07, outside the shared kit): mono 24 px,
+  // bone at full strength with a dark halo, two lines, pinned above the line head; drawn even before the
+  // line starts (f = 0: at its first point). Call the returned fn after mm.draw with the label opacity.
+  function kMMLabel(mm, F) {
+    const lab = mm.lab;
+    lab.innerHTML = 'PLANNED<br>MATCHMAKING';
+    Object.assign(lab.style, { font: '600 24px/28px var(--mono)', letterSpacing: '.12em', color: C.bone,
+      textShadow: '0 0 12px rgba(11,12,14,.95), 0 0 4px rgba(11,12,14,.9), 0 0 2px rgba(11,12,14,.9)' });
+    return (v) => {
+      if (v <= 0.001) { if (lab.style.opacity !== '0') lab.style.opacity = '0'; return; }
+      const pd = partialD(F, mm.R, clamp(mm.p.f, 1e-4, 1)), a = pd.a * Math.PI / 180;
+      lab.style.left = (pd.tip[0] + Math.cos(a) * 16 - 4).toFixed(1) + 'px';
+      lab.style.top = (pd.tip[1] + Math.sin(a) * 16 - 78).toFixed(1) + 'px';
+      lab.style.opacity = v >= 0.999 ? '1' : v.toFixed(3);
+    };
+  }
+
   Film.scene({
     id: ID,
     duration: 6,
@@ -558,9 +579,11 @@
       // line 2 leaves on 27.25 (held 3.05 s from landing), clear before the rising lobby slides west
       kLine(ctx, { text: 'Or join a team.', x: 120, base: 510, size: 120, color: C.amber, at: 1.5, out: 5.25 });
 
-      // 27.0-28.0 PLANNED MATCHMAKING: bone line leaves east, dots step on the beats, the label says 'planned'
+      // 27.0-28.0 PLANNED MATCHMAKING: bone line leaves east, dots step on the beats, the label says 'planned'.
+      // The label reads before the line moves: in at 26.8 (fade, no scramble), fully in on 27.0, then pinned
+      // above the line head (two lines, so it stays inside title-safe at the ring's east edge)
       tl.fromTo(mm.p, { f: 0 }, { f: MM_HEAD_S06, duration: 1.0, ease: 'power1.in', immediateRender: false }, 5.0);
-      B.scrambleTo(tl, mm.lab, 'PLANNED MATCHMAKING', 5.25, 0.5);
+      const mmLabel = kMMLabel(mm, F);
       tl.to(fo, { a: 0.38, duration: 1.0, ease: 'power2.inOut' }, 5.0);
 
       kHud(ctx);
@@ -571,8 +594,14 @@
         const ge = lob.geo();
         focus.draw(ge.c[0], ge.c[1], fo.a);
         mm.p.dots = lt >= 6 - 1e-6 ? 3 : lt >= 5.5 ? 2 : lt >= 5.0 ? 1 : 0;
-        mm.p.lab = lt >= 5.25 ? 1 : 0;
         mm.draw(F, z);
+        mmLabel(ez('power1.out')(seg(lt, 4.8, 5.0)));
+        // the pump station + conduit: hidden while the lobby close-up holds, back as the camera rises east
+        // (power2.in: still faint while the rise first slides the box in large at the lower right, full by
+        // 27.9 where it sits mid-frame as s07 picks it up)
+        const pv = lt < 5 ? 1 - ez('power1.out')(seg(lt, 0, 0.3)) : ez('power2.in')(seg(lt, 5.0, 5.9));
+        const ps = pv >= 0.999 ? '1' : pv.toFixed(3);
+        for (const e of [F.el.pump, F.el.conduit]) if (e.getAttribute('opacity') !== ps) e.setAttribute('opacity', ps);
         bA.p.s = bannerScale(z); bA.draw(ge.c[0], ge.c[1], lt);
         // member positions
         const sJ = lob.slotScreen(0), sN = lob.slotScreen(1), sE = lob.slotScreen(2);

@@ -22,8 +22,9 @@
  *         clip, locked to the world, closes to r 300; a 2 px amber ring rides the clip edge and stays,
  *         with a 60-tick bezel. Banners give way to 14 px emblems (amber diamond, red-orange ring).
  *         The medallion starts turning (0.6 deg/s, eased in from 62.0). Slug out and HUD to 50 % at 62.0.
- *   5.00  line 1 exits (9 f power2.in); the node hops from the summit onto the ring's 9 o'clock point.
- *   5.50  line 2 exits; the node lands on (1120,540); the medallion fires its pulse ring (45 f).
+ *   5.00  both lines exit together (9 f power2.in, line 2 two frames behind); the node hops from the
+ *         summit onto the ring's 9 o'clock point.
+ *   5.50  the node lands on (1120,540); the medallion fires its pulse ring (45 f).
  *   6.00  s14 rebuilds the identical medallion (MEDALLION KIT below, verbatim in both files).
  */
 (function () {
@@ -429,7 +430,8 @@
       // ---- type: 'See whose' / 'strategy holds.' (the thesis key phrase, heard and read) ----
       const typeL = ctx.el('div', 'mx-layer s13-type', root);
       kLine(ctx, { text: 'See whose', x: 120, base: 760, size: 160, color: C.ink, at: 1.5, out: 5.0, parent: typeL });
-      kLine(ctx, { text: 'strategy holds.', x: 120, base: 910, size: 160, color: C.amber, at: 2.0, out: 5.5, parent: typeL });
+      // both lines leave together (line 2 two frames behind line 1), so 'strategy holds.' never hangs alone beside the medallion
+      kLine(ctx, { text: 'strategy holds.', x: 120, base: 910, size: 160, color: C.amber, at: 2.0, out: 5.0 + 2 / FPS, parent: typeL });
 
       // ---- THE NODE: lifts off the playhead, lands on the Atlas summit (0.5), hops onto the ring (5.0-5.5) ----
       const TRACK = Match.HANDOFF['s12-on-the-record@58.0'].node;

@@ -531,7 +531,7 @@
 
       // ---- the title dim from s04 (#0b0c0e at 86%) lifts on the downbeat (6 f) ----
       const dim = ctx.el('div', 'k-bg', root);
-      tl.fromTo(dim, { opacity: 0.86 }, { opacity: 0, duration: 6 / FPS, ease: 'power2.out' }, 0);
+      dim.style.opacity = '0'; // s04 now lifts its title dim before the 16.0 cut, so the world opens at full brightness
 
       // ---- screen-space marks ----
       const ov = ctx.svg('svg', { class: 'brand-svg' });

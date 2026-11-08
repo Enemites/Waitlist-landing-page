@@ -7,7 +7,10 @@
  * 0.00 INTO THE RING + GRID SNAP: ring pulse on the arrival frame; camera settles OVERVIEW_WIDE ->
  *      PLAN (15 f power3.out; PLAN keeps the Atlas lobby clear of the roster so THE NODE never hides);
  *      A-L / 01-08 board lines draw outward from the objective cell (1 f apart), coordinates scramble.
- * 0.25 panels enter (10 f power3.out, 2 f stagger); '03 —— MAKE YOUR MOVE' scrambles in (out 1.75).
+ *      '03 —— MAKE YOUR MOVE' comes in with the snap (0.00-0.25: the s06/s07 chapter treatment, number
+ *      amber, drawn rule, title scrambles in), centred under the score pill on the top layer, so the Jules
+ *      lift never dims it; it holds at full brightness to 1.75 and exits by 2.05.
+ * 0.25 panels enter (10 f power3.out, 2 f stagger).
  * 0.50 the clock starts at 08:32.
  * 1.00-2.50 LIFT: Jules 08:31 (types 0.6 s, 2x clone at 42 px); tifo role zones light at 1.4 (pump
  *      station) / 1.6 (crossing): soft amber zones fitted to each feature (10% fill, 1.5 px dashed
@@ -74,7 +77,8 @@
       // ---- TIFO ROLE ZONES: one per order in Jules's message, lit as its words land. Each is a
       // rounded shape fitted to its feature (product coords; local frame = translate(cx cy) rotate(rot)):
       //  - pump station: the building (530-594 x 376-422) plus Nora's post below it; its top edge
-      //    sits just under the 'Pump station' label, which reads as the zone's tab
+      //    sits just under the 'Pump station' label, which reads as the zone's tab (JK skirts its south
+      //    edge on his way to the gate; Nora is the one who lands in it)
       //  - crossing: a capsule along the bridge (two lines at 41.8 deg, ends (942,346) / (1054,446))
       // Peak (Jules's lift): 10% radial fill, 1.5 px dashed outline at 45%, entering with a scale
       // (0.86 -> 1, expo.out 12 f) while board cells (quarter cells of the A-L grid) sweep outward from
@@ -94,7 +98,7 @@
         zoneSvg.style.clipPath = `path(evenodd, '${rr(-10, -10, W + 20, H + 20, 0)} ${holes.join(' ')}')`;
       }
       // the zones are ground markings: the tokens (and THE NODE's ring on JK) stay on top of them,
-      // through holes that follow the tokens (JK crosses the pump zone at 2.2-2.9, NC lands in it)
+      // through holes that follow the tokens (JK skirts the pump zone's south edge at 2.4-2.9, NC lands in it)
       const zmId = `${ID}-zones-mask`;
       const zMask = ctx.svg('mask', { id: zmId, maskUnits: 'userSpaceOnUse', x: -2000, y: -2000, width: 6000, height: 5000 }, ctx.svg('defs', {}, zoneSvg));
       ctx.svg('rect', { x: -2000, y: -2000, width: 6000, height: 5000, fill: '#fff' }, zMask);
@@ -180,10 +184,25 @@
         tl.fromTo(el, Object.assign({ opacity: 0 }, from), { opacity: 1, x: 0, y: 0, duration: 10 / FPS, ease: 'power3.out' }, 0.25 + i * 2 / FPS);
       });
 
-      // ---- chapter label, centred under the score pill (in the chrome: it dims under the lift)
-      const CHAP = '03  ——  MAKE YOUR MOVE';
-      const chap = ctx.el('div', 's08-chapter', U.root, '');
-      Object.assign(chap.style, { position: 'absolute', left: '960px', top: '150px', transform: 'translateX(-50%)', font: '500 24px/24px var(--mono)', letterSpacing: '.12em', color: C.ink, whiteSpace: 'pre' });
+      // ---- chapter label '03 —— MAKE YOUR MOVE': the s06/s07 chapter treatment (mono 24, number amber 600,
+      // a 44 px drawn amber rule, title ink; number first, title scrambles in left to right, letters only).
+      // Centred under the score pill on the TOP layer (with the pill: never dimmed by the lifts).
+      // In with the grid snap 0.00-0.25, full brightness to 1.75, out 1.75-2.05 (right to left).
+      const CHAP_N = '03', CHAP_T = 'MAKE YOUR MOVE';
+      const chap = ctx.el('div', 's08-chapter', L.top, '<span class="n"></span><i class="r"></i><span class="t"></span>');
+      Object.assign(chap.style, { position: 'absolute', left: '0px', top: '150px', display: 'flex', alignItems: 'center', gap: '16px', font: '500 24px/24px var(--mono)', letterSpacing: '.12em', textTransform: 'uppercase', whiteSpace: 'pre', color: C.ink });
+      const chN = chap.querySelector('.n'), chR = chap.querySelector('.r'), chT = chap.querySelector('.t');
+      Object.assign(chN.style, { color: C.amber, fontWeight: '600', minWidth: '2.3ch' });
+      Object.assign(chR.style, { display: 'block', width: '44px', height: '2px', background: C.amber, opacity: '0.75', transformOrigin: '0 50%' });
+      chN.textContent = CHAP_N; chT.textContent = CHAP_T;
+      const chapW = chap.offsetWidth, chapX = Math.round(W / 2 - chapW / 2);
+      chap.style.left = chapX + 'px';
+      chN.textContent = ''; chT.textContent = '';
+      chT.style.minWidth = (chapW - chT.offsetLeft) + 'px';     // the box keeps its measured width while the title types
+      tl.fromTo(chR, { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: 'expo.out' }, 0);
+      tl.to(chR, { scaleX: 0, duration: 0.25, ease: 'power2.in' }, 1.8);
+      // the coordinate letters leave the band where the label sits
+      const chapBand = [chapX - 36, chapX + chapW + 36];
 
       // ---- chrome dim (2.5 -> 9.0): panels to 55% under dark plates (opaque, so the world never
       // shows through), topbar + signal by opacity; back to full with the alert's return
@@ -288,7 +307,7 @@
           const x = F.toScreen((o.c + 0.5) * G.w / G.cols, 0)[0];
           const tin = o.k / FPS, out = 0.22 + Math.abs(x - 960) / 960 * 0.25;
           const a = clamp01((lt - tin) / 0.1) * (1 - clamp01((lt - out) / 0.1));
-          const show = a > 0.001 && x > 140 && x < 1780;
+          const show = a > 0.001 && x > 140 && x < 1780 && (x + 14 < chapBand[0] || x - 6 > chapBand[1]);
           o.d.style.display = show ? '' : 'none';
           if (!show) continue;
           o.d.style.left = (x - 6).toFixed(1) + 'px'; o.d.style.top = '150px';
@@ -307,12 +326,15 @@
           o.d.textContent = Match.scramble(o.txt, (lt - tin) / 0.2, 's08-n' + o.r, 'resolve');
         }
 
-        // chapter label: scrambles in at 0.25 (0.4 s), out at 1.75 (0.3 s)
-        let s = '';
-        if (lt >= 0.25 && lt < 1.75) s = Match.scramble(CHAP, (lt - 0.25) / 0.4, 's08-chap', 'in');
-        else if (lt >= 1.75 && lt < 2.05) s = Match.scramble(CHAP, 1 - (lt - 1.75) / 0.3, 's08-chap-o', 'in');
-        const html = s ? `<span style="color:${C.amber}">${s.slice(0, 2)}</span>${s.slice(2)}` : '';
-        if (chap.innerHTML !== html) chap.innerHTML = html;
+        // chapter label (as s06/s07 kChapter, compressed into the snap): number 0.00-0.12, title 0.03-0.25;
+        // out: title 1.75-2.05, number 1.90-2.05
+        {
+          const un = Math.min(clamp01(lt / 0.12), 1 - clamp01((lt - 1.9) / 0.15));
+          const ut = Math.min(clamp01((lt - 0.03) / 0.22), 1 - clamp01((lt - 1.75) / 0.3));
+          const sn = Match.scramble(CHAP_N, un, 's08-chn', 'in'), st = Match.scramble(CHAP_T, ut, 's08-cht', 'in');
+          if (chN.textContent !== sn) chN.textContent = sn;
+          if (chT.textContent !== st) chT.textContent = st;
+        }
 
         // chrome dim plates
         const pv = cd.v > 0.001 ? cd.v.toFixed(3) : '';
