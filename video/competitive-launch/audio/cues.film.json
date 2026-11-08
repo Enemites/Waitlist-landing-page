@@ -144,6 +144,26 @@
    "label": "lift: Vega contesting"
   },
   {
+   "type": "whoosh",
+   "at": 0.275,
+   "length": 0.35,
+   "peak": 0.7,
+   "pitch": 1.2,
+   "weight": 0.35,
+   "gain_db": -19,
+   "label": "s01 camera push"
+  },
+  {
+   "type": "whoosh",
+   "at": 1.775,
+   "length": 0.35,
+   "peak": 0.7,
+   "pitch": 1.2,
+   "weight": 0.35,
+   "gain_db": -19,
+   "label": "s01 camera push"
+  },
+  {
    "type": "tick_one",
    "at": 1.0,
    "tone": 1.4,
@@ -540,13 +560,21 @@
    "label": "versus: red slab slams"
   },
   {
+   "type": "riser",
+   "hit_at": 21.967,
+   "length": 0.22,
+   "gain_db": -16,
+   "label": "versus dive into the charcoal diamond"
+  },
+  {
    "type": "whoosh",
-   "at": 21.46,
-   "length": 0.6,
-   "peak": 0.85,
-   "weight": 0.7,
-   "gain_db": -12,
-   "label": "versus punch-in to the s06 ring"
+   "at": 21.98,
+   "length": 0.32,
+   "peak": 0.1,
+   "pitch": 0.6,
+   "weight": 0.75,
+   "gain_db": -15,
+   "label": "out through the diamond: s06 zoom landing"
   },
   {
    "type": "plucks",
@@ -775,13 +803,6 @@
   {
    "type": "ui_blip",
    "at": 35.0,
-   "kind": "type",
-   "gain_db": -13,
-   "label": "message arrives"
-  },
-  {
-   "type": "ui_blip",
-   "at": 37.5,
    "kind": "type",
    "gain_db": -13,
    "label": "message arrives"
@@ -1358,11 +1379,12 @@
   },
   {
    "type": "ui_blip",
-   "at": 19.0,
+   "at": 18.7,
    "kind": "select",
    "freq": 987.77,
    "gain_db": -17,
-   "pan": 0.4
+   "pan": 0.4,
+   "label": "Vega pillar shoots up"
   },
   {
    "type": "ui_blip",
@@ -1524,15 +1546,6 @@
    "freq": 1174.66,
    "gain_db": -19,
    "label": "zone lights: crossing"
-  },
-  {
-   "type": "ui_blip",
-   "at": 36.5,
-   "kind": "select",
-   "freq": 1700,
-   "gain_db": -20,
-   "length": 0.2,
-   "label": "NC route squeak"
   },
   {
    "type": "ui_blip",
@@ -1787,11 +1800,23 @@
   },
   {
    "type": "data_chatter",
-   "at": 19.05,
+   "at": 18.75,
    "length": 0.3,
    "density": 12,
    "gain_db": -28,
    "label": "x05 VEGA tag"
+  },
+  {
+   "type": "whoosh",
+   "at": 18.7,
+   "length": 0.6,
+   "peak": 0.35,
+   "pitch": 1.1,
+   "weight": 0.25,
+   "direction": -1,
+   "pan": 0.3,
+   "gain_db": -23,
+   "label": "their red plan draws"
   },
   {
    "type": "whoosh",
@@ -1891,11 +1916,19 @@
   },
   {
    "type": "typing",
-   "at": 21.29,
-   "length": 0.25,
+   "at": 21.45,
+   "length": 0.13,
    "rate": 14,
    "gain_db": -24,
    "label": "3 V 3 types on"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 20.45,
+   "length": 0.24,
+   "direction": 1,
+   "gain_db": -28,
+   "label": "dashed hint pencils along the seam"
   },
   {
    "type": "ui_blip",
@@ -2171,25 +2204,36 @@
   },
   {
    "type": "whoosh",
-   "at": 45.95,
+   "at": 46.04,
    "length": 0.3,
    "peak": 0.6,
    "pitch": 1.3,
    "weight": 0.3,
-   "pan": 0.4,
+   "pan": -0.3,
    "gain_db": -20,
    "label": "braid crossing 1"
   },
   {
    "type": "whoosh",
-   "at": 46.4,
+   "at": 46.5,
    "length": 0.3,
    "peak": 0.6,
    "pitch": 1.3,
    "weight": 0.3,
-   "pan": -0.4,
+   "pan": 0.3,
    "gain_db": -20,
    "label": "braid crossing 2"
+  },
+  {
+   "type": "whoosh",
+   "at": 46.67,
+   "length": 0.2,
+   "peak": 0.6,
+   "pitch": 1.6,
+   "weight": 0.15,
+   "pan": 0.3,
+   "gain_db": -25,
+   "label": "EK whips out"
   },
   {
    "type": "riser",
@@ -2236,6 +2280,254 @@
    "label": "snap into Commit."
   },
   {
+   "type": "stamp",
+   "at": 49.0,
+   "weight": 0.6,
+   "gain_db": -14,
+   "label": "s10 punch onto JK"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 49.1,
+   "length": 0.15,
+   "brightness": 0.9,
+   "gain_db": -24,
+   "label": "62% arc glow shimmer"
+  },
+  {
+   "type": "stamp",
+   "at": 51.0,
+   "weight": 0.6,
+   "gain_db": -14,
+   "pan": 0.2,
+   "label": "s10 punch onto the pump"
+  },
+  {
+   "type": "ui_blip",
+   "at": 50.25,
+   "kind": "confirm",
+   "freq": 440,
+   "gain_db": -26,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "LAST SEEN ghost resolves"
+  },
+  {
+   "type": "impact",
+   "at": 30.5,
+   "length": 0.45,
+   "size": 0.4,
+   "brightness": 0.3,
+   "sub_hz": 56,
+   "hpf": 45,
+   "gain_db": -15,
+   "label": "x07 cut: section line strikes, profiles spring up"
+  },
+  {
+   "type": "whoosh",
+   "at": 30.48,
+   "length": 0.27,
+   "peak": 0.15,
+   "pitch": 1.3,
+   "weight": 0.3,
+   "gain_db": -21,
+   "label": "lobby ring collapses onto Vega summit"
+  },
+  {
+   "type": "ui_blip",
+   "at": 30.567,
+   "kind": "select",
+   "freq": 1174.66,
+   "gain_db": -21,
+   "pan": -0.3,
+   "label": "Atlas diamond pops"
+  },
+  {
+   "type": "ui_blip",
+   "at": 30.633,
+   "kind": "tick",
+   "freq": 1800,
+   "gain_db": -24,
+   "label": "gate rises in the trough"
+  },
+  {
+   "type": "data_chatter",
+   "at": 30.62,
+   "length": 0.22,
+   "density": 12,
+   "gain_db": -29,
+   "label": "FLOODGATE / VEGA labels resolve"
+  },
+  {
+   "type": "whoosh",
+   "at": 31.0,
+   "length": 0.5,
+   "peak": 0.5,
+   "pitch": 1.0,
+   "weight": 0.3,
+   "direction": 1,
+   "gain_db": -21,
+   "label": "scan sweeps the section L to R"
+  },
+  {
+   "type": "ui_blip",
+   "at": 31.143,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -22,
+   "pan": -0.3,
+   "label": "scan reads Atlas summit"
+  },
+  {
+   "type": "ui_blip",
+   "at": 31.235,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -20,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "scan crosses the gate: sonar ring"
+  },
+  {
+   "type": "ui_blip",
+   "at": 31.313,
+   "kind": "confirm",
+   "freq": 659.26,
+   "gain_db": -21,
+   "pan": 0.3,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "scan crosses Vega summit: red ring"
+  },
+  {
+   "type": "whoosh",
+   "at": 31.69,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.1,
+   "weight": 0.35,
+   "gain_db": -20,
+   "label": "ring opens back out to the lobby ring"
+  },
+  {
+   "type": "ui_blip",
+   "at": 32.0,
+   "kind": "tick",
+   "freq": 1400,
+   "gain_db": -25,
+   "label": "cut back to s07"
+  },
+  {
+   "type": "stamp",
+   "at": 36.5,
+   "weight": 0.7,
+   "gain_db": -13,
+   "pan": -0.35,
+   "label": "role pane slams in"
+  },
+  {
+   "type": "whoosh",
+   "at": 36.344,
+   "length": 0.22,
+   "peak": 0.8,
+   "pitch": 1.1,
+   "weight": 0.5,
+   "direction": 1,
+   "gain_db": -18,
+   "label": "pane smear"
+  },
+  {
+   "type": "ui_blip",
+   "at": 36.567,
+   "kind": "select",
+   "freq": 1174.66,
+   "gain_db": -20,
+   "label": "role token pops, pictogram plots"
+  },
+  {
+   "type": "stamp",
+   "at": 36.75,
+   "weight": 0.7,
+   "gain_db": -13,
+   "pan": 0.35,
+   "label": "role pane slams in"
+  },
+  {
+   "type": "whoosh",
+   "at": 36.594,
+   "length": 0.22,
+   "peak": 0.8,
+   "pitch": 1.1,
+   "weight": 0.5,
+   "direction": -1,
+   "gain_db": -18,
+   "label": "pane smear"
+  },
+  {
+   "type": "ui_blip",
+   "at": 36.817,
+   "kind": "select",
+   "freq": 1396.91,
+   "gain_db": -20,
+   "label": "role token pops, pictogram plots"
+  },
+  {
+   "type": "stamp",
+   "at": 37.0,
+   "weight": 0.7,
+   "gain_db": -13,
+   "pan": -0.35,
+   "label": "role pane slams in"
+  },
+  {
+   "type": "whoosh",
+   "at": 36.844,
+   "length": 0.22,
+   "peak": 0.8,
+   "pitch": 1.1,
+   "weight": 0.5,
+   "direction": 1,
+   "gain_db": -18,
+   "label": "pane smear"
+  },
+  {
+   "type": "ui_blip",
+   "at": 37.067,
+   "kind": "select",
+   "freq": 1760.0,
+   "gain_db": -20,
+   "label": "role token pops, pictogram plots"
+  },
+  {
+   "type": "whoosh",
+   "at": 37.6375,
+   "length": 0.25,
+   "peak": 0.85,
+   "pitch": 1.0,
+   "weight": 0.5,
+   "gain_db": -17,
+   "label": "snap out: panes collapse onto one bar"
+  },
+  {
+   "type": "stamp",
+   "at": 37.875,
+   "weight": 0.7,
+   "gain_db": -14,
+   "label": "three roles, one plan"
+  },
+  {
+   "type": "ui_blip",
+   "at": 37.95,
+   "kind": "select",
+   "freq": 2400,
+   "gain_db": -24,
+   "length": 0.08,
+   "label": "bar zips up into the PLAN AGREED card"
+  },
+  {
    "type": "ui_blip",
    "at": 52.5,
    "kind": "tick",
@@ -2256,7 +2548,7 @@
   {
    "type": "data_chatter",
    "at": 52.52,
-   "length": 0.25,
+   "length": 0.12,
    "density": 10,
    "gain_db": -29,
    "label": "ARCHIVE label scramble"
@@ -2282,10 +2574,20 @@
   {
    "type": "data_chatter",
    "at": 54.02,
-   "length": 0.25,
+   "length": 0.12,
    "density": 10,
    "gain_db": -29,
    "label": "ARCHIVE label scramble"
+  },
+  {
+   "type": "whoosh",
+   "at": 54.15,
+   "length": 0.25,
+   "peak": 0.6,
+   "pitch": 0.5,
+   "weight": 0.8,
+   "gain_db": -23,
+   "label": "burlap swish: the bag swings down the line"
   },
   {
    "type": "ui_blip",
@@ -2293,12 +2595,12 @@
    "kind": "tick",
    "freq": 900,
    "gain_db": -17,
-   "label": "checker hides the 1904 plate"
+   "label": "checker hides the 1937 levee plate"
   },
   {
    "type": "impact",
    "at": 58.0,
-   "length": 0.9,
+   "length": 0.65,
    "size": 1.0,
    "brightness": 0.5,
    "sub_hz": 50,
