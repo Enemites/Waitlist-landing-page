@@ -8,12 +8,14 @@
  * 0.00 THE ONE LOW HIT: hard cut to C1 (JK, NC, EK, the gate); the clock flips 08:14 -> 08:13;
  *      'Coordinate.' rises (150 px, 12 f expo.out). 0.50-1.25 amber hairlines JK -> NC and JK -> EK
  *      draw on twos; arrowheads pop at 1.25; THE NODE pulses on JK at 0.50. 1.75 the word exits.
- * 2.00 hard cut to C2 (JK and the gate); 'Commit.' rises. 2.25-3.50 JK_COMMIT draws and JK advances
- *      to (722,512). 3.00 the 62% arc and the gate bars glow once. 3.75 the word exits.
+ * 2.00 hard cut to C2 (JK and the gate); 'Commit.' rises. 2.25-2.90 JK_COMMIT draws ahead of him and
+ *      2.50-3.50 JK advances along it to (722,512). 3.00 the 62% arc and the gate bars glow once.
+ *      3.75 the word exits.
  * 4.00 hard cut to C3 (dam, pump, ghost); 'Adapt.' rises in amber. 4.25 the LAST SEEN ghost resolves
  *      (red pulse) into a solid triangle; VEGA_PUMP draws 4.25-4.90, arrowhead pops at 4.90 and the
  *      triangle lunges along it. 5.10 JK's forward route fades; JK_REROUTE draws 5.10-5.75, its
- *      arrowhead pops at 5.75 and JK starts along it. 5.75 the word exits. 6.00 hard cut into s11.
+ *      arrowhead pops at 5.75 and JK starts along it (ours solid amber, as in s11). 5.75 the word exits.
+ *      6.00 hard cut into s11.
  */
 (function () {
   'use strict';
@@ -25,7 +27,8 @@
   // presets framed into the right two-thirds: product point (px, py) lands on screen (sx, 540)
   const right = (px, py, zoom, sx) => ({ x: px - (sx - W / 2) / (zoom * S), y: py, zoom });
   const C1 = right(760, 500, 1.3, 1400);   // JK, NC, EK and the gate
-  const C2 = right(740, 505, 1.6, 1400);   // JK and the gate (y 520 -> 505 keeps the pump label clear of the pill)
+  const C2 = right(740, 505, 1.6, 1338);   // JK and the gate (y 520 -> 505 keeps the pump label clear of the pill;
+                                           // x on 1338 keeps EK whole inside the frame)
   const C3 = right(840, 560, 1.2, 1320);   // the dam, the pump and the far-bank ghost
 
   // world map labels fade out as they cross the title-safe edge (they are screen-constant, so a
@@ -63,6 +66,9 @@
       // thin match: roster, channel, objective, topbar and signal hidden; the score pill stays on the
       // top layer (above the scrim), the HUD corners and the slug stay
       gsap.set([U.topbar, U.signal, U.roster, U.channel, U.objective], { autoAlpha: 0 });
+      // ours solid amber, theirs dashed red-orange (as in s11): the reroute is drawn solid, so it reads
+      // against Vega's dashed route in the shared corridor to the pump
+      K.routes.JK_REROUTE.line.removeAttribute('stroke-dasharray');
 
       // ---- the charcoal scrim under the word card (#0b0c0e 94% -> 0 across x 0-1100), one div
       const scrim = ctx.el('div', 's10-scrim', ctx.root);
@@ -71,8 +77,8 @@
       ctx.root.insertBefore(scrim, L.top);
 
       // ---- THE NODE rides JK; a size step on every card cut; pulses on the film's 3-beat grid
-      // (global 46.5 / 48.0 / 49.5 / 51.0)
-      const N = NodeMark.create(ctx, { parent: F.el.nodeG, x: 684, y: 484, size: 2 });
+      // (global 46.5 / 48.0 / 49.5 / 51.0, given in local time so isolated renders match the film)
+      const N = NodeMark.create(ctx, { parent: F.el.nodeG, x: 684, y: 484, size: 2, pulses: [0.5, 2.0, 3.5, 5.0] });
       N.step(0).step(2).step(4);
       M.pre(() => { N.p.x = M.pos.jk[0]; N.p.y = M.pos.jk[1]; });
 

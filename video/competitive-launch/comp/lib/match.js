@@ -66,7 +66,8 @@
  *   497.2 -> 497   alert row 'Vega is contesting the crossing'
  *   497.3 -> 497   LAST SEEN ghost + 'LAST SEEN 0:20'.   Everything is FINAL for 494 <= m <= 497.
  *   Past the hook (s10/s11; they assume m = 494 - (t - 46), i.e. continuous m = 494 - lt in s10):
- *   491.75 -> 490.5 JK_COMMIT draws, JK advances to (722,512)   [picture 48.25-49.5]
+ *   491.75 -> 491.1 JK_COMMIT draws ahead of him; 491.5 -> 490.5 JK advances to (722,512)
+ *                  [picture 48.25-48.9 / 48.5-49.5: the arrowhead leads the token]
  *   489.75         ghost resolves into a solid triangle (K.gtri); VEGA_PUMP draws 489.75 -> 489.1
  *   488.9 -> 488.7 JK's forward route fades;  JK_REROUTE draws 488.9 -> 488.25; JK starts along it
  *   489.1 -> 484   the resolved triangle travels VEGA_PUMP (u = 0.6 at 485.5, s11 M6)
@@ -195,7 +196,7 @@
     jkMsg: 511, jkMoving: 511, zones: [510.2, 509.8], jkTravel: [511, 505], ncDraw: [508, 507], ncTravel: [507, 506],
     ncRestoring: 506, noraMsg: 506, plan: 505, ekDraw: [504.5, 503], ekTravel: [504, 502.5], ekHolding: 502.5, cone: 502.5,
     progress: [503, 500], vega1: 500, vega2: 499.5, emreMsg: 499, vegaCrossing: [498.5, 497.2], contested: 498, alert: 497.2, ghost: 497,
-    final: 497, hook: 494, jkCommit: [491.75, 490.5], ghostResolve: 489.75, vegaPump: [489.75, 489.1], jkFwdFade: [488.9, 488.7],
+    final: 497, hook: 494, jkCommit: [491.75, 491.1], jkCommitTravel: [491.5, 490.5], ghostResolve: 489.75, vegaPump: [489.75, 489.1], jkFwdFade: [488.9, 488.7],
     jkReroute: [488.9, 488.25], jkRerouteTravel: [488.25, 484], vegaPumpTravel: [489.1, 484], vegaSlide: [488, 487.6], min: 484, max: 512,
   };
   const MSG_T = [KEYS.jkMsg, KEYS.noraMsg, KEYS.emreMsg];
@@ -360,7 +361,7 @@
     // ---- Atlas tokens
     const uJ = io(seg(m, 511, 505));
     let jk = K.R.JK.at(uJ);
-    if (m < 491.75) jk = K.R.JK_COMMIT.at(0.5 * io2(seg(m, 491.75, 490.5)));
+    if (m < 491.5) jk = K.R.JK_COMMIT.at(0.5 * io2(seg(m, 491.5, 490.5)));
     // (s10/s11) JK moves in steps along the reroute: starts at 488.25 (s10 5.75), advances 24 px at
     // s11 M4 (486.5, zoom 2.0)
     if (m < 488.25) jk = K.R.JK_REROUTE.at(0.1 * ease('power2.out')(seg(m, 488.25, 487.85)) + 0.06 * eo(seg(m, 486.5, 486.1)));
@@ -376,7 +377,7 @@
     setRoute(Rt.NC, seg(m, 508, 507), lerp(1, ROUTE_REST, seg(m, 506, 504.5)));
     setRoute(Rt.EK, seg(m, 504.5, 503), lerp(1, ROUTE_REST, seg(m, 502.5, 501)));
     setRoute(Rt.VEGA_CROSSING, seg(m, 498.5, 497.2), lerp(1, 0.6, seg(m, 489.75, 489.25)));
-    setRoute(Rt.JK_COMMIT, seg(m, 491.75, 490.5), 1 - seg(m, 488.9, 488.7));
+    setRoute(Rt.JK_COMMIT, seg(m, 491.75, 491.1), 1 - seg(m, 488.9, 488.7));
     setRoute(Rt.VEGA_PUMP, seg(m, 489.75, 489.1), 1);
     setRoute(Rt.JK_REROUTE, seg(m, 488.9, 488.25), 1);
     setRoute(Rt.OUR_PLAN, 0, 0); setRoute(Rt.THEIR_PLAN, 0, 0);
@@ -723,7 +724,10 @@
   //   open  0..1 (0)  the clip (and corners) back to full frame (s13)
   //   alpha 0..1 (1)  review chrome opacity (window frame, panel, track, markers, labels, playhead)
   //   m     484..511  playhead (match-seconds; track x = x0 + (511 - m) / 27 x (x1 - x0), 08:31 left)
-  //   fly   0..1 (1)  THE NODE travelling from JK's token (world) onto the track head
+  //   fly   0..1 (1)  THE NODE travelling from JK's token (world) onto the track head (its core and
+  //                   ring fill fade in over the first 30% of the flight, so at lift-off it reads as
+  //                   the ring around JK's token, as in s10/s11, not a disc over his initials)
+  //   headIn [a, b]   the header scrambles in over fold a .. a + b (default [0.45, 0.5])
   //   rec   0..1 (1)  every route in Match.ROUTES fully drawn at `record` opacity (fades, never draws)
   // Markers pop (1 -> 1.4 -> 1, 6 f) and their labels scramble in at the frame the playhead crosses
   // them (found by stepping m(lt) at build): '08:19 · EMRE', '08:26 · NORA', '08:31 · JULES' (amber),
@@ -732,7 +736,7 @@
   // -------------------------------------------------------------------------------------------
   function review(ctx, M, o) {
     const HO = HANDOFF['s12-on-the-record@58.0'];
-    o = Object.assign({ fold: 1, open: 0, alpha: 1, m: 511, fly: 1, rec: 1, record: HO.record, header: HO.header, win: HO.window, panel: HO.panel, track: HO.track, nodePulses: null }, o || {});
+    o = Object.assign({ fold: 1, open: 0, alpha: 1, m: 511, fly: 1, rec: 1, record: HO.record, header: HO.header, win: HO.window, panel: HO.panel, track: HO.track, nodePulses: null, headIn: [0.45, 0.5] }, o || {});
     const fn = (v) => (typeof v === 'function' ? v : () => v);
     const F_ = { fold: fn(o.fold), open: fn(o.open), alpha: fn(o.alpha), m: fn(o.m), fly: fn(o.fly), rec: fn(o.rec) };
     const WIN = o.win, PN = o.panel, TR = o.track;
@@ -812,7 +816,7 @@
       else panel.style.opacity = al >= 0.999 ? '1' : al.toFixed(3);
       const ko = (1 - clamp01(fold / 0.3)).toFixed(3);
       for (const k of kids) if (k.style.opacity !== ko) k.style.opacity = ko;
-      const hu = clamp01((fold - 0.45) / 0.5);
+      const hu = clamp01((fold - o.headIn[0]) / o.headIn[1]);
       const hs = scramble(o.header, hu, 'mx-review-head', 'in');
       if (head.textContent !== hs) head.textContent = hs;
       // track + ticks draw right to left (08:04 first)
@@ -835,6 +839,8 @@
         N.p.x = bx; N.p.y = by;
         N.p.s = lerp(24 * M.F.T.state.zoom * S / 12, 1, u);
       } else { N.p.x = hx; N.p.y = hy; N.p.s = 1; }
+      const lift = clamp01(fly / 0.3), ls = lift >= 0.999 ? '1' : lift.toFixed(3);
+      if (N.core.getAttribute('opacity') !== ls) { N.core.setAttribute('opacity', ls); N.ring.setAttribute('fill-opacity', ls); }
       ph.setAttribute('x1', hx.toFixed(2)); ph.setAttribute('x2', hx.toFixed(2));
       ph.setAttribute('opacity', (0.9 * clamp01((fly - 0.75) / 0.25)).toFixed(3));
       ph.setAttribute('transform', `translate(0 ${TR.y}) scale(1 ${clamp01((fly - 0.7) / 0.3).toFixed(3)}) translate(0 ${-TR.y})`);

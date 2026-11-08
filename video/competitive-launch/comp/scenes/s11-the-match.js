@@ -7,12 +7,14 @@
  *
  * 0.00 M1 WIDE (800,500) 0.80: both plans; the Vega triangles slide 40 px toward the Crossing.
  * 0.50 M2 EMRE (920,420) 2.2: EK's pulse ring fires, his watch cone flares 12 -> 20 -> 12%.
- * 1.00 M3 PUMP 2.2, GRID-CELL CUT #1 (2 frames of A-L x 01-08 checkerboard): NC at the pump with a
- *      pulsing 'RESTORING' tag (mono 22 px amber); the red triangle steps into frame right.
- * 1.50 M4 JULES (700,490) 2.0: JK advances 24 px along the reroute, a runner dash travels it, the
- *      node pulses.
+ * 1.00 M3 PUMP 1.8, GRID-CELL CUT #1 (2 frames of A-L x 01-08 checkerboard): NC at the pump
+ *      with a pulsing 'RESTORING' tag (mono 22 px amber), JK heading back to cover him; the red
+ *      triangle lunges in from frame right.
+ * 1.50 M4 JULES 2.4, a NODE MATCH CUT (THE NODE holds screen (1080,540) as the frame punches in):
+ *      JK advances along the reroute while a runner dash travels it, the node pulses.
  * 2.00 M5 GATE (800,560) 2.2: the 62% arc glows, the gate bars flicker once (steps).
- * 2.50 M6 VEGA 2.4 on the red triangle: it edges forward 16 px, a red runner dash travels its route.
+ * 2.50 M6 VEGA 2.4, the red triangle on the left third with the gate ahead of it: it edges forward
+ *      16 px, a red runner dash travels its route to the gate.
  * 3.00 M7 CROSSING (1004,396) 2.4, GRID-CELL CUT #2: the upper Vega triangle edges toward the bridge,
  *      EK's cone holds, 'CONTESTED' pulses.
  * 3.50 M8 SCORE: world hidden; a DOM macro of the score pill at 2.2x, centred, flap on 08:04.
@@ -43,14 +45,27 @@
     build(ctx) {
       const tl = ctx.tl;
       const po2 = gsap.parseEase('power2.out'), io2 = gsap.parseEase('power2.inOut'), so = gsap.parseEase('sine.inOut');
-      const CAM = Match.CAM;
-      const PRESETS = ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7'];
+      const CAM = Match.CAM, K15 = 1.5;
+      // The cut plan changes scale or subject side on every beat so no two neighbouring shots read as
+      // a jump cut:  M1 wide 0.80 | M2 EK 2.2 | M3 pump, mid 1.8 | M4 JK 2.4 | M5 gate 2.2 |
+      //              M6 triangle 2.4 (left third, heading for the gate) | M7 crossing 2.4
+      // M3 -> M4 is a NODE MATCH CUT: THE NODE holds screen (1080, 540) while the frame punches in 1.33x.
+      // (a preset that puts product point (px, py) on screen (sx, sy) at zoom z)
+      const at = (px, py, sx, sy, z) => ({ x: px - (sx - W / 2) / (z * K15), y: py - (sy - H / 2) / (z * K15), zoom: z });
+      const jk = Match.route('JK_REROUTE').at(0.1);                       // JK through M3 (m 487 -> 486.5)
+      // M3 PUMP: NC + the pump on the left, JK heading back to cover him, the triangle lunging in from
+      // frame right (clear of the HUD corner)
+      const M3 = at(jk.x, jk.y, 1080, 540, 1.8);
+      const M4 = at(jk.x, jk.y, 1080, 540, 2.4);
+      const tri = Match.route('VEGA_PUMP').at(0.3845);                     // the resolved triangle at M6
+      const M6 = at(tri.x, tri.y, 700, 560, 2.4);
+      const PRESETS = [CAM.M1, CAM.M2, M3, M4, CAM.M5, M6, CAM.M7];
 
       const M = Match.buildMatchScreen(ctx, {
         m: (lt) => Math.max(484, 488 - lt),
         tau: (lt) => 11.5 + lt,                    // river phase continues from s10
         pulses: [],
-        camera: 'M1',
+        camera: CAM.M1,
         res: 2,                                    // every preset zoom <= 2.4 on the res-2 shared bake
         clock: (lt) => (lt < 0 ? 488 : Math.max(484, 487 - Math.floor(lt + 1e-6))),
         clockMinT: -0.2,                           // 08:08 -> 08:07 settles on the first cut frame
@@ -66,7 +81,7 @@
       // a soft dark corner behind the slug so it reads over close-ups
       const corner = ctx.el('div', 's11-corner', ctx.root);
       Object.assign(corner.style, { position: 'absolute', left: 0, top: 0, width: W + 'px', height: H + 'px', pointerEvents: 'none',
-        background: 'radial-gradient(ellipse 760px 230px at 330px 1030px, rgba(11,12,14,.72) 0%, rgba(11,12,14,.5) 45%, rgba(11,12,14,0) 100%)' });
+        background: 'radial-gradient(ellipse 820px 250px at 340px 1030px, rgba(11,12,14,.84) 0%, rgba(11,12,14,.62) 45%, rgba(11,12,14,0) 100%)' });
       ctx.root.insertBefore(corner, L.top);
 
       // ---- THE NODE rides JK; size step on the cuts where JK is in frame; pulses: s10's 51.0 pulse
@@ -146,7 +161,7 @@
           el.setAttribute('opacity', (u < 0.12 ? u / 0.12 : u > 0.8 ? (1 - u) / 0.2 : 1).toFixed(3));
         };
         run(runA, 1.5, 0.14, 0.9);
-        run(runV, 2.5, 0.38, 0.9);
+        run(runV, 2.5, 0.39, 0.66);                 // from the triangle to the gate (stays in frame)
 
         // M5: arc glow (3 f up, 12 f down) + gate bars flicker once, in steps
         const gu = lt - 2.0;

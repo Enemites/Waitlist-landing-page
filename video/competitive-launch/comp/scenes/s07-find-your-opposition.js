@@ -85,7 +85,9 @@
     return { d, tip: q, a: t.a };
   }
 
-  // ---- base: pre hook (camera, conduit flow) registered BEFORE the world, then the world ----
+  // ---- base: pre hook (camera, conduit flow) registered BEFORE the world, then the world.
+  //      o: T0 (film start), cam(lt) -> {x, y, zoom}, flow(lt) -> conduit flow time (default: s04's
+  //      phase, T0 - 12 + lt), labels (film map labels, created hidden: fade K.labels in yourself) ----
   function kBase(ctx, o) {
     ctx.css(`[data-scene="${ctx.id}"] .k-full { position:absolute; left:0; top:0; width:${W}px; height:${H}px; }
       [data-scene="${ctx.id}"] .k-bg { position:absolute; inset:0; background:${C.bg}; }
@@ -97,17 +99,20 @@
       if (!K.F) return;
       const c = o.cam(lt); K.cam = c;
       const st = K.F.T.state; st.cx = (c.x + MARGIN) * S; st.cy = (c.y + MARGIN) * S; st.zoom = c.zoom;
-      K.F.flow.time = o.T0 - 12 + lt;            // conduit flow continues s04's phase (s04 starts at film 12.0)
+      K.F.flow.time = flowAt(lt);                // conduit flow continues s04's phase (s04 starts at film 12.0)
       for (const f of pre) f(lt, c);
     });
+    const flowAt = o.flow || ((lt) => o.T0 - 12 + lt);
     ctx.el('div', 'k-bg', ctx.root);
     K.wrap = ctx.el('div', 'k-full', ctx.root);
     const c0 = o.cam(0); K.cam = c0;
-    const F = Floodgate.world(ctx, { scale: S, margin: MARGIN, film: true, labels: false, parent: K.wrap, terrain: { res: 2 },
+    const F = Floodgate.world(ctx, { scale: S, margin: MARGIN, film: true, labels: !!o.labels, parent: K.wrap, terrain: { res: 2 },
       state: { cx: (c0.x + MARGIN) * S, cy: (c0.y + MARGIN) * S, zoom: c0.zoom } });
     F.progress.v = 0;                            // the round has not started: no objective progress
     [...F.el.vega, F.el.ghost, F.el.cone, ...Object.values(F.el.tokens)].forEach((e) => e.setAttribute('opacity', '0'));
-    F.flow.time = o.T0 - 12;
+    K.labels = Object.values(F.el.labels || {});
+    K.labels.forEach((e) => e.setAttribute('opacity', '0'));
+    F.flow.time = flowAt(0);
     K.F = F;
     K.wpt = (p) => [(p[0] + MARGIN) * S, (p[1] + MARGIN) * S];
     return K;
@@ -142,7 +147,8 @@
     return { hud: h, slug, ticks: h.ticks };
   }
 
-  // ---- THE NODE (replica of comp/lib/node.js, plus a variable ring radius and JK's initials disc) ----
+  // ---- THE NODE (replica of comp/lib/node.js, plus a variable ring radius and JK's initials disc).
+  //      o.pulses: film times, or [time, duration] to end a pulse before a cut that does not carry it ----
   function kNode(ctx, parent, o) {
     o = Object.assign({ pulses: [], label: 'JK' }, o);
     const id = ctx.id + '-knode';
@@ -159,7 +165,8 @@
     ctx.svg('circle', { r: 22, fill: C.amber }, dg);
     const dtx = ctx.svg('text', { y: 7, 'text-anchor': 'middle', fill: '#1b140a', style: 'font: 600 20px var(--mono); letter-spacing: .04em', text: o.label }, dg);
     const core = ctx.svg('circle', { r: 6, fill: C.amberLight }, g);
-    const p = { x: 0, y: 0, s: 1, a: 1, glow: 0.35, rr: 12, disc: 0, core: 1, txt: 1 };
+    // p.rr ring radius; p.gr glow radius (0 = follows the ring); p.ts initials scale (match tokens: 0.75)
+    const p = { x: 0, y: 0, s: 1, a: 1, glow: 0.35, rr: 12, gr: 0, disc: 0, core: 1, txt: 1, ts: 1 };
     const steps = [];
     function draw(lt) {
       let st = 0;
@@ -168,15 +175,18 @@
       g.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) scale(${sc.toFixed(4)})`);
       g.setAttribute('opacity', String(clamp(p.a, 0, 1)));
       glow.setAttribute('opacity', String(Math.max(0, p.glow)));
-      glow.setAttribute('r', (60 + 2 * (p.rr - 12)).toFixed(2));
+      glow.setAttribute('r', (p.gr > 0 ? p.gr : 60 + 2 * (p.rr - 12)).toFixed(2));
       ring.setAttribute('r', p.rr.toFixed(2));
       core.setAttribute('opacity', String(clamp(p.core, 0, 1)));
-      if (p.disc > 0.001) { dg.style.display = ''; dg.setAttribute('transform', `scale(${p.disc.toFixed(4)})`); dtx.setAttribute('opacity', String(clamp(p.txt, 0, 1))); }
+      if (p.disc > 0.001) {
+        dg.style.display = ''; dg.setAttribute('transform', `scale(${p.disc.toFixed(4)})`); dtx.setAttribute('opacity', String(clamp(p.txt, 0, 1)));
+        dtx.setAttribute('transform', p.ts === 1 ? '' : `scale(${p.ts.toFixed(4)})`);
+      }
       else dg.style.display = 'none';
       // pulse ring: film-time cadence (every 3 beats) so the rhythm is continuous across cuts
       const ft = o.T0 + lt;
       let u = -1;
-      for (const t0 of o.pulses) { const v = (ft - t0) / 1.5; if (v >= 0 && v <= 1) u = v; }
+      for (const q of o.pulses) { const t0 = Array.isArray(q) ? q[0] : q, v = (ft - t0) / (Array.isArray(q) ? q[1] : 1.5); if (v >= 0 && v <= 1) u = v; }
       if (u < 0) { pulse.setAttribute('opacity', '0'); return; }
       const e = 1 - Math.pow(1 - u, 2);
       pulse.setAttribute('r', (p.rr * (1 + 1.2 * e)).toFixed(2));
@@ -385,14 +395,14 @@
     let tx = null;
     if (side === 'vega') { const s = 17.3; ctx.svg('path', { d: `M0 ${-s} L${(s * 0.92).toFixed(2)} ${(s * 0.62).toFixed(2)} L${(-s * 0.92).toFixed(2)} ${(s * 0.62).toFixed(2)}Z`, fill: col }, body); }
     else { ctx.svg('circle', { r: 22, fill: col }, body); tx = ctx.svg('text', { y: 7, 'text-anchor': 'middle', fill: '#1b140a', style: 'font: 600 20px var(--mono); letter-spacing: .04em', text: label }, body); }
-    const p = { x: 0, y: 0, s: 1, pop: 1, a: 0, txt: 1, pulseAt: -99 };
+    const p = { x: 0, y: 0, s: 1, pop: 1, a: 0, txt: 1, ts: 1, pulseAt: -99 };   // ts: initials scale
     function draw(lt) {
       if (p.a <= 0.001) { g.style.display = 'none'; return; }
       g.style.display = '';
       g.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.s.toFixed(4)})`);
       g.setAttribute('opacity', String(clamp(p.a, 0, 1)));
       body.setAttribute('transform', `scale(${p.pop.toFixed(4)})`);
-      if (tx) tx.setAttribute('opacity', String(clamp(p.txt, 0, 1)));
+      if (tx) { tx.setAttribute('opacity', String(clamp(p.txt, 0, 1))); tx.setAttribute('transform', p.ts === 1 ? '' : `scale(${p.ts.toFixed(4)})`); }
       const u = (lt - p.pulseAt) / 1.0;
       if (u < 0 || u > 1) { pr.setAttribute('opacity', '0'); return; }
       const e = 1 - Math.pow(1 - u, 2);
@@ -493,14 +503,28 @@
         const a = (1 - u) * (1 - u), b = 2 * u * (1 - u), c = u * u;
         return { x: a * A2.x + b * CTRL[0] + c * V.x, y: a * A2.y + b * CTRL[1] + c * V.y, zoom: Math.exp(lerp(Math.log(A2.zoom), Math.log(V.zoom), u) - DIP * Math.sin(Math.PI * u)) };
       };
+      // the whip inherits s06's rise: s06 ends power2.in (A23 -> LOBBY_A2 over 1 s, speed 2|A2 - A23| on the
+      // cut), so the warp starts with that slope (the bezier leaves A2 within 2 deg of the rise direction),
+      // then expo.inOut peaks on 28.4 and lands on LOBBY_V at 28.75
+      const A23 = camAt(APEX.atlas, LOBBY_SCREEN, 2.3);
+      const WHIP_C = 2 * Math.hypot(A2.x - A23.x, A2.y - A23.y) * 0.75 / (2 * Math.hypot(CTRL[0] - A2.x, CTRL[1] - A2.y));
+      const whipS = (x) => ez('expo.inOut')(x) + WHIP_C * x * Math.pow(1 - x, 3);
       const V226 = camAt(APEX.vega, LOBBY_SCREEN, 2.26);
       const camFn = (lt) => {
-        if (lt < 0.75) return whip(ez('expo.inOut')(lt / 0.75));
+        if (lt < 0.75) return whip(whipS(lt / 0.75));
         if (lt < 4.5) return camAt(APEX.vega, LOBBY_SCREEN, Math.exp(lerp(Math.log(2.2), Math.log(2.26), ez('sine.inOut')(seg(lt, 0.75, 4.5)))));
         return camLerp(V226, CAM.OVERVIEW_WIDE, ez('power3.inOut')(seg(lt, 4.5, 5.0)));
       };
-      const K = kBase(ctx, { T0, cam: camFn });
+      // conduit flow: continuous with s06 on 28.0, and on 34.0 in the dash phase s08 uses (tau = -6.5): the
+      // fraction of a dash period is absorbed while the conduit is off screen (29.0-32.0)
+      const DASH_T = 9 / 14, NAT = T0 - 12 + 6;
+      const FLOW_FIX = -6.5 + Math.round((NAT + 6.5) / DASH_T) * DASH_T - NAT;
+      const K = kBase(ctx, { T0, cam: camFn, labels: true, flow: (lt) => T0 - 12 + lt + FLOW_FIX * ez('sine.inOut')(seg(lt, 1.0, 4.0)) });
       const F = K.F;
+      // map labels as s08 shows them at 08:32 (no CONTESTED, no LAST SEEN): they arrive with the pill
+      if (F.el.labels.crossing.sub) F.el.labels.crossing.sub.textContent = '';
+      const mapLabs = K.labels.filter((e) => e !== F.el.labels.lastSeen);
+      tl.fromTo(mapLabs, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power1.inOut', immediateRender: false }, 5.5);
 
       // whip motion blur: 5 ghost copies of the terrain canvas along the velocity, only above 40 px/frame
       const off = document.createElement('canvas'); off.width = W; off.height = H;
@@ -529,6 +553,12 @@
       tl.fromTo(hair, { opacity: 0 }, { opacity: 0.7, duration: 3 / FPS, ease: 'power2.out', immediateRender: false }, 5.0);
       tl.to(hair, { opacity: 0.22, duration: 0.25, ease: 'power2.inOut' }, 5.25);
       tl.to(hair, { opacity: 0, duration: 0.45, ease: 'power1.in' }, 5.5);
+      // the live river: the same slow glints buildMatchScreen draws (s08 tau = lt - 6.5, so 34.0 matches)
+      const offsetPoly = (pts, o2) => pts.map((q, i) => { const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)], dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy) || 1; return [q[0] - dy / l * o2, q[1] + dx / l * o2]; });
+      const glints = [[0, '7 38', 15, 0.24], [-17, '5 52', 10, 0.16], [17, '9 34', 12, 0.16]].map(([o2, dash, speed, op]) => ({
+        speed, el: ctx.svg('path', { d: smoothPath(o2 ? offsetPoly(RX, o2) : RX), fill: 'none', stroke: '#9fb0a2', 'stroke-opacity': op, 'stroke-width': 1.2, 'stroke-dasharray': dash, 'stroke-linecap': 'round' }, F.el.baseG) }));
+      tl.fromTo(glints.map((q) => q.el), { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power1.inOut' }, 5.4);
+      ctx.onFrame((lt) => { const tau = lt - 12.5; for (const q of glints) q.el.setAttribute('stroke-dashoffset', (-tau * q.speed).toFixed(2)); });
 
       // ---- light: the Atlas pool hands over to Vega's summit; focus falloff follows the lobby ----
       const pA = K.wpt(APEX.atlas), pV = K.wpt(APEX.vega);
@@ -555,7 +585,8 @@
       const bV = kBanner(ctx, ov, 'vega', T0); bV.p.rise = 1; bV.p.cloth = 1;
       const nc = kMarker(ctx, ov, 'atlas', 'NC'), ek = kMarker(ctx, ov, 'atlas', 'EK');
       const vt = [0, 1, 2].map(() => kMarker(ctx, ov, 'vega', ''));
-      const N = kNode(ctx, ov, { T0, pulses: nodePulses(27, 34) });
+      // the 33.0 pulse completes inside this scene (s08's first pulse is 34.5), so 34.0 cuts clean
+      const N = kNode(ctx, ov, { T0, pulses: nodePulses(27, 32).concat([[33.0, 0.95]]) });
 
       // the line draws ahead of the camera and ends on the Vega summit at 28.75; label and dots leave there
       // it keeps the speed it had at the cut (s06 draws it power1.in: 0.54 of the path per second at 28.0),
@@ -583,12 +614,13 @@
       const teamBase = tProbe.getBoundingClientRect().top - team.getBoundingClientRect().top; team.removeChild(tProbe);
       const teamW = team.getBoundingClientRect().width;
       tl.fromTo(team, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 4 / FPS, ease: 'power2.out' }, 1.75);
-      tl.to(team, { opacity: 0, duration: 0.25, ease: 'none' }, 4.4);
+      tl.to(team, { opacity: 0, duration: 0.25, ease: 'none' }, 4.25);
 
-      // ---- type: 02 —— FIND YOUR OPPOSITION / 'The same challenge.' / 'Another approach.' (same positions as s06) ----
-      kChapter(ctx, { num: '02', title: 'FIND YOUR OPPOSITION', x: 120, y: 150, at: 0.75, out: 4.4 });
+      // ---- type: 02 —— FIND YOUR OPPOSITION / 'The same challenge.' / 'Another approach.' (same positions as s06).
+      //      Exits on 32.0 / 32.25 so the frame is clear before the pull-back (drift-only rule while type is up) ----
+      kChapter(ctx, { num: '02', title: 'FIND YOUR OPPOSITION', x: 120, y: 150, at: 0.75, out: 4.25 });
       kLine(ctx, { text: 'The same challenge.', x: 120, base: 380, size: 120, color: C.ink, at: 0.75, out: 4.0 });
-      kLine(ctx, { text: 'Another approach.', x: 120, base: 510, size: 120, color: C.amber, at: 1.25, out: 4.4 });
+      kLine(ctx, { text: 'Another approach.', x: 120, base: 510, size: 120, color: C.amber, at: 1.25, out: 4.25 });
 
       // ---- the versus labels, then LANDING #2: they fly into the score pill and the topbar ----
       const uiL = ctx.el('div', 'k-full s07-ui', root);
@@ -609,21 +641,32 @@
       tl.fromTo(topb, { u: 0 }, { u: 1, duration: 10 / FPS, ease: 'power3.out', immediateRender: false }, 5.55);
 
       const flyL = ctx.el('div', 'k-full', root);
-      const fly = (text, col0, col1, size0, size1, ls0, ls1, at) => {
+      const fly = (text, col0, col1, size0, size1, ls0, ls1, at, disp) => {
         const el = ctx.el('div', 's07-fly', flyL, '');
         el.style.color = col0;
         B.scrambleTo(tl, el, text, at, 0.25);
         const meas = (sz, ls) => { el.textContent = text; el.style.fontSize = sz + 'px'; el.style.letterSpacing = ls + 'em'; const r = el.getBoundingClientRect(); el.textContent = ''; return { w: r.width, h: r.height }; };
-        return { el, col0, col1, size0, size1, ls0, ls1, m0: meas(size0, ls0), m1: meas(size1, ls1) };
+        const f = { el, col0, col1, size0, size1, ls0, ls1, m0: meas(size0, ls0), m1: meas(size1, ls1) };
+        if (disp) {
+          // the pill's own type (Manrope 600 26 px, sentence case): the mono bank label dissolves into it
+          // at full speed mid-flight, and it docks pixel-exact on the pill word s08 shows on 34.0
+          const d = ctx.el('div', 's07-fly', flyL, disp);
+          Object.assign(d.style, { font: '600 26px/1 var(--display)', letterSpacing: 'normal', textTransform: 'none', color: col1, opacity: '0' });
+          const r = d.getBoundingClientRect();
+          f.d = d; f.dm = { w: r.width, h: r.height };
+        }
+        return f;
       };
-      const fA = fly('ATLAS', C.amber, C.amber, 24, 20, 0.12, 0.12, 5.0);
-      const fV = fly('VEGA', C.rival, C.rival, 24, 20, 0.12, 0.12, 5.03);
+      const fA = fly('ATLAS', C.amber, C.amber, 24, 20, 0.12, 0.12, 5.0, 'Atlas');
+      const fV = fly('VEGA', C.rival, C.rival, 24, 20, 0.12, 0.12, 5.03, 'Vega');
       const fT = fly('TEAM CHALLENGE · 3 V 3', C.muted, C.muted2, 22, 20, 0.12, 0.1, 5.06);
       // start positions (top-left of the text box) and docked positions
       // ATLAS on the west bank, VEGA on the east bank, level with each other across the river and the gate
       fA.p0 = [520 - fA.m0.w / 2, 640 - fA.m0.h / 2]; fA.p1 = [RA.x + RA.w / 2 - fA.m1.w / 2, RA.y + RA.h / 2 - fA.m1.h / 2];
       fV.p0 = [1100 - fV.m0.w / 2, 640 - fV.m0.h / 2]; fV.p1 = [RV.x + RV.w / 2 - fV.m1.w / 2, RV.y + RV.h / 2 - fV.m1.h / 2];
       fT.p0 = [W / 2 - fT.m0.w / 2, 168]; fT.p1 = [RT.x, RT.y + (RT.h - fT.m1.h) / 2];
+      fA.d0 = [520, 640]; fA.d1 = [RA.x, RA.y];          // display twins: start centre, docked top-left
+      fV.d0 = [1100, 640]; fV.d1 = [RV.x, RV.y];
       fT.yLag = true;                      // slides left under the opening pill, then rises into the topbar
       const flyU = { u: 0 };
       tl.fromTo(flyU, { u: 0 }, { u: 1, duration: 15 / FPS, ease: 'none', immediateRender: false }, 5.5);
@@ -638,6 +681,8 @@
       tl.to(vtA, { a: 0, duration: 0.3, ease: 'power1.in' }, 5.5);
       const H0 = kHud(ctx);
       tl.to(H0.ticks, { opacity: 0, duration: 0.5, ease: 'none' }, 5.5);
+      // the slug settles to the match screen's tracking (.1em, match.js) under the whip, so 34.0 is exact
+      tl.fromTo(H0.slug, { letterSpacing: '0.12em' }, { letterSpacing: '0.1em', duration: 0.4, ease: 'sine.inOut', immediateRender: false }, 0.2);
 
       ctx.onFrame((lt) => {
         const z = K.cam.zoom, ms = markerScale(z);
@@ -653,8 +698,11 @@
         const at = (i, key) => { const s = lobA.slotScreen(i), q = F.toScreen(Match.SLOTS[key][0], Match.SLOTS[key][1]); return [lerp(s[0], q[0], fu), lerp(s[1], q[1], fu)]; };
         const sc2 = lerp(ms, tokS, fu), txt = Math.max(clamp((ms - 0.55) / 0.15, 0, 1), seg(lt, 5.6, 5.9));
         const qJ = at(0, 'jk'), qN = at(1, 'nc'), qE = at(2, 'ek');
-        [[nc, qN], [ek, qE]].forEach(([mk, q]) => { mk.p.x = q[0]; mk.p.y = q[1]; mk.p.s = sc2; mk.p.a = 1; mk.p.txt = txt; mk.draw(lt); });
-        Object.assign(N.p, { x: qJ[0], y: qJ[1], s: sc2, disc: 1, rr: 29, core: 0, txt });
+        // ... and dock as s08's tokens: initials 13 product px (ts), JK's node ring r 24 and glow r 120
+        // (NodeMark size 2 in product units), expressed in this marker's own scale (tokS)
+        const ts = lerp(1, 13 * 22 / (20 * 19), fu);
+        [[nc, qN], [ek, qE]].forEach(([mk, q]) => { mk.p.x = q[0]; mk.p.y = q[1]; mk.p.s = sc2; mk.p.a = 1; mk.p.txt = txt; mk.p.ts = ts; mk.draw(lt); });
+        Object.assign(N.p, { x: qJ[0], y: qJ[1], s: sc2, disc: 1, rr: lerp(29, 24 * 22 / 19, fu), gr: lerp(94, 120 * 22 / 19, fu), core: 0, txt, ts });
         N.draw(lt);
         // Vega: three triangles stamp in at other angles (right, upper-left, lower-left)
         vt.forEach((m, i) => {
@@ -675,12 +723,19 @@
         tStrong.style.clipPath = tu >= 0.999 ? '' : `inset(-6px ${(100 * (1 - tu)).toFixed(2)}% -6px 0px)`;
         tDiv.style.transform = `scaleY(${tu.toFixed(3)})`;
         const r = flyU.u, u = ez('power3.inOut')(r);
+        const dA = ez('sine.inOut')(seg(r, 0.3, 0.62));     // mono -> pill type, while the labels move fastest
         [fA, fV, fT].forEach((f) => {
-          const uy = f.yLag ? ez('power3.in')(r) : u;
+          // TEAM CHALLENGE slides under the opening pill first, then rises into the topbar (docked by 33.967)
+          const uy = f.yLag ? ez('power3.inOut')(seg(r, 0.25, 1)) : u;
           const sz = lerp(f.size0, f.size1, u), ls = lerp(f.ls0, f.ls1, u);
           f.el.style.fontSize = sz.toFixed(2) + 'px'; f.el.style.letterSpacing = ls.toFixed(4) + 'em';
           f.el.style.color = u > 0 ? mix(f.col0, f.col1, u) : f.col0;
           f.el.style.transform = `translate(${lerp(f.p0[0], f.p1[0], u).toFixed(1)}px, ${lerp(f.p0[1], f.p1[1], uy).toFixed(1)}px)`;
+          if (!f.d) return;
+          f.el.style.opacity = (1 - dA).toFixed(3);
+          f.d.style.opacity = dA.toFixed(3);
+          const dx = lerp(f.d0[0] - f.dm.w / 2, f.d1[0], u), dy = lerp(f.d0[1] - f.dm.h / 2, f.d1[1], u);
+          f.d.style.transform = `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px)`;
         });
       });
     },

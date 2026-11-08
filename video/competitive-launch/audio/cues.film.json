@@ -172,21 +172,35 @@
   },
   {
    "type": "tick_one",
-   "at": 4.0,
+   "at": 4.067,
    "tone": 1.2,
    "gain_db": -9,
    "label": "odometer flap"
   },
   {
    "type": "tick_one",
-   "at": 4.17,
+   "at": 4.133,
    "tone": 1.2,
    "gain_db": -9,
    "label": "odometer flap"
   },
   {
    "type": "tick_one",
-   "at": 4.33,
+   "at": 4.2,
+   "tone": 1.2,
+   "gain_db": -9,
+   "label": "odometer flap"
+  },
+  {
+   "type": "tick_one",
+   "at": 4.267,
+   "tone": 1.2,
+   "gain_db": -9,
+   "label": "odometer flap"
+  },
+  {
+   "type": "tick_one",
+   "at": 4.5,
    "tone": 1.2,
    "gain_db": -9,
    "label": "odometer flap"
@@ -314,12 +328,31 @@
    "label": "wooden tap: marker on rake"
   },
   {
-   "type": "typing",
+   "type": "ui_blip",
    "at": 8.6,
-   "length": 0.35,
-   "rate": 12,
-   "gain_db": -12,
-   "label": "marker squeaks"
+   "kind": "select",
+   "freq": 1600,
+   "length": 0.18,
+   "gain_db": -19,
+   "label": "telestrator squeak"
+  },
+  {
+   "type": "ui_blip",
+   "at": 8.733,
+   "kind": "select",
+   "freq": 1800,
+   "length": 0.18,
+   "gain_db": -19,
+   "label": "telestrator squeak"
+  },
+  {
+   "type": "ui_blip",
+   "at": 8.867,
+   "kind": "select",
+   "freq": 2000,
+   "length": 0.18,
+   "gain_db": -19,
+   "label": "telestrator squeak"
   },
   {
    "type": "stamp",
@@ -360,13 +393,6 @@
   },
   {
    "type": "tick_one",
-   "at": 13.25,
-   "tone": 1.2,
-   "gain_db": -10,
-   "label": "odometer flap"
-  },
-  {
-   "type": "tick_one",
    "at": 13.5,
    "tone": 1.2,
    "gain_db": -10,
@@ -374,7 +400,21 @@
   },
   {
    "type": "tick_one",
-   "at": 13.75,
+   "at": 13.567,
+   "tone": 1.2,
+   "gain_db": -10,
+   "label": "odometer flap"
+  },
+  {
+   "type": "tick_one",
+   "at": 13.633,
+   "tone": 1.2,
+   "gain_db": -10,
+   "label": "odometer flap"
+  },
+  {
+   "type": "tick_one",
+   "at": 13.7,
    "tone": 1.2,
    "gain_db": -10,
    "label": "odometer flap"
@@ -1174,6 +1214,587 @@
     "Dm(add9)"
    ],
    "gain_db": -6
+  },
+  {
+   "type": "whoosh",
+   "at": 3.355,
+   "length": 0.45,
+   "peak": 0.7,
+   "pitch": 1.4,
+   "weight": 0.25,
+   "pan": -0.5,
+   "gain_db": -20
+  },
+  {
+   "type": "whoosh",
+   "at": 3.455,
+   "length": 0.45,
+   "peak": 0.7,
+   "pitch": 1.4,
+   "weight": 0.25,
+   "pan": 0.6,
+   "gain_db": -20
+  },
+  {
+   "type": "whoosh",
+   "at": 3.555,
+   "length": 0.45,
+   "peak": 0.7,
+   "pitch": 1.4,
+   "weight": 0.25,
+   "pan": -0.6,
+   "gain_db": -20
+  },
+  {
+   "type": "whoosh",
+   "at": 3.655,
+   "length": 0.45,
+   "peak": 0.7,
+   "pitch": 1.4,
+   "weight": 0.25,
+   "pan": 0.0,
+   "gain_db": -20
+  },
+  {
+   "type": "tape_scrub",
+   "at": 10.1,
+   "length": 0.6,
+   "direction": 1,
+   "gain_db": -20,
+   "label": "course line pencil scratch"
+  },
+  {
+   "type": "ui_blip",
+   "at": 10.7,
+   "kind": "select",
+   "freq": 1320,
+   "gain_db": -20,
+   "label": "chevron pops"
+  },
+  {
+   "type": "whoosh",
+   "at": 11.6,
+   "length": 0.5,
+   "peak": 0.8,
+   "weight": 0.6,
+   "pitch": 0.7,
+   "gain_db": -17,
+   "label": "match cut back to the table"
+  },
+  {
+   "type": "ui_blip",
+   "at": 12.0,
+   "kind": "tick",
+   "freq": 900,
+   "gain_db": -15,
+   "label": "projector shutter"
+  },
+  {
+   "type": "stamp",
+   "at": 12.25,
+   "weight": 0.45,
+   "gain_db": -15,
+   "label": "team markers 2 and 3"
+  },
+  {
+   "type": "stamp",
+   "at": 12.5,
+   "weight": 0.45,
+   "gain_db": -15,
+   "label": "team markers 2 and 3"
+  },
+  {
+   "type": "whoosh",
+   "at": 13.14,
+   "length": 0.6,
+   "peak": 0.6,
+   "pitch": 1.1,
+   "weight": 0.4,
+   "gain_db": -19,
+   "label": "node arcs onto the summit"
+  },
+  {
+   "type": "ui_blip",
+   "at": 18.25,
+   "kind": "select",
+   "freq": 1174.66,
+   "gain_db": -17,
+   "pan": -0.4
+  },
+  {
+   "type": "ui_blip",
+   "at": 19.25,
+   "kind": "select",
+   "freq": 987.77,
+   "gain_db": -17,
+   "pan": 0.4
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.75,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -24,
+   "label": "empty slots"
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.82,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -24,
+   "label": "empty slots"
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.88,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -24,
+   "label": "empty slots"
+  },
+  {
+   "type": "stamp",
+   "at": 23.5,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "member snaps into slot"
+  },
+  {
+   "type": "stamp",
+   "at": 24.0,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "member snaps into slot"
+  },
+  {
+   "type": "stamp",
+   "at": 24.5,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "member snaps into slot"
+  },
+  {
+   "type": "data_chatter",
+   "at": 25.0,
+   "length": 0.5,
+   "density": 18,
+   "gain_db": -22,
+   "label": "triangle lines draw"
+  },
+  {
+   "type": "ui_blip",
+   "at": 29.0,
+   "kind": "deny",
+   "freq": 660,
+   "gain_db": -16,
+   "label": "Vega triangle stamps"
+  },
+  {
+   "type": "ui_blip",
+   "at": 29.25,
+   "kind": "deny",
+   "freq": 660,
+   "gain_db": -16,
+   "label": "Vega triangle stamps"
+  },
+  {
+   "type": "ui_blip",
+   "at": 29.5,
+   "kind": "deny",
+   "freq": 660,
+   "gain_db": -16,
+   "label": "Vega triangle stamps"
+  },
+  {
+   "type": "stamp",
+   "at": 29.75,
+   "weight": 0.8,
+   "gain_db": -12,
+   "label": "VEGA stamps"
+  },
+  {
+   "type": "whoosh",
+   "at": 32.51,
+   "length": 0.6,
+   "peak": 0.65,
+   "weight": 0.5,
+   "gain_db": -17,
+   "label": "pull-back to overview"
+  },
+  {
+   "type": "whoosh",
+   "at": 33.58,
+   "length": 0.4,
+   "peak": 0.8,
+   "pitch": 1.3,
+   "weight": 0.3,
+   "pan": -0.6,
+   "gain_db": -19
+  },
+  {
+   "type": "whoosh",
+   "at": 33.58,
+   "length": 0.4,
+   "peak": 0.8,
+   "pitch": 1.3,
+   "weight": 0.3,
+   "pan": 0.6,
+   "gain_db": -19
+  },
+  {
+   "type": "ui_blip",
+   "at": 34.25,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -24,
+   "label": "UI panels enter"
+  },
+  {
+   "type": "ui_blip",
+   "at": 34.317,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -24,
+   "label": "UI panels enter"
+  },
+  {
+   "type": "ui_blip",
+   "at": 34.383,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -24,
+   "label": "UI panels enter"
+  },
+  {
+   "type": "ui_blip",
+   "at": 34.45,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -24,
+   "label": "UI panels enter"
+  },
+  {
+   "type": "typing",
+   "at": 35.0,
+   "length": 0.6,
+   "rate": 12,
+   "gain_db": -17,
+   "label": "Jules types"
+  },
+  {
+   "type": "ui_blip",
+   "at": 35.4,
+   "kind": "confirm",
+   "freq": 1046.5,
+   "gain_db": -19,
+   "label": "zone lights: pump"
+  },
+  {
+   "type": "ui_blip",
+   "at": 35.6,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -19,
+   "label": "zone lights: crossing"
+  },
+  {
+   "type": "ui_blip",
+   "at": 36.5,
+   "kind": "select",
+   "freq": 1700,
+   "gain_db": -20,
+   "length": 0.2,
+   "label": "NC route squeak"
+  },
+  {
+   "type": "ui_blip",
+   "at": 38.25,
+   "kind": "select",
+   "freq": 1900,
+   "gain_db": -20,
+   "length": 0.2,
+   "label": "EK route squeak"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.125,
+   "kind": "tick",
+   "freq": 1500,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.25,
+   "kind": "tick",
+   "freq": 1540,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.375,
+   "kind": "tick",
+   "freq": 1580,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.5,
+   "kind": "tick",
+   "freq": 1620,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.625,
+   "kind": "tick",
+   "freq": 1660,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.75,
+   "kind": "tick",
+   "freq": 1700,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.875,
+   "kind": "tick",
+   "freq": 1740,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.0,
+   "kind": "tick",
+   "freq": 1780,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.125,
+   "kind": "tick",
+   "freq": 1820,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.25,
+   "kind": "tick",
+   "freq": 1860,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.375,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.5,
+   "kind": "tick",
+   "freq": 1940,
+   "gain_db": -22,
+   "label": "objective fill step"
+  },
+  {
+   "type": "whoosh",
+   "at": 40.33,
+   "length": 0.7,
+   "peak": 0.6,
+   "pitch": 0.6,
+   "weight": 0.7,
+   "gain_db": -17,
+   "label": "Vega slides out of the fog"
+  },
+  {
+   "type": "whoosh",
+   "at": 41.24,
+   "length": 0.6,
+   "peak": 0.6,
+   "pitch": 0.7,
+   "weight": 0.6,
+   "gain_db": -18,
+   "label": "their route draws"
+  },
+  {
+   "type": "glitch",
+   "at": 41.5,
+   "length": 0.25,
+   "character": 0.3,
+   "gain_db": -20,
+   "label": "CONTESTED scramble"
+  },
+  {
+   "type": "data_chatter",
+   "at": 44.25,
+   "length": 0.4,
+   "density": 12,
+   "gain_db": -26,
+   "label": "LAST SEEN re-scramble"
+  },
+  {
+   "type": "ui_blip",
+   "at": 46.5,
+   "kind": "select",
+   "freq": 1800,
+   "gain_db": -22,
+   "length": 0.12,
+   "label": "telestrator squeak"
+  },
+  {
+   "type": "ui_blip",
+   "at": 46.633,
+   "kind": "select",
+   "freq": 1800,
+   "gain_db": -22,
+   "length": 0.12,
+   "label": "telestrator squeak"
+  },
+  {
+   "type": "ui_blip",
+   "at": 46.767,
+   "kind": "select",
+   "freq": 1800,
+   "gain_db": -22,
+   "length": 0.12,
+   "label": "telestrator squeak"
+  },
+  {
+   "type": "ui_blip",
+   "at": 46.9,
+   "kind": "select",
+   "freq": 1800,
+   "gain_db": -22,
+   "length": 0.12,
+   "label": "telestrator squeak"
+  },
+  {
+   "type": "stamp",
+   "at": 47.25,
+   "weight": 0.35,
+   "gain_db": -16,
+   "label": "chevrons pop"
+  },
+  {
+   "type": "whoosh",
+   "at": 47.6,
+   "length": 0.5,
+   "peak": 0.8,
+   "weight": 0.4,
+   "gain_db": -17
+  },
+  {
+   "type": "whoosh",
+   "at": 49.6,
+   "length": 0.5,
+   "peak": 0.8,
+   "weight": 0.4,
+   "gain_db": -17
+  },
+  {
+   "type": "whoosh",
+   "at": 48.14,
+   "length": 0.6,
+   "peak": 0.6,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "gain_db": -19,
+   "label": "commit route pencil"
+  },
+  {
+   "type": "ui_blip",
+   "at": 50.9,
+   "kind": "deny",
+   "freq": 520,
+   "gain_db": -16,
+   "label": "red arrowhead + lunge"
+  },
+  {
+   "type": "ui_blip",
+   "at": 51.1,
+   "kind": "select",
+   "freq": 1700,
+   "gain_db": -21,
+   "length": 0.2,
+   "label": "reroute squeak"
+  },
+  {
+   "type": "stamp",
+   "at": 51.75,
+   "weight": 0.35,
+   "gain_db": -15,
+   "label": "reroute arrowhead"
+  },
+  {
+   "type": "whoosh",
+   "at": 52.92,
+   "length": 0.4,
+   "peak": 0.7,
+   "pitch": 0.6,
+   "weight": 0.7,
+   "gain_db": -19,
+   "label": "red triangle lunges"
+  },
+  {
+   "type": "whoosh",
+   "at": 56.05,
+   "length": 0.5,
+   "peak": 0.7,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "gain_db": -21,
+   "label": "fold into the review window"
+  },
+  {
+   "type": "ui_blip",
+   "at": 56.733,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -21,
+   "label": "marker pop"
+  },
+  {
+   "type": "ui_blip",
+   "at": 56.9,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -21,
+   "label": "marker pop"
+  },
+  {
+   "type": "ui_blip",
+   "at": 57.133,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -21,
+   "label": "marker pop"
+  },
+  {
+   "type": "ui_blip",
+   "at": 57.5,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -16,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "playhead lands on 08:31"
   },
   {
    "type": "file",

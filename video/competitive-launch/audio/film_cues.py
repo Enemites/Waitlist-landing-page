@@ -39,7 +39,7 @@ c('data_chatter', at=3.07, length=0.9, density=24, gain_db=-18)
 c('reverse_swell', hit_at=4.0, length=0.93, chord='Dm', gain_db=-11)
 
 # ---- Bars 3-6 (4-12): LEGACY ------------------------------------------------------------
-for t in (4.0, 4.17, 4.33): c('tick_one', at=t, tone=1.2, gain_db=-9, label='odometer flap')
+for t in (4.067, 4.133, 4.2, 4.267, 4.5): c('tick_one', at=t, tone=1.2, gain_db=-9, label='odometer flap')
 c('pad', bar=2, bars=4, intensity=[0.35, 0.55], gain_db=-8, fx=['lofi'])
 c('drone', bar=2, beat=2, bars=3.5, note='D1', brightness=0.35, intensity=0.45, gain_db=-11)
 c('ticks', bar=2, bars=4, subdiv=2, accent_every=4, intensity=0.7, gain_db=-7, label='pocket-watch ticks')
@@ -47,14 +47,14 @@ for T in (5.0, 7.0, 8.5, 10.0):
     whoosh_peak(T, length=0.8, peak=0.7, weight=0.75, pitch=0.6, gain_db=-17)
     c('ui_blip', at=T, kind='tick', freq=900, gain_db=-15, label='projector shutter')
 for t in (5.5, 5.75, 6.0): c('stamp', at=t, weight=0.5, gain_db=-14, label='wooden tap: marker on rake')
-c('typing', at=8.6, length=0.35, rate=12, gain_db=-12, label='marker squeaks')
+for t, f in ((8.6, 1600), (8.733, 1800), (8.867, 2000)): c('ui_blip', at=t, kind='select', freq=f, length=0.18, gain_db=-19, label='telestrator squeak')
 c('stamp', at=11.25, weight=1.0, gain_db=-9, label='stamp: red ring on rival boat')
 
 # ---- Bar 7 (12-14): HINGE ---------------------------------------------------------------
 c('bass_ostinato', bar=6, bars=1, intensity=0.5, gain_db=-8)
 c('taiko', bar=6, bars=1, intensity=0.4, gain_db=-12)
 c('water_rush', at=12.5, length=1.8, intensity=0.8, gain_db=-12, fade_in=0.6, label='rising water flood')
-for t in (13.0, 13.25, 13.5, 13.75): c('tick_one', at=t, tone=1.2, gain_db=-10, label='odometer flap')
+for t in (13.0, 13.5, 13.567, 13.633, 13.7): c('tick_one', at=t, tone=1.2, gain_db=-10, label='odometer flap')
 c('riser', hit_at=14.0, length=2.0, gain_db=-11)
 
 # ---- Bar 8 (14-16): TITLE ----------------------------------------------------------------
@@ -165,6 +165,55 @@ for t, f in ((68.0, 587.33), (68.25, 698.46), (68.5, 880.0)):
     c('ui_blip', at=t, kind='select', freq=f, gain_db=-6, verb={'hall': 0.35}, label='SONIC LOGO')
 c('plucks', bar=34, bars=1, pattern='0.1.2...........', intensity=0.3, gain_db=-14, verb={'hall': 0.3})
 c('resolve_swell', at=68.0, length=3.5, chords=['Dm(add9)'], gain_db=-6)
+
+# ---- Picture-synced SFX reported by the scene engineers (film seconds) -------------------------
+def blip(t, kind='tick', freq=1760, g=-18, **k): return c('ui_blip', at=t, kind=kind, freq=freq, gain_db=g, **k)
+# s02 rewind: UI panels exit with small panned whooshes
+for T, pan in ((3.67, -0.5), (3.77, 0.6), (3.87, -0.6), (3.97, 0.0)): whoosh_peak(T, length=0.45, peak=0.7, pitch=1.4, weight=0.25, pan=pan, gain_db=-20)
+# s03 legacy
+c('tape_scrub', at=10.1, length=0.6, direction=1, gain_db=-20, label='course line pencil scratch')
+blip(10.7, 'select', 1320, -20, label='chevron pops')
+# s04 hinge
+whoosh_peak(12.0, length=0.5, peak=0.8, weight=0.6, pitch=0.7, gain_db=-17, label='match cut back to the table')
+blip(12.0, 'tick', 900, -15, label='projector shutter')
+for t in (12.25, 12.5): c('stamp', at=t, weight=0.45, gain_db=-15, label='team markers 2 and 3')
+whoosh_peak(13.5, length=0.6, peak=0.6, pitch=1.1, weight=0.4, gain_db=-19, label='node arcs onto the summit')
+# s05 one world: route arrowheads pop
+blip(18.25, 'select', 1174.66, -17, pan=-0.4); blip(19.25, 'select', 987.77, -17, pan=0.4)
+# s06 form your team
+for t in (22.75, 22.82, 22.88): blip(t, 'tick', 2600, -24, label='empty slots')
+for t in (23.5, 24.0, 24.5): c('stamp', at=t, weight=0.5, gain_db=-15, label='member snaps into slot')
+c('data_chatter', at=25.0, length=0.5, density=18, gain_db=-22, label='triangle lines draw')
+# s07 find your opposition
+for t in (29.0, 29.25, 29.5): blip(t, 'deny', 660, -16, label='Vega triangle stamps')
+c('stamp', at=29.75, weight=0.8, gain_db=-12, label='VEGA stamps')
+whoosh_peak(32.9, length=0.6, peak=0.65, weight=0.5, gain_db=-17, label='pull-back to overview')
+for pan in (-0.6, 0.6): whoosh_peak(33.9, length=0.4, peak=0.8, pitch=1.3, weight=0.3, pan=pan, gain_db=-19)
+# s08 make your move
+for t in (34.25, 34.317, 34.383, 34.45): blip(t, 'tick', 2200, -24, label='UI panels enter')
+c('typing', at=35.0, length=0.6, rate=12, gain_db=-17, label='Jules types')
+blip(35.4, 'confirm', 1046.5, -19, label='zone lights: pump'); blip(35.6, 'confirm', 1174.66, -19, label='zone lights: crossing')
+blip(36.5, 'select', 1700, -20, length=0.2, label='NC route squeak')
+blip(38.25, 'select', 1900, -20, length=0.2, label='EK route squeak')
+for k in range(12): blip(39.125 + 0.125 * k, 'tick', 1500 + 40 * k, -22, label='objective fill step')
+whoosh_peak(40.75, length=0.7, peak=0.6, pitch=0.6, weight=0.7, gain_db=-17, label='Vega slides out of the fog')
+whoosh_peak(41.6, length=0.6, peak=0.6, pitch=0.7, weight=0.6, gain_db=-18, label='their route draws')
+c('glitch', at=41.5, length=0.25, character=0.3, gain_db=-20, label='CONTESTED scramble')
+# s09 last seen
+c('data_chatter', at=44.25, length=0.4, density=12, gain_db=-26, label='LAST SEEN re-scramble')
+# s10 coordinate / commit / adapt
+for t in (46.5, 46.633, 46.767, 46.9): blip(t, 'select', 1800, -22, length=0.12, label='telestrator squeak')
+c('stamp', at=47.25, weight=0.35, gain_db=-16, label='chevrons pop')
+whoosh_peak(48.0, length=0.5, peak=0.8, weight=0.4, gain_db=-17); whoosh_peak(50.0, length=0.5, peak=0.8, weight=0.4, gain_db=-17)
+whoosh_peak(48.5, length=0.6, peak=0.6, pitch=1.2, weight=0.3, gain_db=-19, label='commit route pencil')
+blip(50.9, 'deny', 520, -16, label='red arrowhead + lunge')
+blip(51.1, 'select', 1700, -21, length=0.2, label='reroute squeak'); c('stamp', at=51.75, weight=0.35, gain_db=-15, label='reroute arrowhead')
+# s11 montage
+whoosh_peak(53.2, length=0.4, peak=0.7, pitch=0.6, weight=0.7, gain_db=-19, label='red triangle lunges')
+# s12 review
+whoosh_peak(56.4, length=0.5, peak=0.7, pitch=1.2, weight=0.3, gain_db=-21, label='fold into the review window')
+for t in (56.733, 56.9, 57.133): blip(t, 'tick', 2200, -21, label='marker pop')
+blip(57.5, 'confirm', 880, -16, verb={'hall': 0.25}, label='playhead lands on 08:31')
 
 # ---- VO -------------------------------------------------------------------------------------------
 VO = {'v01': 4.60, 'v02': 7.25, 'v03': 8.75, 'v04': 10.25, 'v05': 14.30, 'v06': 16.30, 'v07': 20.20, 'v08': 24.30,

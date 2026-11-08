@@ -85,7 +85,9 @@
     return { d, tip: q, a: t.a };
   }
 
-  // ---- base: pre hook (camera, conduit flow) registered BEFORE the world, then the world ----
+  // ---- base: pre hook (camera, conduit flow) registered BEFORE the world, then the world.
+  //      o: T0 (film start), cam(lt) -> {x, y, zoom}, flow(lt) -> conduit flow time (default: s04's
+  //      phase, T0 - 12 + lt), labels (film map labels, created hidden: fade K.labels in yourself) ----
   function kBase(ctx, o) {
     ctx.css(`[data-scene="${ctx.id}"] .k-full { position:absolute; left:0; top:0; width:${W}px; height:${H}px; }
       [data-scene="${ctx.id}"] .k-bg { position:absolute; inset:0; background:${C.bg}; }
@@ -97,17 +99,20 @@
       if (!K.F) return;
       const c = o.cam(lt); K.cam = c;
       const st = K.F.T.state; st.cx = (c.x + MARGIN) * S; st.cy = (c.y + MARGIN) * S; st.zoom = c.zoom;
-      K.F.flow.time = o.T0 - 12 + lt;            // conduit flow continues s04's phase (s04 starts at film 12.0)
+      K.F.flow.time = flowAt(lt);                // conduit flow continues s04's phase (s04 starts at film 12.0)
       for (const f of pre) f(lt, c);
     });
+    const flowAt = o.flow || ((lt) => o.T0 - 12 + lt);
     ctx.el('div', 'k-bg', ctx.root);
     K.wrap = ctx.el('div', 'k-full', ctx.root);
     const c0 = o.cam(0); K.cam = c0;
-    const F = Floodgate.world(ctx, { scale: S, margin: MARGIN, film: true, labels: false, parent: K.wrap, terrain: { res: 2 },
+    const F = Floodgate.world(ctx, { scale: S, margin: MARGIN, film: true, labels: !!o.labels, parent: K.wrap, terrain: { res: 2 },
       state: { cx: (c0.x + MARGIN) * S, cy: (c0.y + MARGIN) * S, zoom: c0.zoom } });
     F.progress.v = 0;                            // the round has not started: no objective progress
     [...F.el.vega, F.el.ghost, F.el.cone, ...Object.values(F.el.tokens)].forEach((e) => e.setAttribute('opacity', '0'));
-    F.flow.time = o.T0 - 12;
+    K.labels = Object.values(F.el.labels || {});
+    K.labels.forEach((e) => e.setAttribute('opacity', '0'));
+    F.flow.time = flowAt(0);
     K.F = F;
     K.wpt = (p) => [(p[0] + MARGIN) * S, (p[1] + MARGIN) * S];
     return K;
@@ -142,7 +147,8 @@
     return { hud: h, slug, ticks: h.ticks };
   }
 
-  // ---- THE NODE (replica of comp/lib/node.js, plus a variable ring radius and JK's initials disc) ----
+  // ---- THE NODE (replica of comp/lib/node.js, plus a variable ring radius and JK's initials disc).
+  //      o.pulses: film times, or [time, duration] to end a pulse before a cut that does not carry it ----
   function kNode(ctx, parent, o) {
     o = Object.assign({ pulses: [], label: 'JK' }, o);
     const id = ctx.id + '-knode';
@@ -159,7 +165,8 @@
     ctx.svg('circle', { r: 22, fill: C.amber }, dg);
     const dtx = ctx.svg('text', { y: 7, 'text-anchor': 'middle', fill: '#1b140a', style: 'font: 600 20px var(--mono); letter-spacing: .04em', text: o.label }, dg);
     const core = ctx.svg('circle', { r: 6, fill: C.amberLight }, g);
-    const p = { x: 0, y: 0, s: 1, a: 1, glow: 0.35, rr: 12, disc: 0, core: 1, txt: 1 };
+    // p.rr ring radius; p.gr glow radius (0 = follows the ring); p.ts initials scale (match tokens: 0.75)
+    const p = { x: 0, y: 0, s: 1, a: 1, glow: 0.35, rr: 12, gr: 0, disc: 0, core: 1, txt: 1, ts: 1 };
     const steps = [];
     function draw(lt) {
       let st = 0;
@@ -168,15 +175,18 @@
       g.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) scale(${sc.toFixed(4)})`);
       g.setAttribute('opacity', String(clamp(p.a, 0, 1)));
       glow.setAttribute('opacity', String(Math.max(0, p.glow)));
-      glow.setAttribute('r', (60 + 2 * (p.rr - 12)).toFixed(2));
+      glow.setAttribute('r', (p.gr > 0 ? p.gr : 60 + 2 * (p.rr - 12)).toFixed(2));
       ring.setAttribute('r', p.rr.toFixed(2));
       core.setAttribute('opacity', String(clamp(p.core, 0, 1)));
-      if (p.disc > 0.001) { dg.style.display = ''; dg.setAttribute('transform', `scale(${p.disc.toFixed(4)})`); dtx.setAttribute('opacity', String(clamp(p.txt, 0, 1))); }
+      if (p.disc > 0.001) {
+        dg.style.display = ''; dg.setAttribute('transform', `scale(${p.disc.toFixed(4)})`); dtx.setAttribute('opacity', String(clamp(p.txt, 0, 1)));
+        dtx.setAttribute('transform', p.ts === 1 ? '' : `scale(${p.ts.toFixed(4)})`);
+      }
       else dg.style.display = 'none';
       // pulse ring: film-time cadence (every 3 beats) so the rhythm is continuous across cuts
       const ft = o.T0 + lt;
       let u = -1;
-      for (const t0 of o.pulses) { const v = (ft - t0) / 1.5; if (v >= 0 && v <= 1) u = v; }
+      for (const q of o.pulses) { const t0 = Array.isArray(q) ? q[0] : q, v = (ft - t0) / (Array.isArray(q) ? q[1] : 1.5); if (v >= 0 && v <= 1) u = v; }
       if (u < 0) { pulse.setAttribute('opacity', '0'); return; }
       const e = 1 - Math.pow(1 - u, 2);
       pulse.setAttribute('r', (p.rr * (1 + 1.2 * e)).toFixed(2));
@@ -385,14 +395,14 @@
     let tx = null;
     if (side === 'vega') { const s = 17.3; ctx.svg('path', { d: `M0 ${-s} L${(s * 0.92).toFixed(2)} ${(s * 0.62).toFixed(2)} L${(-s * 0.92).toFixed(2)} ${(s * 0.62).toFixed(2)}Z`, fill: col }, body); }
     else { ctx.svg('circle', { r: 22, fill: col }, body); tx = ctx.svg('text', { y: 7, 'text-anchor': 'middle', fill: '#1b140a', style: 'font: 600 20px var(--mono); letter-spacing: .04em', text: label }, body); }
-    const p = { x: 0, y: 0, s: 1, pop: 1, a: 0, txt: 1, pulseAt: -99 };
+    const p = { x: 0, y: 0, s: 1, pop: 1, a: 0, txt: 1, ts: 1, pulseAt: -99 };   // ts: initials scale
     function draw(lt) {
       if (p.a <= 0.001) { g.style.display = 'none'; return; }
       g.style.display = '';
       g.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.s.toFixed(4)})`);
       g.setAttribute('opacity', String(clamp(p.a, 0, 1)));
       body.setAttribute('transform', `scale(${p.pop.toFixed(4)})`);
-      if (tx) tx.setAttribute('opacity', String(clamp(p.txt, 0, 1)));
+      if (tx) { tx.setAttribute('opacity', String(clamp(p.txt, 0, 1))); tx.setAttribute('transform', p.ts === 1 ? '' : `scale(${p.ts.toFixed(4)})`); }
       const u = (lt - p.pulseAt) / 1.0;
       if (u < 0 || u > 1) { pr.setAttribute('opacity', '0'); return; }
       const e = 1 - Math.pow(1 - u, 2);
@@ -519,9 +529,9 @@
       })(sc.g);
       tl.to(sc.canvas, { opacity: 0, duration: 0.7, ease: 'power1.inOut' }, 3.6);
 
-      // ---- the title dim from s04 lifts on the downbeat (6 f) ----
+      // ---- the title dim from s04 (#0b0c0e at 86%) lifts on the downbeat (6 f) ----
       const dim = ctx.el('div', 'k-bg', root);
-      tl.fromTo(dim, { opacity: 0.72 }, { opacity: 0, duration: 6 / FPS, ease: 'power2.out' }, 0);
+      tl.fromTo(dim, { opacity: 0.86 }, { opacity: 0, duration: 6 / FPS, ease: 'power2.out' }, 0);
 
       // ---- screen-space marks ----
       const ov = ctx.svg('svg', { class: 'brand-svg' });

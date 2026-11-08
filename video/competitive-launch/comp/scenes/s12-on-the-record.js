@@ -13,8 +13,10 @@
  *      head at 08:04.
  * 0.60-1.50 THE NODE IS THE PLAYHEAD: it scrubs 08:04 -> 08:31 (power2.out) and Match.state rewinds
  *      in lockstep (tokens and triangles walk back, the routes stay). Markers pop as it crosses them:
- *      the ghost-resolve dot (~0.70), the contested dot (~0.88), '08:19 · EMRE' (~0.90),
- *      '08:26 · NORA' (~1.12); it lands on '08:31 · JULES' at 1.50 (57.5, on 'record').
+ *      the ghost-resolve dot (0.733), the contested dot and '08:19 · EMRE' (0.900, same frame),
+ *      '08:26 · NORA' (1.133); it lands on '08:31 · JULES' at 1.50 (57.5, on 'record'). The landing is
+ *      at 57.5, not the storyboard's 58.0, so the last label is read for a full beat before the cut.
+ *      'ROUND 2 · REVIEW' scrambles in over 0.36-0.60, riding the panel's corner as it stretches.
  * 2.00 hard cut (bar 30.1): s13 dissolves the review chrome and opens the window.
  */
 (function () {
@@ -44,12 +46,21 @@
       // the score pill exits up as the review takes over (8 f power2.in)
       tl.fromTo(M.score.el, { y: 0, opacity: 1 }, { y: -60, opacity: 0, duration: 8 / 30, ease: 'power2.in' }, 0.07);
 
-      Match.review(ctx, M, {
+      const R = Match.review(ctx, M, {
+        headIn: [0.7, 0.3],                       // 'ROUND 2 · REVIEW' scrambles in as the panel arrives
         fold: (lt) => cam3(clamp01(lt / 0.6)),
         rec: (lt) => io2(clamp01((lt - 0.1) / 0.45)),
         fly: (lt) => clamp01((lt - 0.15) / 0.45),
         m: mAt,
         nodePulses: [1.5],                        // THE NODE pulses as it lands on 08:31 (57.5)
+      });
+      // the header rides the panel's top-left corner while it stretches (PN.x + 40, PN.y + 24 at rest)
+      ctx.onFrame(() => {
+        const px = parseFloat(R.panel.style.left), py = parseFloat(R.panel.style.top);
+        if (!isFinite(px) || !isFinite(py)) return;
+        const l = (px + 40).toFixed(1) + 'px', t = (py + 24).toFixed(1) + 'px';
+        if (R.head.style.left !== l) R.head.style.left = l;
+        if (R.head.style.top !== t) R.head.style.top = t;
       });
     },
   });
