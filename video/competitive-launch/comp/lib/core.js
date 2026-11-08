@@ -92,7 +92,8 @@
   let stage = null;
   let hud = null;
   let currentTime = -1;
-  let pending = [];            // decode promises created during the current seek
+  let pending = [];
+  let lastSeqIndex = -1;       // the sequential scene that owns the film's final frame            // decode promises created during the current seek
 
   const film = {
     fps: FPS, width: W, height: H, duration: 0, frames: 0,
@@ -466,8 +467,12 @@
 
       await loadFonts();
 
-      // timeline layout: entry.overlap = seconds this scene starts BEFORE the previous one ends
+      // timeline layout: entry.overlap = seconds this scene starts BEFORE the previous one ends.
+      // OVERLAY entries ({ id, at, duration }) sit on top of the sequence at an absolute film time
+      // and do not move the scenes after them (inserts, flashes); they always render above.
       let t = 0;
+      let prevSeq = null;
+      let overlayEnd = 0;
       entries.forEach((e, i) => {
         const def = defs.get(e.id);
         if (!def) throw new Error('scene "' + e.id + '" (' + e.file + ') did not call Film.scene({ id: "' + e.id + '" })');
@@ -476,17 +481,28 @@
         if (e.duration != null && def.duration != null && Math.abs(e.duration - def.duration) > EPS) {
           console.warn('[film] scene "' + e.id + '": manifest duration ' + e.duration + 's overrides scene duration ' + def.duration + 's');
         }
-        let ov = only || i === 0 ? 0 : Number(e.overlap || 0);
-        const prev = scenes[i - 1];
+        if (e.at != null && !only) {
+          const start = Number(e.at);
+          if (!(start >= 0)) throw new Error('overlay "' + e.id + '": at must be >= 0');
+          const s = { id: e.id, def, index: i, start, duration: dur, end: start + dur, overlapIn: 0, overlapOut: 0, frameFns: [], seqFns: [], on: true, lt: 0, overlay: true };
+          scenes.push(s);
+          overlayEnd = Math.max(overlayEnd, start + dur);
+          return;
+        }
+        let ov = only || !prevSeq ? 0 : Number(e.overlap || 0);
+        const prev = prevSeq;
         if (ov < 0) throw new Error('scene "' + e.id + '": overlap must be >= 0');
         if (prev && ov >= prev.duration) throw new Error('scene "' + e.id + '": overlap ' + ov + 's must be shorter than previous scene (' + prev.duration + 's)');
         if (ov >= dur) throw new Error('scene "' + e.id + '": overlap must be shorter than its duration');
-        const start = i === 0 ? 0 : t - ov;
+        const start = !prev ? 0 : t - ov;
         const s = { id: e.id, def, index: i, start, duration: dur, end: start + dur, overlapIn: ov, overlapOut: 0, frameFns: [], seqFns: [], on: true, lt: 0 };
         if (prev) prev.overlapOut = ov;
         scenes.push(s);
+        prevSeq = s;
         t = start + dur;
       });
+      lastSeqIndex = prevSeq ? prevSeq.index : -1;
+      if (overlayEnd > t + EPS) throw new Error('an overlay ends at ' + overlayEnd.toFixed(3) + ' s, after the film (' + t.toFixed(3) + ' s)');
       if (only) {
         // keep the authored exit timing when previewing a scene alone
         const full = manifest.map((e) => e.id);
@@ -502,7 +518,7 @@
         reseedGlobal('build:' + s.id); // build-time randomness independent of other scenes
         const root = el('div', 'film-scene', stage);
         root.dataset.scene = s.id;
-        root.style.zIndex = String(s.index + 1);
+        root.style.zIndex = String((s.overlay ? 1000 : 0) + s.index + 1);
         const tl = gsap.timeline({ paused: true });
         s.tl = tl; s.root = root;
         const ctx = {
@@ -559,7 +575,7 @@
 
       film.duration = duration;
       film.frames = Math.round(duration * FPS);
-      film.scenes = scenes.map((s) => ({ id: s.id, start: +s.start.toFixed(6), end: +s.end.toFixed(6), duration: s.duration, overlapIn: s.overlapIn, overlapOut: s.overlapOut }));
+      film.scenes = scenes.map((s) => ({ overlay: !!s.overlay, id: s.id, start: +s.start.toFixed(6), end: +s.end.toFixed(6), duration: s.duration, overlapIn: s.overlapIn, overlapOut: s.overlapOut }));
       film.isolated = only || null;
       film.manifestSrc = manifestSrc;
       film.booted = true;
@@ -599,7 +615,7 @@
       const last = scenes.length - 1;
       for (const s of scenes) {
         const lt = t - s.start;
-        const on = lt >= -EPS && (lt < s.duration - EPS || (s.index === last && lt <= s.duration + EPS));
+        const on = lt >= -EPS && (lt < s.duration - EPS || ((s.index === lastSeqIndex || (lastSeqIndex < 0 && s.index === last)) && lt <= s.duration + EPS));
         if (on !== s.on) { s.root.classList.toggle('is-off', !on); s.on = on; }
         if (on) {
           s.lt = Math.min(Math.max(lt, 0), s.duration);

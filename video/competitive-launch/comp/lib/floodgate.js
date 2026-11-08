@@ -205,6 +205,21 @@
     };
   }
 
+  /** The Floodgate valley heightfield in PRODUCT coordinates (x 0..1600, y 0..1000; values about
+   *  -0.3..1.0, sea level 0.18). Same function the world bakes, for other renderers (e.g. a 3D view). */
+  function productHeight(seed, extended) {
+    const n = Film.utils.noise2D(seed == null ? 58 : seed);
+    const RPTS = extended === false ? RIVER : RIVER_EXT;
+    return (x, y) => {
+      const nn = n.fbm(x / 230, y / 230, 5);
+      const d = B.distToPath(x, y, RPTS);
+      const river = 0.62 * Math.exp(-((d / (58 + 18 * nn)) ** 2));
+      return 0.36 + 0.2 * nn - river
+        + B.gauss(x, y, 380, 320, 170, 0.42) + B.gauss(x, y, 1260, 690, 190, 0.48)
+        + B.gauss(x, y, 1380, 360, 110, 0.25) + B.gauss(x, y, 300, 760, 120, 0.15);
+    };
+  }
+
   function world(ctx, o) {
     o = Object.assign({ scale: 1.5, seed: 58, labels: true, margin: 0, shared: true, film: false, zoomCap: 2.4 }, o || {});
     const S = o.scale, M = o.margin || 0, OFF = M * S;
@@ -536,5 +551,5 @@
     return api;
   }
 
-  window.Floodgate = { world, ui, RIVER, RIVER_EXT, PAL, bakes: BAKES };
+  window.Floodgate = { world, ui, RIVER, RIVER_EXT, PAL, bakes: BAKES, productHeight };
 })();
