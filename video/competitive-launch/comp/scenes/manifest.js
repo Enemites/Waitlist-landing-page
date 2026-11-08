@@ -28,6 +28,8 @@ Film.manifest([
   { id: 'x05-iso-world', file: 'x05-iso-world.js', at: 18.25, duration: 1.75 },
   { id: 'x05-versus', file: 'x05-versus.js', at: 20.0, duration: 2.0 },
   { id: 'x06-player-cards', file: 'x06-player-cards.js', at: 25.0, duration: 1.0 },
+  { id: 'x07-section', file: 'x07-section.js', at: 30.5, duration: 1.5 },
+  { id: 'x08-roles', file: 'x08-roles.js', at: 36.5, duration: 1.5 },
   { id: 'x08-gate-schematic', file: 'x08-gate-schematic.js', at: 39.0, duration: 1.5 },
   { id: 'x10-formation', file: 'x10-formation.js', at: 46.0, duration: 2.0 },
   { id: 'x11-archive-flash', file: 'x11-archive-flash.js', at: 52.5, duration: 2.0 },

@@ -141,3 +141,41 @@ two windows.
 Every engineer renders their inserts in place in the full film (the manifest lists them) and checks
 the frames around each entrance and exit cut. Then a review panel runs, fixes follow, and the film
 is rendered.
+
+## Round 2 (after the v3 review panel)
+The panel measured the v3 render: the inserts cluster at 18-26 s and 46-59.5 s, and 26.0-39.0 s was still
+13 s of map with no hard cut (the stillest stretches of the film at 29.5-32.4 and 35-39). Two more inserts close
+that gap, so the longest map-only run drops to about 5.5 s (40.5-46.0, which is the intended LAST SEEN breath):
+
+| id | at | dur | over (hidden underneath) | VO under it | new visual language |
+|---|---|---|---|---|---|
+| `x07-section` | 30.5 | 1.5 | s07: Vega's ring held under 'The same challenge. / Another approach.' | v09 'Read the same situation.' | **Section**: the valley as one side-on elevation profile, Atlas summit to gate to Vega summit |
+| `x08-roles` | 36.5 | 1.5 | s08: the NC and EK routes draw on the dim match UI | v11 'Divide responsibilities and make the call together.' | **Roles**: three slanted panes, one job each, cut back on PLAN AGREED at 38.0 |
+
+### x07-section (30.5-32.0)
+Sample `Floodgate.productHeight()` along the polyline Atlas summit (380,320) -> gate (800,560) -> Vega summit
+(1260,690) and draw it as a side-on profile (a seismograph / survey section look, new to the film): stacked
+parallel offset profiles receding in depth, hatching under the ground line, the river trough at sea level, an
+amber pillar and diamond on the left summit, a red-orange ring on the right, the gate on the trough. A scan line
+sweeps the section on 31.0. 'The same challenge.' and 'Another approach.' stay exactly where s07 sets them (x 120,
+baselines 380 and 510, 120 px, ink and amber) so the headline reads straight across both cuts. Cut back to s07
+at 32.0.
+
+### x08-roles (36.5-38.0)
+Three slanted panes (Brand.SLANT) slam in on 36.5, 36.75 and 37.0, one per member, each with that member's
+token and the place they were sent in the s08 messages: JULES · COORDINATION (the gate), NORA · PUMP STATION
+(the pump), EMRE · CROSSING (the crossing), drawn as a small line pictogram of the place. Colour identity only
+borrows the x06 card motifs (rings / bars / hatch); the layout must not look like the x06 cards. 37.75-38.0
+snap out; hard cut back to s08 at 38.0, where PLAN AGREED lifts.
+
+### Polish from the panel
+- ridgeline.js: the island cliffs read as missing (the cliff fill equals the void): give the cliff band its own
+  fill and dissolve row ends; x05 starts our plan already drawn (no rewind across the cut).
+- x05-versus: the 'another' flash decays as a grey chrome strip: keep it in brand colours, clip the seam off
+  the HUD slug, a deeper punch into the diamond at the exit.
+- x10-formation: three separate comets, not two clumps; use more of the frame.
+- x11-archive-flash: the 1904 crew flash repeated s03's shot: replace it with The River 1937 sandbag team
+  (river-levee-sandbag-team), labels resolve faster.
+- x08-gate-schematic: drafting errors (pump floats, conduit through the hatching).
+- s10: cuts on the half bar after the drop (48-52.5 held two static framings).
+- s01: the 3 s hook push in two beat-synced moves instead of one slow push.
