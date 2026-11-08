@@ -518,7 +518,11 @@
       //      (power2.in) into the cut: the lobby stays clear of the exiting type, and s07's whip picks
       //      up this exact velocity on 28.0, so rise and whip read as one move along the line ----
       const A23 = camAt(APEX.atlas, LOBBY_SCREEN, 2.3);
-      const camFn = (lt) => (lt < 5 ? camAt(APEX.atlas, LOBBY_SCREEN, Math.exp(lerp(Math.log(2.2), Math.log(2.3), ez('sine.inOut')(seg(lt, 0, 5)))))
+      //      v3: x05-versus dives into a charcoal diamond on 21.967, so the first 8 frames carry that
+      //      forward motion: the zoom lands from 0.88x onto the lobby framing (expo.out, apex anchored) ----
+      const ENTRY = 8 / FPS, ENTRY_K = Math.log(0.88);
+      const camFn = (lt) => (lt < 5 ? camAt(APEX.atlas, LOBBY_SCREEN, Math.exp(lerp(Math.log(2.2), Math.log(2.3), ez('sine.inOut')(seg(lt, 0, 5)))
+          + ENTRY_K * (1 - ez('expo.out')(seg(lt, 0, ENTRY)))))
         : camLerp(A23, LOBBY_A2, ez('power2.in')(seg(lt, 5, 6))));
       const K = kBase(ctx, { T0, cam: camFn });
       const F = K.F;
