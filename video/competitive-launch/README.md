@@ -1,6 +1,8 @@
 # Realms Competitive: launch film
 
-`out/realms-competitive-launch.mp4`: 72 s, 1920x1080, 30 fps, H.264 High + AAC 48 kHz, -14 LUFS integrated / -1 dBTP.
+`out/realms-competitive-launch.mp4`: 72 s, 1920x1080, 30 fps, H.264 High + AAC 48 kHz, -14 LUFS integrated, true peak -1.4 dBTP measured on the decoded file (mix ceiling -2 dBTP). `render-final.sh` also writes a higher-bitrate master (`out/realms-competitive-launch-master.mp4`, about 70 MB, not committed) for upload to video platforms.
+
+Version 2 applies the fixes from an independent three-lens review panel (craft, brand, sound) whose findings were each verified against the rendered frames.
 
 A motion-graphics launch film for the Competitive mode of Enemites Realms, built entirely in code:
 HTML/SVG/canvas + GSAP scenes rendered frame by frame (deterministic) and scored with a procedural

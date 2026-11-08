@@ -32,3 +32,9 @@ ffmpeg -v error -y -i .work/final/picture.mp4 -i .work/final/mix.wav \
   -movflags +faststart -metadata title="Realms Competitive: launch film" -shortest "$OUT"
 ffprobe -v error -show_entries format=duration,size,bit_rate -show_entries stream=codec_name,width,height,r_frame_rate -of compact "$OUT"
 echo "wrote $OUT"
+# high-quality master for upload to video platforms (not committed: ~70 MB)
+ffmpeg -v error -y -i .work/final/picture.mp4 -i .work/final/mix.wav -map 0:v:0 -map 1:a:0 -vf "hqdn3d=0:0:2:2" \
+  -c:v libx264 -preset slow -crf 20 -profile:v high -level 4.1 -pix_fmt yuv420p \
+  -color_primaries bt709 -color_trc bt709 -colorspace bt709 -x264-params keyint=60:min-keyint=30 \
+  -c:a aac -b:a 256k -ar 48000 -movflags +faststart -metadata title="Realms Competitive: launch film" -shortest out/realms-competitive-launch-master.mp4
+echo "wrote out/realms-competitive-launch-master.mp4"

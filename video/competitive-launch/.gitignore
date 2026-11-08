@@ -1,2 +1,5 @@
 node_modules/
 .work/
+
+# high-quality master (~70 MB) is delivered separately, not committed
+out/*-master.mp4
