@@ -3,22 +3,30 @@
  * transparent outside them, so s11's map cuts play through.
  *
  *   0.00-0.50 (52.5-53.0, over M2)  chess-1925-move-piece: the hand lifts a piece and sets it down
- *   1.50-2.00 (54.0-54.5, over M5)  sport-crew-race-1904: the crew's oars drive together
+ *   1.50-2.00 (54.0-54.5, over M5)  river-levee-sandbag-team (The River, 1937, FSA): men stacking sandbags
+ *                                   against the flood; a full bag swings out of one man's hands down the line
  *
  * Each flash uses s11's GRID-CELL CUT grammar (the same 12 x 8 lattice, 160 x 135 cells, charcoal
  * cells + 30% amber lattice lines): frame 1 the A cells are charcoal, frame 2 the B cells, then the
  * plate is clean. The chess flash has NO out-checker: its clean plate holds through 52.967 and s11's
  * own grid cut into M3 (53.0) is the transition, the way s11 changes its own shots (13 clean frames,
- * a 2-frame checker run instead of 4). The crew flash closes on the B cells then the A cells, because
+ * a 2-frame checker run instead of 4). The levee flash closes on the B cells then the A cells, because
  * s11 hard-cuts at 54.5.
- * The crew plate is source frames 158-176: the near crew in silhouette, oars driving, a rival crew
- * rowing on the horizon (match against another); cropped to the bottom of the 4:3 plate so the label
- * sits on sky.
+ * The levee plate is source frames 37-51 at 1.25x like the chess (every film frame a new source frame); the
+ * 12-frame hand-off 38-49 fills the clean frames between the checkers: the middle man holds a full bag up,
+ * it swings out and down the line to the next pair of hands (a team effort; it replaces the 1904 crew,
+ * which repeated s03's 10-12 s shot).
+ * Its scan is flatter than the chess plate (blacks ~17, highlights ~112 vs ~10 / ~158), so it is
+ * re-graded on the brand ramp at draw time: an SVG filter takes the frame's luminance, stretches it to the
+ * chess plate's range (deep blacks, the sky lifted to light amber) and maps it back onto the extractor's
+ * ramp #0b0c0e > #5a472f > #a37a42 > #f6d39f, so both flashes share one grade.
  *
- * Plate: amber-graded frames (already graded) played at 1.25x so every film frame is a new source
- * frame (24 fps x 1.25 = 30), a 3% push-in over the beat, a +-1 px gate weave on the source cadence,
- * a one-frame exposure lift on the first clean frame, register corners, an 'ARCHIVE · 1925' /
- * 'ARCHIVE · 1904' corner label (letters scramble, the year types on) and s03's archive slug.
+ * Plate: amber-graded frames (already graded) played at 1.25x so every film frame is a new source frame
+ * (24 fps x 1.25 = 30), a 3% push-in over the beat, a +-1 px gate weave on the source cadence,
+ * a one-frame exposure lift on the first clean frame, register corners (on the levee, a 30% charcoal shade over
+ * the top 220 px and bottom 160 px separates the label and slug from its bright sky), an 'ARCHIVE · 1925' /
+ * 'ARCHIVE · 1937' corner label (letters scramble, the year types on, readable from the 4th frame) and
+ * s03's archive slug.
  */
 (function () {
   'use strict';
@@ -29,11 +37,20 @@
   const LEN = 15;                      // frames per flash (0.5 s)
   const SHOTS = [
     // first: source frame (1-based) on the cut frame; align: crop of the 4:3 plate inside 16:9
-    { key: 'chess', dir: FR + 'chess-1925-move-piece', count: 48, first: 19, at: 0.0, align: [0.5, 0.36], zoom: 1, origin: '50% 50%', cap: 'ARCHIVE · 1925', outGrid: false },
-    // the crew: near crew in silhouette driving the oars, the rival crew on the horizon, sky above
-    { key: 'crew', dir: FR + 'sport-crew-race-1904', count: 192, first: 158, at: 1.5, align: [0.5, 1.0], zoom: 1.15, origin: '50% 85%', cap: 'ARCHIVE · 1904', outGrid: true },
+    { key: 'chess', dir: FR + 'chess-1925-move-piece', count: 48, first: 19, at: 0.0, align: [0.5, 0.36], zoom: 1, origin: '50% 50%', cap: 'ARCHIVE · 1925', outGrid: false, rate: 1.25 },
+    // the levee: a full bag leaves the middle man's hands down the line (clean frames = source 39-49)
+    // align top: the men's heads in frame (only the bottom plank is lost); the push origin high, so it keeps them
+    { key: 'levee', dir: FR + 'river-levee-sandbag-team', count: 90, first: 37, at: 1.5, align: [0.5, 0.0], zoom: 1, origin: '50% 30%', cap: 'ARCHIVE · 1937', outGrid: true, rate: 1.25, regrade: true, shade: true },
   ];
-  const RATE = 1.25;
+  // re-grade for the levee scan (see the header): source luminance -> ramp position x (inverse of the
+  // extractor's ramp), stretched from its range (x 0.022 .. 0.575, p1 .. p99) to the chess plate's (0 .. 0.785)
+  // with a 1.15 gamma that keeps the mids and deepens the shadows, then back onto the ramp
+  const RAMP = [[11, 12, 14], [90, 71, 47], [163, 122, 66], [246, 211, 159]];
+  const rampAt = (x) => { const f = Math.min(2.9999, Math.max(0, x) * 3), i = Math.floor(f), u = f - i; return RAMP[i].map((v, c) => v + (RAMP[i + 1][c] - v) * u); };
+  const lum = (c) => 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  const RAMP_L = RAMP.map(lum);
+  const rampX = (L) => { for (let i = 0; i < 3; i++) if (L <= RAMP_L[i + 1] || i === 2) return Math.min(1, Math.max(0, (i + (L - RAMP_L[i]) / (RAMP_L[i + 1] - RAMP_L[i])) / 3)); return 1; };
+  const REGRADE = (x) => 0.785 * Math.pow(Math.min(1, Math.max(0, (x - 0.022) / 0.553)), 1.15);
   const PUSH = 0.03;
   const p2o = (u) => 1 - (1 - u) * (1 - u);
 
@@ -46,10 +63,20 @@
         [data-scene="${ID}"] .x11-shot { position:absolute; left:0; top:0; width:${W}px; height:${H}px; overflow:hidden; background:${C.bg}; display:none; }
         [data-scene="${ID}"] .x11-plate { position:absolute; left:0; top:0; width:${W}px; height:${H}px; transform-origin:50% 50%; }
         [data-scene="${ID}"] .x11-lift { position:absolute; inset:0; background:${C.amberLight}; opacity:0; display:none; }
+        [data-scene="${ID}"] .x11-shade { position:absolute; inset:0; background: linear-gradient(180deg, rgba(11,12,14,.3) 0px, rgba(11,12,14,0) 220px, rgba(11,12,14,0) 920px, rgba(11,12,14,.3) 1080px); }
         [data-scene="${ID}"] .x11-slug { position:absolute; left:120px; top:990px; font: 500 20px/20px var(--mono); letter-spacing:.12em; color:${C.muted3}; text-transform:uppercase; white-space:pre; }
         [data-scene="${ID}"] .x11-cap { position:absolute; left:120px; top:112px; display:flex; align-items:center; gap:14px; font: 500 22px/22px var(--mono); letter-spacing:.14em; color:${C.amber}; text-transform:uppercase; white-space:pre; }
         [data-scene="${ID}"] .x11-cap .dia { width:10px; height:10px; background:${C.amber}; transform:rotate(45deg); flex:none; }
       `);
+
+      // the levee re-grade as an SVG filter (sRGB): luminance -> per-channel tables along the brand ramp
+      const fsv = ctx.svg('svg', { width: 0, height: 0, style: 'position:absolute' });
+      const filt = ctx.svg('filter', { id: ID + '-regrade', x: 0, y: 0, width: '100%', height: '100%', 'color-interpolation-filters': 'sRGB' }, ctx.svg('defs', {}, fsv));
+      ctx.svg('feColorMatrix', { type: 'matrix', values: '0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0' }, filt);
+      const ct = ctx.svg('feComponentTransfer', {}, filt);
+      const NT = 96, tabs = [[], [], []];
+      for (let i = 0; i < NT; i++) { const c = rampAt(REGRADE(rampX(255 * i / (NT - 1)))); for (let k = 0; k < 3; k++) tabs[k].push((c[k] / 255).toFixed(4)); }
+      ['feFuncR', 'feFuncG', 'feFuncB'].forEach((f, k) => ctx.svg(f, { type: 'table', tableValues: tabs[k].join(' ') }, ct));
 
       const shots = SHOTS.map((S, si) => {
         const wrap = ctx.el('div', 'x11-shot', root);
@@ -57,10 +84,14 @@
         plate.style.transformOrigin = S.origin;
         const seq = ctx.sequence({
           dir: S.dir, count: S.count, fps: 24, fit: 'cover', align: S.align, width: W, height: H, parent: plate, preload: 8,
-          // every film frame is the next source frame; held on the first/last frame outside the beat
-          time: (lt) => (S.first - 1) / 24 + Math.min(Math.max(lt - S.at, 0), (LEN - 1) / FPS) * RATE + 0.25 / 24,
+          // every film frame is the next source frame (24 fps x 1.25 = 30); held outside the beat
+          time: (lt) => (S.first - 1) / 24 + Math.min(Math.max(lt - S.at, 0), (LEN - 1) / FPS) * S.rate + 0.25 / 24,
         });
         void seq;
+        if (S.regrade) plate.style.filter = `url(#${ID}-regrade)`;
+        // the levee's bright sky: a charcoal shade over the top 220 px and the bottom 160 px, so the label, the
+        // register corners and the slug separate from it
+        if (S.shade) ctx.el('div', 'x11-shade', wrap);
         const lift = ctx.el('div', 'x11-lift', wrap);
         // register corners (archive frame marks, inset like the HUD) + lattice for the grid-cell cut
         const sv = ctx.svg('svg', { class: 'brand-svg' }, wrap);
@@ -106,8 +137,9 @@
           const lv = k === 2 ? 0.13 : k === 3 ? 0.05 : 0;
           o.lift.style.display = lv ? 'block' : 'none';
           o.lift.style.opacity = String(lv);
-          // label: 'ARCHIVE' scrambles in over the first 7 frames (letters only), the year types on
-          const cu = Math.min(1, Math.max(0, (k + 1) / 8));
+          // label: 'ARCHIVE' scrambles in over the first 3 frames (letters only), the year types on; it reads
+          // whole from the 4th frame (12 of the 15)
+          const cu = Math.min(1, Math.max(0, (k + 1) / 4));
           const txt = B.scrambleFrame('', o.S.cap, cu, { seed: o.seed, time: k / FPS });
           if (o.capT.textContent !== txt) o.capT.textContent = txt;
         }

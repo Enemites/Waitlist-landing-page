@@ -4,9 +4,11 @@
  * already drawn as light, their heads meeting on the Floodgate.
  *   0.00-0.30  (58.0) impact on the low hero angle: a bright flash at the meeting point (bloom + anamorphic
  *         streak), a shock ring that rolls out OVER the ground (draped: up the slopes, behind the ridges),
- *         the gate lights, both heads flare; the camera breathes in.
+ *         the gate lights, both heads flare; the camera breathes in. The hero camera sits west and low
+ *         (target 700,560, yaw 46, dist 1240 -> 1180, sy 150) so the island's east cliff is framed out and the
+ *         terrain fills the frame; the footprint edge is held at 0 here and comes up with the crane (0.3-0.7).
  *   0.30-1.50  CRANE: the camera swings round to north and cranes up to near top-down (pitch 18 -> 80,
- *         yaw 50 -> 0, power3.inOut speed ramp, still moving into the last frames) while the relief
+ *         yaw 46 -> 0, power3.inOut speed ramp, still moving into the last frames) while the relief
  *         settles late (hs 1 -> .5, power3.in), landing on s13's OVERVIEW framing (centre 817,509,
  *         1.217 px per unit) on the cut. The pillars shorten (150 -> 70).
  *   0.30-1.00  a comet of light runs each plan, summit -> gate, landing on 59.0 with a small ring pulse.
@@ -29,13 +31,14 @@
     build(ctx) {
       const { root, tl } = ctx;
       ctx.css(`[data-scene="${ID}"] .x13-bg { position:absolute; inset:0; background:${C.bg}; }
-        [data-scene="${ID}"] .x13-scrim { position:absolute; left:0; top:860px; width:1100px; height:220px; background: radial-gradient(70% 100% at 0% 100%, rgba(11,12,14,.82), rgba(11,12,14,0)); }`);
+        [data-scene="${ID}"] .x13-scrim { position:absolute; left:0; top:860px; width:1100px; height:220px; background: radial-gradient(70% 100% at 0% 100%, rgba(11,12,14,.82), rgba(11,12,14,0)); }
+        [data-scene="${ID}"] .x13-shade { position:absolute; right:0; bottom:0; width:720px; height:430px; background: radial-gradient(80% 100% at 100% 100%, rgba(11,12,14,.92), rgba(11,12,14,.55) 40%, rgba(11,12,14,0) 100%); }`);
       ctx.el('div', 'x13-bg', root);
       const P = Ridgeline.POINTS;
       const FOV1 = 22, PITCH1 = 80;
       const foc1 = (H / 2) / Math.tan(FOV1 * Math.PI / 360);
       const R = Ridgeline.create(ctx, {
-        cam: { tx: 800, ty: 560, th: 6, yaw: 50, pitch: 18, dist: 1500, fov: 32, sy: 70 },
+        cam: { tx: 700, ty: 560, th: 6, yaw: 46, pitch: 18, dist: 1240, fov: 32, sy: 150 },
         look: { hs: 1, glow: 0.8 },
       });
       const ours = R.route({ pts: Ridgeline.PLANS.ours, color: C.amber, light: C.amberLight });
@@ -44,9 +47,11 @@
 
       // camera: a breath on the impact (the hero angle holds 9 frames), then the crane (swing to north +
       // rise to near top-down), ending on the cut so the motion carries into the last aired frames
-      tl.fromTo(R.cam, { dist: 1500 }, { dist: 1420, duration: 0.3, ease: 'power2.out' }, 0);
+      tl.fromTo(R.cam, { dist: 1240 }, { dist: 1180, duration: 0.3, ease: 'power2.out' }, 0);
       tl.to(R.cam, { tx: END.x, ty: END.y, th: 0, yaw: 0, pitch: PITCH1, dist: foc1 / END.scale, fov: FOV1, sy: 0, duration: 1.2, ease: 'power3.inOut' }, 0.3);
       tl.fromTo(R.look, { hs: 1, lines: 1, glow: 0.8 }, { hs: 0.5, lines: 0.82, glow: 0.4, duration: 1.15, ease: 'power3.in' }, 0.3);
+      // the footprint edge stays off on the low hero angle (the east cliff is framed out) and comes up with the crane
+      tl.fromTo(R.look, { edge: 0 }, { edge: 1, duration: 0.4, ease: 'power2.out', immediateRender: true }, 0.3);
       // the map's river: banks trace in, the water darkens toward the river core
       tl.fromTo(R.look, { banks: 0 }, { banks: 1, duration: 0.4, ease: 'power2.out' }, 1.0);
 
@@ -71,7 +76,10 @@
         R.ring(g, { x: P.gate[0], y: P.gate[1], r: 64, color: C.amber, a: 0.9, lw: 2 + 1.2 * fx.lit });
         if (fx.shock > 0 && fx.shock < 1) {
           const u = fx.shock, e = 1 - Math.pow(1 - u, 3);
-          R.ring(g, { x: P.gate[0], y: P.gate[1], r: 64 * (1 + 3.2 * e), color: C.amberLight, a: 0.95 * Math.pow(1 - u, 1.4), lw: 2.6, drape: true, seg: 220, lift: 3 });
+          // light rolling over the ground in the mid-ground: a faster fade, a tighter reach and a soft 9 px halo, so on a
+          // still it reads as a shockwave, not as a wire loop through the foreground
+          R.ring(g, { x: P.gate[0], y: P.gate[1], r: 64 * (1 + 2.4 * e), color: C.amberLight, a: 0.75 * Math.pow(1 - u, 2.4), lw: 1.5, drape: true, seg: 200, lift: 3,
+            halo: [[10, 0.42, C.amber], [26, 0.13, C.amber]] });
         }
         if (fx.pulse > 0 && fx.pulse < 1) {
           const u = fx.pulse, e = 1 - Math.pow(1 - u, 3);
@@ -107,6 +115,10 @@
       });
 
       ctx.el('div', 'x13-scrim', root);
+      // the hero hold's corner shade: the low angle leaves a sliver of cliff and void behind the bottom-right bracket;
+      // a shade (the bottom-left scrim's twin) settles it into a vignette, then clears with the crane (top-down end)
+      const shade = ctx.el('div', 'x13-shade', root);
+      tl.fromTo(shade, { opacity: 1 }, { opacity: 0, duration: 0.4, ease: 'power2.inOut' }, 0.3);
       // HUD as on s13 (corners inset 72, no ticks; slug at 120 / 990)
       B.hud(ctx, { inset: 72, tc: false, drawIn: false, slug: '', ticks: false });
       B.label(ctx, { text: SLUG, x: 120, y: 990, size: 20, color: C.muted3, scramble: false, tracking: '.1em' });

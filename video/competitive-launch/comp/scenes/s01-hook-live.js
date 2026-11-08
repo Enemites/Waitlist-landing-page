@@ -1,6 +1,11 @@
 /* s01-hook-live (film 0-3 s, bars 1.1-2.3): in medias res. The finished Floodgate match, live,
- * readable on frame 0 (state m = 497, final). The camera pushes MATCH -> HOOK toward the Crossing,
- * the alert lifts on beat 2, the clock flips 08:17 -> 08:16 -> 08:15 and lands on 08:14 on the cut.
+ * readable on frame 0 (state m = 497, final). The camera pushes MATCH -> HOOK toward the Crossing in
+ * TWO beat-synced moves (expo.out) with a hold between: 0.0-0.467 the frame reads still; push one
+ * (MATCH -> 55% of the way, log zoom) starts a frame early so its biggest step lands on the 0.50 alert
+ * lift; hold; push two likewise lands its biggest step on the clock's 08:15 flip at 2.00 and settles
+ * exactly on HOOK at 2.867, holding it, so the 2.9667 frame is HOOK and the cut
+ * into s02's freeze (HOOK, the identical frame) is clean. The alert lifts on beat 2, the clock flips
+ * 08:17 -> 08:16 -> 08:15 and lands on 08:14 on the cut.
  * Built entirely on the shared kit (comp/lib/match.js). The 3.0 frame equals s08 at 43.5.
  */
 Film.scene({
@@ -14,8 +19,12 @@ Film.scene({
       camera: 'MATCH',
       raise: ['vega', 'vegaRoutes'],         // the threat stays lit while the alert is lifted
     });
-    // the only mover besides the clock, the pulses and the lift
-    M.camera.move(0, 3, 'HOOK', 'power1.inOut');
+    // the only mover besides the clock, the pulses and the lift: two pushes, MATCH -> MID -> HOOK
+    const A = Match.CAM.MATCH, Z = Match.CAM.HOOK, k = 0.55;
+    const MID = { x: A.x + (Z.x - A.x) * k, y: A.y + (Z.y - A.y) * k, zoom: A.zoom * Math.pow(Z.zoom / A.zoom, k) };
+    // each push starts one frame before its beat, so its biggest step (expo.out) lands ON the beat frame
+    // (0.5 the alert, 2.0 the 08:15 flap tick) instead of the frame after it; push two still lands by 2.867
+    M.camera.move(0.5 - 1 / 30, 0.75, MID, 'expo.out').move(2.0 - 1 / 30, 0.9, 'HOOK', 'expo.out');
 
     // 0.50 LIFT: 'Vega is contesting the crossing' rises to a 40 px card (20 px row x 2), centred
     // at x 960, top 792, 10 f power3.out; drops back 2.50-2.83 (10 f power2.in).

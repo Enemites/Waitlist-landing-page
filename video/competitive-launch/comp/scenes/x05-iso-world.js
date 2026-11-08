@@ -6,9 +6,11 @@
  *         light sweeps the rows far -> near. The Atlas pillar (amber diamond) shoots up.
  *   0.50-1.50  the camera keeps creeping under the hold (yaw 3 -> 11, dist 2820 -> 2480, power1.inOut):
  *         the island never stops turning, so the parallax carries the 3D read.
- *   0.00-0.50  OUR plan picks up mid-draw where the map left it (draw .4 -> 1, expo.out, head hot on the cut).
+ *   0.00  OUR plan is already drawn, as the map's dashed route was on the last s05 frame (no rewind across the
+ *         cut); its head flares on the gate (1.6 -> 1, 0.3 s).
  *   0.10  eyebrow 'FLOODGATE · TEAM CHALLENGE · 3 V 3' scrambles in top-left; ATLAS tag at the pillar.
- *   0.75  the Vega pillar (red ring) shoots up (VEGA tag 0.8); THEIR plan draws 0.75-1.35, summit -> crossing -> gate.
+ *   0.45  (18.70) the Vega pillar (red ring) shoots up (VEGA tag 0.5); THEIR plan draws 0.45-1.05, summit ->
+ *         crossing -> gate, so both plans hold on screen together from ~19.0.
  *   1.25  (19.5) the gate fires a sonar pulse that rolls over the ground (draped rings, hidden behind the
  *         ridges) and both heads flare on the objective.
  *   1.50-1.7167  fast push into the gate (power2.in, dist 2480 -> 330, fov 30 -> 34: the gate ring ~36% of the frame), ending ON the last
@@ -22,6 +24,7 @@
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
   const seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
   const SLUG = 'REALMS · COMPETITIVE · INTERFACE CONCEPT';
+  const T_V = 0.45;   // Vega's pillar, tag and plan (18.70)
 
   Film.scene({
     id: ID,
@@ -47,10 +50,12 @@
       tl.fromTo(R.look, { sweep: 0.12, sweepA: 1.1 }, { sweep: 1.15, sweepA: 0, duration: 0.5, ease: 'power2.out' }, 0);
       tl.to(R.cam, { dist: 330, tx: P.gate[0], ty: P.gate[1], th: 0, sy: 0, pitch: 48, fov: 34, duration: 0.2167, ease: 'power2.in' }, 1.5);
 
-      // plans: ours picks up mid-draw on the cut (18.25-18.75), theirs 19.0-19.6 (heads on the gate by ~19.5)
-      tl.fromTo(ours.p, { draw: 0.4 }, { draw: 1, duration: 0.5, ease: 'expo.out' }, 0);
+      // plans: ours is already drawn on the cut (the map's dashed route is complete on the last s05 frame: no
+      // rewind), its head flaring on the gate; theirs draws 18.70-19.30 (power3.out) so the opposing-plans picture
+      // holds from ~19.0
+      ours.p.draw = 1;
       tl.fromTo(ours.p, { head: 1.6 }, { head: 1, duration: 0.3, ease: 'power2.out' }, 0);
-      tl.fromTo(theirs.p, { draw: 0 }, { draw: 1, duration: 0.6, ease: 'power3.out' }, 0.75);
+      tl.fromTo(theirs.p, { draw: 0 }, { draw: 1, duration: 0.6, ease: 'power3.out' }, T_V);
       // both heads flare on the objective with the pulse (19.5)
       tl.fromTo([ours.p, theirs.p], { head: 1 }, { head: 2.2, duration: 0.08, ease: 'power2.out', immediateRender: false }, 1.25);
       tl.to([ours.p, theirs.p], { head: 0.8, duration: 0.4, ease: 'power2.out' }, 1.33);
@@ -58,7 +63,7 @@
       // markers
       const mk = { atlas: 0.3, vega: 0, pulse: 0, ring: 0, flare: 0 };
       tl.fromTo(mk, { atlas: 0.3 }, { atlas: 1, duration: 0.3, ease: 'expo.out' }, 0);
-      tl.fromTo(mk, { vega: 0 }, { vega: 1, duration: 0.3, ease: 'expo.out' }, 0.75);
+      tl.fromTo(mk, { vega: 0 }, { vega: 1, duration: 0.3, ease: 'expo.out' }, T_V);
       tl.fromTo(mk, { ring: 0.4 }, { ring: 1, duration: 0.3, ease: 'power3.out' }, 0);
       tl.fromTo(mk, { pulse: 0 }, { pulse: 1, duration: 0.5, ease: 'none' }, 1.25);
       tl.fromTo(mk, { flare: 0 }, { flare: 1, duration: 0.06, ease: 'none' }, 1.25);
@@ -77,7 +82,7 @@
       });
       // team tags ride the pillar tops (screen space, constant size)
       const tagA = B.label(ctx, { text: 'ATLAS', x: 0, y: 0, at: 0.12, dur: 0.3, color: C.amber, size: 20 });
-      const tagV = B.label(ctx, { text: 'VEGA', x: 0, y: 0, at: 0.8, dur: 0.22, color: C.rival, size: 20 });
+      const tagV = B.label(ctx, { text: 'VEGA', x: 0, y: 0, at: T_V + 0.05, dur: 0.22, color: C.rival, size: 20 });
       for (const el of [tagA, tagV]) el.style.textShadow = '0 0 6px rgba(11,12,14,.95), 0 0 14px rgba(11,12,14,.8)';
       ctx.onFrame(() => {
         for (const [el, pt, gr] of [[tagA, P.atlas, mk.atlas], [tagV, P.vega, mk.vega]]) {

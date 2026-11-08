@@ -48,6 +48,8 @@
   const pierX = (j) => 912 + 192 * j;            // pier j: x0 .. x0 + 48
   const Y = { dim: 264, bus: 312, motor: 366, beam0: 384, beam1: 408, rail: 486, deck0: 504, deck1: 528, leaf0: 576, leaf1: 840, found: 864, hatch1: 888, water: 600 };
   const FILL_H = Y.leaf1 - Y.leaf0 - 8;          // 256 px of fill per bay
+  // pump station: the P&ID pump symbol seated on its plinth (circle centre PY - 18, r 30: bottom = plinth top 842)
+  const PX = 312, PY = 830;
 
   // ---- the s08 match target for the counter
   const CNT = { x: 120, y: 168, size: 264 };
@@ -139,11 +141,18 @@
       add('ground', 'line', A({ x1: GR + 12, y1: Y.water, x2: 1800, y2: Y.water, 'stroke-width': 1.25, 'stroke-opacity': 0.5, 'stroke-dasharray': '12 8' }));
       add('ground', 'path', A({ d: `M508 ${Y.water - 16} L532 ${Y.water - 16} L520 ${Y.water} Z M510 ${Y.water + 8} H530 M514 ${Y.water + 15} H526`, 'stroke-width': 1.5, 'stroke-opacity': 0.8, 'stroke-linejoin': 'round' }));
 
-      // water (drawing convention): staggered short dashes under the level, upstream bank
+      // water (drawing convention): staggered short dashes under the level, upstream bank. The hatching breaks
+      // around the conduit: the dashes stop 14 px short of the riser (x 624) and resume 14 px past it (one dash
+      // between the riser and the abutment face on each row), and the row on the conduit's horizontal run
+      // (y = pump centre) is skipped, so the water reads on both sides of the pipe and nothing runs through it
+      const RISER_X = 624, RUN_Y = PY - 18;
       let wd = '';
       for (let r = 0; r < 9; r++) {
-        const y = Y.water + 24 + r * 24, off = (r % 2) * 18, span = 240 - r * 6;
-        for (let x = GL - 24 - span + off; x < GL - 30; x += 36) wd += `M${x} ${y} h${r < 2 ? 20 : 14} `;
+        const y = Y.water + 24 + r * 24, off = (r % 2) * 18, span = 240 - r * 6, len = r < 2 ? 20 : 14;
+        if (Math.abs(y - RUN_Y) < 14) continue;
+        for (let x = GL - 24 - span + off; x < GL - 30 && x + len <= RISER_X - 14; x += 36) wd += `M${x} ${y} h${len} `;
+        const xr = RISER_X + 14 + (r % 2) * 6;
+        if (xr + len <= GL - 30) wd += `M${xr} ${y} h${len} `;
       }
       add('ground', 'path', A({ d: wd, 'stroke-width': 1.25, 'stroke-opacity': 0.34, 'stroke-linecap': 'round' }));
 
@@ -205,8 +214,7 @@
       add('detail', 'path', A(Object.assign({ d: dimD }, P2)));
       add('detail', 'path', A({ d: tick, 'stroke-width': 2, 'stroke-opacity': 0.85 }));
 
-      // pump station (P&ID pump symbol on a plinth) + the conduit up to the bus over the motors
-      const PX = 312, PY = 812;
+      // pump station (P&ID pump symbol seated on its plinth) + the conduit up to the bus over the motors
       add('ground', 'rect', A(Object.assign({ x: PX - 48, y: Y.found - 22, width: 96, height: 22 }, P2)));
       add('towers', 'circle', A(Object.assign({ cx: PX, cy: PY - 18, r: 30 }, P1)));
       add('detail', 'path', A({ d: `M${PX - 14} ${PY - 40} L${PX + 22} ${PY - 18} L${PX - 14} ${PY + 4}`, 'stroke-width': 1.5, 'stroke-opacity': 0.8, 'stroke-linejoin': 'round' }));
@@ -238,7 +246,7 @@
       Brand.eyebrow(ctx, { text: 'Objective 2 of 3', x: CNT.x + 4, y: 124, at: 0, size: 24, color: C.amber, dur: 0.18, parent: side });
       Brand.label(ctx, { text: 'Restore gate power', x: CNT.x + 2, y: 430, at: 0.04, dur: 0.18, size: 34, color: C.ink, tracking: '.1em', parent: side });
       Brand.label(ctx, { text: 'Floodgate', x: 1224, y: 214, at: 0.06, dur: 0.15, size: 20, color: C.amber, align: 'center', tracking: '.28em', parent: art });
-      Brand.label(ctx, { text: 'Pump station', x: PX, y: 740, at: 0.06, dur: 0.15, size: 20, color: C.amber, align: 'center', tracking: '.16em', parent: art });
+      Brand.label(ctx, { text: 'Pump station', x: PX, y: 744, at: 0.06, dur: 0.15, size: 20, color: C.amber, align: 'center', tracking: '.16em', parent: art });   // 18 px clear of the circle (top 782)
       // the rule under the counter: a quiet line that a bright stroke runs along when 62% locks
       const ruleSv = ctx.svg('svg', { class: 'brand-svg' }, side);
       const rule0 = ctx.svg('line', { x1: CNT.x, x2: CNT.x + CNT_W, y1: 410, y2: 410, stroke: C.amber, 'stroke-opacity': 0.3, 'stroke-width': 1.5 }, ruleSv);

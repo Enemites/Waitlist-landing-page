@@ -9,11 +9,13 @@
  *      'Coordinate.' rises (150 px, 12 f expo.out). 0.50-1.25 amber hairlines JK -> NC and JK -> EK
  *      draw on twos; arrowheads pop at 1.25; THE NODE pulses on JK at 0.50. 1.75 the word exits.
  * 2.00 hard cut to C2 (JK and the gate); 'Commit.' rises. 2.25-2.90 JK_COMMIT draws ahead of him and
- *      2.50-3.50 JK advances along it to (722,512). 3.00 the 62% arc and the gate bars glow once.
+ *      2.50-3.50 JK advances along it to (722,512). 3.00 (49.0, half bar) hard cut to C2P, an axial punch
+ *      onto JK (he holds his screen place across the cut) as the 62% arc and the gate bars glow once.
  *      3.75 the word exits.
  * 4.00 hard cut to C3 (dam, pump, ghost); 'Adapt.' rises in amber. 4.25 the LAST SEEN ghost resolves
  *      (red pulse) into a solid triangle; VEGA_PUMP draws 4.25-4.90, arrowhead pops at 4.90 and the
- *      triangle lunges along it. 5.10 JK's forward route fades; JK_REROUTE draws 5.10-5.75, its
+ *      triangle lunges along it. 5.00 (51.0, half bar) hard cut to C3P, a punch onto the pump: the red
+ *      route arrives from the south-east as 5.10 JK's forward route fades; JK_REROUTE draws 5.10-5.75, its
  *      arrowhead pops at 5.75 and JK starts along it (ours solid amber, as in s11). 5.75 the word exits.
  *      From 4.00 every other route sits at ~35% (match.js ADAPT), the two lines reach the pump from
  *      different sides (Vega south-east, JK east), 50+ units apart.
@@ -32,6 +34,18 @@
   const C2 = right(740, 505, 1.6, 1338);   // JK and the gate (y 520 -> 505 keeps the pump label clear of the pill;
                                            // x on 1338 keeps EK whole inside the frame)
   const C3 = right(840, 560, 1.2, 1320);   // the dam, the pump and the far-bank ghost
+  // half-bar punches (round 2: the cut rate doubles after the drop; inside the zoom cap 2.4 and the res-2 bake).
+  // at(): product point (px, py) lands on screen (sx, sy)
+  const at = (px, py, zoom, sx, sy) => ({ x: px - (sx - W / 2) / (zoom * S), y: py - (sy - H / 2) / (zoom * S), zoom });
+  // 49.0: a cut-in on JK: product (692, 498) on screen (1262, 556) moves JK only ~60 px, down-right along his own
+  // arrow (1241,517 on 48.967 -> 1298,556), so the punch reads as a cut onto him, not a camera bump. The glowing
+  // gate ring sits wholly inside (centre ~1610,756, r ~219), below right on the diagonal of his arrow; the pump
+  // box hangs ~36 px under the score pill; NC stays under the scrim and EK leaves the frame (~16 px clear)
+  const C2P = at(692, 498, 2.15, 1262, 556);
+  // 51.0: onto the pump: the red route arrives from below onto NC, JK's reroute reaches the box's east side;
+  // JK right. The gate is context, decisively cropped: its bar box leaves through the right edge and the ring's
+  // lower arc through the bottom, both clear of the bottom-right HUD corner bracket (bar box ~60 px above it)
+  const C3P = right(625, 455, 2.1, 1290);
 
   // world map labels fade out as they cross the title-safe edge (they are screen-constant, so a
   // close-up can push one against the frame or the HUD corners)
@@ -63,7 +77,7 @@
         clockMinT: -0.2,                       // the 08:14 -> 08:13 flip settles on the hit frame
       });
       const U = M.U, F = M.F, K = M.K, L = M.L;
-      M.camera.cut(2.0, C2).cut(4.0, C3);
+      M.camera.cut(2.0, C2).cut(3.0, C2P).cut(4.0, C3).cut(5.0, C3P);
 
       // thin match: roster, channel, objective, topbar and signal hidden; the score pill stays on the
       // top layer (above the scrim), the HUD corners and the slug stay
@@ -83,7 +97,7 @@
       // ---- THE NODE rides JK; a size step on every card cut; pulses on the film's 3-beat grid
       // (global 46.5 / 48.0 / 49.5 / 51.0, given in local time so isolated renders match the film)
       const N = NodeMark.create(ctx, { parent: F.el.nodeG, x: 684, y: 484, size: 2, pulses: [0.5, 2.0, 3.5, 5.0] });
-      N.step(0).step(2).step(4);
+      N.step(0).step(2).step(3).step(4).step(5);
       M.pre(() => { N.p.x = M.pos.jk[0]; N.p.y = M.pos.jk[1]; });
 
       // ---- word cards (Manrope 620, 150 px, x 120, baseline 600)

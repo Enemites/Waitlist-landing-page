@@ -3,10 +3,16 @@
  * The SAME heightfield as the map (Floodgate.productHeight(): product units x 0..1600, y 0..1000,
  * sea level 0.18) is sampled once into rows of polylines (about 110 rows x 270 points, a module cache
  * shared by every scene), displaced upward by height and projected with an orbit camera. Rows are
- * drawn back to front (painter's order from the camera), each filled with the island ground colour
- * down to its base so nearer ridges occlude farther ones ("unknown pleasures"). The river rows dip and
- * hold a flat teal-black water surface; the island has cliff edges, a thin footprint edge and an amber
- * rim light behind its silhouette. Plans are 3D polylines on the terrain drawn as light ribbons.
+ * drawn back to front (painter's order from the camera), each filled down to its base so nearer ridges
+ * occlude farther ones ("unknown pleasures"). The river rows dip and hold a flat teal-black water surface.
+ * The island is a solid body: its top is the ground colour, its rim band (where it drops to the footprint)
+ * is a cliff face lit from above (#1a1611 at the lip ramping to #110e0b at the foot, lighter than the void),
+ * so the cliffs read down to the foot; every ridgeline runs on over the cliff top and dissolves down the face
+ * (alpha ramp); a footprint edge traces the foot of the faces turned toward the camera, over the body; an
+ * amber rim light sits behind the silhouette. Plans are 3D polylines on the terrain drawn as light ribbons.
+ * The cliff top is one run per row: near the north / south coasts (where the cliff-top line runs along the
+ * rows) the bays inside a row's outermost cliff-top columns are filled at bake, so no row dips down the face
+ * and climbs back out; the rim stroke joins row ends only where they move <= 2 columns (east / west coasts).
  *
  *   const R = Ridgeline.create(ctx, { parent, cam: {...}, look: {...} })
  *   R.canvas, R.g        the full-frame canvas the island draws into (every frame, from the proxies)
@@ -20,7 +26,8 @@
  *                          sx, sy   screen offset of the target from the frame centre (px)
  *                          roll     degrees (screen rotation around the target)
  *   R.look               proxy: hs (height multiplier, 0 = flat map), lines (line brightness), alpha
- *                          (whole island), glow (rim light), water, edge (footprint edge), sweep / sweepA
+ *                          (whole island), glow (rim light), water, edge (footprint edge at the foot of the
+ *                          camera-facing cliffs, 0..1), sweep / sweepA
  *                          (a band of light travelling over the rows, 0 = far edge .. 1 = near edge),
  *                          rim (cliff-top rim stroke joining the row ends, default 1), banks (0..1: traces
  *                          the river banks at sea level in amber and darkens the water to the map's river
@@ -35,10 +42,11 @@
  *   R.groundY(px, py)    display height of the surface at a product point (world units, current hs)
  *   R.surfaceY(px, py)   max(groundY, sea) : where water counts as a floor (bridges, rings)
  *   R.draw(fn)           extra drawing after the island and the ribbons: fn(g, lt, R) (markers, flashes)
- *   R.ring(g, o)         ground ring: { x, y, r (units), color, a, lw, glow, lift, seg, drape }. Flat (default):
+ *   R.ring(g, o)         ground ring: { x, y, r (units), color, a, lw, glow, lift, seg, drape, halo }. Flat (default):
  *                          an ellipse at the centre's surface height. drape: true puts every point on the
  *                          terrain (+ lift) and occludes it by the ridges in front (rolls up slopes, drops
- *                          behind ridges); drawn as seamless additive light.
+ *                          behind ridges); drawn as seamless additive light. halo (draped only): [[width px,
+ *                          alpha, colour?], ...] glow passes in place of the default one (lw x 7 at .12).
  *   R.pillar(g, o)       light pillar: { x, y, h (units), color, kind: 'diamond'|'ring', a, s (size), grow,
  *                          emb: [sx, sy] screen point the emblem (and the beam top) is pulled toward by
  *                          embT 0..1, embE: emblem half-size (px) reached at embT 1 }
@@ -50,7 +58,10 @@
  *
  * Light passes (ribbon glows, head trails, comets, draped rings, banks) are chunked additive strokes with
  * butt caps: chunks abut at shared samples, so the joints never double up ("string of pearls"). Rows: the water surface is a continuous sheet between neighbouring rows'
- * chords (no teeth at the banks); inside the cliff top every segment is stroked (no rows ending mid-air).
+ * chords (no teeth at the banks); inside the cliff top (mask >= TOPM) every segment is stroked, and across the rim
+ * band each row's stroke fades to 0 (a gradient run down to mask FADEM), so no row ends in mid-air. Each row slab is
+ * filled CLIFF, then GROUND over the cliff top: down to the base where the next nearer row is on the plateau too,
+ * only a thin lip where that row has dropped into the rim band (the band below it is cliff face).
  *
  * Performance: the grid of heights, brightness buckets, water runs and island mask are computed once
  * per film (Ridgeline.field cache). Per frame: ~30k projections, ~110 fills + ~450 strokes, a short
@@ -65,6 +76,12 @@
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
   const lerp = (a, b, t) => a + (b - a) * t;
   const hexRgb = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+  // CLIFF: the rim band's fill, one step lighter than the ground (and the void), so the island reads as a
+  // solid body down to its footprint instead of ending where the ridgelines stop
+  const CLIFF = hexRgb('#16130e');
+  // the face is lit from above: #1a1611 at the lip down to #110e0b at the foot (derived darks, like the gate body)
+  const CLIFF_LIP = hexRgb('#1a1611'), CLIFF_FOOT = hexRgb('#110e0b');
+  const LIP = 5;   // world units of ground under a row's line where the face below it is cliff
   const GROUND = hexRgb('#0f0d0a'), AMBER = hexRgb(C.amber), AMBER_L = hexRgb(C.amberLight), BONE = hexRgb(C.bone), INK = hexRgb(C.ink);
   const WATER = hexRgb('#111817');   // teal-black, between the map's water #0b0f10 and its shallows #18211f
   const WATER_CORE = hexRgb('#0b0f10');   // the map's river core (look.banks lerps the water toward it)
@@ -168,6 +185,24 @@
     }
     // per row: island interval, segment buckets (runs), water runs
     const LV = [0, 0.34, 0.5, 0.66, 0.84];   // bucket thresholds (1..4); bucket 0 = river bed
+    const TOPM = 0.9, FADEM = 0.5;            // cliff top (mask) / where the row strokes have faded out
+    // fill the bays: near the north and south coasts the cliff-top line (mask = TOPM) runs almost parallel to the
+    // rows and the coast noise splits a row's cliff top into pieces; every gap between them would be stroked as
+    // ridgeline down the face and back up (bright U / W notches) and its ends would jump the rim. Inside each row's
+    // outermost cliff-top columns the mask is raised to TOPM (and the height recomputed), so the cliff top is one
+    // run per row: the coast is quantised to the rows, which is what a row renderer can draw cleanly.
+    for (let r = 0; r < NR; r++) {
+      let cl = -1, cr = -1;
+      for (let c = 0; c < NC; c++) if (mask[r * NC + c] >= TOPM) { if (cl < 0) cl = c; cr = c; }
+      for (let c = cl + 1; cl >= 0 && c < cr; c++) {
+        const i = r * NC + c;
+        if (mask[i] >= TOPM) continue;
+        mask[i] = TOPM;
+        const h = raw[i], e = h >= SEA ? h - SEA : -(SEA - h) * o.river;
+        disp[i] = o.base + (e - o.base) * TOPM;
+      }
+    }
+    maxD = 0; for (let i = 0; i < N; i++) if (disp[i] > maxD) maxD = disp[i];
     const rowsInfo = [];
     for (let r = 0; r < NR; r++) {
       let ca = -1, cb = -1;
@@ -176,19 +211,30 @@
       ca = Math.max(0, ca - 1); cb = Math.min(NC - 1, cb + 1);
       const seg = [];   // per segment c (ca..cb-1): bucket
       const wet = (c) => raw[r * NC + c] < SEA && mask[r * NC + c] > 0.97;
+      // cliff-top columns (first / last point with mask >= TOPM): inside them the row is ridgeline; outside
+      // them (the rim band, where the island drops to its footprint) the row is CLIFF
+      let cl = -1, cr = -1;
+      for (let c = ca; c <= cb; c++) if (mask[r * NC + c] >= TOPM) { if (cl < 0) cl = c; cr = c; }
       for (let c = ca; c < cb; c++) {
         const i = r * NC + c;
+        if (cl < 0 || c < cl || c >= cr) { seg.push(-1); continue; }   // rim band: stroked by the fade runs
         if (wet(c) || wet(c + 1)) { seg.push(0); continue; }
-        const m2 = Math.min(mask[i], mask[i + 1]);
-        if (m2 < 0.5) { seg.push(-1); continue; }   // cliff: not stroked
         // inside the cliff top nothing is dropped: the dimmest segments still read as bucket 1, so every
-        // row runs on to the rim instead of ending in mid-air
-        const b = Math.max(bright[i], bright[i + 1]) * clamp((m2 - 0.5) / 0.4, 0, 1);
+        // row runs on to the rim
+        const b = Math.max(bright[i], bright[i + 1]);
         seg.push(b >= LV[4] ? 4 : b >= LV[3] ? 3 : b >= LV[2] ? 2 : 1);
       }
-      // cliff-top columns (first / last point with mask >= .5): the rim stroke joins them row to row
-      let cl = -1, cr = -1;
-      for (let c = ca; c <= cb; c++) if (mask[r * NC + c] >= 0.5) { if (cl < 0) cl = c; cr = c; }
+      // fade runs: from the cliff top down the rim band to the column where the mask falls under FADEM; the
+      // stroke's alpha ramps from the inner bucket's level to 0, so every row DISSOLVES down the cliff
+      // instead of ending in mid-air. [from (outer, alpha 0), to (cliff top), bucket]
+      const fades = [];
+      if (cl >= 0) {
+        let fa = cl; while (fa > ca && mask[r * NC + fa - 1] >= FADEM) fa--;
+        let fb = cr; while (fb < cb && mask[r * NC + fb + 1] >= FADEM) fb++;
+        const bk = (c) => { const i = r * NC + c, b = Math.max(bright[i], bright[i + 1]); return b >= LV[4] ? 4 : b >= LV[3] ? 3 : b >= LV[2] ? 2 : 1; };
+        if (cl - fa >= 1) fades.push([fa, cl, cr > cl ? bk(cl) : 1]);
+        if (fb - cr >= 1) fades.push([fb, cr, cr > cl ? bk(cr - 1) : 1]);
+      }
       const runs = [[], [], [], [], []];
       let k0 = 0;
       for (let k = 1; k <= seg.length; k++) {
@@ -207,7 +253,7 @@
         if (b < cb) { const d0 = disp[eb], d1 = disp[eb + 1]; if (d1 > 0 && d0 < 0) xb = xs[b] + dx * (-d0) / (d1 - d0); }
         water.push({ a, b, xa, xb });
       }
-      rowsInfo.push({ ca, cb, runs, water, cl, cr });
+      rowsInfo.push({ ca, cb, runs, water, cl, cr, fades });
     }
     // link each water run to the overlapping run of the row above (up) and below (dn): the water surface
     // is filled as a strip between neighbouring chords, and the banks are traced along the links
@@ -244,7 +290,7 @@
       x = o.cx + (x - o.cx) / f; y = o.cy + (y - o.cy) / f;
       outline.push([x, y]);
     }
-    const F = { o, NR, NC, xs, ys, dx, dy, raw, disp, mask, bright, rowsInfo, outline, banks, maxD, base: o.base };
+    const F = { o, NR, NC, xs, ys, dx, dy, raw, disp, mask, bright, rowsInfo, outline, banks, maxD, base: o.base, TOPM };
     // bilinear display height (normalised units) at a product point
     F.dispAt = (x, y) => {
       const fc = clamp((x - o.x0) / dx, 0, NC - 1.001), fr = clamp((y - o.y0) / dy, 0, NR - 1.001);
@@ -269,6 +315,16 @@
     const NR = F.NR, NC = F.NC, xs = F.xs, ys = F.ys;
     const SX = new Float32Array(NC), SY = new Float32Array(NC);
     const RIM = new Float32Array(NR * 4), RIMOK = new Uint8Array(NR);   // per row: cliff-top screen points (this frame)
+    // footprint edge: projected samples (closed loop) and the outward normal of the outline at each vertex
+    const EM = F.outline.length;
+    const EDGE = { sx: new Float32Array(EM + 1), sy: new Float32Array(EM + 1), sc: new Float32Array(EM + 1), vis: new Float32Array(EM + 1), ok: new Uint8Array(EM + 1) };
+    const EN = new Float32Array(2 * EM);
+    for (let k = 0; k < EM; k++) {
+      const a = F.outline[(k + EM - 1) % EM], b = F.outline[(k + 1) % EM], p = F.outline[k];
+      let nx = b[1] - a[1], ny = -(b[0] - a[0]);
+      if (nx * (p[0] - F.o.cx) + ny * (p[1] - F.o.cy) < 0) { nx = -nx; ny = -ny; }
+      const nl = Math.hypot(nx, ny) || 1; EN[2 * k] = nx / nl; EN[2 * k + 1] = ny / nl;
+    }
     const BK = F.banks.map((pl) => { const m = pl.length / 2; return { pl, sx: new Float32Array(m), sy: new Float32Array(m), sc: new Float32Array(m), vis: new Float32Array(m), ok: new Uint8Array(m) }; });
     // camera basis (recomputed in prep())
     const B = { r0: 1, r2: 0, u0: 0, u1: 1, u2: 0, f0: 0, f1: 0, f2: 1, ex: 0, ey: 0, ez: 0, foc: 1000, cx: W / 2, cy: H / 2, cr: 1, sr: 0, k: HS };
@@ -456,7 +512,7 @@
     // ---- helpers for scenes (inside R.draw callbacks) ----
     const RG = { sx: new Float32Array(257), sy: new Float32Array(257), sc: new Float32Array(257), vis: new Float32Array(257), ok: new Uint8Array(257) };
     function ring(gg, ro) {
-      ro = Object.assign({ r: 64, color: C.amber, a: 1, lw: 2, glow: 1, lift: 2, seg: 72, drape: false }, ro);
+      ro = Object.assign({ r: 64, color: C.amber, a: 1, lw: 2, glow: 1, lift: 2, seg: 72, drape: false, halo: null }, ro);
       if (ro.a <= 0.001) return;
       if (ro.drape) {
         // draped: every point sits on the terrain (+ lift) and is occluded by the ridges in front of it
@@ -470,7 +526,8 @@
           L.sx[k] = out[0]; L.sy[k] = out[1]; L.sc[k] = out[3];
           L.vis[k] = visible(x - 800, Y, 500 - y);
         }
-        if (ro.glow > 0) lightPass(L, 0, n, 2, () => ro.lw * 7, (v) => v, col, 0.12 * ro.a * ro.glow);
+        if (ro.halo) for (const [hw, ha, hc] of ro.halo) lightPass(L, 0, n, 2, () => hw, (v) => v, hc ? hexRgb(hc) : col, ha * ro.a);
+        else if (ro.glow > 0) lightPass(L, 0, n, 2, () => ro.lw * 7, (v) => v, col, 0.12 * ro.a * ro.glow);
         lightPass(L, 0, n, 2, () => ro.lw, (v) => v, col, ro.a);
         return;
       }
@@ -618,20 +675,6 @@
           g.restore();
         }
       }
-      // thin footprint edge at the base (drawn first: the island body hides its far side)
-      if (look.edge > 0.001) {
-        g.beginPath();
-        let okp = true;
-        F.outline.forEach(([x, y], k) => { if (!projW(x - 800, baseY, 500 - y, out)) okp = false; if (k) g.lineTo(out[0], out[1]); else g.moveTo(out[0], out[1]); });
-        if (okp) {
-          g.closePath();
-          g.globalCompositeOperation = 'lighter';
-          g.strokeStyle = `rgba(239,189,112,${(0.1 * look.edge).toFixed(4)})`; g.lineWidth = 7; g.stroke();
-          g.globalCompositeOperation = 'source-over';
-          g.strokeStyle = `rgba(239,189,112,${(0.5 * look.edge).toFixed(4)})`; g.lineWidth = 1.2; g.stroke();
-        }
-      }
-
       // painter's order: rows farthest from the eye (in map depth) first
       const ezr = 500 - B.ez;   // eye position in product y
       let lo = 0, hi = NR - 1;
@@ -643,7 +686,9 @@
       const lev = LEV.map((v, b) => (b >= 2 ? lerp(LEV[1] + 0.04 * (b - 1), v, relief) : v));
       const top = AMBER.map((v, i) => v + (AMBER_L[i] - v) * relief);
       let rimLeft = look.glow > 0.001 ? 7 : 0;
-      const groundCss = `rgb(${GROUND[0]},${GROUND[1]},${GROUND[2]})`;
+      const groundCss = `rgb(${GROUND[0]},${GROUND[1]},${GROUND[2]})`, cliffCss = `rgb(${CLIFF[0]},${CLIFF[1]},${CLIFF[2]})`;
+      const cliffLipCss = `rgb(${CLIFF_LIP[0]},${CLIFF_LIP[1]},${CLIFF_LIP[2]})`, cliffFootCss = `rgb(${CLIFF_FOOT[0]},${CLIFF_FOOT[1]},${CLIFF_FOOT[2]})`;
+      const lipY = 0.11 * B.k;   // the cliff-top level near the coast (normalised height ~0.11)
       const waterCss = rgb(WATER, WATER_CORE, clamp(look.banks, 0, 1));
       const wA = clamp(look.alpha, 0, 1) * clamp(look.water, 0, 1);
       RIMOK.fill(0);
@@ -693,7 +738,43 @@
           g.globalCompositeOperation = 'source-over';
           rimLeft--;
         }
-        g.fillStyle = groundCss; g.fill();
+        // the slab is CLIFF, overlaid with GROUND where it is surface: over the cliff top (cl..cr), from the line
+        // down to the base wherever the next nearer row is on the plateau too (so the band between the two lines
+        // is terrain), and only a thin lip (LIP units) where the nearer row has dropped into the rim band (the band
+        // below is cliff face). Rows that never reach the cliff top are cliff throughout (the near / far faces).
+        // the cliff face is lit from above: a vertical ramp from CLIFF_LIP at the cliff-top level to CLIFF_FOOT at the
+        // footprint (world heights, so every row's slab carries the same ramp and the face reads as one surface)
+        {
+          const cm = (ri.ca + ri.cb) >> 1;
+          let fs = cliffCss;
+          if (projW(xs[cm] - 800, lipY, Z, out)) {
+            const ax = out[0], ay = out[1];
+            if (projW(xs[cm] - 800, baseY, Z, out) && Math.hypot(out[0] - ax, out[1] - ay) > 1) {
+              fs = g.createLinearGradient(ax, ay, out[0], out[1]);
+              fs.addColorStop(0, cliffLipCss); fs.addColorStop(1, cliffFootCss);
+            }
+          }
+          g.fillStyle = fs; g.fill();
+        }
+        if (ri.cl >= 0) {
+          const nn = up ? r + 1 : r - 1, nOK = nn >= 0 && nn < NR && F.rowsInfo[nn], mrow = nn * NC;
+          const plat = (c) => nOK && F.mask[mrow + c] >= F.TOPM;
+          g.beginPath(); g.moveTo(SX[ri.cl], SY[ri.cl]);
+          for (let c = ri.cl + 1; c <= ri.cr; c++) g.lineTo(SX[c], SY[c]);
+          let c = ri.cr;
+          while (c >= ri.cl) {
+            if (plat(c)) {
+              let c2 = c; while (c2 - 1 >= ri.cl && plat(c2 - 1)) c2--;
+              if (projW(xs[c] - 800, baseY, Z, out)) g.lineTo(out[0], out[1]);
+              if (projW(xs[c2] - 800, baseY, Z, out)) g.lineTo(out[0], out[1]);
+              c = c2 - 1;
+            } else {
+              if (projW(xs[c] - 800, F.disp[r * NC + c] * B.k - LIP, Z, out)) g.lineTo(out[0], out[1]);
+              c--;
+            }
+          }
+          g.closePath(); g.fillStyle = groundCss; g.fill();
+        }
         // water: flat surface between the sea crossings, over the dipping bed
         if (ri.water.length && look.water > 0.001) {
           for (const w of ri.water) {
@@ -722,20 +803,53 @@
           g.lineWidth = b === 0 ? lw * 0.75 : b === 4 ? lw * (1 + 0.3 * relief) : lw;
           g.stroke();
         }
-        // cliff-top rim: joins this row's first / last cliff-top points to the neighbour's, both sides
+        // rim band: each row runs on over the cliff top and dissolves down the face (alpha ramps to 0)
+        for (const [fa, fc, b] of ri.fades) {
+          const lv = clamp(lev[b] * df, 0, 1);
+          const gr = g.createLinearGradient(SX[fa], SY[fa], SX[fc], SY[fc]);
+          gr.addColorStop(0, rgba(AMBER, 0)); gr.addColorStop(0.6, rgba(AMBER, 0.3 * lv)); gr.addColorStop(1, rgba(AMBER, lv));
+          g.strokeStyle = gr; g.lineWidth = lw;
+          g.beginPath();
+          const c0 = Math.min(fa, fc), c1 = Math.max(fa, fc);
+          g.moveTo(SX[c0], SY[c0]); for (let c = c0 + 1; c <= c1; c++) g.lineTo(SX[c], SY[c]);
+          g.stroke();
+        }
+        // cliff-top rim: joins this row's first / last cliff-top points to the neighbour's, both sides, only where the
+        // cliff top runs ACROSS the rows (east / west coasts: the end column moves <= 2 columns row to row). Where it
+        // runs along them (north / south) the ends jump, and the row itself is the cliff-top line there: no chord.
         if (ri.cl >= 0) {
           const j = r * 4;
           RIM[j] = SX[ri.cl]; RIM[j + 1] = SY[ri.cl]; RIM[j + 2] = SX[ri.cr]; RIM[j + 3] = SY[ri.cr]; RIMOK[r] = 1;
-          if (look.rim > 0.001 && nb >= 0 && nb < NR && RIMOK[nb]) {
-            const n4 = nb * 4;
-            g.beginPath();
-            g.moveTo(RIM[n4], RIM[n4 + 1]); g.lineTo(RIM[j], RIM[j + 1]);
-            g.moveTo(RIM[n4 + 2], RIM[n4 + 3]); g.lineTo(RIM[j + 2], RIM[j + 3]);
-            g.strokeStyle = rgb(GROUND, AMBER, clamp(0.45 * df * look.rim, 0, 1)); g.lineWidth = lw; g.stroke();
+          const rn = nb >= 0 && nb < NR && F.rowsInfo[nb];
+          if (look.rim > 0.001 && rn && RIMOK[nb]) {
+            const n4 = nb * 4, okL = Math.abs(rn.cl - ri.cl) <= 2, okR = Math.abs(rn.cr - ri.cr) <= 2;
+            if (okL || okR) {
+              g.beginPath();
+              if (okL) { g.moveTo(RIM[n4], RIM[n4 + 1]); g.lineTo(RIM[j], RIM[j + 1]); }
+              if (okR) { g.moveTo(RIM[n4 + 2], RIM[n4 + 3]); g.lineTo(RIM[j + 2], RIM[j + 3]); }
+              g.strokeStyle = rgb(GROUND, AMBER, clamp(0.45 * df * look.rim, 0, 1)); g.lineWidth = lw; g.stroke();
+            }
           }
         }
       }
       g.globalAlpha = 1;
+      // footprint edge: the foot of every cliff face that turns toward the camera, drawn OVER the body (seamless
+      // additive light) and faded out as a face turns edge-on; faces turned away are hidden by the island anyway
+      if (look.edge > 0.001) {
+        const exP = B.ex + 800, eyP = 500 - B.ez, m = F.outline.length;
+        for (let k = 0; k <= m; k++) {
+          const [x, y] = F.outline[k % m];
+          const ok2 = projW(x - 800, baseY, 500 - y, out);
+          EDGE.ok[k] = ok2 ? 1 : 0; if (!ok2) continue;
+          EDGE.sx[k] = out[0]; EDGE.sy[k] = out[1]; EDGE.sc[k] = out[3];
+          const ex2 = exP - x, ey2 = eyP - y, el = Math.hypot(ex2, ey2) || 1;
+          const f = (EN[2 * (k % m)] * ex2 + EN[2 * (k % m) + 1] * ey2) / el;
+          EDGE.vis[k] = clamp(f / 0.3, 0, 1) * clamp(f / 0.3, 0, 1) * (3 - 2 * clamp(f / 0.3, 0, 1));
+        }
+        const A = clamp(look.alpha, 0, 1) * look.edge;
+        lightPass(EDGE, 0, m, 4, () => 7, (v) => v, AMBER, 0.1 * A);
+        lightPass(EDGE, 0, m, 4, () => 1.3, (v) => v, AMBER, 0.55 * A);
+      }
       // river banks (the map's bright river edges): the sea crossings row to row, traced at sea level
       if (look.banks > 0.001) {
         for (const L of BK) {
