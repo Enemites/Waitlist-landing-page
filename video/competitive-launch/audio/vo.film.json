@@ -41,7 +41,8 @@
   "id": "v07",
   "text": "Bring your team. Match against another.",
   "voice": "af_heart",
-  "speed": 0.9
+  "speed": 0.9,
+  "sentence_pause": 0.2
  },
  {
   "id": "v08",

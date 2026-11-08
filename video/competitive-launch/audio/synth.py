@@ -1608,7 +1608,7 @@ def _cue_time(cue, bpm):
 
 
 RESERVED = {"type", "at", "bar", "beat", "hit_at", "hit_bar", "gain_db", "pan", "width", "bus", "fade_in",
-            "fade_out", "trim", "verb", "fx", "params", "label", "path", "mute", "comment"}
+            "fade_out", "trim", "verb", "fx", "params", "label", "path", "mute", "comment", "hpf"}
 
 
 def duck_gain(key, depth_db=9.0, attack=0.06, release=0.45, hold=0.25, rel_thresh=-26.0):
@@ -1673,6 +1673,8 @@ def render_sheet(sheet: dict, base: Path | None = None, verbose=True):
             default_bus = "music" if g["kind"] == "layer" else "sfx"
         for fx in cue.get("fx", []):
             y = FX[fx](y)
+        if cue.get("hpf"):
+            y = hpf(y, float(cue["hpf"]), 4)  # per-cue high-pass (e.g. keep a swell's sub out of the tail)
         if cue.get("trim"):
             y = fade(y[: _n(float(cue["trim"]))], 0, 0.02)
         y = fade(y, float(cue.get("fade_in", 0)), float(cue.get("fade_out", 0)))

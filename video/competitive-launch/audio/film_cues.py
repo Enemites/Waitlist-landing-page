@@ -34,13 +34,13 @@ c('water_rush', at=0.0, length=4.0, intensity=0.3, bubbles=0.6, gain_db=-20, fad
 c('alert', at=0.5, reps=2, gain_db=-15, label='lift: Vega contesting')
 c('tick_one', at=1.0, tone=1.4, gain_db=-6, label='flap 08:16')
 c('tick_one', at=2.0, tone=1.4, gain_db=-6, label='flap 08:15')
-c('tape_scrub', at=3.07, length=0.93, direction=-1, gain_db=-9, label='rewind')
+c('tape_scrub', at=3.07, length=0.93, direction=-1, gain_db=-13, label='rewind')
 c('data_chatter', at=3.07, length=0.9, density=24, gain_db=-18)
-c('reverse_swell', hit_at=4.0, length=0.93, chord='Dm', gain_db=-11)
+c('reverse_swell', hit_at=4.0, length=0.93, chord='Dm', gain_db=-14.5)
 
 # ---- Bars 3-6 (4-12): LEGACY ------------------------------------------------------------
 for t in (4.067, 4.133, 4.2, 4.267, 4.5): c('tick_one', at=t, tone=1.2, gain_db=-9, label='odometer flap')
-c('pad', bar=2, bars=4, intensity=[0.35, 0.55], gain_db=-8, fx=['lofi'])
+c('pad', bar=2, bars=4, intensity=[0.3, 0.55], gain_db=-10, fx=['lofi'])
 c('drone', bar=2, beat=2, bars=3.5, note='D1', brightness=0.35, intensity=0.45, gain_db=-11)
 c('ticks', bar=2, bars=4, subdiv=2, accent_every=4, intensity=0.7, gain_db=-7, label='pocket-watch ticks')
 for T in (5.0, 7.0, 8.5, 10.0):
@@ -55,11 +55,12 @@ c('bass_ostinato', bar=6, bars=1, intensity=0.5, gain_db=-8)
 c('taiko', bar=6, bars=1, intensity=0.4, gain_db=-12)
 c('water_rush', at=12.5, length=1.8, intensity=0.8, gain_db=-12, fade_in=0.6, label='rising water flood')
 for t in (13.0, 13.5, 13.567, 13.633, 13.7): c('tick_one', at=t, tone=1.2, gain_db=-10, label='odometer flap')
-c('riser', hit_at=14.0, length=2.0, gain_db=-11)
+c('riser', hit_at=13.933, length=2.0, gain_db=-11, label='riser sucks out 2 frames before the latch')
 
 # ---- Bar 8 (14-16): TITLE ----------------------------------------------------------------
-c('gate_clank', at=14.0, size=1.1, latch=True, gain_db=-5, label='TITLE ACCENT latch')
-c('stamp', at=14.0, weight=1.2, gain_db=-8)
+c('gate_clank', at=14.0, size=1.15, latch=True, gain_db=0, verb={'hall': 0.12}, label='TITLE ACCENT latch')
+c('stamp', at=14.0, weight=1.3, gain_db=-3, verb={'hall': 0.15})
+c('impact', at=14.0, length=0.9, size=0.7, sub_hz=72, punch=1.2, brightness=0.9, gain_db=-5, hpf=55, fade_out=0.4, label='title body, no sub')
 c('pad', bar=7, bars=1, intensity=[0.45, 0.8], gain_db=-6, label='Dm(add9) swell')
 
 # ---- Bars 9-11 (16-22): ONE WORLD ---------------------------------------------------------
@@ -128,12 +129,12 @@ c('ticks', bar=23, bars=3, subdiv=2, accent_every=4, intensity=0.85, gain_db=-8)
 for t in (48.0, 50.0): c('stamp', at=t, weight=1.1, gain_db=-8, label='Commit. / Adapt.')
 
 # ---- Bars 27-28 (52-56): THE MATCH ------------------------------------------------------------
-c('bass_ostinato', bar=26, bars=2, intensity=1.0, gain_db=-6)
-c('drums', bar=26, bars=2, intensity=0.95, gain_db=-7)
-c('taiko', bar=26, bars=2, intensity=0.95, gain_db=-9)
-c('plucks', bar=26, bars=2, intensity=0.7, gain_db=-10)
-c('pad', bar=26, bars=2, intensity=0.55, gain_db=-10)
-c('ticks', bar=26, bars=2, subdiv=2, accent_every=4, intensity=0.9, gain_db=-8)
+c('bass_ostinato', bar=26, bars=2, intensity=1.0, gain_db=-6, bus='peak')
+c('drums', bar=26, bars=2, intensity=0.95, gain_db=-7, bus='peak')
+c('taiko', bar=26, bars=2, intensity=0.95, gain_db=-9, bus='peak')
+c('plucks', bar=26, bars=2, intensity=0.7, gain_db=-10, bus='peak')
+c('pad', bar=26, bars=2, intensity=0.55, gain_db=-10, bus='peak')
+c('ticks', bar=26, bars=2, subdiv=2, accent_every=4, intensity=0.9, gain_db=-8, bus='peak')
 for i in range(8):
     t = 52.0 + 0.5 * i
     if i % 2 == 0: c('stamp', at=t, weight=0.7, gain_db=-16, label='beat cut')
@@ -157,14 +158,15 @@ c('whoosh', at=62.0, length=1.5, peak=0.95, weight=0.5, pitch=0.9, gain_db=-13, 
 c('ui_blip', at=63.5, kind='confirm', freq=880, gain_db=-12, verb={'hall': 0.3}, label='sonar ping')
 
 # ---- Bars 33-36 (64-72): CTA ---------------------------------------------------------------------
-c('pad', bar=32, bars=2, intensity=[0.35, 0.45], gain_db=-12)
+c('pad', bar=32, bars=2, intensity=[0.4, 0.5], gain_db=-9)
+for t in (66.0, 66.5): c('tick_one', at=t, tone=0.9, gain_db=-13, label='type lines rise')
 c('ticks', bar=32, bars=2, subdiv=1, accent_every=4, intensity=0.55, gain_db=-12, label='last tick 67.5')
 c('reverse_swell', hit_at=64.0, length=1.5, chord='Gm', gain_db=-15)
 c('ui_blip', at=67.0, kind='confirm', gain_db=-21, label='button wipes in')
 for t, f in ((68.0, 587.33), (68.25, 698.46), (68.5, 880.0)):
     c('ui_blip', at=t, kind='select', freq=f, gain_db=-6, verb={'hall': 0.35}, label='SONIC LOGO')
 c('plucks', bar=34, bars=1, pattern='0.1.2...........', intensity=0.3, gain_db=-14, verb={'hall': 0.3})
-c('resolve_swell', at=68.0, length=3.5, chords=['Dm(add9)'], gain_db=-6)
+c('resolve_swell', at=68.0, length=2.6, chords=['Dm(add9)'], swell=0.25, hpf=70, trim=3.0, fade_out=1.0, gain_db=-6, label='resolve, decays to silence by 71.0')
 
 # ---- Picture-synced SFX reported by the scene engineers (film seconds) -------------------------
 def blip(t, kind='tick', freq=1760, g=-18, **k): return c('ui_blip', at=t, kind=kind, freq=freq, gain_db=g, **k)
@@ -227,15 +229,16 @@ c('data_chatter', at=67.5, length=0.5, density=12, gain_db=-26, label='IN DEVELO
 blip(67.6, 'tick', 1400, -20, label='node seats on the arrow tip')
 
 # ---- VO -------------------------------------------------------------------------------------------
-VO = {'v01': 4.60, 'v02': 7.25, 'v03': 8.75, 'v04': 10.25, 'v05': 14.30, 'v06': 16.30, 'v07': 20.20, 'v08': 24.30,
-      'v09': 30.00, 'v10': 32.60, 'v11': 36.50, 'v12': 50.40, 'v13': 56.10, 'v14': 58.40, 'v15': 63.80, 'v16': 66.85}
+VO = {'v01': 4.60, 'v02': 7.25, 'v03': 8.75, 'v04': 10.25, 'v05': 14.30, 'v06': 16.30, 'v07': 19.60, 'v08': 24.30,
+      'v09': 30.00, 'v10': 32.60, 'v11': 36.50, 'v12': 49.95, 'v13': 56.10, 'v14': 58.40, 'v15': 63.80, 'v16': 66.85}
 vo_override = {}
 if a.sync and os.path.exists(a.sync):
     sync = json.load(open(a.sync))
     vo_override = sync.get('vo', {})
     for s in sync.get('sfx', []): cues.append(s)
+VO_GAIN = {'v01': 2.5, 'v13': 2.0, 'v12': 1.5}
 for k, t in VO.items():
-    cues.append({'type': 'file', 'path': os.path.join(a.vo_dir, k + '.wav'), 'at': vo_override.get(k, t), 'bus': 'vo', 'label': k})
+    cues.append({'type': 'file', 'path': os.path.join(a.vo_dir, k + '.wav'), 'at': vo_override.get(k, t), 'bus': 'vo', 'label': k, 'gain_db': VO_GAIN.get(k, 0)})
 
 sheet = {
     'comment': 'Realms Competitive launch film, 72 s, 120 BPM, D minor. Generated by audio/film_cues.py from the music plan in docs/storyboard.md.',
@@ -243,15 +246,16 @@ sheet = {
     'buses': {
         'music': {'duck': {'key': 'vo', 'depth_db': 9, 'attack': 0.06, 'release': 0.45, 'hold': 0.25}},
         'sfx': {'duck': {'key': 'vo', 'depth_db': 4}},
+        'peak': {'duck': {'key': 'vo', 'depth_db': 5.5, 'attack': 0.06, 'release': 0.45, 'hold': 0.25}},
         'vo': {'chain': 'vo', 'over_bed_lu': 8},
     },
-    'master': {'lufs': -14.0, 'true_peak': -1.0, 'glue': True},
+    'master': {'lufs': -14.0, 'true_peak': -2.0, 'glue': True},
     'mutes': [
         {'from': 3.0, 'to': 3.0667, 'buses': ['music', 'sfx', 'vo'], 'fade': 0.003},
         {'from': 45.0, 'to': 46.0, 'buses': ['music'], 'fade': 0.01},
         {'from': 71.6, 'to': 72.0, 'buses': ['music', 'sfx', 'vo'], 'fade': 0.02},
     ],
-    'fade_out': 1.2,
+    'fade_out': 1.8,
     'cues': cues,
 }
 json.dump(sheet, open(a.out, 'w'), indent=1)

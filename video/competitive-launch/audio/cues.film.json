@@ -56,6 +56,15 @@
     "depth_db": 4
    }
   },
+  "peak": {
+   "duck": {
+    "key": "vo",
+    "depth_db": 5.5,
+    "attack": 0.06,
+    "release": 0.45,
+    "hold": 0.25
+   }
+  },
   "vo": {
    "chain": "vo",
    "over_bed_lu": 8
@@ -63,7 +72,7 @@
  },
  "master": {
   "lufs": -14.0,
-  "true_peak": -1.0,
+  "true_peak": -2.0,
   "glue": true
  },
  "mutes": [
@@ -96,7 +105,7 @@
    "fade": 0.02
   }
  ],
- "fade_out": 1.2,
+ "fade_out": 1.8,
  "cues": [
   {
    "type": "ticks",
@@ -153,7 +162,7 @@
    "at": 3.07,
    "length": 0.93,
    "direction": -1,
-   "gain_db": -9,
+   "gain_db": -13,
    "label": "rewind"
   },
   {
@@ -168,7 +177,7 @@
    "hit_at": 4.0,
    "length": 0.93,
    "chord": "Dm",
-   "gain_db": -11
+   "gain_db": -14.5
   },
   {
    "type": "tick_one",
@@ -210,10 +219,10 @@
    "bar": 2,
    "bars": 4,
    "intensity": [
-    0.35,
+    0.3,
     0.55
    ],
-   "gain_db": -8,
+   "gain_db": -10,
    "fx": [
     "lofi"
    ]
@@ -421,23 +430,43 @@
   },
   {
    "type": "riser",
-   "hit_at": 14.0,
+   "hit_at": 13.933,
    "length": 2.0,
-   "gain_db": -11
+   "gain_db": -11,
+   "label": "riser sucks out 2 frames before the latch"
   },
   {
    "type": "gate_clank",
    "at": 14.0,
-   "size": 1.1,
+   "size": 1.15,
    "latch": true,
-   "gain_db": -5,
+   "gain_db": 0,
+   "verb": {
+    "hall": 0.12
+   },
    "label": "TITLE ACCENT latch"
   },
   {
    "type": "stamp",
    "at": 14.0,
-   "weight": 1.2,
-   "gain_db": -8
+   "weight": 1.3,
+   "gain_db": -3,
+   "verb": {
+    "hall": 0.15
+   }
+  },
+  {
+   "type": "impact",
+   "at": 14.0,
+   "length": 0.9,
+   "size": 0.7,
+   "sub_hz": 72,
+   "punch": 1.2,
+   "brightness": 0.9,
+   "gain_db": -5,
+   "hpf": 55,
+   "fade_out": 0.4,
+   "label": "title body, no sub"
   },
   {
    "type": "pad",
@@ -925,35 +954,40 @@
    "bar": 26,
    "bars": 2,
    "intensity": 1.0,
-   "gain_db": -6
+   "gain_db": -6,
+   "bus": "peak"
   },
   {
    "type": "drums",
    "bar": 26,
    "bars": 2,
    "intensity": 0.95,
-   "gain_db": -7
+   "gain_db": -7,
+   "bus": "peak"
   },
   {
    "type": "taiko",
    "bar": 26,
    "bars": 2,
    "intensity": 0.95,
-   "gain_db": -9
+   "gain_db": -9,
+   "bus": "peak"
   },
   {
    "type": "plucks",
    "bar": 26,
    "bars": 2,
    "intensity": 0.7,
-   "gain_db": -10
+   "gain_db": -10,
+   "bus": "peak"
   },
   {
    "type": "pad",
    "bar": 26,
    "bars": 2,
    "intensity": 0.55,
-   "gain_db": -10
+   "gain_db": -10,
+   "bus": "peak"
   },
   {
    "type": "ticks",
@@ -962,7 +996,8 @@
    "subdiv": 2,
    "accent_every": 4,
    "intensity": 0.9,
-   "gain_db": -8
+   "gain_db": -8,
+   "bus": "peak"
   },
   {
    "type": "stamp",
@@ -1133,10 +1168,24 @@
    "bar": 32,
    "bars": 2,
    "intensity": [
-    0.35,
-    0.45
+    0.4,
+    0.5
    ],
-   "gain_db": -12
+   "gain_db": -9
+  },
+  {
+   "type": "tick_one",
+   "at": 66.0,
+   "tone": 0.9,
+   "gain_db": -13,
+   "label": "type lines rise"
+  },
+  {
+   "type": "tick_one",
+   "at": 66.5,
+   "tone": 0.9,
+   "gain_db": -13,
+   "label": "type lines rise"
   },
   {
    "type": "ticks",
@@ -1209,11 +1258,16 @@
   {
    "type": "resolve_swell",
    "at": 68.0,
-   "length": 3.5,
+   "length": 2.6,
    "chords": [
     "Dm(add9)"
    ],
-   "gain_db": -6
+   "swell": 0.25,
+   "hpf": 70,
+   "trim": 3.0,
+   "fade_out": 1.0,
+   "gain_db": -6,
+   "label": "resolve, decays to silence by 71.0"
   },
   {
    "type": "whoosh",
@@ -1878,112 +1932,128 @@
    "path": ".work/audio/vo-film/v01.wav",
    "at": 4.6,
    "bus": "vo",
-   "label": "v01"
+   "label": "v01",
+   "gain_db": 2.5
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v02.wav",
    "at": 7.25,
    "bus": "vo",
-   "label": "v02"
+   "label": "v02",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v03.wav",
    "at": 8.75,
    "bus": "vo",
-   "label": "v03"
+   "label": "v03",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v04.wav",
    "at": 10.25,
    "bus": "vo",
-   "label": "v04"
+   "label": "v04",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v05.wav",
    "at": 14.3,
    "bus": "vo",
-   "label": "v05"
+   "label": "v05",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v06.wav",
    "at": 16.3,
    "bus": "vo",
-   "label": "v06"
+   "label": "v06",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v07.wav",
-   "at": 20.2,
+   "at": 19.6,
    "bus": "vo",
-   "label": "v07"
+   "label": "v07",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v08.wav",
    "at": 24.3,
    "bus": "vo",
-   "label": "v08"
+   "label": "v08",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v09.wav",
    "at": 30.0,
    "bus": "vo",
-   "label": "v09"
+   "label": "v09",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v10.wav",
    "at": 32.6,
    "bus": "vo",
-   "label": "v10"
+   "label": "v10",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v11.wav",
    "at": 36.5,
    "bus": "vo",
-   "label": "v11"
+   "label": "v11",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v12.wav",
-   "at": 50.4,
+   "at": 49.95,
    "bus": "vo",
-   "label": "v12"
+   "label": "v12",
+   "gain_db": 1.5
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v13.wav",
    "at": 56.1,
    "bus": "vo",
-   "label": "v13"
+   "label": "v13",
+   "gain_db": 2.0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v14.wav",
    "at": 58.4,
    "bus": "vo",
-   "label": "v14"
+   "label": "v14",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v15.wav",
    "at": 63.8,
    "bus": "vo",
-   "label": "v15"
+   "label": "v15",
+   "gain_db": 0
   },
   {
    "type": "file",
    "path": ".work/audio/vo-film/v16.wav",
    "at": 66.85,
    "bus": "vo",
-   "label": "v16"
+   "label": "v16",
+   "gain_db": 0
   }
  ]
 }
