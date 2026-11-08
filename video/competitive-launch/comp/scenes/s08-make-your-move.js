@@ -93,6 +93,13 @@
         const holes = [U.roster, U.channel, U.objective].map((el) => { const r = rectOf(el, ctx.root); return rr(r.x, r.y, r.w, r.h, 18); });
         zoneSvg.style.clipPath = `path(evenodd, '${rr(-10, -10, W + 20, H + 20, 0)} ${holes.join(' ')}')`;
       }
+      // the zones are ground markings: the tokens (and THE NODE's ring on JK) stay on top of them,
+      // through holes that follow the tokens (JK crosses the pump zone at 2.2-2.9, NC lands in it)
+      const zmId = `${ID}-zones-mask`;
+      const zMask = ctx.svg('mask', { id: zmId, maskUnits: 'userSpaceOnUse', x: -2000, y: -2000, width: 6000, height: 5000 }, ctx.svg('defs', {}, zoneSvg));
+      ctx.svg('rect', { x: -2000, y: -2000, width: 6000, height: 5000, fill: '#fff' }, zMask);
+      const tokHoles = [['jk', 26], ['nc', F.el.tokenR + 2], ['ek', F.el.tokenR + 2]].map(([k, r]) => ({ k, c: ctx.svg('circle', { r, fill: '#000' }, zMask) }));
+      zoneSvg.style.display = 'none';                                  // shown while a zone is up (onFrame)
       const QW = Match.GRID.w / Match.GRID.cols / 4, QH = Match.GRID.h / Match.GRID.rows / 4;   // quarter board cells
       const zones = ZONES.map((z, i) => {
         const g = ctx.svg('g', { opacity: 0 }, zoneWg);
@@ -240,6 +247,14 @@
         if (lt > 2.9) { let d = M.dim.v; for (const lf of M.lifts) d = Math.max(d, lf.P.p * lf.o.dim); dimK = 1 - d; }
         const kPx = F.T.state.zoom * Match.S;                         // product units -> screen px
         const quiet = io2(clamp01((lt - 2.5) / 0.4));
+        // the zone layer (and its mask) exists only while a zone is up, so every other frame renders
+        // exactly as without it (43.5 stays bit-identical to the loop-closure frame)
+        const zonesUp = lt >= ZONES[0].at && lt < Math.max(...ZONES.map((z) => z.out)) + 0.4;
+        if (zonesUp !== (zoneSvg.style.display !== 'none')) {
+          zoneSvg.style.display = zonesUp ? '' : 'none';
+          if (zonesUp) zoneWg.setAttribute('mask', `url(#${zmId})`); else zoneWg.removeAttribute('mask');
+        }
+        if (zonesUp) for (const h of tokHoles) { const p = M.pos[h.k]; h.c.setAttribute('cx', p[0].toFixed(2)); h.c.setAttribute('cy', p[1].toFixed(2)); }
         for (const z of zones) {
           const u = lt - z.at;
           const vis = u < 0 ? 0 : (1 - io2(clamp01((lt - z.out) / 0.4))) * dimK;
@@ -249,10 +264,10 @@
           const s = 0.86 + 0.14 * e;
           z.g.setAttribute('transform', `translate(${z.cx} ${z.cy}) scale(${s.toFixed(4)}) translate(${-z.cx} ${-z.cy})`);
           // fill rises behind the cell sweep; outline snaps on with a small lock-on flash
-          const fa = 0.10 * po2(clamp01((u - 2 / FPS) / (10 / FPS))) * lerp(1, 0.42, quiet);
+          const fa = 0.10 * po2(clamp01((u - 2 / FPS) / (10 / FPS))) * lerp(1, 0.5, quiet);
           z.fill.setAttribute('fill-opacity', fa.toFixed(4));
           const flash = 0.3 * clamp01(1 - Math.abs(u - 4 / FPS) / (6 / FPS));
-          const la = (0.45 * clamp01(u / (4 / FPS)) + flash) * lerp(1, 0.45, quiet);
+          const la = (0.45 * clamp01(u / (4 / FPS)) + flash) * lerp(1, 0.56, quiet);
           z.line.setAttribute('stroke-opacity', la.toFixed(4));
           const k = kPx * s;                                          // 1.5 px stroke, 7/5 px dashes on screen
           z.line.setAttribute('stroke-width', (1.5 / k).toFixed(4));

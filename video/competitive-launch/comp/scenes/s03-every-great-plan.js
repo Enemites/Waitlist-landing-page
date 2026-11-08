@@ -102,7 +102,7 @@
         [data-scene="${ID}"] .s03-odo .clk, [data-scene="${ID}"] .s03-odo .txt { position:absolute; left:0; top:28px; height:32px; display:flex; font: 600 28px/32px var(--mono); white-space:pre; }
         [data-scene="${ID}"] .s03-odo .reel { position:relative; overflow:hidden; height:32px; width:1ch; }
         [data-scene="${ID}"] .s03-odo .strip { position:absolute; left:0; top:0; width:1ch; text-align:center; }
-        [data-scene="${ID}"] .s03-odo .colon { overflow:hidden; height:32px; text-align:center; }
+        [data-scene="${ID}"] .s03-odo .colon { overflow:hidden; height:32px; text-align:center; transform: translateY(-2px); } /* s02's flap colon sits 2 px higher */
         [data-scene="${ID}"] .s03-slug { position:absolute; left:120px; top:990px; display:flex; align-items:center; font: 500 20px/20px var(--mono); letter-spacing:.12em; color:${C.muted3}; text-transform:uppercase; white-space:pre; }
         [data-scene="${ID}"] .s03-slug .ico { overflow:hidden; height:20px; flex:none; }
       `);
@@ -327,11 +327,11 @@
       // reel i steps up by one at 2, 4, 6, 8 f (steps(1) + 3 f settle; frame 0 is s02's 08:32);
       // the colon closes at 0.50 (6 f)
       const STEP = [2, 4, 6, 8].map((f) => f / FPS);
-      // s02's rewind rolls its flap clock up one notch per frame into the hand-over (08:29, 08:30,
-      // 08:31, 08:32 on its last frames), so on frames 0-2 its reels are still settling: carry that
-      // settle over (Match.flapClock SETTLE .16 / -.06 / .02 of a 1.12em = 31.36 px row, rolling up)
-      // so the clock does not snap still on the hand-over frame.
-      const HSET = [null, null, [0.02, 0, 0], [0.16, -0.06, 0.02]];
+      // s02's rewind (m = 494 + 18 x power2.in) rolls its flap clock up into the hand-over (08:27,
+      // 08:29, 08:31, 08:32 on its last frames), so on frames 0-2 its reels are still settling: carry
+      // that settle over (Match.flapClock SETTLE .16 / -.06 / .02 of a 1.12em = 31.36 px row, rolling
+      // up) so the clock does not snap still on the hand-over frame.
+      const HSET = [null, null, [-0.06, 0.02, 0], [0.16, -0.06, 0.02]];
       ctx.onFrame((lt) => {
         const f0 = fr(lt);
         reels.forEach((strip, i) => {

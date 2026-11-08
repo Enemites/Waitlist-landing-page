@@ -5,6 +5,11 @@
  *      but the ghost dims over 0.6 s: the world under one radial-hole div (transparent r ~160 px
  *      around the ghost, #0b0c0e 60% outside), the UI to 30% (dark plates over the panels and the
  *      score pill, opacity on the bare topbar / signal). The fog drifts in from the right.
+ *      The push throws the Atlas side of the map toward the chrome (EK onto the topbar, the gate
+ *      ring and THE NODE against the roster), so every world mark except the ghost, its label, the
+ *      Vega triangles and their route fades out over 0.1-0.7 (tokens, THE NODE, Atlas routes, pump,
+ *      conduit, gate + ring, crossing, cone): the ghost owns the frame. The ground (terrain, river,
+ *      fog) stays, under the dims; everything world-side stays under the chrome.
  * 0.25 'LAST SEEN 0:20' re-scrambles beside the ghost (left) at 24 px, bone (screen-space); the
  *      other map labels have cleared by 0.35.
  * 0.50 the ghost's dashed ring starts to turn (12 deg/s).
@@ -72,8 +77,26 @@
 
       const fogCx = +F.el.fog.getAttribute('cx');
 
+      // world marks that clear out under the push (everything but the ghost, its label, the Vega
+      // triangles and their route). Plain marks take the fade as their opacity; marks whose opacity
+      // Match.state sets every frame (Atlas routes, the cone) are multiplied after it; the objective
+      // ring through its progress alpha.
+      const K = M.K;
+      const plainMarks = [F.el.tokens.jk, F.el.tokens.nc, F.el.tokens.ek, F.el.nodeG, F.el.pump, F.el.conduit, F.el.gate, F.el.ringTrack, F.el.crossing];
+      // (only marks state re-sets on every frame at m = 494, so the product never compounds)
+      const stateMarks = [K.routes.JK.g, K.routes.NC.g, K.routes.EK.g, F.el.cone];
+
       M.pre((lt) => {
         N.p.x = M.pos.jk[0]; N.p.y = M.pos.jk[1];
+        // clear the Atlas side of the map (0.1 -> 0.7, with the dims)
+        const wf = 1 - io2(clamp01((lt - 0.1) / 0.6));
+        const ws = wf >= 0.999 ? '1' : wf.toFixed(3);
+        for (const e of plainMarks) if (e.getAttribute('opacity') !== ws) e.setAttribute('opacity', ws);
+        for (const e of stateMarks) {
+          const a = e.getAttribute('opacity'), v = (a == null ? 1 : +a) * wf;
+          e.setAttribute('opacity', v >= 0.999 ? '1' : v.toFixed(3));
+        }
+        F.progress.alpha = wf;
         // the world label hands over to the screen-space one at 0.25
         const lw = 1 - clamp01((lt - 0.25) / 0.1);
         lsWorld.setAttribute('opacity', lw.toFixed(3));
