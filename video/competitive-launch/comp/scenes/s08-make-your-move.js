@@ -12,7 +12,7 @@
  * 1.00-2.50 LIFT: Jules 08:31 (types 0.6 s, 2x clone at 42 px); tifo cells light at 1.4 / 1.6.
  * 2.50-3.50 NC's route draws, NC travels; chrome dims to 55% (messages land in a dimmed channel).
  * 3.50 Nora 08:26 (not lifted), RESTORING.
- * 4.00 LIFT + LANDING #3: PLAN AGREED stamps and lifts at 1.6x until 5.0.
+ * 4.00 LIFT + LANDING #3: PLAN AGREED stamps and lifts at 1.7x until 5.0.
  * 4.25-5.25 EK's route + travel; HOLDING + cone at 5.25.
  * 5.00-6.50 LIFT: OBJECTIVE in place at 1.6x; 0 -> 62% in steps(12) (one per 8th); the ring is
  *      raised above the dim so its arc fills in sync. Camera PLAN -> MATCH (5.0-6.5) finds the far bank.
@@ -159,7 +159,7 @@
       });
       // 4.00-5.00 PLAN AGREED (LANDING #3), amber-edged
       M.lift(U.pinned, {
-        at: 4.0, out: 5.0, scale: 1.6, cx: 900, top: 168, leader: 'side', accent: 'amber', fit: false, pad: [0, 0],
+        at: 4.0, out: 5.0, scale: 1.7, cx: 925, top: 166, leader: 'side', accent: 'amber', fit: false, pad: [0, 0],
         prep: (cl, src, wrap, bg) => { bg.style.borderRadius = '13px'; },
       });
       // 5.00-6.50 OBJECTIVE, lifted in place (bottom-anchored, no leader); the card's bar and % run

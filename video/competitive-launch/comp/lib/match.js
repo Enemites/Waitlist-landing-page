@@ -91,7 +91,7 @@
  *   #0b0c0e overlay. Returns at `out` (power2.in). No blur, no backdrop-filter. The score pill, the
  *   HUD and 'raise'd world marks are never dimmed.
  *   leader 'side' (s08): from the card's right edge, level with the source row, to a source on its
- *   right (one elbow when the card does not span the row). prep(clone, src, wrap, bg) (s08): called
+ *   right (one elbow, 30 px before the source, when the card does not span the row). prep(clone, src, wrap, bg) (s08): called
  *   after cloning and before measuring (hide parts of the clone, grab nodes to update per frame).
  *   top may also be a function (w0, h0, scale) -> top of the measured card (s08 in-place lifts).
  *
@@ -213,11 +213,13 @@
     LOBBY_V: lobby(1260, 690, 1340, 560, 2.2),
     GHOST: { x: 1060, y: 640, zoom: 1.6 },
     C1: { x: 760, y: 500, zoom: 1.3 }, C2: { x: 740, y: 520, zoom: 1.6 }, C3: { x: 840, y: 560, zoom: 1.2 },
-    M1: { x: 800, y: 500, zoom: 0.80 }, M2: { x: 920, y: 420, zoom: 2.2 }, M3: { x: 575, y: 420, zoom: 2.2 },
+    M1: { x: 800, y: 500, zoom: 0.80 }, M2: { x: 920, y: 420, zoom: 2.2 }, M3: { x: 640, y: 465, zoom: 2.2 },   // M3 lowered from (575,420) so the red triangle can enter frame right
     M4: { x: 700, y: 490, zoom: 2.0 }, M5: { x: 800, y: 560, zoom: 2.2 },
-    M6: (() => { const p = route('VEGA_PUMP').at(0.6); return { x: p.x, y: p.y, zoom: 2.4 }; })(),
+    M6: (() => { const p = route('VEGA_PUMP').at(0.384); return { x: p.x - 40, y: p.y, zoom: 2.4 }; })(),   // on the red triangle (u 0.38 -> 0.389), lead room toward the ring
     M7: { x: 1004, y: 396, zoom: 2.4 },
     REVIEW: { x: 820, y: 500, zoom: 0.6 },
+    // (s12/s13) REVIEW fitted to the review window: product (820,500) on the window centre (960,420)
+    REVIEW_WIN: { x: 820, y: 500 + 120 / (0.6 * 1.5), zoom: 0.6 },
     MEDALLION: lobby(800, 500, 1420, 540, 0.2),
   };
   const GRID = {
@@ -237,6 +239,17 @@
       window: { x: 440, y: 150, w: 1040, h: 780 },
       clockCell: { x: 440, y: 84, round: 'ROUND 2', roundPx: 20, digitsTop: 112, digitsLine: 32, digitsPx: 28, align: 'left' },
       slug: { x: 120, y: 990, text: 'REWIND', icon: 'M13 3 L3 10 L13 17Z M25 3 L15 10 L25 17Z (34 x 20, #a89a85)' },
+    },
+    // (s13) the review frame s12 hands over on 58.0. Rebuild it with
+    //   const M = Match.buildMatchScreen(ctx, { m: 511, camera: 'REVIEW_WIN', clock: () => 511 });
+    //   gsap.set([M.U.topbar, M.U.signal, M.U.roster, M.U.channel, M.score.el], { autoAlpha: 0 });
+    //   const R = Match.review(ctx, M, { m: 511, alpha: (lt) => ..., open: (lt) => ... });
+    // (fold defaults to 1: window, track, header, the three labelled markers, the playhead node at 08:31)
+    's12-on-the-record@58.0': {
+      camera: 'REVIEW_WIN', m: 511, slug: SLUG,
+      window: { x: 320, y: 150, w: 1280, h: 540 },
+      panel: { x: 120, y: 786, w: 1680, h: 150 }, track: { x0: 160, x1: 1760, y: 860 },
+      node: [160, 860], header: 'ROUND 2 · REVIEW', record: 0.7,
     },
   };
 
@@ -348,7 +361,9 @@
     const uJ = io(seg(m, 511, 505));
     let jk = K.R.JK.at(uJ);
     if (m < 491.75) jk = K.R.JK_COMMIT.at(0.5 * io2(seg(m, 491.75, 490.5)));
-    if (m < 488.25) jk = K.R.JK_REROUTE.at(0.5 * so(seg(m, 488.25, 484)));
+    // (s10/s11) JK moves in steps along the reroute: starts at 488.25 (s10 5.75), advances 24 px at
+    // s11 M4 (486.5, zoom 2.0)
+    if (m < 488.25) jk = K.R.JK_REROUTE.at(0.1 * ease('power2.out')(seg(m, 488.25, 487.85)) + 0.06 * eo(seg(m, 486.5, 486.1)));
     const uN = io(seg(m, 507, 506)), uE = io(seg(m, 504, 502.5));
     const nc = K.R.NC.at(uN), ek = K.R.EK.at(uE);
     const ncx = nc.x + (SLOTS.nc[0] - 380) * (1 - uN), ncy = nc.y + (SLOTS.nc[1] - 320) * (1 - uN);
@@ -367,19 +382,22 @@
     setRoute(Rt.OUR_PLAN, 0, 0); setRoute(Rt.THEIR_PLAN, 0, 0);
     // ---- Vega
     const e1 = eo(seg(m, 500, 499.2)), e2 = eo(seg(m, 499.5, 498.7)), sl = eo(seg(m, 488, 487.6));
-    const v1x = VEGA.v1[0] + 70 * (1 - e1) - 30 * sl, v1y = VEGA.v1[1] + 16 * (1 - e1) + 14 * sl;
+    const sl2 = eo(seg(m, 485, 484.6));                // (s11 M7) the upper triangle edges toward the bridge
+    const v1x = VEGA.v1[0] + 70 * (1 - e1) - 30 * sl - 8 * sl2, v1y = VEGA.v1[1] + 16 * (1 - e1) + 14 * sl + 13 * sl2;
     const v2x = VEGA.v2[0] + 70 * (1 - e2) - 24 * sl, v2y = VEGA.v2[1] + 16 * (1 - e2) - 23 * sl;
     setT(F.el.vega[0], v1x, v1y); setOp(F.el.vega[0], clamp01(e1 * 1.5));
     setT(F.el.vega[1], v2x, v2y); setOp(F.el.vega[1], clamp01(e2 * 1.5));
     K.pos.v1 = [v1x, v1y]; K.pos.v2 = [v2x, v2y];
     setOp(F.el.ghost, seg(m, 497.3, 497) * (1 - seg(m, 489.75, 489.5)));
-    const gu = Math.min(0.85, Math.max(0, (489.1 - m) / 6));
+    // (s10/s11) the resolved triangle moves in steps along VEGA_PUMP: a lunge once its route is drawn
+    // (489.1 -> 488.5, s10 4.9-5.5), into frame right at s11 M3 (487), a 16 px creep at s11 M6 (485.5)
+    const gu = 0.25 * ease('power3.out')(seg(m, 489.1, 488.5)) + 0.13 * eo(seg(m, 487, 486.6)) + 0.009 * ease('power2.out')(seg(m, 485.5, 485.1));
     const gp = K.R.VEGA_PUMP.at(gu);
     if (K.gtri) { setT(K.gtri, gp.x, gp.y); setOp(K.gtri, seg(m, 489.75, 489.55)); } K.pos.gtri = [gp.x, gp.y];
     // ---- world labels, cone, objective
     const lb = F.el.labels || {};
     if (lb.crossing && lb.crossing.sub) setText(lb.crossing.sub, m > 498 ? '' : scramble('CONTESTED', seg(m, 498, 497.6), 'contested'));
-    if (lb.lastSeen) { setOp(lb.lastSeen, seg(m, 497.3, 497)); setText(lb.lastSeen.name || lb.lastSeen, scramble('LAST SEEN 0:20', seg(m, 497.3, 497), 'lastseen')); }
+    if (lb.lastSeen) { setOp(lb.lastSeen, seg(m, 497.3, 497) * (1 - seg(m, 489.75, 489.5))); setText(lb.lastSeen.name || lb.lastSeen, scramble('LAST SEEN 0:20', seg(m, 497.3, 497), 'lastseen')); }
     setOp(F.el.cone, seg(m, 502.5, 502.1));
     F.progress.v = 0.62 * Math.floor(12 * seg(m, 503, 500) + 1e-6) / 12;
     F.el.gateBars.setAttribute('stroke-opacity', (0.5 + 0.42 * (seg(m, 503, 502.8) - seg(m, 500, 499.4))).toFixed(3));
@@ -598,7 +616,7 @@
       L.top.appendChild(U.score);
       const sc = U.score, atlas = sc.querySelector('.atlas'), vega = sc.querySelector('.vega'), cell = sc.querySelector('.clock');
       const round = cell.querySelector('span'), ck = cell.querySelector('.ck');
-      M.clock = flapClock(ctx, { el: ck, value: o.clock ? (lt) => o.clock(lt, mOf(lt, lt + ctx.start)) : (lt) => Math.ceil(mOf(lt, lt + ctx.start) - 1e-6), minT: 0 });
+      M.clock = flapClock(ctx, { el: ck, value: o.clock ? (lt) => o.clock(lt, mOf(lt, lt + ctx.start)) : (lt) => Math.ceil(mOf(lt, lt + ctx.start) - 1e-6), minT: o.clockMinT != null ? o.clockMinT : 0 });
       const wPill = sc.offsetWidth;
       sc.style.left = (W / 2 - wPill / 2).toFixed(1) + 'px';
       K.occl = {
@@ -682,7 +700,7 @@
           // row when the card spans it, else with one elbow at the midpoint of the gap
           const cr = x + w0 * s, yy = Math.min(Math.max(sy, y + 14 * s), cb - 14 * s);
           if (Math.abs(yy - sy) < 0.5) d = `M${cr.toFixed(1)} ${sy.toFixed(1)} H${sx.toFixed(1)}`;
-          else { const xm = (cr + sx) / 2; d = `M${cr.toFixed(1)} ${yy.toFixed(1)} H${xm.toFixed(1)} V${sy.toFixed(1)} H${sx.toFixed(1)}`; }
+          else { const xm = Math.max(cr + 24, sx - 30); d = `M${cr.toFixed(1)} ${yy.toFixed(1)} H${xm.toFixed(1)} V${sy.toFixed(1)} H${sx.toFixed(1)}`; }
         }
         else d = `M${(x + w0 * s / 2).toFixed(1)} ${cb.toFixed(1)} L${sx.toFixed(1)} ${sy.toFixed(1)}`;
         leader.setAttribute('d', d);
@@ -696,7 +714,145 @@
     return rec;
   }
 
+  // -------------------------------------------------------------------------------------------
+  // REVIEW (s12 'On the record', rebuilt by s13): the world clipped into a review window, the
+  // objective panel stretched into a timeline track, every route kept as the record, THE NODE as
+  // the playhead. Every option is a number or a PURE function of local time:
+  //   fold  0..1 (1)  full frame -> window (clip, HUD corners, camera is the scene's), objective panel
+  //                   -> track panel (its children fade), track + ticks draw, header scrambles in
+  //   open  0..1 (0)  the clip (and corners) back to full frame (s13)
+  //   alpha 0..1 (1)  review chrome opacity (window frame, panel, track, markers, labels, playhead)
+  //   m     484..511  playhead (match-seconds; track x = x0 + (511 - m) / 27 x (x1 - x0), 08:31 left)
+  //   fly   0..1 (1)  THE NODE travelling from JK's token (world) onto the track head
+  //   rec   0..1 (1)  every route in Match.ROUTES fully drawn at `record` opacity (fades, never draws)
+  // Markers pop (1 -> 1.4 -> 1, 6 f) and their labels scramble in at the frame the playhead crosses
+  // them (found by stepping m(lt) at build): '08:19 · EMRE', '08:26 · NORA', '08:31 · JULES' (amber),
+  // unlabelled red-orange dots where Vega contested (498) and where the ghost resolved (489.75).
+  // R.cross: { name: local time crossed (-Infinity = already crossed at 0) }. R.N = the playhead node.
+  // -------------------------------------------------------------------------------------------
+  function review(ctx, M, o) {
+    const HO = HANDOFF['s12-on-the-record@58.0'];
+    o = Object.assign({ fold: 1, open: 0, alpha: 1, m: 511, fly: 1, rec: 1, record: HO.record, header: HO.header, win: HO.window, panel: HO.panel, track: HO.track, nodePulses: null }, o || {});
+    const fn = (v) => (typeof v === 'function' ? v : () => v);
+    const F_ = { fold: fn(o.fold), open: fn(o.open), alpha: fn(o.alpha), m: fn(o.m), fly: fn(o.fly), rec: fn(o.rec) };
+    const WIN = o.win, PN = o.panel, TR = o.track;
+    const trackX = (m) => TR.x0 + (511 - Math.max(484, Math.min(511, m))) / 27 * (TR.x1 - TR.x0);
+    const mono = (px, col) => `position:absolute; font: 500 ${px}px/${px}px var(--mono); letter-spacing: .12em; color: ${col}; white-space: pre; text-transform: uppercase;`;
+    const U = M.U, L = M.L;
+    // layers above the world and the chrome, below the top (score pill) layer
+    const layer = ctx.el('div', 'mx-layer mx-review', ctx.root);
+    ctx.root.insertBefore(layer, L.top);
+    const sv = ctx.svg('svg', { class: 'brand-svg mx-review-svg' }, layer);
+    const frame = ctx.svg('rect', { x: WIN.x, y: WIN.y, width: WIN.w, height: WIN.h, fill: 'none', stroke: C.amber, 'stroke-width': 1, opacity: 0 }, sv);
+    // track panel: the objective panel itself when there is chrome, else a bare panel
+    let panel = U ? U.objective : null, kids = [], rest = null;
+    if (panel) {
+      rest = rectOf(panel, ctx.root);
+      kids = Array.from(panel.children);
+      panel.style.bottom = 'auto'; panel.style.transform = 'none';
+    } else {
+      panel = ctx.el('div', 'mx-review-panel', layer);
+      Object.assign(panel.style, { position: 'absolute', boxSizing: 'border-box', background: 'rgba(13,12,10,.955)', border: '1px solid rgba(255,255,255,.09)', borderRadius: '18px' });
+      rest = { x: PN.x, y: PN.y, w: PN.w, h: PN.h };
+    }
+    const head = ctx.el('div', 'mx-review-head', layer, '');
+    head.style.cssText = mono(22, C.muted) + ` left:${TR.x0}px; top:${PN.y + 24}px;`;
+    const tsv = ctx.svg('svg', { class: 'brand-svg mx-review-track' }, layer);
+    const line = ctx.svg('line', { x1: TR.x1, y1: TR.y, x2: TR.x0, y2: TR.y, stroke: '#ffffff', 'stroke-opacity': 0.09, 'stroke-width': 2, pathLength: 1, 'stroke-dasharray': '0 2' }, tsv);
+    const ticks = [];
+    for (let s = 511; s >= 484; s--) {
+      const x = trackX(s), big = s % 5 === 0;
+      ticks.push({ el: ctx.svg('line', { x1: x, y1: TR.y - (big ? 9 : 5), x2: x, y2: TR.y + (big ? 9 : 5), stroke: '#ffffff', 'stroke-opacity': big ? 0.3 : 0.18, 'stroke-width': 1 }, tsv), u: (TR.x1 - x) / (TR.x1 - TR.x0) });
+    }
+    const MK = [
+      { name: 'contested', m: 498, rival: true }, { name: 'resolved', m: 489.75, rival: true },
+      { name: 'EMRE', m: 499, label: '08:19 · EMRE' }, { name: 'NORA', m: 506, label: '08:26 · NORA' }, { name: 'JULES', m: 511, label: '08:31 · JULES' },
+    ];
+    MK.forEach((k) => {
+      k.x = trackX(k.m);
+      k.g = ctx.svg('g', { transform: `translate(${k.x.toFixed(2)} ${TR.y})` }, tsv);
+      if (k.rival) k.dot = ctx.svg('circle', { r: 4.5, fill: C.rival }, k.g);
+      else { k.dot = ctx.svg('rect', { x: -6, y: -6, width: 12, height: 12, fill: C.amber, stroke: C.bg, 'stroke-width': 2, transform: 'rotate(45)' }, k.g); }
+      if (k.label) { k.el = ctx.el('div', 'mx-review-lab', layer, ''); k.el.style.cssText = mono(20, C.ink) + ` left:${(k.x - 7).toFixed(1)}px; top:${TR.y + 24}px;`; }
+    });
+    // crossing times (frame resolution) from the pure playhead function
+    const mOf = F_.m;
+    const cross = {};
+    MK.forEach((k) => {
+      if (mOf(0) >= k.m - 1e-6) { k.tc = -Infinity; cross[k.name] = -Infinity; return; }
+      k.tc = Infinity;
+      for (let f = 1; f <= Math.round(ctx.duration * FPS) + 1; f++) { if (mOf(f / FPS) >= k.m - 1e-6) { k.tc = f / FPS; break; } }
+      cross[k.name] = k.tc;
+    });
+    // playhead: 1 px vertical amber line + THE NODE (screen space, 12 px core)
+    const ph = ctx.svg('line', { x1: 0, y1: TR.y - 30, x2: 0, y2: TR.y + 30, stroke: C.amber, 'stroke-width': 1, opacity: 0 }, tsv);
+    const nsv = ctx.svg('svg', { class: 'brand-svg mx-review-node' }, layer);
+    const N = NodeMark.create(ctx, { parent: nsv, x: TR.x0, y: TR.y, size: 1, pulses: o.nodePulses });
+    const io3 = ease('power3.inOut');
+    M.pre((lt) => {
+      const fold = F_.fold(lt), open = F_.open(lt), al = F_.alpha(lt), m = F_.m(lt), fly = F_.fly(lt), rec = F_.rec(lt);
+      // clip + corners
+      const lr = (a, b, t) => ({ x: lerp(a.x, b.x, t), y: lerp(a.y, b.y, t), w: lerp(a.w, b.w, t), h: lerp(a.h, b.h, t) });
+      const FULL = { x: 0, y: 0, w: W, h: H };
+      const clip = lr(lr(FULL, WIN, fold), FULL, open);
+      M.setClip(fold > 0.0005 && open < 0.9995 ? clip : null);
+      if (M.hud && M.hud.corners) {
+        const I = 72, A = 34, IN = { x: I, y: I, w: W - 2 * I, h: H - 2 * I };
+        const cr = lr(lr(IN, WIN, fold), IN, open);
+        [[cr.x, cr.y, 1, 1], [cr.x + cr.w, cr.y, -1, 1], [cr.x, cr.y + cr.h, 1, -1], [cr.x + cr.w, cr.y + cr.h, -1, -1]].forEach(([x, y, sx, sy], i) => {
+          M.hud.corners[i].setAttribute('d', `M${x.toFixed(2)} ${(y + A * sy).toFixed(2)} L${x.toFixed(2)} ${y.toFixed(2)} L${(x + A * sx).toFixed(2)} ${y.toFixed(2)}`);
+        });
+      }
+      layer.style.opacity = al >= 0.999 ? '' : al.toFixed(3);
+      frame.setAttribute('opacity', (0.45 * clamp01((fold - 0.55) / 0.45) * (1 - open)).toFixed(3));
+      // panel morph (objective -> track panel); its own children fade in the first third
+      const pr = lr(rest, PN, fold);
+      Object.assign(panel.style, { left: pr.x.toFixed(2) + 'px', top: pr.y.toFixed(2) + 'px', width: pr.w.toFixed(2) + 'px', height: pr.h.toFixed(2) + 'px' });
+      if (panel !== U?.objective) panel.style.opacity = clamp01(fold * 4).toFixed(3);
+      else panel.style.opacity = al >= 0.999 ? '1' : al.toFixed(3);
+      const ko = (1 - clamp01(fold / 0.3)).toFixed(3);
+      for (const k of kids) if (k.style.opacity !== ko) k.style.opacity = ko;
+      const hu = clamp01((fold - 0.45) / 0.5);
+      const hs = scramble(o.header, hu, 'mx-review-head', 'in');
+      if (head.textContent !== hs) head.textContent = hs;
+      // track + ticks draw right to left (08:04 first)
+      const du = clamp01((fold - 0.5) / 0.5);
+      line.setAttribute('stroke-dasharray', `${du.toFixed(4)} 2`);
+      for (const t of ticks) t.el.setAttribute('opacity', t.u <= du + 1e-6 ? '1' : '0');
+      // markers: in with the track, pop + label when the playhead crosses them
+      for (const k of MK) {
+        const inS = clamp01((fold - 0.8) / 0.2);
+        const pu = (lt - k.tc) / (6 / FPS);
+        const pop = pu >= 0 && pu <= 1 ? 1 + 0.4 * (pu < 0.4 ? pu / 0.4 : 1 - (pu - 0.4) / 0.6) : 1;
+        k.g.setAttribute('transform', `translate(${k.x.toFixed(2)} ${TR.y}) scale(${(inS * pop).toFixed(3)})`);
+        if (k.el) { const s = lt >= k.tc ? scramble(k.label, (lt - k.tc) / 0.27, 'mx-review-' + k.name, 'in') : ''; if (k.el.textContent !== s) k.el.textContent = s; }
+      }
+      // playhead + THE NODE (fly from JK's token onto the track head)
+      const hx = trackX(m), hy = TR.y;
+      if (fly < 0.9995) {
+        const [jx, jy] = M.F.toScreen(M.pos.jk[0], M.pos.jk[1]);
+        const u = io3(clamp01(fly)), bx = lerp(jx, hx, u), by = lerp(jy, hy, u) - Math.sin(Math.PI * u) * 90;
+        N.p.x = bx; N.p.y = by;
+        N.p.s = lerp(24 * M.F.T.state.zoom * S / 12, 1, u);
+      } else { N.p.x = hx; N.p.y = hy; N.p.s = 1; }
+      ph.setAttribute('x1', hx.toFixed(2)); ph.setAttribute('x2', hx.toFixed(2));
+      ph.setAttribute('opacity', (0.9 * clamp01((fly - 0.75) / 0.25)).toFixed(3));
+      ph.setAttribute('transform', `translate(0 ${TR.y}) scale(1 ${clamp01((fly - 0.7) / 0.3).toFixed(3)}) translate(0 ${-TR.y})`);
+      // the record: every route kept at `record` opacity (live state blended out)
+      if (rec > 0.0005 && M.K && M.K.routes) {
+        for (const name of Object.keys(ROUTES)) {
+          const r = M.K.routes[name]; if (!r || !r.g) continue;
+          const liveOp = r.vis ? +(r.g.getAttribute('opacity') || 1) : 0;
+          const liveF = r.vis ? (r.masked ? parseFloat(r.mp.getAttribute('stroke-dasharray')) : 1) : 0;
+          setRoute(r, liveF > 0 ? lerp(liveF, 1, rec) : 1, lerp(liveOp, o.record, rec));
+        }
+      }
+    });
+    return { layer, panel, head, frame, line, ticks, markers: MK, cross, N, trackX, opts: o };
+  }
+
   window.Match = {
+    review, setRoute,
     buildMatchScreen, state, ambient, flapClock, lift,
     ROUTES, route, sampler, SLOTS, POSTS, VEGA, GHOST, KEYS, CAM, GRID, HANDOFF, SLUG,
     screenOf, fmt, scramble, seg, S,
