@@ -4,6 +4,18 @@
 
 Version 2 applies the fixes from an independent three-lens review panel (craft, brand, sound) whose findings were each verified against the rendered frames.
 
+Version 3 adds variety and tempo. Seven fast inserts in six new visual languages are cut into 16-64 s as overlay scenes (`at` entries in `comp/scenes/manifest.js`). The Floodgate map world stays underneath, and the VO and music timing do not move:
+
+| at | insert | look |
+|---|---|---|
+| 18.25-20.0 | `x05-iso-world` | the Floodgate valley as a rotating 3D island of ridgelines (`comp/lib/ridgeline.js`), both plans as light |
+| 20.0-22.0 | `x05-versus` | ATLAS / VEGA versus slabs slamming in on the Enemites slant, 3 V 3 |
+| 25.0-26.0 | `x06-player-cards` | Jules, Nora, Emre: three full-frame cards with generative backgrounds |
+| 39.0-40.5 | `x08-gate-schematic` | a blueprint of the floodgate powering up to 62% |
+| 46.0-48.0 | `x10-formation` | particle streams braid and lock into the team on the low hit |
+| 52.5-54.5 | `x11-archive-flash` | archive flashes (chess 1925, crews 1904) on two montage beats |
+| 58.0-59.5 | `x13-iso-plans` | the 3D island again: both plans meet at the gate, the camera cranes into the map |
+
 A motion-graphics launch film for the Competitive mode of Enemites Realms, built entirely in code:
 HTML/SVG/canvas + GSAP scenes rendered frame by frame (deterministic) and scored with a procedural
 synth. Concept "THE NODE": one amber point (Jules, our coordinator) carries the plan from a live
@@ -44,7 +56,8 @@ Preview a scene: `node engine/render.mjs --serve 8090` then
 ## Pieces
 - `comp/lib/brand.js` design system (terrain, HUD, type, mark, banners, archive window, transitions); `comp/lib/BRAND.md`.
 - `comp/lib/floodgate.js` the Floodgate match world + UI, `match.js` the live-match kit, `node.js` THE NODE, `contourflood.js` the drain/flood dissolve.
-- `comp/scenes/s01..s14` the film; `comp/scenes/manifest.js` order, durations, overlaps.
+- `comp/lib/ridgeline.js` the 3D ridgeline renderer used by the v3 island inserts.
+- `comp/scenes/s01..s14` the film, `comp/scenes/x05..x13` the v3 inserts; `comp/scenes/manifest.js` order, durations, overlaps and overlay times.
 - `audio/vo.film.json` VO (Kokoro af_heart), `audio/film_cues.py` -> `audio/cues.film.json` score + SFX cue sheet, `audio/synth.py` renderer.
 - `docs/` brief, references and technique bible, locked storyboard.
 
@@ -54,6 +67,6 @@ Preview a scene: `node engine/render.mjs --serve 8090` then
   - Apollo 8 Mission Operations Control Room, 1968. NASA (JSC film scans).
   - Eyes Aloft: Aircraft Warning Service, 1943. US Army Air Forces training film TF 1-3315.
   - The River, 1937-38. Farm Security Administration, dir. Pare Lorentz (National Archives scan).
-  - Boat Race, 1904. American Mutoscope & Biograph (Library of Congress).
+  - Boat Race, 1904. American Mutoscope & Biograph (Library of Congress). Also used in the v3 archive flash.
   Full rights evidence and source URLs: `broll/credits.json`.
 - Brand assets, copy and the Floodgate interface concept come from this repository.

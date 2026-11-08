@@ -515,16 +515,6 @@
    "gain_db": -16
   },
   {
-   "type": "whoosh",
-   "at": 18.14,
-   "length": 0.6,
-   "peak": 0.6,
-   "pitch": 1.3,
-   "weight": 0.3,
-   "pan": 0.6,
-   "gain_db": -16
-  },
-  {
    "type": "ui_blip",
    "at": 19.5,
    "kind": "confirm",
@@ -538,25 +528,25 @@
   {
    "type": "stamp",
    "at": 20.0,
-   "weight": 0.8,
-   "gain_db": -11,
-   "label": "amber banner"
+   "weight": 1.0,
+   "gain_db": -9,
+   "label": "versus: amber slab slams"
   },
   {
    "type": "stamp",
    "at": 20.75,
-   "weight": 0.8,
-   "gain_db": -11,
-   "label": "red banner"
+   "weight": 1.0,
+   "gain_db": -9,
+   "label": "versus: red slab slams"
   },
   {
    "type": "whoosh",
-   "at": 21.25,
-   "length": 1.0,
-   "peak": 0.75,
+   "at": 21.46,
+   "length": 0.6,
+   "peak": 0.85,
    "weight": 0.7,
    "gain_db": -12,
-   "label": "dive into the ring"
+   "label": "versus punch-in to the s06 ring"
   },
   {
    "type": "plucks",
@@ -813,15 +803,6 @@
     "hall": 0.3
    },
    "label": "LANDING NOTE 3 A5: PLAN AGREED"
-  },
-  {
-   "type": "tick",
-   "at": 39.0,
-   "length": 1.5,
-   "subdiv": 4,
-   "accent_every": 4,
-   "gain_db": -4,
-   "label": "fill ticks"
   },
   {
    "type": "alert",
@@ -1377,7 +1358,7 @@
   },
   {
    "type": "ui_blip",
-   "at": 19.25,
+   "at": 19.0,
    "kind": "select",
    "freq": 987.77,
    "gain_db": -17,
@@ -1427,14 +1408,6 @@
    "weight": 0.5,
    "gain_db": -15,
    "label": "member snaps into slot"
-  },
-  {
-   "type": "data_chatter",
-   "at": 25.0,
-   "length": 0.5,
-   "density": 18,
-   "gain_db": -22,
-   "label": "triangle lines draw"
   },
   {
    "type": "ui_blip",
@@ -1571,102 +1544,6 @@
    "label": "EK route squeak"
   },
   {
-   "type": "ui_blip",
-   "at": 39.125,
-   "kind": "tick",
-   "freq": 1500,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 39.25,
-   "kind": "tick",
-   "freq": 1540,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 39.375,
-   "kind": "tick",
-   "freq": 1580,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 39.5,
-   "kind": "tick",
-   "freq": 1620,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 39.625,
-   "kind": "tick",
-   "freq": 1660,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 39.75,
-   "kind": "tick",
-   "freq": 1700,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 39.875,
-   "kind": "tick",
-   "freq": 1740,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 40.0,
-   "kind": "tick",
-   "freq": 1780,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 40.125,
-   "kind": "tick",
-   "freq": 1820,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 40.25,
-   "kind": "tick",
-   "freq": 1860,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 40.375,
-   "kind": "tick",
-   "freq": 1900,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
-   "type": "ui_blip",
-   "at": 40.5,
-   "kind": "tick",
-   "freq": 1940,
-   "gain_db": -22,
-   "label": "objective fill step"
-  },
-  {
    "type": "whoosh",
    "at": 40.33,
    "length": 0.7,
@@ -1703,55 +1580,11 @@
    "label": "LAST SEEN re-scramble"
   },
   {
-   "type": "ui_blip",
-   "at": 46.5,
-   "kind": "select",
-   "freq": 1800,
-   "gain_db": -22,
-   "length": 0.12,
-   "label": "telestrator squeak"
-  },
-  {
-   "type": "ui_blip",
-   "at": 46.633,
-   "kind": "select",
-   "freq": 1800,
-   "gain_db": -22,
-   "length": 0.12,
-   "label": "telestrator squeak"
-  },
-  {
-   "type": "ui_blip",
-   "at": 46.767,
-   "kind": "select",
-   "freq": 1800,
-   "gain_db": -22,
-   "length": 0.12,
-   "label": "telestrator squeak"
-  },
-  {
-   "type": "ui_blip",
-   "at": 46.9,
-   "kind": "select",
-   "freq": 1800,
-   "gain_db": -22,
-   "length": 0.12,
-   "label": "telestrator squeak"
-  },
-  {
    "type": "stamp",
    "at": 47.25,
-   "weight": 0.35,
-   "gain_db": -16,
-   "label": "chevrons pop"
-  },
-  {
-   "type": "whoosh",
-   "at": 47.6,
-   "length": 0.5,
-   "peak": 0.8,
-   "weight": 0.4,
-   "gain_db": -17
+   "weight": 0.6,
+   "gain_db": -14,
+   "label": "formation pulse: rings from all three tokens"
   },
   {
    "type": "whoosh",
@@ -1926,6 +1759,580 @@
    "freq": 1400,
    "gain_db": -20,
    "label": "node seats on the arrow tip"
+  },
+  {
+   "type": "whoosh",
+   "at": 18.2,
+   "length": 0.7,
+   "peak": 0.12,
+   "pitch": 0.9,
+   "weight": 0.6,
+   "gain_db": -14,
+   "label": "x05 whip orbit on the cut"
+  },
+  {
+   "type": "stamp",
+   "at": 18.25,
+   "weight": 0.55,
+   "gain_db": -15,
+   "label": "x05 hard cut in"
+  },
+  {
+   "type": "data_chatter",
+   "at": 18.33,
+   "length": 0.5,
+   "density": 14,
+   "gain_db": -27,
+   "label": "x05 eyebrow scramble"
+  },
+  {
+   "type": "data_chatter",
+   "at": 19.05,
+   "length": 0.3,
+   "density": 12,
+   "gain_db": -28,
+   "label": "x05 VEGA tag"
+  },
+  {
+   "type": "whoosh",
+   "at": 19.63,
+   "length": 0.4,
+   "peak": 0.85,
+   "pitch": 1.2,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "x05 push into the gate"
+  },
+  {
+   "type": "whoosh",
+   "at": 19.745,
+   "length": 0.3,
+   "peak": 0.85,
+   "pitch": 0.85,
+   "weight": 0.7,
+   "pan": -0.5,
+   "gain_db": -14,
+   "label": "amber slab in from the left"
+  },
+  {
+   "type": "impact",
+   "at": 20.0,
+   "length": 0.6,
+   "size": 0.5,
+   "brightness": 0.6,
+   "sub_hz": 62,
+   "hpf": 50,
+   "gain_db": -13,
+   "label": "versus slam"
+  },
+  {
+   "type": "ui_blip",
+   "at": 20.1,
+   "kind": "select",
+   "freq": 1174.66,
+   "gain_db": -20,
+   "label": "Atlas diamond pops"
+  },
+  {
+   "type": "data_chatter",
+   "at": 20.16,
+   "length": 0.36,
+   "density": 14,
+   "gain_db": -28,
+   "label": "YOUR TEAM scramble"
+  },
+  {
+   "type": "whoosh",
+   "at": 20.525,
+   "length": 0.3,
+   "peak": 0.85,
+   "pitch": 0.85,
+   "weight": 0.7,
+   "pan": 0.5,
+   "gain_db": -14,
+   "label": "red slab in from the right"
+  },
+  {
+   "type": "impact",
+   "at": 20.75,
+   "length": 0.6,
+   "size": 0.5,
+   "brightness": 0.6,
+   "sub_hz": 58,
+   "hpf": 50,
+   "gain_db": -13,
+   "label": "versus slam"
+  },
+  {
+   "type": "ui_blip",
+   "at": 20.85,
+   "kind": "deny",
+   "freq": 660,
+   "gain_db": -20,
+   "label": "Vega ring pops"
+  },
+  {
+   "type": "data_chatter",
+   "at": 20.91,
+   "length": 0.36,
+   "density": 14,
+   "gain_db": -28,
+   "label": "OPPOSITION scramble"
+  },
+  {
+   "type": "whoosh",
+   "at": 21.22,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.4,
+   "weight": 0.25,
+   "gain_db": -21,
+   "label": "slabs part"
+  },
+  {
+   "type": "typing",
+   "at": 21.29,
+   "length": 0.25,
+   "rate": 14,
+   "gain_db": -24,
+   "label": "3 V 3 types on"
+  },
+  {
+   "type": "ui_blip",
+   "at": 21.3,
+   "kind": "tick",
+   "freq": 2400,
+   "gain_db": -15,
+   "label": "another: the gap burns ink"
+  },
+  {
+   "type": "stamp",
+   "at": 25.0,
+   "weight": 0.55,
+   "gain_db": -15,
+   "pan": -0.3,
+   "label": "player card cut"
+  },
+  {
+   "type": "whoosh",
+   "at": 24.95,
+   "length": 0.25,
+   "peak": 0.4,
+   "pitch": 1.4,
+   "weight": 0.3,
+   "pan": -0.3,
+   "gain_db": -21
+  },
+  {
+   "type": "stamp",
+   "at": 25.333,
+   "weight": 0.55,
+   "gain_db": -15,
+   "pan": 0.0,
+   "label": "player card cut"
+  },
+  {
+   "type": "whoosh",
+   "at": 25.283,
+   "length": 0.25,
+   "peak": 0.4,
+   "pitch": 1.4,
+   "weight": 0.3,
+   "pan": 0.0,
+   "gain_db": -21
+  },
+  {
+   "type": "stamp",
+   "at": 25.667,
+   "weight": 0.55,
+   "gain_db": -15,
+   "pan": 0.3,
+   "label": "player card cut"
+  },
+  {
+   "type": "whoosh",
+   "at": 25.617,
+   "length": 0.25,
+   "peak": 0.4,
+   "pitch": 1.4,
+   "weight": 0.3,
+   "pan": 0.3,
+   "gain_db": -21
+  },
+  {
+   "type": "ui_blip",
+   "at": 25.0,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -21,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "Jules: ring pulse"
+  },
+  {
+   "type": "riser",
+   "hit_at": 25.5,
+   "length": 0.25,
+   "gain_db": -21,
+   "label": "Nora: bars charge up"
+  },
+  {
+   "type": "whoosh",
+   "at": 25.62,
+   "length": 0.2,
+   "peak": 0.5,
+   "pitch": 1.8,
+   "weight": 0.15,
+   "gain_db": -21,
+   "label": "Emre: bridge line shoots out"
+  },
+  {
+   "type": "stamp",
+   "at": 39.0,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "x08 hard cut: the grid kicks"
+  },
+  {
+   "type": "whoosh",
+   "at": 38.925,
+   "length": 0.25,
+   "peak": 0.8,
+   "pitch": 1.5,
+   "weight": 0.2,
+   "gain_db": -21,
+   "label": "power whips along the conduit"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.125,
+   "kind": "tick",
+   "freq": 1500,
+   "gain_db": -17,
+   "label": "x08 fill step 1"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.25,
+   "kind": "tick",
+   "freq": 1560,
+   "gain_db": -21,
+   "label": "x08 fill step 2"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.375,
+   "kind": "tick",
+   "freq": 1620,
+   "gain_db": -21,
+   "label": "x08 fill step 3"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.5,
+   "kind": "tick",
+   "freq": 1680,
+   "gain_db": -17,
+   "label": "x08 fill step 4"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.5625,
+   "kind": "tick",
+   "freq": 1740,
+   "gain_db": -21,
+   "label": "x08 fill step 5"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.625,
+   "kind": "tick",
+   "freq": 1800,
+   "gain_db": -21,
+   "label": "x08 fill step 6"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.6875,
+   "kind": "tick",
+   "freq": 1860,
+   "gain_db": -21,
+   "label": "x08 fill step 7"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.75,
+   "kind": "tick",
+   "freq": 1920,
+   "gain_db": -17,
+   "label": "x08 fill step 8"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.8125,
+   "kind": "tick",
+   "freq": 1980,
+   "gain_db": -21,
+   "label": "x08 fill step 9"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.875,
+   "kind": "tick",
+   "freq": 2040,
+   "gain_db": -21,
+   "label": "x08 fill step 10"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.9375,
+   "kind": "tick",
+   "freq": 2100,
+   "gain_db": -21,
+   "label": "x08 fill step 11"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.0,
+   "kind": "tick",
+   "freq": 2160,
+   "gain_db": -17,
+   "label": "x08 fill step 12"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.125,
+   "kind": "select",
+   "freq": 880,
+   "gain_db": -22,
+   "length": 0.15,
+   "label": "bay powers up"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.5,
+   "kind": "select",
+   "freq": 880,
+   "gain_db": -22,
+   "length": 0.15,
+   "label": "bay powers up"
+  },
+  {
+   "type": "ui_blip",
+   "at": 39.75,
+   "kind": "select",
+   "freq": 880,
+   "gain_db": -22,
+   "length": 0.15,
+   "label": "bay powers up"
+  },
+  {
+   "type": "stamp",
+   "at": 40.0,
+   "weight": 0.9,
+   "gain_db": -11,
+   "label": "62% locks"
+  },
+  {
+   "type": "gate_clank",
+   "at": 40.0,
+   "size": 0.5,
+   "gain_db": -17,
+   "label": "powered leaves flash"
+  },
+  {
+   "type": "whoosh",
+   "at": 40.0695,
+   "length": 0.35,
+   "peak": 0.85,
+   "pitch": 1.2,
+   "weight": 0.4,
+   "gain_db": -17,
+   "label": "wipe along the conduit"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.367,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -22,
+   "label": "card linework plots on"
+  },
+  {
+   "type": "whoosh",
+   "at": 45.95,
+   "length": 1.0,
+   "peak": 0.1,
+   "pitch": 0.8,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "streams in flight on the hit"
+  },
+  {
+   "type": "whoosh",
+   "at": 45.95,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.3,
+   "weight": 0.3,
+   "pan": 0.4,
+   "gain_db": -20,
+   "label": "braid crossing 1"
+  },
+  {
+   "type": "whoosh",
+   "at": 46.4,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.3,
+   "weight": 0.3,
+   "pan": -0.4,
+   "gain_db": -20,
+   "label": "braid crossing 2"
+  },
+  {
+   "type": "riser",
+   "hit_at": 46.9,
+   "length": 0.35,
+   "gain_db": -15,
+   "label": "whip dive into the lock"
+  },
+  {
+   "type": "stamp",
+   "at": 46.9,
+   "weight": 1.0,
+   "gain_db": -10,
+   "label": "LOCK: the team forms"
+  },
+  {
+   "type": "ui_blip",
+   "at": 46.9,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -14,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "THE NODE pulse on JK"
+  },
+  {
+   "type": "whoosh",
+   "at": 47.25,
+   "length": 0.4,
+   "peak": 0.5,
+   "pitch": 1.6,
+   "weight": 0.15,
+   "gain_db": -22,
+   "label": "packets chase the triangle"
+  },
+  {
+   "type": "whoosh",
+   "at": 47.6695,
+   "length": 0.35,
+   "peak": 0.85,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "snap into Commit."
+  },
+  {
+   "type": "ui_blip",
+   "at": 52.5,
+   "kind": "tick",
+   "freq": 900,
+   "gain_db": -15,
+   "label": "projector shutter: checker reveal"
+  },
+  {
+   "type": "tick",
+   "at": 52.5,
+   "length": 0.45,
+   "subdiv": 12,
+   "accent_every": 12,
+   "tone": 0.7,
+   "gain_db": -25,
+   "label": "projector rattle"
+  },
+  {
+   "type": "data_chatter",
+   "at": 52.52,
+   "length": 0.25,
+   "density": 10,
+   "gain_db": -29,
+   "label": "ARCHIVE label scramble"
+  },
+  {
+   "type": "ui_blip",
+   "at": 54.0,
+   "kind": "tick",
+   "freq": 900,
+   "gain_db": -15,
+   "label": "projector shutter: checker reveal"
+  },
+  {
+   "type": "tick",
+   "at": 54.0,
+   "length": 0.45,
+   "subdiv": 12,
+   "accent_every": 12,
+   "tone": 0.7,
+   "gain_db": -25,
+   "label": "projector rattle"
+  },
+  {
+   "type": "data_chatter",
+   "at": 54.02,
+   "length": 0.25,
+   "density": 10,
+   "gain_db": -29,
+   "label": "ARCHIVE label scramble"
+  },
+  {
+   "type": "ui_blip",
+   "at": 54.433,
+   "kind": "tick",
+   "freq": 900,
+   "gain_db": -17,
+   "label": "checker hides the 1904 plate"
+  },
+  {
+   "type": "impact",
+   "at": 58.0,
+   "length": 0.9,
+   "size": 1.0,
+   "brightness": 0.5,
+   "sub_hz": 50,
+   "hpf": 40,
+   "gain_db": -10,
+   "label": "shock ring rolls over the island"
+  },
+  {
+   "type": "whoosh",
+   "at": 58.3,
+   "length": 1.2,
+   "peak": 0.85,
+   "pitch": 0.9,
+   "weight": 0.4,
+   "gain_db": -19,
+   "label": "crane up to top-down"
+  },
+  {
+   "type": "stamp",
+   "at": 59.0,
+   "weight": 0.5,
+   "gain_db": -16,
+   "label": "comets land on the gate"
+  },
+  {
+   "type": "ui_blip",
+   "at": 59.0,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -19,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "draped ring pulse"
   },
   {
    "type": "file",
