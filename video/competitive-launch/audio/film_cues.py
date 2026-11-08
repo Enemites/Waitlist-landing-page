@@ -157,10 +157,10 @@ c('whoosh', at=62.0, length=1.5, peak=0.95, weight=0.5, pitch=0.9, gain_db=-13, 
 c('ui_blip', at=63.5, kind='confirm', freq=880, gain_db=-12, verb={'hall': 0.3}, label='sonar ping')
 
 # ---- Bars 33-36 (64-72): CTA ---------------------------------------------------------------------
-c('pad', bar=32, bars=2, intensity=[0.35, 0.5], gain_db=-9)
+c('pad', bar=32, bars=2, intensity=[0.35, 0.45], gain_db=-12)
 c('ticks', bar=32, bars=2, subdiv=1, accent_every=4, intensity=0.55, gain_db=-12, label='last tick 67.5')
 c('reverse_swell', hit_at=64.0, length=1.5, chord='Gm', gain_db=-15)
-c('ui_blip', at=67.0, kind='confirm', gain_db=-15, label='button wipes in')
+c('ui_blip', at=67.0, kind='confirm', gain_db=-21, label='button wipes in')
 for t, f in ((68.0, 587.33), (68.25, 698.46), (68.5, 880.0)):
     c('ui_blip', at=t, kind='select', freq=f, gain_db=-6, verb={'hall': 0.35}, label='SONIC LOGO')
 c('plucks', bar=34, bars=1, pattern='0.1.2...........', intensity=0.3, gain_db=-14, verb={'hall': 0.3})
@@ -215,9 +215,20 @@ whoosh_peak(56.4, length=0.5, peak=0.7, pitch=1.2, weight=0.3, gain_db=-21, labe
 for t in (56.733, 56.9, 57.133): blip(t, 'tick', 2200, -21, label='marker pop')
 blip(57.5, 'confirm', 880, -16, verb={'hall': 0.25}, label='playhead lands on 08:31')
 
+# s13 payoff and medallion
+whoosh_peak(58.9, length=0.7, peak=0.6, pitch=1.2, weight=0.3, pan=-0.5, gain_db=-19, label='our plan runner')
+whoosh_peak(60.4, length=0.7, peak=0.6, pitch=1.0, weight=0.35, pan=0.5, gain_db=-19, label='their plan runner')
+blip(61.0, 'confirm', 880, -20, verb={'hall': 0.2}, label='Floodgate ring pulse')
+whoosh_peak(63.3, length=0.4, peak=0.7, pitch=1.5, weight=0.2, gain_db=-23, label='node hops onto the ring')
+# s14 end card
+c('data_chatter', at=64.75, length=0.45, density=14, gain_db=-24, label='eyebrow scramble')
+whoosh_peak(67.3, length=0.5, peak=0.6, pitch=1.4, weight=0.2, gain_db=-22, label='baton arc to the button')
+c('data_chatter', at=67.5, length=0.5, density=12, gain_db=-26, label='IN DEVELOPMENT scramble')
+blip(67.6, 'tick', 1400, -20, label='node seats on the arrow tip')
+
 # ---- VO -------------------------------------------------------------------------------------------
 VO = {'v01': 4.60, 'v02': 7.25, 'v03': 8.75, 'v04': 10.25, 'v05': 14.30, 'v06': 16.30, 'v07': 20.20, 'v08': 24.30,
-      'v09': 30.00, 'v10': 32.60, 'v11': 36.50, 'v12': 50.40, 'v13': 56.10, 'v14': 58.40, 'v15': 63.80, 'v16': 66.70}
+      'v09': 30.00, 'v10': 32.60, 'v11': 36.50, 'v12': 50.40, 'v13': 56.10, 'v14': 58.40, 'v15': 63.80, 'v16': 66.85}
 vo_override = {}
 if a.sync and os.path.exists(a.sync):
     sync = json.load(open(a.sync))

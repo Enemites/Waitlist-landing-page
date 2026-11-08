@@ -1134,9 +1134,9 @@
    "bars": 2,
    "intensity": [
     0.35,
-    0.5
+    0.45
    ],
-   "gain_db": -9
+   "gain_db": -12
   },
   {
    "type": "ticks",
@@ -1159,7 +1159,7 @@
    "type": "ui_blip",
    "at": 67.0,
    "kind": "confirm",
-   "gain_db": -15,
+   "gain_db": -21,
    "label": "button wipes in"
   },
   {
@@ -1797,6 +1797,83 @@
    "label": "playhead lands on 08:31"
   },
   {
+   "type": "whoosh",
+   "at": 58.48,
+   "length": 0.7,
+   "peak": 0.6,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "pan": -0.5,
+   "gain_db": -19,
+   "label": "our plan runner"
+  },
+  {
+   "type": "whoosh",
+   "at": 59.98,
+   "length": 0.7,
+   "peak": 0.6,
+   "pitch": 1.0,
+   "weight": 0.35,
+   "pan": 0.5,
+   "gain_db": -19,
+   "label": "their plan runner"
+  },
+  {
+   "type": "ui_blip",
+   "at": 61.0,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -20,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "Floodgate ring pulse"
+  },
+  {
+   "type": "whoosh",
+   "at": 63.02,
+   "length": 0.4,
+   "peak": 0.7,
+   "pitch": 1.5,
+   "weight": 0.2,
+   "gain_db": -23,
+   "label": "node hops onto the ring"
+  },
+  {
+   "type": "data_chatter",
+   "at": 64.75,
+   "length": 0.45,
+   "density": 14,
+   "gain_db": -24,
+   "label": "eyebrow scramble"
+  },
+  {
+   "type": "whoosh",
+   "at": 67.0,
+   "length": 0.5,
+   "peak": 0.6,
+   "pitch": 1.4,
+   "weight": 0.2,
+   "gain_db": -22,
+   "label": "baton arc to the button"
+  },
+  {
+   "type": "data_chatter",
+   "at": 67.5,
+   "length": 0.5,
+   "density": 12,
+   "gain_db": -26,
+   "label": "IN DEVELOPMENT scramble"
+  },
+  {
+   "type": "ui_blip",
+   "at": 67.6,
+   "kind": "tick",
+   "freq": 1400,
+   "gain_db": -20,
+   "label": "node seats on the arrow tip"
+  },
+  {
    "type": "file",
    "path": ".work/audio/vo-film/v01.wav",
    "at": 4.6,
@@ -1904,7 +1981,7 @@
   {
    "type": "file",
    "path": ".work/audio/vo-film/v16.wav",
-   "at": 66.7,
+   "at": 66.85,
    "bus": "vo",
    "label": "v16"
   }
