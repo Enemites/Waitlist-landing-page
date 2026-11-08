@@ -37,7 +37,7 @@ Durations end exactly where the next existing beat takes over: 20.0 versus, 22.0
   #dd6248, bone #c9c0b2, ink #f2eee7. Atlas is amber; Vega is red-orange. No other hues.
 - Copy only from `docs/brief.md` / the storyboard: ATLAS, VEGA, 3 V 3, Jules / Coordination,
   Nora / Power systems, Emre / Crossing, Restore gate power, OBJECTIVE 2 OF 3, 62%, Coordinate.,
-  Floodgate. No new claims, numbers or dates. Archive years only where true (1925 chess, 1904 crews).
+  Floodgate. No new claims, numbers or dates. Archive years only where true (1925 chess, 1904 crews in s03, 1937 The River levee in x11).
 - The HUD slug 'REALMS · COMPETITIVE · INTERFACE CONCEPT' and the corners stay on every product
   frame (use Brand.hud). The archive flashes use the archive slug style (see s03).
 - Tempo: these are the FAST moments. Cuts inside an insert land on beats or half-beats
@@ -179,3 +179,9 @@ snap out; hard cut back to s08 at 38.0, where PLAN AGREED lifts.
 - x08-gate-schematic: drafting errors (pump floats, conduit through the hatching).
 - s10: cuts on the half bar after the drop (48-52.5 held two static framings).
 - s01: the 3 s hook push in two beat-synced moves instead of one slow push.
+
+### Round 2 outcome
+- x07-section and x08-roles are in. The 26-39 s stretch now cuts away from the map at 30.5 and 36.5.
+- x11 uses river-levee-sandbag-team, labelled 'ARCHIVE · 1937', instead of the 1904 crews (s03 already shows them).
+- s06 lands with an 8-frame zoom (0.88x to 1.0, apex anchored) so the x05 dive carries through the 22.0 cut.
+- Sound: audio/film_cues.py has a block per round-2 insert, plus the retimed polish cues.
