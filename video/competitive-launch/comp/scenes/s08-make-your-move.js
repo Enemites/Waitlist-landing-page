@@ -9,7 +9,10 @@
  *      A-L / 01-08 board lines draw outward from the objective cell (1 f apart), coordinates scramble.
  * 0.25 panels enter (10 f power3.out, 2 f stagger); '03 —— MAKE YOUR MOVE' scrambles in (out 1.75).
  * 0.50 the clock starts at 08:32.
- * 1.00-2.50 LIFT: Jules 08:31 (types 0.6 s, 2x clone at 42 px); tifo cells light at 1.4 / 1.6.
+ * 1.00-2.50 LIFT: Jules 08:31 (types 0.6 s, 2x clone at 42 px); tifo role zones light at 1.4 (pump
+ *      station) / 1.6 (crossing): soft amber zones fitted to each feature (10% fill, 1.5 px dashed
+ *      outline at 45%), entering with a scale + a sweep of board cells; from 2.5 they settle to a
+ *      quiet state while the routes take over, and clear as each role is taken (NC 3.5, EK 5.25).
  * 2.50-3.50 NC's route draws, NC travels; chrome dims to 55% (messages land in a dimmed channel).
  * 3.50 Nora 08:26 (not lifted), RESTORING.
  * 4.00 LIFT + LANDING #3: PLAN AGREED stamps and lifts at 1.7x until 5.0.
@@ -45,7 +48,7 @@
     duration: 10,
     build(ctx) {
       const tl = ctx.tl;
-      const po2 = gsap.parseEase('power2.out');
+      const po2 = gsap.parseEase('power2.out'), eo = gsap.parseEase('expo.out'), io2 = gsap.parseEase('power2.inOut');
 
       // clock: 08:32 at 0.5 ... 08:14 at 9.5, held to 10.0
       const mAt = (lt) => Math.max(494, Math.min(512, 513 - 2 * lt));
@@ -54,7 +57,7 @@
         tau: (lt) => lt - 6.5,                  // Vega pulses at 7.0 / 8.0 / 9.0; tau 3.0 at 9.5 (= s01 3.0)
         camera: 'OVERVIEW_WIDE',                // s07's last framing
         raise: ['vega', 'vegaRoutes'],          // the threat stays lit under every lift
-        zones: true,
+        zones: false,                           // this scene draws its own role zones (below)
       });
       const U = M.U, F = M.F, K = M.K, L = M.L;
 
@@ -63,16 +66,63 @@
       M.camera.move(5.0, 1.5, 'MATCH', 'power2.inOut');   // EK has reached the crossing; find the far bank
       M.camera.move(8.0, 1.5, 'HOOK', 'power3.inOut');
 
-      // ---- raised world marks (above the LIFT dim): tifo cells always; the objective ring only
-      // while its own panel is lifted (5.0-6.5), so it fills in sync with the card
+      // ---- raised world marks (above the LIFT dim): the role zones (own layer, below); the
+      // objective ring only while its own panel is lifted (5.0-6.5), so it fills in sync with the card
       const hotMark = ctx.svg('g', {}, L.hotWg);
       L.hotWg.insertBefore(hotMark, L.hotWg.firstChild);
-      // tifo cells: the kit's 12% fill, plus a hairline outline that follows the same envelope
-      const zoneLines = (K.zones || []).map((z) => {
-        L.hotWg.insertBefore(z, hotMark);
-        const o = ctx.svg('rect', { x: z.getAttribute('x'), y: z.getAttribute('y'), width: z.getAttribute('width'), height: z.getAttribute('height'), fill: 'none', stroke: C.amber, 'stroke-width': 1.1, opacity: 0 }, L.hotWg);
-        L.hotWg.insertBefore(o, hotMark);
-        return { z, o };
+
+      // ---- TIFO ROLE ZONES: one per order in Jules's message, lit as its words land. Each is a
+      // rounded shape fitted to its feature (product coords; local frame = translate(cx cy) rotate(rot)):
+      //  - pump station: the building (530-594 x 376-422) plus Nora's post below it; its top edge
+      //    sits just under the 'Pump station' label, which reads as the zone's tab
+      //  - crossing: a capsule along the bridge (two lines at 41.8 deg, ends (942,346) / (1054,446))
+      // Peak (Jules's lift): 10% radial fill, 1.5 px dashed outline at 45%, entering with a scale
+      // (0.86 -> 1, expo.out 12 f) while board cells (quarter cells of the A-L grid) sweep outward from
+      // the feature. Quiet from 2.5 (the routes take over), cleared as the role is taken.
+      // They live in their own camera-bound SVG at the bottom of the hot layer (lit above the lift
+      // dim), clipped out of the roster / channel / objective panels so the chrome stays on top.
+      const ZONES = [
+        { at: 1.4, cx: 562, cy: 418, w: 108, h: 96, rot: 0, rx: 16, fx: 562, fy: 404, out: 3.25 },
+        { at: 1.6, cx: 996, cy: 394, w: 192, h: 62, rot: 41.76, rx: 31, fx: 998, fy: 396, out: 5.0 },
+      ];
+      const zoneSvg = ctx.svg('svg', { class: 'brand-svg s08-zones' }, L.hot);
+      L.hot.insertBefore(zoneSvg, L.hot.firstChild);
+      const zoneWg = ctx.svg('g', { transform: F.wg.getAttribute('transform') }, F.T.group(zoneSvg));
+      {
+        const rr = (x, y, w, h, r) => `M${x + r} ${y}H${x + w - r}A${r} ${r} 0 0 1 ${x + w} ${y + r}V${y + h - r}A${r} ${r} 0 0 1 ${x + w - r} ${y + h}H${x + r}A${r} ${r} 0 0 1 ${x} ${y + h - r}V${y + r}A${r} ${r} 0 0 1 ${x + r} ${y}Z`;
+        const holes = [U.roster, U.channel, U.objective].map((el) => { const r = rectOf(el, ctx.root); return rr(r.x, r.y, r.w, r.h, 18); });
+        zoneSvg.style.clipPath = `path(evenodd, '${rr(-10, -10, W + 20, H + 20, 0)} ${holes.join(' ')}')`;
+      }
+      const QW = Match.GRID.w / Match.GRID.cols / 4, QH = Match.GRID.h / Match.GRID.rows / 4;   // quarter board cells
+      const zones = ZONES.map((z, i) => {
+        const g = ctx.svg('g', { opacity: 0 }, zoneWg);
+        const defs = ctx.svg('defs', {}, g);
+        const gid = `${ID}-zone-${i}`;
+        const grad = ctx.svg('radialGradient', { id: gid + '-fill', cx: 0.5, cy: 0.5, r: 0.62 }, defs);
+        ctx.svg('stop', { offset: '0%', 'stop-color': C.amber, 'stop-opacity': 1 }, grad);
+        ctx.svg('stop', { offset: '100%', 'stop-color': C.amber, 'stop-opacity': 0.62 }, grad);
+        const clip = ctx.svg('clipPath', { id: gid + '-clip' }, defs);
+        ctx.svg('rect', { x: -z.w / 2, y: -z.h / 2, width: z.w, height: z.h, rx: z.rx, transform: `translate(${z.cx} ${z.cy}) rotate(${z.rot})` }, clip);
+        const local = ctx.svg('g', { transform: `translate(${z.cx} ${z.cy}) rotate(${z.rot})` }, g);
+        const fill = ctx.svg('rect', { x: -z.w / 2, y: -z.h / 2, width: z.w, height: z.h, rx: z.rx, fill: `url(#${gid}-fill)`, 'fill-opacity': 0 }, local);
+        // board cells under the zone (product coords, clipped to the zone shape)
+        const cellsG = ctx.svg('g', { 'clip-path': `url(#${gid}-clip)` }, g);
+        const cs = Math.cos(z.rot * Math.PI / 180), sn = Math.sin(z.rot * Math.PI / 180);
+        const ext = Math.abs(z.w / 2 * cs) + Math.abs(z.h / 2 * sn), eyt = Math.abs(z.w / 2 * sn) + Math.abs(z.h / 2 * cs);
+        const cells = [];
+        for (let cx = Math.floor((z.cx - ext) / QW) * QW; cx < z.cx + ext; cx += QW) {
+          for (let cy = Math.floor((z.cy - eyt) / QH) * QH; cy < z.cy + eyt; cy += QH) {
+            const mx = cx + QW / 2 - z.cx, my = cy + QH / 2 - z.cy;
+            const lx = mx * cs + my * sn, ly = -mx * sn + my * cs;     // cell centre in the zone frame
+            if (Math.abs(lx) > z.w / 2 + QW * 0.45 || Math.abs(ly) > z.h / 2 + QH * 0.45) continue;
+            const el = ctx.svg('rect', { x: (cx + 0.9).toFixed(2), y: (cy + 0.9).toFixed(2), width: (QW - 1.8).toFixed(2), height: (QH - 1.8).toFixed(2), fill: C.amber, 'fill-opacity': 0 }, cellsG);
+            cells.push({ el, d: Math.hypot(cx + QW / 2 - z.fx, cy + QH / 2 - z.fy) });
+          }
+        }
+        const dMax = Math.max(...cells.map((c) => c.d));
+        cells.forEach((c) => { c.delay = (c.d / dMax) * 6 / FPS; });
+        const line = ctx.svg('rect', { x: -z.w / 2, y: -z.h / 2, width: z.w, height: z.h, rx: z.rx, fill: 'none', stroke: C.amber, 'stroke-opacity': 0, 'stroke-linecap': 'round' }, local);
+        return Object.assign({ g, fill, line, cells }, z);
       });
       const ringNodes = [F.el.gate, F.el.ringTrack, F.el.ring];
       const ringHome = F.el.crossing;            // the node created right after the ring in F.wg
@@ -185,8 +235,37 @@
         if (pu >= 0 && pu <= 1) { ringPulse.setAttribute('r', (64 * (1 + 1.2 * po2(pu))).toFixed(2)); ringPulse.setAttribute('opacity', (0.6 * (1 - pu)).toFixed(3)); }
         else if (ringPulse.getAttribute('opacity') !== '0') ringPulse.setAttribute('opacity', '0');
 
-        // tifo outlines
-        for (const zl of zoneLines) { const v = +(zl.z.getAttribute('opacity') || 0); zl.o.setAttribute('opacity', (v / 0.12 * 0.55).toFixed(3)); }
+        // tifo role zones. After Jules's lift they sit under the later lifts' dim like the world
+        let dimK = 1;
+        if (lt > 2.9) { let d = M.dim.v; for (const lf of M.lifts) d = Math.max(d, lf.P.p * lf.o.dim); dimK = 1 - d; }
+        const kPx = F.T.state.zoom * Match.S;                         // product units -> screen px
+        const quiet = io2(clamp01((lt - 2.5) / 0.4));
+        for (const z of zones) {
+          const u = lt - z.at;
+          const vis = u < 0 ? 0 : (1 - io2(clamp01((lt - z.out) / 0.4))) * dimK;
+          if (vis <= 0.001) { if (z.g.getAttribute('opacity') !== '0') z.g.setAttribute('opacity', '0'); continue; }
+          z.g.setAttribute('opacity', vis >= 0.999 ? '1' : vis.toFixed(3));
+          const e = eo(clamp01(u / (12 / FPS)));
+          const s = 0.86 + 0.14 * e;
+          z.g.setAttribute('transform', `translate(${z.cx} ${z.cy}) scale(${s.toFixed(4)}) translate(${-z.cx} ${-z.cy})`);
+          // fill rises behind the cell sweep; outline snaps on with a small lock-on flash
+          const fa = 0.10 * po2(clamp01((u - 2 / FPS) / (10 / FPS))) * lerp(1, 0.42, quiet);
+          z.fill.setAttribute('fill-opacity', fa.toFixed(4));
+          const flash = 0.3 * clamp01(1 - Math.abs(u - 4 / FPS) / (6 / FPS));
+          const la = (0.45 * clamp01(u / (4 / FPS)) + flash) * lerp(1, 0.45, quiet);
+          z.line.setAttribute('stroke-opacity', la.toFixed(4));
+          const k = kPx * s;                                          // 1.5 px stroke, 7/5 px dashes on screen
+          z.line.setAttribute('stroke-width', (1.5 / k).toFixed(4));
+          z.line.setAttribute('stroke-dasharray', `${(7 / k).toFixed(3)} ${(5 / k).toFixed(3)}`);
+          z.line.setAttribute('stroke-dashoffset', (18 * (1 - e) / k).toFixed(3));   // the dashes settle as it lands
+          // board cells: each flashes to 16% then clears (rise 2 f, decay 8 f), outward from the feature
+          for (const c of z.cells) {
+            const v = (u - c.delay) / (10 / FPS);
+            const a = v <= 0 || v >= 1 ? 0 : v < 0.2 ? 0.16 * v / 0.2 : 0.16 * Math.pow(1 - (v - 0.2) / 0.8, 2);
+            const sa = a > 0.0005 ? a.toFixed(4) : '0';
+            if (c.el.getAttribute('fill-opacity') !== sa) c.el.setAttribute('fill-opacity', sa);
+          }
+        }
 
         // coordinates: in outward from the objective column (1 f apart, 6 f scramble); out from the
         // centre outward from 0.22 as the chapter label takes the band (gone by ~0.55)

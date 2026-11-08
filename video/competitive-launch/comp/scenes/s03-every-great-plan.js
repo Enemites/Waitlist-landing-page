@@ -20,7 +20,7 @@
   const HAND = (window.Match && Match.HANDOFF && Match.HANDOFF['s02-freeze-rewind@4.0']) || { node: [607.2, 372], window: WIN };
   const CAMW = (window.Match && Match.CAM && Match.CAM.WINDOW) || { x: 800, y: 520, zoom: 0.56 }; // product units
   const JK_SCREEN = HAND.node;                             // JK's lobby slot under WINDOW
-  const NODE_S0 = 24 * CAMW.zoom * S / 12;                 // s02's world-space node (size 2) / our screen node
+  const NODE_S0 = (HAND.nodeRingR || 24 * CAMW.zoom * S) / 12; // s02's world-space node ring (size 2) / our screen node ring
   const toProduct = (sx, sy) => [CAMW.x + (sx - W / 2) / (CAMW.zoom * S), CAMW.y + (sy - H / 2) / (CAMW.zoom * S)];
   const FR = '../.work/frames/';
 
@@ -327,13 +327,20 @@
       // reel i steps up by one at 2, 4, 6, 8 f (steps(1) + 3 f settle; frame 0 is s02's 08:32);
       // the colon closes at 0.50 (6 f)
       const STEP = [2, 4, 6, 8].map((f) => f / FPS);
+      // s02's rewind rolls its flap clock up one notch per frame into the hand-over (08:29, 08:30,
+      // 08:31, 08:32 on its last frames), so on frames 0-2 its reels are still settling: carry that
+      // settle over (Match.flapClock SETTLE .16 / -.06 / .02 of a 1.12em = 31.36 px row, rolling up)
+      // so the clock does not snap still on the hand-over frame.
+      const HSET = [null, null, [0.02, 0, 0], [0.16, -0.06, 0.02]];
       ctx.onFrame((lt) => {
+        const f0 = fr(lt);
         reels.forEach((strip, i) => {
           const t0 = STEP[i], on = lt >= t0;
           const v = digits0[i] + (on ? 1 : 0);
           const u = on ? clamp((lt - t0) / (3 / FPS), 0, 1) : 1;
           const off = on ? 0.24 * (1 - p2o(u)) : 0;
-          strip.style.transform = `translateY(${((-v + off) * 32).toFixed(2)}px)`;
+          const hs = HSET[i] && f0 >= 0 && f0 < 3 ? -HSET[i][f0] * 31.36 : 0;
+          strip.style.transform = `translateY(${((-v + off) * 32 + hs).toFixed(2)}px)`;
         });
         const c = 1 - p2io(clamp((lt - 0.50) / (6 / FPS), 0, 1));
         colonEl.style.width = (chW * c).toFixed(2) + 'px';
