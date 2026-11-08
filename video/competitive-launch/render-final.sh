@@ -6,7 +6,7 @@
 # Usage: ./render-final.sh [--skip-picture] [--skip-audio] [--crf 20]
 set -euo pipefail
 cd "$(dirname "$0")"
-CRF=20; SKIP_PIC=0; SKIP_AUD=0
+CRF=23; SKIP_PIC=0; SKIP_AUD=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --skip-picture) SKIP_PIC=1; shift;;
@@ -25,8 +25,8 @@ if [[ $SKIP_AUD == 0 ]]; then
 fi
 OUT=out/realms-competitive-launch.mp4
 ffmpeg -v error -y -i .work/final/picture.mp4 -i .work/final/mix.wav \
-  -map 0:v:0 -map 1:a:0 \
-  -c:v libx264 -preset slow -crf "$CRF" -tune film -profile:v high -level 4.1 -pix_fmt yuv420p \
+  -map 0:v:0 -map 1:a:0 -vf "hqdn3d=0:0:2:2" \
+  -c:v libx264 -preset slow -crf "$CRF" -profile:v high -level 4.1 -pix_fmt yuv420p \
   -color_primaries bt709 -color_trc bt709 -colorspace bt709 -x264-params keyint=60:min-keyint=30 \
   -c:a aac -b:a 256k -ar 48000 \
   -movflags +faststart -metadata title="Realms Competitive: launch film" -shortest "$OUT"
