@@ -59,9 +59,9 @@ for t in (13.0, 13.5, 13.567, 13.633, 13.7): c('tick_one', at=t, tone=1.2, gain_
 c('riser', hit_at=13.933, length=2.0, gain_db=-11, label='riser sucks out 2 frames before the latch')
 
 # ---- Bar 8 (14-16): TITLE ----------------------------------------------------------------
-c('gate_clank', at=14.0, size=1.15, latch=True, gain_db=0, verb={'hall': 0.12}, label='TITLE ACCENT latch')
-c('stamp', at=14.0, weight=1.3, gain_db=-3, verb={'hall': 0.15})
-c('impact', at=14.0, length=0.9, size=0.7, sub_hz=72, punch=1.2, brightness=0.9, gain_db=-5, hpf=55, fade_out=0.4, label='title body, no sub')
+c('gate_clank', at=14.0, size=1.15, latch=True, gain_db=-9, verb={'hall': 0.12}, label='TITLE ACCENT latch')
+c('stamp', at=14.0, weight=1.3, gain_db=-9, verb={'hall': 0.15})
+c('impact', at=14.0, length=0.9, size=0.7, sub_hz=72, punch=1.2, brightness=0.9, gain_db=-10, hpf=55, fade_out=0.4, label='title body, no sub')
 c('pad', bar=7, bars=1, intensity=[0.45, 0.8], gain_db=-6, label='Dm(add9) swell')
 
 # ---- Bars 9-11 (16-22): ONE WORLD ---------------------------------------------------------
@@ -70,10 +70,12 @@ c('bass_ostinato', bar=8, bars=3, pattern='R.......R.......', intensity=0.6, gai
 c('ticks', bar=8, bars=3, subdiv=2, accent_every=4, intensity=0.7, gain_db=-9)
 whoosh_peak(17.5, length=0.6, peak=0.6, pitch=1.3, weight=0.3, pan=-0.6, gain_db=-16)
 c('ui_blip', at=19.5, kind='confirm', freq=880, gain_db=-12, verb={'hall': 0.3}, label='sonar ping')
-c('stamp', at=20.0, weight=1.0, gain_db=-9, label='versus: amber slab slams')
-c('stamp', at=20.75, weight=1.0, gain_db=-9, label='versus: red slab slams')
+c('stamp', at=20.0, weight=1.0, gain_db=-13, label='versus: amber slab slams')
+c('stamp', at=20.75, weight=1.0, gain_db=-13, label='versus: red slab slams')
 c('riser', hit_at=21.967, length=0.22, gain_db=-16, label='versus dive into the charcoal diamond')
-c('whoosh', at=21.98, length=0.32, peak=0.1, pitch=0.6, weight=0.75, gain_db=-15, label='out through the diamond: s06 zoom landing')
+c('whoosh', at=21.98, length=0.32, peak=0.1, pitch=0.6, weight=0.75, gain_db=-11, label='out through the diamond: s06 zoom landing')
+c('impact', at=22.0, length=0.35, size=0.4, brightness=0.4, sub_hz=70, hpf=70, gain_db=-18, label='s06 lands')
+c('data_chatter', at=22.0, length=0.3, density=14, gain_db=-26, label='01 FORM YOUR TEAM scramble')
 
 # ---- Bars 12-14 (22-28): 01 FORM YOUR TEAM ---------------------------------------------------
 c('plucks', bar=11, bars=3, intensity=0.5, gain_db=-11)
@@ -118,8 +120,8 @@ c('water_rush', at=44.0, length=2.0, intensity=0.2, gain_db=-26, label='faint ri
 c('reverse_cymbal', hit_at=46.0, length=1.0, gain_db=-16)
 
 # ---- Bars 24-26 (46-52): THE DROP -------------------------------------------------------------
-c('impact', at=46.0, size=1.3, brightness=0.3, sub_hz=44, gain_db=0, label='THE ONE LOW HIT')
-c('sub_drop', at=46.0, f0=90, f1=27, gain_db=-5)
+c('impact', at=46.0, size=1.3, brightness=0.3, sub_hz=44, gain_db=-6, label='THE ONE LOW HIT')
+c('sub_drop', at=46.0, f0=90, f1=27, gain_db=-10)
 c('bass_ostinato', bar=23, bars=3, intensity=0.9, gain_db=-6)
 c('drums', bar=23, bars=3, intensity=0.85, gain_db=-7)
 c('taiko', bar=23, bars=3, intensity=0.85, gain_db=-9)
@@ -166,7 +168,7 @@ c('ui_blip', at=67.0, kind='confirm', gain_db=-21, label='button wipes in')
 for t, f in ((68.0, 587.33), (68.25, 698.46), (68.5, 880.0)):
     c('ui_blip', at=t, kind='select', freq=f, gain_db=-6, verb={'hall': 0.35}, label='SONIC LOGO')
 c('plucks', bar=34, bars=1, pattern='0.1.2...........', intensity=0.3, gain_db=-14, verb={'hall': 0.3})
-c('resolve_swell', at=68.0, length=2.6, chords=['Dm(add9)'], swell=0.25, hpf=70, trim=3.0, fade_out=1.0, gain_db=-6, label='resolve, decays to silence by 71.0')
+c('resolve_swell', at=68.0, chords=['Dm(add9)'], swell=0.15, hpf=70, trim=3.5, fade_out=1.4, gain_db=-6, label='resolve, rings out to about 71.5')
 
 # ---- Picture-synced SFX reported by the scene engineers (film seconds) -------------------------
 def blip(t, kind='tick', freq=1760, g=-18, **k): return c('ui_blip', at=t, kind=kind, freq=freq, gain_db=g, **k)
@@ -227,17 +229,17 @@ blip(67.6, 'tick', 1400, -20, label='node seats on the arrow tip')
 # ---- Revision v3 inserts (docs/revision-v3.md), picture-synced, film seconds ----------------------
 # x05-iso-world 18.25-20.0: the 3D island
 c('whoosh', at=18.2, length=0.7, peak=0.12, pitch=0.9, weight=0.6, gain_db=-14, label='x05 whip orbit on the cut')
-c('stamp', at=18.25, weight=0.55, gain_db=-15, label='x05 hard cut in')
+c('impact', at=18.25, length=0.4, size=0.35, brightness=0.8, sub_hz=70, hpf=80, gain_db=-18, label='x05 hard cut in')
 c('data_chatter', at=18.33, length=0.5, density=14, gain_db=-27, label='x05 eyebrow scramble')
 c('data_chatter', at=18.75, length=0.3, density=12, gain_db=-28, label='x05 VEGA tag')
 c('whoosh', at=18.70, length=0.6, peak=0.35, pitch=1.1, weight=0.25, direction=-1, pan=0.3, gain_db=-23, label='their red plan draws')
-whoosh_peak(19.97, length=0.4, peak=0.85, pitch=1.2, weight=0.5, gain_db=-15, label='x05 push into the gate')
+whoosh_peak(19.97, length=0.4, peak=0.85, pitch=1.2, weight=0.5, gain_db=-19, label='x05 push into the gate')
 # x05-versus 20.0-22.0: slabs
 whoosh_peak(20.0, length=0.3, peak=0.85, pitch=0.85, weight=0.7, pan=-0.5, gain_db=-14, label='amber slab in from the left')
 c('impact', at=20.0, length=0.6, size=0.5, brightness=0.6, sub_hz=62, hpf=50, gain_db=-13, label='versus slam')
-blip(20.1, 'select', 1174.66, -20, label='Atlas diamond pops')
+blip(20.1, 'select', 1174.66, -25, label='Atlas diamond pops')
 c('data_chatter', at=20.16, length=0.36, density=14, gain_db=-28, label='YOUR TEAM scramble')
-whoosh_peak(20.78, length=0.3, peak=0.85, pitch=0.85, weight=0.7, pan=0.5, gain_db=-14, label='red slab in from the right')
+whoosh_peak(20.78, length=0.3, peak=0.85, pitch=0.85, weight=0.7, pan=0.5, direction=-1, gain_db=-14, label='red slab in from the right')
 c('impact', at=20.75, length=0.6, size=0.5, brightness=0.6, sub_hz=58, hpf=50, gain_db=-13, label='versus slam')
 blip(20.85, 'deny', 660, -20, label='Vega ring pops')
 c('data_chatter', at=20.91, length=0.36, density=14, gain_db=-28, label='OPPOSITION scramble')
@@ -246,20 +248,22 @@ c('typing', at=21.45, length=0.13, rate=14, gain_db=-24, label='3 V 3 types on')
 c('tape_scrub', at=20.45, length=0.24, direction=1, gain_db=-28, label='dashed hint pencils along the seam')
 blip(21.3, 'tick', 2400, -15, label='another: the gap burns ink')
 # x06-player-cards 25.0-26.0: three cards on the third-beats
-for t, pan in ((25.0, -0.3), (25.333, 0.0), (25.667, 0.3)):
-    c('stamp', at=t, weight=0.55, gain_db=-15, pan=pan, label='player card cut')
+for i, (t, pan) in enumerate(((25.0, -0.3), (25.333, 0.0), (25.667, 0.3))):
+    c('tick_one', at=t, tone=1.6 + 0.2 * i, gain_db=-14, pan=pan, label='player card flip')
     whoosh_peak(t + 0.05, length=0.25, peak=0.4, pitch=1.4, weight=0.3, pan=pan, gain_db=-21)
-blip(25.0, 'confirm', 1174.66, -21, verb={'hall': 0.2}, label='Jules: ring pulse')
+blip(25.0, 'confirm', 1174.66, -26, verb={'hall': 0.2}, label='Jules: ring pulse')
 c('riser', hit_at=25.5, length=0.25, gain_db=-21, label='Nora: bars charge up')
 whoosh_peak(25.72, length=0.2, peak=0.5, pitch=1.8, weight=0.15, gain_db=-21, label='Emre: bridge line shoots out')
 # x08-gate-schematic 39.0-40.5: blueprint powers up
-c('stamp', at=39.0, weight=0.5, gain_db=-15, label='x08 hard cut: the grid kicks')
+c('glitch', at=39.0, length=0.1, character=0.7, gain_db=-18, label='x08 hard cut: the grid kicks (electrical)')
+c('gate_clank', at=39.0, size=0.35, latch=False, length=0.9, fade_out=0.4, gain_db=-17, label='x08 hard cut: metal')
 whoosh_peak(39.125, length=0.25, peak=0.8, pitch=1.5, weight=0.2, gain_db=-21, label='power whips along the conduit')
 STEPS = [39.125, 39.25, 39.375, 39.5] + [39.5 + 0.0625 * k for k in range(1, 9)]
 for k, t in enumerate(STEPS):
     accent = t in (39.125, 39.5, 39.75, 40.0)
-    blip(round(t, 4), 'tick', 1500 + 60 * k, -17 if accent else -21, label='x08 fill step %d' % (k + 1))
+    blip(round(t, 4), 'tick', round(1200 * 1.07 ** k, 1), -17, label='x08 fill step %d' % (k + 1))
 for t in (39.125, 39.5, 39.75): blip(t, 'select', 880, -22, length=0.15, label='bay powers up')
+c('riser', hit_at=40.0, length=0.9, gain_db=-18, label='gate charges to 62%')
 c('stamp', at=40.0, weight=0.9, gain_db=-11, label='62% locks')
 c('gate_clank', at=40.0, size=0.5, gain_db=-17, label='powered leaves flash')
 whoosh_peak(40.367, length=0.35, peak=0.85, pitch=1.2, weight=0.4, gain_db=-17, label='wipe along the conduit')
@@ -293,7 +297,7 @@ whoosh_peak(31.87, length=0.3, peak=0.6, pitch=1.1, weight=0.35, gain_db=-20, la
 blip(32.0, 'tick', 1400, -25, label='cut back to s07')
 # x08-roles 36.5-38.0: three role panes slam in on the beats, merge into PLAN AGREED
 for t, d, f in ((36.5, 1, 1174.66), (36.75, -1, 1396.91), (37.0, 1, 1760.0)):
-    c('stamp', at=t, weight=0.7, gain_db=-13, pan=-0.35 * d, label='role pane slams in')
+    c('gate_clank', at=t, size=0.4, pitch=(0.9, 1.0, 1.12)[int(round((t - 36.5) / 0.25))], latch=False, length=0.9, fade_out=0.4, gain_db=-15, pan=-0.35 * d, label='role pane slams in (metal)')
     whoosh_peak(t + 0.02, length=0.22, peak=0.8, pitch=1.1, weight=0.5, direction=d, gain_db=-18, label='pane smear')
     blip(round(t + 0.067, 3), 'select', f, -20, label='role token pops, pictogram plots')
 whoosh_peak(37.85, length=0.25, peak=0.85, pitch=1.0, weight=0.5, gain_db=-17, label='snap out: panes collapse onto one bar')
@@ -320,7 +324,7 @@ if a.sync and os.path.exists(a.sync):
     sync = json.load(open(a.sync))
     vo_override = sync.get('vo', {})
     for s in sync.get('sfx', []): cues.append(s)
-VO_GAIN = {'v01': 2.5, 'v13': 2.0, 'v12': 1.5}
+VO_GAIN = {'v01': 2.5, 'v13': 2.0, 'v12': 2.5}
 for k, t in VO.items():
     cues.append({'type': 'file', 'path': os.path.join(a.vo_dir, k + '.wav'), 'at': vo_override.get(k, t), 'bus': 'vo', 'label': k, 'gain_db': VO_GAIN.get(k, 0)})
 
@@ -330,7 +334,7 @@ sheet = {
     'buses': {
         'music': {'duck': {'key': 'vo', 'depth_db': 9, 'attack': 0.06, 'release': 0.45, 'hold': 0.25}},
         'sfx': {'duck': {'key': 'vo', 'depth_db': 4}},
-        'peak': {'duck': {'key': 'vo', 'depth_db': 5.5, 'attack': 0.06, 'release': 0.45, 'hold': 0.25}},
+        'peak': {'duck': {'key': 'vo', 'depth_db': 8.5, 'attack': 0.06, 'release': 0.45, 'hold': 0.25}},
         'vo': {'chain': 'vo', 'over_bed_lu': 8},
     },
     'master': {'lufs': -14.0, 'true_peak': -2.0, 'glue': True},
