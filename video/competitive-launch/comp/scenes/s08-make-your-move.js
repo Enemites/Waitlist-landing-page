@@ -252,7 +252,10 @@
         },
       });
       // 8.25-9.33 the alert, exactly as in the hook
-      M.lift(U.warn, { at: 8.25, dur: 10 / FPS, out: 9.0, outDur: 10 / FPS, scale: 2, cx: 960, top: 792, accent: 'rival' });
+      const WL = M.lift(U.warn, { at: 8.25, dur: 10 / FPS, out: 9.0, outDur: 10 / FPS, scale: 2, cx: 960, top: 792, accent: 'rival' });
+      // v3: the pill's ground is opaque whenever it is off its row (as in s01), so 'Vega is contesting the
+      // crossing' never shows the objective card's title through it on the lift (42.283) or the drop (43.27)
+      ctx.onFrame(() => { if (WL.P.p > 0.0005) WL.bg.style.opacity = '1'; });
 
       // ---- per frame (after the kit's state + the lifts)
       ctx.onFrame((lt) => {

@@ -17,9 +17,10 @@
  *      frame, clipped inside the HUD frame, y 96-960) settles at 8.5%. The type rides in 2 f behind
  *      (parallax inside the pane); the token pops; the pictogram plots left to right (8 f).
  * 0.50-1.25 hold: the motifs keep moving (rings travel out, bars breathe, the hatch flows), panes drift 6 px.
- * 1.25-1.4667 SNAP OUT: the type drops out of the panes (2 f); the outer panes slam onto the middle one
- *      (power4.in, together on 1.375 = 37.875, a light flash), then the merged bar collapses (power2.in) onto the
- *      mid-line of s08's PLAN AGREED card as it is on its first lifted frame (38.033, measured: x 1117-1623,
+ * 1.25-1.4667 SNAP OUT: on 1.25 (37.75, on the quarter beat) the type, tokens, pictograms and motifs cut out of the
+ *      panes on ONE frame (no in-between frame, so no word is ever sliced by its pane mask); the outer panes slam
+ *      onto the middle one (power4.in, together on 1.375 = 37.875, a light flash), then the merged bar collapses
+ *      (power2.in) onto the mid-line of s08's PLAN AGREED card as it is on its first lifted frame (38.033, measured: x 1117-1623,
  *      centre y 499): on 37.967 it is a light hairline exactly that wide at that height, the card opens out of
  *      it two frames later. Hard cut to s08 at 1.5 (38.0). Three roles, one plan.
  * HUD: s08's corners (inset 72, no ticks) and slug (120,990, .1em) on every frame.
@@ -66,7 +67,8 @@
   // exit: vertical merge offset, vertical scale, hairline retract
   const mergeY = (t, k) => (k === 1 ? 0 : (k === 0 ? 1 : -1) * PITCH * p4in(seg(t, OUT0, MERGE)));
   const collapse = (t) => p2in(seg(t, MERGE + 0.005, END));
-  const contentOut = (t) => p2in(seg(t, OUT0, OUT0 + 2 / FPS));
+  // pane content cuts out on one frame (a 2 f drop left a frame with every word sliced by its pane mask)
+  const contentOut = (t) => (t >= OUT0 ? 1 : 0);
 
   Film.scene({
     id: ID,
@@ -279,7 +281,7 @@
           const flash = merged ? Math.max(0, 1 - (lt - MERGE) / (2 / FPS)) : 0;
           g.fillStyle = cl > 0.85 || flash > 0.5 ? C.amberLight : C.amber;
           g.beginPath(); poly(g, xl, xr, cy, h); g.fill();
-          if (lt >= OUT0 + 2.5 / FPS) { p.clip.style.display = 'none'; return; }
+          if (co >= 1) { p.clip.style.display = 'none'; return; }
 
           // content inside the pane (clipped)
           g.save();

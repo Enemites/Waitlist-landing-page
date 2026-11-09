@@ -703,11 +703,14 @@
         if (!ok) continue;
         // the neighbour row drawn just before this one (farther from the eye)
         const up = ys[r] < ezr, nb = up ? r - 1 : r + 1;
-        // distance falloff
+        // distance falloff. Stroke floor 1.3 px (near rows 2.55): thinner amber lines lose their colour in the 4:2:0
+        // delivery (a 0.85 px row kept ~45% of its R-B, a 1.3-2.5 px row keeps 55-70% at CRF 20, chroma-qp-offset -8).
+        // The far rows pay for the extra width with a deeper depth fade (0.5 at the far edge), so their weight stays
+        // where it was and the island keeps its depth; the ridge highlight (bucket 4) widens less (x1.18 at full relief).
         const near = zF > zN ? clamp((zF - rowZ[r]) / (zF - zN), 0, 1) : 1;
-        let df = (0.6 + 0.4 * Math.pow(near, 0.9)) * look.lines;
+        let df = (0.5 + 0.5 * Math.pow(near, 0.9)) * look.lines;
         if (sweepOn) { const rz = r / (NR - 1), d = (rz - look.sweep) / 0.05; df += look.sweepA * 0.9 * Math.exp(-d * d); }
-        const lw = 0.85 + 1.25 * near;
+        const lw = 1.3 + 1.25 * near;
         // water surface between the neighbour's chord and this row's chord (a continuous sheet at sea level,
         // so the banks do not show ground-coloured teeth between the rows); the neighbour's surface line is
         // re-stroked on top of it
@@ -800,7 +803,7 @@
           }
           const lv = clamp(lev[b] * df, 0, 1);
           g.strokeStyle = b === 4 ? rgb(GROUND, top, Math.min(1, lv * 1.02)) : rgb(GROUND, AMBER, lv);
-          g.lineWidth = b === 0 ? lw * 0.75 : b === 4 ? lw * (1 + 0.3 * relief) : lw;
+          g.lineWidth = b === 0 ? lw * 0.75 : b === 4 ? lw * (1 + 0.18 * relief) : lw;
           g.stroke();
         }
         // rim band: each row runs on over the cliff top and dissolves down the face (alpha ramps to 0)

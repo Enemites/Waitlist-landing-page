@@ -107,7 +107,7 @@ c('bass_ostinato', bar=17, bars=5, intensity=[0.75, 0.9], gain_db=-8)
 c('plucks', bar=17, bars=5, intensity=[0.5, 0.7], gain_db=-11)
 c('pad', bar=17, bars=5, intensity=0.5, gain_db=-10)
 c('ticks', bar=17, beat=1, bars=4.75, subdiv=1, accent_every=4, intensity=0.85, gain_db=-7, label='clock: one match-second per beat')
-for t in (35.0, 41.0): c('ui_blip', at=t, kind='type', gain_db=-13, label='message arrives')
+c('ui_blip', at=35.0, kind='type', gain_db=-13, label='message arrives')   # the 41.0 one now lands under x08-contest
 c('ui_blip', at=38.0, kind='select', freq=880.0, gain_db=-8, verb={'hall': 0.3}, label='LANDING NOTE 3 A5: PLAN AGREED')
 c('alert', at=42.25, reps=1, gain_db=-16)
 c('shepard', bar=19, bars=3, intensity=[0.2, 0.9], gain_db=-10)
@@ -198,8 +198,8 @@ c('typing', at=35.0, length=0.6, rate=12, gain_db=-17, label='Jules types')
 blip(35.4, 'confirm', 1046.5, -19, label='zone lights: pump'); blip(35.6, 'confirm', 1174.66, -19, label='zone lights: crossing')
 blip(38.25, 'select', 1900, -20, length=0.2, label='EK route squeak')
 whoosh_peak(40.75, length=0.7, peak=0.6, pitch=0.6, weight=0.7, gain_db=-17, label='Vega slides out of the fog')
-whoosh_peak(41.6, length=0.6, peak=0.6, pitch=0.7, weight=0.6, gain_db=-18, label='their route draws')
-c('glitch', at=41.5, length=0.25, character=0.3, gain_db=-20, label='CONTESTED scramble')
+whoosh_peak(41.6, length=0.6, peak=0.6, pitch=0.7, weight=0.6, gain_db=-18, label='x08-contest: intercept vectors converge on the crossing')
+c('glitch', at=41.5, length=0.25, character=0.3, gain_db=-20, label='x08-contest: CONTESTED · CROSSING label scramble')
 # s09 last seen
 c('data_chatter', at=44.25, length=0.4, density=12, gain_db=-26, label='LAST SEEN re-scramble')
 # s10 coordinate / commit / adapt
@@ -244,7 +244,8 @@ c('impact', at=20.75, length=0.6, size=0.5, brightness=0.6, sub_hz=58, hpf=50, g
 blip(20.85, 'deny', 660, -20, label='Vega ring pops')
 c('data_chatter', at=20.91, length=0.36, density=14, gain_db=-28, label='OPPOSITION scramble')
 whoosh_peak(21.4, length=0.3, peak=0.6, pitch=1.4, weight=0.25, gain_db=-21, label='slabs part')
-c('typing', at=21.45, length=0.13, rate=14, gain_db=-24, label='3 V 3 types on')
+blip(21.4, 'select', 700, -24, length=0.08, label='3 V 3 plate snaps open')
+for i, t in enumerate((21.433, 21.467, 21.5)): blip(t, 'tick', 2000 + 200 * i, -23, label='3 V 3 glyph types on')
 c('tape_scrub', at=20.45, length=0.24, direction=1, gain_db=-28, label='dashed hint pencils along the seam')
 blip(21.3, 'tick', 2400, -15, label='another: the gap burns ink')
 # x06-player-cards 25.0-26.0: three cards on the third-beats
@@ -303,13 +304,26 @@ for t, d, f in ((36.5, 1, 1174.66), (36.75, -1, 1396.91), (37.0, 1, 1760.0)):
 whoosh_peak(37.85, length=0.25, peak=0.85, pitch=1.0, weight=0.5, gain_db=-17, label='snap out: panes collapse onto one bar')
 c('stamp', at=37.875, weight=0.7, gain_db=-14, label='three roles, one plan')
 blip(37.95, 'select', 2400, -24, length=0.08, label='bar zips up into the PLAN AGREED card')
+blip(37.75, 'tick', 2600, -24, label='pane content cuts out')
+# x08-contest 41.0-42.25: the rival scan (radar), five escalating pings, lock on the crossing
+c('impact', at=41.0, length=0.35, size=0.45, brightness=0.55, sub_hz=60, hpf=60, gain_db=-16, label='x08-contest cut in: the scan opens out')
+for k, (T, g) in enumerate(((41.0, -21), (41.25, -20), (41.5, -19), (41.75, -18), (42.0, -16))):
+    blip(T, 'deny', 659.26, g, verb={'hall': 0.2}, label='rival ping %d' % (k + 1))
+for T, g in ((41.22, -22), (41.47, -21), (41.72, -20), (41.97, -19)):
+    whoosh_peak(T, length=0.22, peak=0.9, pitch=1.3, weight=0.25, gain_db=g, label='sweep arm whips into the ping')
+blip(41.6, 'confirm', 880, -22, label='amber crossing takes the hit')
+c('impact', at=42.0, length=0.4, size=0.5, brightness=0.7, sub_hz=64, hpf=70, gain_db=-15, label='x08-contest LOCK clamps on the crossing')
+c('tick_one', at=42.033, tone=1.8, gain_db=-22, label='arm latches onto the contacts')
+# s13 payoff punch 61.0-62.0 (round 3)
+c('stamp', at=61.0, weight=0.6, gain_db=-14, label='s13 punch onto the gate')
+whoosh_peak(61.08, length=0.3, peak=0.3, pitch=1.1, weight=0.3, gain_db=-23, label='s13 push-in air')
+blip(62.0, 'tick', 1400, -22, label='s13 cut back to the drift')
 # x11-archive-flash 52.5-53.0 and 54.0-54.5
 for t in (52.5, 54.0):
     blip(t, 'tick', 900, -15, label='projector shutter: checker reveal')
     c('tick', at=t, length=0.45, subdiv=12, accent_every=12, tone=0.7, gain_db=-25, label='projector rattle')
     c('data_chatter', at=t + 0.02, length=0.12, density=10, gain_db=-29, label='ARCHIVE label scramble')
 whoosh_peak(54.3, length=0.25, peak=0.6, pitch=0.5, weight=0.8, gain_db=-23, label='burlap swish: the bag swings down the line')
-blip(54.433, 'tick', 900, -17, label='checker hides the 1937 levee plate')
 # x13-iso-plans 58.0-59.5 (keeps the PAYOFF ACCENT stamp + clank)
 c('impact', at=58.0, length=0.65, size=1.0, brightness=0.5, sub_hz=50, hpf=40, gain_db=-10, label='shock ring rolls over the island')
 c('whoosh', at=58.3, length=1.2, peak=0.85, pitch=0.9, weight=0.4, gain_db=-19, label='crane up to top-down')

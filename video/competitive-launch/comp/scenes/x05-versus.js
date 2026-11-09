@@ -18,7 +18,10 @@
  *                           21.367. Each slab carries a soft light bleed from its inner edge (a 90 px gradient
  *                           perpendicular to the seam, rivalLight on the red side, ink 0.7 on the amber side,
  *                           inside the slab, under its HUD; 0.9, 0.5, 0.2, gone); a one-frame 10% ink lift.
- *   1.40 (21.4)             '3 V 3' types on in the clean charcoal gap, always ink, each glyph in its final place.
+ *   1.40 (21.4)             3 V 3, set to read at a glance: a charcoal plate threaded on the seam at frame centre
+ *                           (a parallelogram whose ends run parallel to the seam) opens sideways out of the gap
+ *                           (5 f expo.out), and '3 V 3' (48 px bold mono, horizontal) types on in place at a 1-frame
+ *                           cadence on 21.433 / 21.467 / 21.5 (11 frames whole): Atlas' 3 amber, V ink, Vega's 3 red-orange.
  *   1.75-1.967              THROUGH THE DIAMOND: a log-space dive (s = 42^(u^2): 1.02, 1.22, 1.74, 2.96, 5.98,
  *                           14.5, 42) into the amber slab's charcoal diamond, its centre travelling onto s06's
  *                           banner diamond (1372, 460). On 21.967 the diamond covers the whole frame, so the
@@ -26,9 +29,11 @@
  *                           and 21.933: 8 soft (blurred) copies per slab at 10% each, spread evenly over a
  *                           180-degree shutter of the frame's own scale step, so it reads as a continuous blur.
  * HUD: register corners + ticks + slug stay fixed on every frame (amber on the charcoal ground and on
- * the charcoal diamond, charcoal on the slabs: one HUD per layer, each clipped with its layer). The dashed
- * hint is clipped off the slug box; where the ink band crosses the slug (21.3-21.333) a charcoal slug copy
- * clipped to the band keeps the slug whole (charcoal on ink), and the light bleeds sit under each slab's HUD.
+ * the charcoal diamond, charcoal on the slabs: one HUD per layer, each clipped with its layer). The slug and
+ * the bottom-left corner sit on a charcoal tab (x 54 to the slug's end + 18, y 956-1026) ABOVE the seam, its
+ * marks and the 'another' band: the ground HUD seen through a box, without its edge ticks. Invisible on the charcoal ground, a fixed
+ * tab on the cloth that the seam runs into, so the slug reads whole on every frame (the gap crosses it from
+ * 20.0, the ink band on 21.3). The one-frame ink lift sits above the tab. The light bleeds sit under each slab's HUD.
  */
 (function () {
   'use strict';
@@ -50,6 +55,9 @@
   const SLUG_BOX = [100, 978, 720, 1022];                // the dashed hint never crosses the HUD slug
   const NGHOST = 8;                                      // zoom-smear copies per slab (21.9 / 21.933)
   const BLEED = 90;                                      // depth of the light bleed into each slab (px)
+  // 3 V 3 plate: glyph size / cap height / centre step, plate width (horizontal, at the seam line) and height,
+  // and its opening time (expo.out from the gap's width)
+  const VS_PX = 48, VS_CAP = 0.73 * 48, VS_STEP = 64, VS_W = 276, VS_H = 84, VS_OPEN = 5 / FPS;
 
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
@@ -306,20 +314,32 @@
       const marksG = ctx.svg('g', {}, seam);
       // the 'another' hit: the gap band between the two inner edges burns ink (two frames)
       const band = ctx.svg('polygon', { fill: C.ink, points: '', opacity: 0 }, marksG);
-      // 3 V 3 along the seam (the only statement of the mode: 32 px bold), types on once the gap is clean.
-      // Anchored at its start, x = -(glyph run)/2, so every glyph types on in its final place (no re-centring)
-      const vs = ctx.svg('text', { x: 0, y: 0, 'text-anchor': 'start', fill: C.ink, style: 'font: 700 32px "JetBrains Mono Variable"; letter-spacing: .3em', text: '3 V 3' }, marksG);
-      const vsAdv = vs.getComputedTextLength();                    // 5 advances, each with its .3em tracking
-      vs.textContent = '';
-      vs.setAttribute('x', (-(vsAdv - 0.3 * 32) / 2).toFixed(2));  // centre the glyphs (drop the trailing tracking)
-      // one-frame ink lift of the whole frame on the hit (outside the punch transform)
-      const lift = ctx.svg('rect', { x: 0, y: 0, width: W, height: H, fill: C.ink, opacity: 0 }, seam);
-      B.scrambleTo(tl, vs, '3 V 3', T_VS, 0.16);
-      // where the ink band crosses the HUD slug: a charcoal slug copy clipped to the band, so the slug stays whole
-      // (charcoal on ink, like the slab HUDs) and the band runs unbroken
-      const slugOver = ctx.el('div', 'x05-full', root);
-      slugOver.style.display = 'none';
-      ctx.el('div', 'x05-slug', slugOver, SLUG).style.color = B.rgba(C.bg, 0.62);
+      // 3 V 3: the one statement of the team size, set to read at a glance (and on a phone): horizontal, 48 px bold
+      // mono on a charcoal plate threaded on the seam at frame centre. The plate is a parallelogram whose slanted
+      // ends run parallel to the seam, so it opens sideways OUT of the charcoal gap (21.4, 5 f expo.out from the gap's
+      // own width) and reads as the seam widening into a badge. The glyphs type on in their final places at an even
+      // 1-frame cadence as soon as the plate is mostly open (79% on 21.433): 21.433 / 21.467 / 21.5, so the whole line
+      // holds 11 frames before the punch takes it. Atlas' 3 amber on the Atlas side, V ink, Vega's 3 red-orange.
+      const plate = ctx.svg('polygon', { fill: C.bg, points: '' }, marksG);
+      const vsG = ctx.svg('g', {}, marksG);
+      const VS_GLYPHS = [['3', -VS_STEP, C.amber, 43], ['V', 0, C.ink, 44], ['3', VS_STEP, C.rival, 45]].map(([ch, dx, col, f]) => ({
+        f, el: ctx.svg('text', { x: P0[0] + dx, y: P0[1] + VS_CAP / 2, 'text-anchor': 'middle', fill: col, style: `font: 700 ${VS_PX}px "JetBrains Mono Variable"; display:none`, text: ch }, vsG),
+      }));
+      // the HUD slug on a charcoal tab, ABOVE the seam, its marks and the 'another' band: the bottom-left of the
+      // ground HUD (amber corner, muted slug) seen through a box around the corner and the slug (18 px margins).
+      // On the charcoal ground it is invisible; on the cloth it is a fixed tab the seam runs into, so the slug reads
+      // whole on every frame instead of being cut by the gap (20.0-21.9) and the ink band (21.3)
+      const tab = ctx.el('div', 'x05-full', root);
+      tab.style.background = C.bg;
+      // the tab copy carries no edge ticks: the bottom row (x 220 / 368 / 516 / 664, y 1000-1014) would hang off the
+      // slug's baseline inside a box built to frame it; the tick row reads from x 812 on, right of the tab
+      hudLayer(tab, C.amber, 0.8, C.muted3).ticks.forEach((t) => { t.style.display = 'none'; });
+      const tabSlug = tab.querySelector('.x05-slug');
+      const tabX1 = Math.ceil(120 + tabSlug.offsetWidth - 0.12 * 20 + 18);   // the slug's last glyph + 18 px
+      tab.style.clipPath = `inset(956px ${W - tabX1}px ${H - 1026}px 54px)`;
+      // one-frame ink lift of the whole frame on the hit (outside the punch transform, over the tab too)
+      const liftSv = ctx.svg('svg', { class: 'brand-svg' });
+      const lift = ctx.svg('rect', { x: 0, y: 0, width: W, height: H, fill: C.ink, opacity: 0 }, liftSv);
 
       // directional blur for the type while it is fast
       const fsv = ctx.svg('svg', { width: 0, height: 0, style: 'position:absolute' });
@@ -427,12 +447,7 @@
           let bp = clipPoly(FRAME, c[0], c[1], -NX, -NY, -hw);
           bp = clipPoly(bp, c[0], c[1], NX, NY, -hw);
           band.setAttribute('points', svgPts(bp));
-          slugOver.style.display = 'block';
-          slugOver.style.clipPath = `polygon(${pts(bp.map(M))})`;
-        } else {
-          band.setAttribute('points', '');
-          if (slugOver.style.display !== 'none') slugOver.style.display = 'none';
-        }
+        } else band.setAttribute('points', '');
         lift.setAttribute('opacity', liftAt(t).toFixed(3));
 
         // --- light bleed from each inner edge into its own slab (under the slab HUD) + the 2 px ink cores ---
@@ -454,9 +469,17 @@
           S.core.setAttribute('x2', e1[0].toFixed(1)); S.core.setAttribute('y2', e1[1].toFixed(1));
           S.core.setAttribute('opacity', ca > 0 ? '1' : '0');
         }
-        // --- 3 V 3: centred in the gap, along the seam ---
-        vs.setAttribute('transform', `translate(${P0[0]} ${P0[1]}) rotate(${(-34).toFixed(1)}) translate(0 11.5)`);
-        vs.style.display = gap > 30 && s < 2 ? '' : 'none';   // off before the dive blows it up into debris
+        // --- 3 V 3 plate: opens sideways out of the gap from 21.4, then holds (it rides the dive with the seam) ---
+        const fr = Math.round(t * FPS);
+        const po = t < T_VS - 1e-6 ? -1 : expoOut((t - T_VS) / VS_OPEN);
+        if (po < 0) plate.setAttribute('points', '');
+        else {
+          // horizontal half-width at the seam line: from the gap's own (gap / sin) to the plate's
+          const hw = lerp(gap / Math.sin(SL) / 2, VS_W / 2, po), sx = VS_H / 2 / Math.tan(SL);
+          plate.setAttribute('points', svgPts([[P0[0] - hw + sx, P0[1] - VS_H / 2], [P0[0] + hw + sx, P0[1] - VS_H / 2], [P0[0] + hw - sx, P0[1] + VS_H / 2], [P0[0] - hw - sx, P0[1] + VS_H / 2]]));
+        }
+        // glyphs type on in place; off before the dive blows them up into debris
+        for (const g of VS_GLYPHS) { const d = fr >= g.f && s < 2 ? '' : 'none'; if (g.el.style.display !== d) g.el.style.display = d; }
 
         // --- zoom smear: the last frames of the dive (shutter = half the frame's log scale step, NGHOST copies) ---
         const gOn = t >= 2 - 3.5 / FPS && t < 2 - 1.5 / FPS;   // 21.9, 21.933 (21.967 is inside the diamond: pure charcoal)

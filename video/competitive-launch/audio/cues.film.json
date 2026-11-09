@@ -828,13 +828,6 @@
   },
   {
    "type": "ui_blip",
-   "at": 41.0,
-   "kind": "type",
-   "gain_db": -13,
-   "label": "message arrives"
-  },
-  {
-   "type": "ui_blip",
    "at": 38.0,
    "kind": "select",
    "freq": 880.0,
@@ -1592,7 +1585,7 @@
    "pitch": 0.7,
    "weight": 0.6,
    "gain_db": -18,
-   "label": "their route draws"
+   "label": "x08-contest: intercept vectors converge on the crossing"
   },
   {
    "type": "glitch",
@@ -1600,7 +1593,7 @@
    "length": 0.25,
    "character": 0.3,
    "gain_db": -20,
-   "label": "CONTESTED scramble"
+   "label": "x08-contest: CONTESTED \u00b7 CROSSING label scramble"
   },
   {
    "type": "data_chatter",
@@ -1938,12 +1931,37 @@
    "label": "slabs part"
   },
   {
-   "type": "typing",
-   "at": 21.45,
-   "length": 0.13,
-   "rate": 14,
+   "type": "ui_blip",
+   "at": 21.4,
+   "kind": "select",
+   "freq": 700,
    "gain_db": -24,
-   "label": "3 V 3 types on"
+   "length": 0.08,
+   "label": "3 V 3 plate snaps open"
+  },
+  {
+   "type": "ui_blip",
+   "at": 21.433,
+   "kind": "tick",
+   "freq": 2000,
+   "gain_db": -23,
+   "label": "3 V 3 glyph types on"
+  },
+  {
+   "type": "ui_blip",
+   "at": 21.467,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -23,
+   "label": "3 V 3 glyph types on"
+  },
+  {
+   "type": "ui_blip",
+   "at": 21.5,
+   "kind": "tick",
+   "freq": 2400,
+   "gain_db": -23,
+   "label": "3 V 3 glyph types on"
   },
   {
    "type": "tape_scrub",
@@ -2582,6 +2600,171 @@
   },
   {
    "type": "ui_blip",
+   "at": 37.75,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -24,
+   "label": "pane content cuts out"
+  },
+  {
+   "type": "impact",
+   "at": 41.0,
+   "length": 0.35,
+   "size": 0.45,
+   "brightness": 0.55,
+   "sub_hz": 60,
+   "hpf": 60,
+   "gain_db": -16,
+   "label": "x08-contest cut in: the scan opens out"
+  },
+  {
+   "type": "ui_blip",
+   "at": 41.0,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -21,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "rival ping 1"
+  },
+  {
+   "type": "ui_blip",
+   "at": 41.25,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -20,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "rival ping 2"
+  },
+  {
+   "type": "ui_blip",
+   "at": 41.5,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -19,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "rival ping 3"
+  },
+  {
+   "type": "ui_blip",
+   "at": 41.75,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -18,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "rival ping 4"
+  },
+  {
+   "type": "ui_blip",
+   "at": 42.0,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -16,
+   "verb": {
+    "hall": 0.2
+   },
+   "label": "rival ping 5"
+  },
+  {
+   "type": "whoosh",
+   "at": 41.022,
+   "length": 0.22,
+   "peak": 0.9,
+   "pitch": 1.3,
+   "weight": 0.25,
+   "gain_db": -22,
+   "label": "sweep arm whips into the ping"
+  },
+  {
+   "type": "whoosh",
+   "at": 41.272,
+   "length": 0.22,
+   "peak": 0.9,
+   "pitch": 1.3,
+   "weight": 0.25,
+   "gain_db": -21,
+   "label": "sweep arm whips into the ping"
+  },
+  {
+   "type": "whoosh",
+   "at": 41.522,
+   "length": 0.22,
+   "peak": 0.9,
+   "pitch": 1.3,
+   "weight": 0.25,
+   "gain_db": -20,
+   "label": "sweep arm whips into the ping"
+  },
+  {
+   "type": "whoosh",
+   "at": 41.772,
+   "length": 0.22,
+   "peak": 0.9,
+   "pitch": 1.3,
+   "weight": 0.25,
+   "gain_db": -19,
+   "label": "sweep arm whips into the ping"
+  },
+  {
+   "type": "ui_blip",
+   "at": 41.6,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -22,
+   "label": "amber crossing takes the hit"
+  },
+  {
+   "type": "impact",
+   "at": 42.0,
+   "length": 0.4,
+   "size": 0.5,
+   "brightness": 0.7,
+   "sub_hz": 64,
+   "hpf": 70,
+   "gain_db": -15,
+   "label": "x08-contest LOCK clamps on the crossing"
+  },
+  {
+   "type": "tick_one",
+   "at": 42.033,
+   "tone": 1.8,
+   "gain_db": -22,
+   "label": "arm latches onto the contacts"
+  },
+  {
+   "type": "stamp",
+   "at": 61.0,
+   "weight": 0.6,
+   "gain_db": -14,
+   "label": "s13 punch onto the gate"
+  },
+  {
+   "type": "whoosh",
+   "at": 60.99,
+   "length": 0.3,
+   "peak": 0.3,
+   "pitch": 1.1,
+   "weight": 0.3,
+   "gain_db": -23,
+   "label": "s13 push-in air"
+  },
+  {
+   "type": "ui_blip",
+   "at": 62.0,
+   "kind": "tick",
+   "freq": 1400,
+   "gain_db": -22,
+   "label": "s13 cut back to the drift"
+  },
+  {
+   "type": "ui_blip",
    "at": 52.5,
    "kind": "tick",
    "freq": 900,
@@ -2641,14 +2824,6 @@
    "weight": 0.8,
    "gain_db": -23,
    "label": "burlap swish: the bag swings down the line"
-  },
-  {
-   "type": "ui_blip",
-   "at": 54.433,
-   "kind": "tick",
-   "freq": 900,
-   "gain_db": -17,
-   "label": "checker hides the 1937 levee plate"
   },
   {
    "type": "impact",

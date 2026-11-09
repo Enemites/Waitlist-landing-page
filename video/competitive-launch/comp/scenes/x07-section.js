@@ -9,8 +9,10 @@
  * ridges occlude farther ones. Amber is kept for the cut (section line, hatch, markers). The depth step grows
  * to the right (the stack climbs into the empty right third, clear of the headline) but is held constant
  * across the river, so every profile's water run is level. Vertical exaggeration ~250 px per height unit;
- * 1 px per product unit along the line; the far profiles are lightly low-passed. The sheet is clipped to
- * x 96-1800 (a left edge line, an elevation ruler on the right) over a ticked datum at y 940.
+ * ~0.9 px per product unit along the line; the far profiles are lightly low-passed. The heightfield along the line
+ * crests ~54 units beyond each summit point, so the section runs crest to crest: the Atlas crest is drawn at the
+ * Atlas pillar (x 378), the Vega crest at the Vega pillar (x 1340, under s07's ring), each pillar on its peak.
+ * The sheet is clipped to x 96-1800 (a left edge line, an elevation ruler on the right) over a ticked datum at y 940.
  *
  * Type and frame chrome are s07's, pixel for pixel, so the headline reads straight across both cuts:
  * '02 —— FIND YOUR OPPOSITION' (120,150), 'The same challenge.' (ink) / 'Another approach.' (amber), x 120,
@@ -54,9 +56,11 @@
   const PA = [380, 320], PG = [800, 560], PV = [1260, 690];
   const LAG = Math.hypot(PG[0] - PA[0], PG[1] - PA[1]), LGV = Math.hypot(PV[0] - PG[0], PV[1] - PG[1]);
   const DAG = [(PG[0] - PA[0]) / LAG, (PG[1] - PA[1]) / LAG], DGV = [(PV[0] - PG[0]) / LGV, (PV[1] - PG[1]) / LGV];
-  const KX = 1.0;                                   // screen px per product unit along the section
   const XV = 1340;                                  // the Vega summit sits under s07's ring
-  const XA = XV - (LAG + LGV) * KX, XG = XA + LAG * KX;
+  const XA = XV - (LAG + LGV);                      // the Atlas summit pillar (x 378)
+  // KX (screen px per product unit along the section), SA (arc length drawn at XA) and XG are set at build: the
+  // heightfield along this line crests ~54 units BEYOND each summit point (outside the Atlas -> Vega span), so the
+  // section's ends are those crests, mapped onto the two pillars: each pillar stands on its drawn peak
   const YS = 795, VS = 250, YD = 940;               // sea level, px per height unit, datum (bottom of the cut face)
   const NP = 10, OFF = 42;                          // profiles (front + 9 behind), lateral spacing (product units)
   const X0 = 40, X1 = 1880, DXS = 4;                // station range (screen) and step
@@ -90,11 +94,16 @@
 
       // ---- heights: NP profiles x NS stations, sampled once ----
       const hf = Floodgate.productHeight();
+      const hAt = (s) => { const a = along(s); return hf(a.p[0], a.p[1]); };
+      // the crests of the line nearest the two summit points (arc length, 1-unit search): the section's ends
+      const crest = (s0) => { let bs = s0, bh = -Infinity; for (let s = s0 - 100; s <= s0 + 100; s += 1) { const h = hAt(s); if (h > bh) { bh = h; bs = s; } } return bs; };
+      const SA = crest(0), SV = crest(LAG + LGV);
+      const KX = (XV - XA) / (SV - SA), XG = XA + (LAG - SA) * KX;
       const HT = Array.from({ length: NP }, () => new Float32Array(NS));
       const SX = new Float32Array(NS);
       for (let i = 0; i < NS; i++) {
         const x = X0 + i * DXS; SX[i] = x;
-        const a = along((x - XA) / KX);
+        const a = along(SA + (x - XA) / KX);
         for (let k = 0; k < NP; k++) HT[k][i] = hf(a.p[0] + a.n[0] * OFF * k, a.p[1] + a.n[1] * OFF * k);
       }
       // a light low-pass along each profile (the far lines read as clean ridges, the cut keeps its grain)
@@ -102,8 +111,9 @@
         const src = HT[k].slice(), wts = k === 0 ? [1, 2, 1] : [1, 2, 3, 2, 1], hw = (wts.length - 1) / 2, ws = wts.reduce((a, b) => a + b, 0);
         for (let i = 0; i < NS; i++) { let acc = 0; for (let j = -hw; j <= hw; j++) acc += src[clamp(i + j, 0, NS - 1)] * wts[j + hw]; HT[k][i] = acc / ws; }
       }
-      const hAt = (s) => { const a = along(s); return hf(a.p[0], a.p[1]); };
-      const hA = hAt(0), hV = hAt(LAG + LGV);
+      // the pillars' feet sit on the DRAWN (low-passed) cut line at the two crests
+      const hFront = (x) => { const f = clamp((x - X0) / DXS, 0, NS - 1), i = Math.min(NS - 2, Math.floor(f)); return lerp(HT[0][i], HT[0][i + 1], f - i); };
+      const hA = hFront(XA), hV = hFront(XV);
       // depth step per station: the stepY ramp, held at the gate's value across the river so every profile's
       // water run is level (water is wet where the height is under the sea: independent of the step). The flat
       // span covers every wet run that meets the gate's neighbourhood, plus a margin; it blends back over 140 px.

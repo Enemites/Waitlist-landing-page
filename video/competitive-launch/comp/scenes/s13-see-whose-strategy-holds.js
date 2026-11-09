@@ -15,7 +15,10 @@
  *   1.50  'See whose' (160 px, ink) rises at x 120 / baseline 760 (59.5, on the VO's 'see whose').
  *   2.00  'strategy holds.' (amber) at baseline 910, lands 60.77; a red-orange runner dash travels
  *         their plan (2.00-2.75).
- *   3.00  the Floodgate ring and both arrowheads pulse (no score change, no winner).
+ *   3.00  PUNCH (61.0, hard cut): the camera cuts in onto the gate where the two plans meet (zoom 1.58 -> 1.70,
+ *         power2.out, the gate pinned at screen 1110,500: up and right of the headline, the ring clear of the type,
+ *         the pump box whole in frame); the Floodgate ring and both arrowheads pulse on the cut frame (no score
+ *         change, no winner). 4.00 (62.0) hard cut back to the drift, exactly as before (the iris starts there).
  *   3.30-5.80  breath #3.
  *   4.00-5.50  INTO THE RING: the world shrinks into the objective ring. The camera dollies out and the
  *         valley centre slides to (1420,540) (power4.inOut, zoom 0.84 -> MEDALLION 0.28) while a circular
@@ -300,7 +303,16 @@
       // ---- camera (product units): REVIEW_WIN -> OVERVIEW on the hit, drift to z 0.84 while type is up ----
       const CAM = Match.CAM, RW = CAM.REVIEW_WIN, OV = CAM.OVERVIEW, DRIFT = { x: 810, y: 505, zoom: 0.84 };
       const camLerp = (a, b, u) => ({ x: lerp(a.x, b.x, u), y: lerp(a.y, b.y, u), zoom: Math.exp(lerp(Math.log(a.zoom), Math.log(b.zoom), u)) });
-      const baseCam = (lt) => camLerp(RW, camLerp(OV, DRIFT, ez('power1.inOut')(seg(lt, 0, 4.0))), oe(lt));
+      const baseCam0 = (lt) => camLerp(RW, camLerp(OV, DRIFT, ez('power1.inOut')(seg(lt, 0, 4.0))), oe(lt));
+      // 61.0-62.0 PUNCH: a hard cut in onto the gate where the two plans meet (the ring pulse and both arrowheads
+      // fire on the cut frame), framed up and right of the headline so the ring clears the type; the camera keeps
+      // pushing in (power2.out, the gate pinned on PUNCH.sp), then 62.0 cuts back to the drift exactly
+      const PUNCH = { t0: 3.0, t1: 4.0, sp: [1110, 500], z0: 1.58, z1: 1.7 };
+      const punchCam = (lt) => {
+        const z = Math.exp(lerp(Math.log(PUNCH.z0), Math.log(PUNCH.z1), ez('power2.out')(seg(lt, PUNCH.t0, PUNCH.t1))));
+        return { x: GATE[0] - (PUNCH.sp[0] - W / 2) / (z * S), y: GATE[1] - (PUNCH.sp[1] - H / 2) / (z * S), zoom: z };
+      };
+      const baseCam = (lt) => (lt >= PUNCH.t0 && lt < PUNCH.t1 ? punchCam(lt) : baseCam0(lt));
       const SP0 = [W / 2 + (MED_P[0] - DRIFT.x) * DRIFT.zoom * S, H / 2 + (MED_P[1] - DRIFT.y) * DRIFT.zoom * S];
       // medallion progress, banner / emblem / ring timings (all reach their MED_FINAL values by 5.5)
       const st = (lt) => {
@@ -414,12 +426,13 @@
           rn.head.setAttribute('opacity', String(ho)); rn.halo.setAttribute('opacity', String(0.22 * ho));
           setA(rn.g, Math.min(seg(hu, 0, 0.06), 1 - seg(hu, 1.0, 1.22)));
         });
-        // 61.0: the Floodgate ring pulses (with both arrowheads, in st().arrow)
+        // 61.0: the Floodgate ring pulses (with both arrowheads, in st().arrow) on the punch's cut frame; inside the
+        // punch (2x closer) it spreads less, so its fading arc stays clear of the headline
         const pu = (lt - 3.0) / 1.5;
         if (pu >= 0 && pu <= 1) {
-          const e = 1 - Math.pow(1 - pu, 2), rr = RING_R * S * z;
+          const e = 1 - Math.pow(1 - pu, 2), rr = RING_R * S * z, kp = lt < PUNCH.t1 ? 0.75 : 1.2;
           ringPulse.setAttribute('cx', pos.gc[0].toFixed(1)); ringPulse.setAttribute('cy', pos.gc[1].toFixed(1));
-          ringPulse.setAttribute('r', (rr * (1 + 1.2 * e)).toFixed(2)); setA(ringPulse, 0.6 * (1 - pu));
+          ringPulse.setAttribute('r', (rr * (1 + kp * e)).toFixed(2)); setA(ringPulse, 0.6 * (1 - pu));
         } else setA(ringPulse, 0);
       });
 

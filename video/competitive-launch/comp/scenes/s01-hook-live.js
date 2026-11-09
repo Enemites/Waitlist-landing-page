@@ -28,7 +28,13 @@ Film.scene({
 
     // 0.50 LIFT: 'Vega is contesting the crossing' rises to a 40 px card (20 px row x 2), centred
     // at x 960, top 792, 10 f power3.out; drops back 2.50-2.83 (10 f power2.in).
-    M.lift(M.U.warn, { at: 0.5, dur: 10 / 30, out: 2.5, outDur: 10 / 30, scale: 2, cx: 960, top: 792, accent: 'rival' });
+    const AL = M.lift(M.U.warn, { at: 0.5, dur: 10 / 30, out: 2.5, outDur: 10 / 30, scale: 2, cx: 960, top: 792, accent: 'rival' });
+    // the pill is opaque on every frame it is off its row, both ways: the kit fades the card ground with p (0..0.63),
+    // so on the lift-in (0.533 / 0.567, p .27 / .49) and the drop-back (2.767 / 2.8, p .36 / .19), as the pill crosses
+    // the objective card, 'Restore gate power' and the OBJECTIVE label read through it (two lines of text on top of
+    // each other). Opaque, the pill simply passes over them. p is 0 on 0.0-0.467 and from 2.833, so the 0.0 frame and
+    // the 3.0 end key (= s08 at 43.5) are unchanged. Registered after the kit's lift, so it overrides that frame's value
+    ctx.onFrame(() => { if (AL.P.p > 0.0005) AL.bg.style.opacity = '1'; });
 
     // 1.00: the 'CONTESTED' map label re-scrambles (resolves left to right in 12 f)
     const sub = M.F.el.labels.crossing.sub;
