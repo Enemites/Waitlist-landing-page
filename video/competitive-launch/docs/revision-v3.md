@@ -206,3 +206,10 @@ triangle contacts converge on the crossing glyph. Mono label 'CONTESTED · CROSS
 41.5 (do not repeat the 'Vega is contesting the crossing' line; the lift card says it on 42.25). Beat
 accents on 41.0, 41.25, 41.5, 41.75, 42.0. HUD slug and corner brackets as every insert. Hidden s08
 sounds under it (glitch 41.5, whoosh peaking 41.6) are repurposed for the label and the convergence.
+
+### Round 3 outcome
+- x08-contest built (art director 7.8 -> fixes: pings hit on the beat frames, escalate, the lock is the brightest frame).
+- s13 punch: gate pinned at screen (1110,500), zoom 1.58 -> 1.70; 60.967 and 62.0 onward unchanged.
+- ridgeline: lw 1.3 + 1.25*near, depth fade 0.5 + 0.5*near^0.9; chroma survival in the CRF 20 encode +6-8 points.
+- s08's alert pill got the same opaque-ground fix as s01 (42.283 lift, 43.27 drop).
+- Sound: per-insert material, x08-contest pings and lock, s13 punch, 22.0 landing, v12 over the peak bus, limiter load at 14.0 / 46.0, the resolve rings out.

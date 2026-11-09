@@ -4,7 +4,7 @@
 
 Version 2 applies the fixes from an independent three-lens review panel (craft, brand, sound) whose findings were each verified against the rendered frames.
 
-Version 3 adds variety and tempo. Nine fast inserts in eight new visual languages are cut into 16-64 s as overlay scenes (`at` entries in `comp/scenes/manifest.js`). The Floodgate map world stays underneath, and the VO and music timing do not move:
+Version 3 adds variety and tempo. Ten fast inserts in nine new visual languages are cut into 16-64 s as overlay scenes (`at` entries in `comp/scenes/manifest.js`). The Floodgate map world stays underneath, and the VO and music timing do not move. The map scenes also gained harder cuts (s01 two pushes on the beat, s06 zoom landing at 22.0, s10 punches at 49.0 and 51.0, s13 punch onto the gate at 61.0). The delivery encodes use a chroma QP offset so the thin amber linework stays amber in 4:2:0:
 
 | at | insert | look |
 |---|---|---|
@@ -14,6 +14,7 @@ Version 3 adds variety and tempo. Nine fast inserts in eight new visual language
 | 30.5-32.0 | `x07-section` | the valley as a survey cross-section (Atlas summit, the gate, Vega summit) read by a scan line |
 | 36.5-38.0 | `x08-roles` | three slanted role panes slam in on the beats (coordination, pump station, crossing) and merge into PLAN AGREED |
 | 39.0-40.5 | `x08-gate-schematic` | a blueprint of the floodgate powering up to 62% |
+| 41.0-42.25 | `x08-contest` | the rival scan: a red polar radar, five escalating pings, Vega's contacts lock onto the crossing |
 | 46.0-48.0 | `x10-formation` | particle streams braid and lock into the team on the low hit |
 | 52.5-54.5 | `x11-archive-flash` | archive flashes (chess 1925, the 1937 levee sandbag line) on two montage beats |
 | 58.0-59.5 | `x13-iso-plans` | the 3D island again: both plans meet at the gate, the camera cranes into the map |
