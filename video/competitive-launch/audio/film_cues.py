@@ -351,7 +351,7 @@ sheet = {
         'peak': {'duck': {'key': 'vo', 'depth_db': 8.5, 'attack': 0.06, 'release': 0.45, 'hold': 0.25}},
         'vo': {'chain': 'vo', 'over_bed_lu': 8},
     },
-    'master': {'lufs': -14.0, 'true_peak': -2.0, 'glue': True},
+    'master': {'lufs': -14.0, 'true_peak': -2.5, 'glue': True},
     'mutes': [
         {'from': 3.0, 'to': 3.0667, 'buses': ['music', 'sfx', 'vo'], 'fade': 0.003},
         {'from': 45.0, 'to': 46.0, 'buses': ['music'], 'fade': 0.01},
