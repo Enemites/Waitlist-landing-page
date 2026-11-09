@@ -478,14 +478,14 @@
   {
    "type": "impact",
    "at": 14.0,
-   "length": 0.9,
+   "length": 1.1,
    "size": 0.7,
    "sub_hz": 72,
    "punch": 1.2,
    "brightness": 0.9,
-   "gain_db": -10,
+   "gain_db": -6,
    "hpf": 55,
-   "fade_out": 0.4,
+   "fade_out": 0.5,
    "label": "title body, no sub"
   },
   {
@@ -2717,7 +2717,7 @@
    "at": 41.6,
    "kind": "confirm",
    "freq": 880,
-   "gain_db": -22,
+   "gain_db": -17,
    "label": "amber crossing takes the hit"
   },
   {

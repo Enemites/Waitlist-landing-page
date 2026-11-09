@@ -61,7 +61,7 @@ c('riser', hit_at=13.933, length=2.0, gain_db=-11, label='riser sucks out 2 fram
 # ---- Bar 8 (14-16): TITLE ----------------------------------------------------------------
 c('gate_clank', at=14.0, size=1.15, latch=True, gain_db=-9, verb={'hall': 0.12}, label='TITLE ACCENT latch')
 c('stamp', at=14.0, weight=1.3, gain_db=-9, verb={'hall': 0.15})
-c('impact', at=14.0, length=0.9, size=0.7, sub_hz=72, punch=1.2, brightness=0.9, gain_db=-10, hpf=55, fade_out=0.4, label='title body, no sub')
+c('impact', at=14.0, length=1.1, size=0.7, sub_hz=72, punch=1.2, brightness=0.9, gain_db=-6, hpf=55, fade_out=0.5, label='title body, no sub')
 c('pad', bar=7, bars=1, intensity=[0.45, 0.8], gain_db=-6, label='Dm(add9) swell')
 
 # ---- Bars 9-11 (16-22): ONE WORLD ---------------------------------------------------------
@@ -311,7 +311,7 @@ for k, (T, g) in enumerate(((41.0, -21), (41.25, -20), (41.5, -19), (41.75, -18)
     blip(T, 'deny', 659.26, g, verb={'hall': 0.2}, label='rival ping %d' % (k + 1))
 for T, g in ((41.22, -22), (41.47, -21), (41.72, -20), (41.97, -19)):
     whoosh_peak(T, length=0.22, peak=0.9, pitch=1.3, weight=0.25, gain_db=g, label='sweep arm whips into the ping')
-blip(41.6, 'confirm', 880, -22, label='amber crossing takes the hit')
+blip(41.6, 'confirm', 880, -17, label='amber crossing takes the hit')
 c('impact', at=42.0, length=0.4, size=0.5, brightness=0.7, sub_hz=64, hpf=70, gain_db=-15, label='x08-contest LOCK clamps on the crossing')
 c('tick_one', at=42.033, tone=1.8, gain_db=-22, label='arm latches onto the contacts')
 # s13 payoff punch 61.0-62.0 (round 3)

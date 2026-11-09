@@ -369,7 +369,7 @@
       status.style.top = (Y.status - baselineOffset(status)).toFixed(2) + 'px';
       status.textContent = '';
       B.scrambleTo(tl, status, 'IN DEVELOPMENT · PRIVATE BETA', 3.5, 0.6);
-      const CREDIT = 'ARCHIVAL FOOTAGE: NASA · U.S. NATIONAL ARCHIVES · U.S. ARMY AIR FORCES · LIBRARY OF CONGRESS';
+      const CREDIT = 'ARCHIVAL FOOTAGE: NASA · U.S. NATIONAL ARCHIVES · U.S. ARMY AIR FORCES · LIBRARY OF CONGRESS · CHESS FEVER (1925)';
       const credit = ctx.el('div', 's14-mono', card, CREDIT);
       Object.assign(credit.style, { color: C.muted3, letterSpacing: '.08em' });
       credit.style.left = (COL - ink('500 20px "JetBrains Mono Variable"', 'A').left).toFixed(2) + 'px';
