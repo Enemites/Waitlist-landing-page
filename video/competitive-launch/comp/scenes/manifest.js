@@ -31,6 +31,7 @@ Film.manifest([
   { id: 'x07-section', file: 'x07-section.js', at: 30.5, duration: 1.5 },
   { id: 'x08-roles', file: 'x08-roles.js', at: 36.5, duration: 1.5 },
   { id: 'x08-gate-schematic', file: 'x08-gate-schematic.js', at: 39.0, duration: 1.5 },
+  { id: 'x08-contest', file: 'x08-contest.js', at: 41.0, duration: 1.25 },
   { id: 'x10-formation', file: 'x10-formation.js', at: 46.0, duration: 2.0 },
   { id: 'x11-archive-flash', file: 'x11-archive-flash.js', at: 52.5, duration: 2.0 },
   { id: 'x13-iso-plans', file: 'x13-iso-plans.js', at: 58.0, duration: 1.5 },

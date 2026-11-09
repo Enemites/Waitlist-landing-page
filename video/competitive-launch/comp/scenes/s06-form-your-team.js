@@ -6,7 +6,7 @@
  * camera rises with it to LOBBY_A2, where s07 whips along the line. The label 'PLANNED / MATCHMAKING'
  * (mono 24, bone, no scramble: matchmaking is planned, not released) is fully in by 27.0 and rides the
  * line head until 28.75 (s07). The pump station and its conduit stay hidden while the lobby close-up
- * holds (they would sit unlabelled, clipped at the right edge): out over 22.0-22.3, back with the rise
+ * holds (they would sit unlabelled, clipped at the right edge): hidden from 22.0, back with the rise
  * over 27.0-27.9.
  * Mirror build: the lobby (kLobby / kMarker / kBanner) is side-agnostic and shared with s07.
  */
@@ -603,7 +603,7 @@
         // the pump station + conduit: hidden while the lobby close-up holds, back as the camera rises east
         // (power2.in: still faint while the rise first slides the box in large at the lower right, full by
         // 27.9 where it sits mid-frame as s07 picks it up)
-        const pv = lt < 5 ? 1 - ez('power1.out')(seg(lt, 0, 0.3)) : ez('power2.in')(seg(lt, 5.0, 5.9));
+        const pv = lt < 5 ? 0 : ez('power2.in')(seg(lt, 5.0, 5.9));   // v3: hidden from 22.0 (x05-versus precedes, not s05)
         const ps = pv >= 0.999 ? '1' : pv.toFixed(3);
         for (const e of [F.el.pump, F.el.conduit]) if (e.getAttribute('opacity') !== ps) e.setAttribute('opacity', ps);
         bA.p.s = bannerScale(z); bA.draw(ge.c[0], ge.c[1], lt);

@@ -185,3 +185,24 @@ snap out; hard cut back to s08 at 38.0, where PLAN AGREED lifts.
 - x11 uses river-levee-sandbag-team, labelled 'ARCHIVE · 1937', instead of the 1904 crews (s03 already shows them).
 - s06 lands with an 8-frame zoom (0.88x to 1.0, apex anchored) so the x05 dive carries through the 22.0 cut.
 - Sound: audio/film_cues.py has a block per round-2 insert, plus the retimed polish cues.
+
+## Round 3 (after the final review of the round-2 render)
+Scores: tempo 7.5, craft 8.5, sound 7.5. Verified findings and their fixes:
+
+| at | change | why |
+|---|---|---|
+| 41.0-42.25 | new insert `x08-contest`: the rival scan, a full-frame polar radar in Vega red on charcoal | 40.5-46.0 was the longest map run in 16-64 (5.5 s) |
+| 61.0-62.0 | s13 punch-in onto the gate where the two plans meet, back to the drift on 62.0 | no cut from 59.5 to 72; the payoff layout restated s05 |
+| encode | chroma-qp-offset in the picture render and both delivery encodes; ridgeline stroke floor raised | the amber ridgelines turned grey in the CRF 20 master |
+| 22.0 | s06 pump box hidden from the first frame | a clipped box hung on the right edge for 7 frames |
+| polish | x11 corner blink, levee plate sharpening, x08-roles sliced type frame, x07 summit markers on the peaks, x05-versus 3 V 3 size and slug clear of the seam, s01 alert/title one-frame overlap | craft nits |
+| sound | per-insert material (card flips, metal panes, electrical blueprint kick), 22.0 landing, v12 over the peak bus, limiter load at 14.0 and 46.0, ending decay | one stamp sample on 38 cues; v12 4.4 LU over the bed |
+
+### x08-contest (41.0-42.25)
+Hard cut in on the 41.0 beat, out on 42.25 exactly as s08's alert card starts to lift, so the hook
+callback (42.25-44.0) and the 43.5 loop-close frame play untouched. Full-frame polar radar: range rings,
+a sweep arm, Vega red-orange (Brand rival) on charcoal, amber only for the crossing glyph. Two Vega
+triangle contacts converge on the crossing glyph. Mono label 'CONTESTED · CROSSING' scrambling in about
+41.5 (do not repeat the 'Vega is contesting the crossing' line; the lift card says it on 42.25). Beat
+accents on 41.0, 41.25, 41.5, 41.75, 42.0. HUD slug and corner brackets as every insert. Hidden s08
+sounds under it (glitch 41.5, whoosh peaking 41.6) are repurposed for the label and the convergence.
