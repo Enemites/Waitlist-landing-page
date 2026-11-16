@@ -1,101 +1,94 @@
 import { useEffect, useRef } from "react";
 
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { createNoise3D, fbm } from "@/lib/terrain-noise";
 
 /**
- * The hero world: a single realm drawn the way the rest of the page draws terrain, as contour lines.
- * Coastlines are the brightest isoline, every fourth land contour is an index contour, and the
- * sea floor is only hinted at. Pointer input turns the globe; it never changes page state.
+ * The hero is a way into another world: a black hole of lime light, rendered on the GPU. Arms of gas
+ * spiral in and keep changing shape, bend around the horizon and feed a thin photon ring with a bright
+ * spot travelling round it. On load the camera pushes in from far away while the vortex spins up.
+ * Pointer input shifts the view a little; it never changes page state. Without WebGL, the CSS
+ * background behind the canvas stands in.
  */
 
-const LAT_STEPS = 96;
-const LON_STEPS = 192;
-const LAT_MAX = (86 * Math.PI) / 180;
-const LAND_STEP = 0.042;
-const SEA_LEVELS = [-0.075, -0.15];
-const RELIEF = 0.075;
-const BUCKETS = 6;
+const VERT = `attribute vec2 a; void main() { gl_Position = vec4(a, 0.0, 1.0); }`;
 
-// sea, coast, land, index land
-const STYLES = [
-  { alpha: 0.2, width: 0.6 },
-  { alpha: 1, width: 1.2 },
-  { alpha: 0.62, width: 0.7 },
-  { alpha: 0.9, width: 1 },
-] as const;
+const FRAG = `
+precision highp float;
+uniform vec2 uRes;
+uniform vec2 uFocus;
+uniform float uTime;
+uniform float uIntro;
 
-type World = Float32Array[];
+const vec3 INK = vec3(0.031, 0.055, 0.063);
+const vec3 DEEP = vec3(0.045, 0.105, 0.03);
+const vec3 NEON = vec3(0.83, 1.0, 0.26);
+const vec3 HOT = vec3(0.97, 1.0, 0.82);
+const float HORIZON = 0.1;
 
-let cachedWorld: World | null = null;
-
-function buildWorld(): World {
-  if (cachedWorld) return cachedWorld;
-  const noise = createNoise3D(1729);
-  const cols = LON_STEPS;
-  const rows = LAT_STEPS + 1;
-  const dLat = (LAT_MAX * 2) / LAT_STEPS;
-  const dLon = (Math.PI * 2) / LON_STEPS;
-  const field = new Float32Array(rows * cols);
-  let peak = 0;
-  for (let i = 0; i < rows; i++) {
-    const lat = -LAT_MAX + i * dLat;
-    for (let j = 0; j < cols; j++) {
-      const lon = j * dLon;
-      const x = Math.cos(lat) * Math.cos(lon), y = Math.sin(lat), z = Math.cos(lat) * Math.sin(lon);
-      const warp = fbm(noise, x * 1.1 + 11.3, y * 1.1 - 4.1, z * 1.1 + 7.7, 3);
-      const h = fbm(noise, x * 1.45 + warp * 0.95, y * 1.45 + warp * 0.6, z * 1.45 - warp * 0.8, 5) + 0.035;
-      field[i * cols + j] = h;
-      peak = Math.max(peak, h);
-    }
-  }
-
-  const levels: { value: number; style: number }[] = SEA_LEVELS.map((value) => ({ value, style: 0 }));
-  for (let k = 0, value = 0; value < peak; k++, value = k * LAND_STEP) {
-    levels.push({ value, style: k === 0 ? 1 : k % 4 === 0 ? 3 : 2 });
-  }
-
-  const out: number[][] = STYLES.map(() => []);
-  const vertex = (fi: number, fj: number, level: number, target: number[]) => {
-    const lat = -LAT_MAX + fi * dLat;
-    const lon = fj * dLon;
-    const r = 1 + Math.max(level, 0) * RELIEF;
-    target.push(Math.cos(lat) * Math.cos(lon) * r, Math.sin(lat) * r, Math.cos(lat) * Math.sin(lon) * r);
-  };
-
-  const cross = new Float32Array(8);
-  for (const { value: level, style } of levels) {
-    const target = out[style];
-    for (let i = 0; i < LAT_STEPS; i++) {
-      for (let j = 0; j < cols; j++) {
-        const j1 = (j + 1) % cols;
-        const a = field[i * cols + j], b = field[i * cols + j1];
-        const c = field[(i + 1) * cols + j1], d = field[(i + 1) * cols + j];
-        const sa = a >= level, sb = b >= level, sc = c >= level, sd = d >= level;
-        if (sa === sb && sb === sc && sc === sd) continue;
-        // Edge crossings in grid space: e0 a-b, e1 b-c, e2 c-d, e3 d-a.
-        const hits: number[] = [];
-        if (sa !== sb) { const t = (level - a) / (b - a); cross[0] = i; cross[1] = j + t; hits.push(0); }
-        if (sb !== sc) { const t = (level - b) / (c - b); cross[2] = i + t; cross[3] = j + 1; hits.push(1); }
-        if (sc !== sd) { const t = (level - c) / (d - c); cross[4] = i + 1; cross[5] = j + 1 - t; hits.push(2); }
-        if (sd !== sa) { const t = (level - d) / (a - d); cross[6] = i + 1 - t; cross[7] = j; hits.push(3); }
-        const pairs: [number, number][] = [];
-        if (hits.length === 2) pairs.push([hits[0], hits[1]]);
-        else if (hits.length === 4) {
-          const centerAbove = (a + b + c + d) / 4 >= level;
-          if (centerAbove === sa) pairs.push([0, 1], [2, 3]);
-          else pairs.push([3, 0], [1, 2]);
-        }
-        for (const [p, q] of pairs) {
-          vertex(cross[p * 2], cross[p * 2 + 1], level, target);
-          vertex(cross[q * 2], cross[q * 2 + 1], level, target);
-        }
-      }
-    }
-  }
-  cachedWorld = out.map((segments) => new Float32Array(segments));
-  return cachedWorld;
+float hash(vec3 p) {
+  p = fract(p * 0.3183099 + 0.1);
+  p *= 17.0;
+  return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
 }
+float noise(vec3 x) {
+  vec3 i = floor(x);
+  vec3 f = fract(x);
+  f = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+  return mix(
+    mix(mix(hash(i), hash(i + vec3(1, 0, 0)), f.x), mix(hash(i + vec3(0, 1, 0)), hash(i + vec3(1, 1, 0)), f.x), f.y),
+    mix(mix(hash(i + vec3(0, 0, 1)), hash(i + vec3(1, 0, 1)), f.x), mix(hash(i + vec3(0, 1, 1)), hash(i + vec3(1, 1, 1)), f.x), f.y),
+    f.z);
+}
+float fbm4(vec3 p) {
+  float s = 0.0, a = 0.5;
+  for (int i = 0; i < 4; i++) { s += a * noise(p); p = p * 2.03 + vec3(1.7, 9.2, 3.1); a *= 0.5; }
+  return s;
+}
+float fbm5(vec3 p) {
+  float s = 0.0, a = 0.5;
+  for (int i = 0; i < 5; i++) { s += a * noise(p); p = p * 2.03 + vec3(1.7, 9.2, 3.1); a *= 0.5; }
+  return s;
+}
+
+// The gas: spiral arms of domain-warped noise, turning and drifting inward without end.
+float gas(float r, float a, float t) {
+  float lr = log(r);
+  float s = a - lr * 1.25 + t * 0.21;
+  vec3 q = vec3(cos(s) * 1.15, sin(s) * 1.15, lr * 1.3 - t * 0.6);
+  vec2 w = vec2(fbm4(q + vec3(1.3, 4.1, t * 0.06)), fbm4(q + vec3(7.2, 2.4, 1.7 - t * 0.05)));
+  return fbm5(q * 1.5 + vec3(w * 2.4, 0.0));
+}
+
+void main() {
+  vec2 frag = gl_FragCoord.xy;
+  float ease = 1.0 - pow(1.0 - uIntro, 3.0);
+  vec2 p = (frag - uFocus) / uRes.y * mix(2.6, 1.0, ease);
+  float r = length(p);
+  float a = atan(p.y, p.x);
+  float t = uTime + ease * 5.0;
+  // Light bends round the hole: space near the horizon is drawn in toward it.
+  float rl = sqrt(max(r * r - HORIZON * HORIZON * 0.45, 1e-5));
+  float f = gas(rl, a, t);
+
+  float heat = smoothstep(0.55, HORIZON * 1.2, r);
+  float bright = smoothstep(0.45, 0.85, f);
+  vec3 col = mix(INK * 0.45, DEEP, smoothstep(0.25, 0.7, f));
+  col += NEON * pow(bright, 2.0) * (1.55 + heat * 0.9);
+  col += HOT * pow(bright, 5.0) * (0.75 + heat * 0.8);
+  col *= smoothstep(HORIZON * 0.75, HORIZON * 1.2, r);
+  col *= mix(0.22, 1.0, smoothstep(1.55, 0.25, r));
+
+  // The photon ring: a bright spot travels round it, and a faint lensed echo sits just outside.
+  float d = abs(r - HORIZON);
+  float beam = 0.72 + 0.42 * cos(a - 2.5 - t * 0.55);
+  col += mix(NEON, vec3(1.0), 0.5) * exp(-d * 70.0) * 1.3 * beam;
+  col += HOT * exp(-d * 190.0) * 0.6 * beam;
+  col += NEON * exp(-abs(r - HORIZON * 1.6) * 80.0) * 0.06;
+
+  col *= smoothstep(0.0, 0.4, uIntro);
+  col = 1.0 - exp(-col * 1.3);
+  gl_FragColor = vec4(max(col, INK), 1.0);
+}`;
 
 const readVar = (style: CSSStyleDeclaration, name: string, fallback: number) => {
   const value = parseFloat(style.getPropertyValue(name));
@@ -111,119 +104,80 @@ export default function ArenaScene({ className = "" }: { className?: string }) {
     const host = root.current;
     const surface = canvas.current;
     if (!host || !surface) return;
-    const context = surface.getContext("2d");
-    if (!context) return;
+    const gl = surface.getContext("webgl", { antialias: false, alpha: false, depth: false, powerPreference: "high-performance" });
+    if (!gl) return;
+    const compile = (type: number, source: string) => {
+      const shader = gl.createShader(type)!;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      return shader;
+    };
+    const vertex = compile(gl.VERTEX_SHADER, VERT), fragment = compile(gl.FRAGMENT_SHADER, FRAG);
+    const program = gl.createProgram()!;
+    gl.attachShader(program, vertex);
+    gl.attachShader(program, fragment);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+    gl.useProgram(program);
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const attribute = gl.getAttribLocation(program, "a");
+    gl.enableVertexAttribArray(attribute);
+    gl.vertexAttribPointer(attribute, 2, gl.FLOAT, false, 0, 0);
+    const uRes = gl.getUniformLocation(program, "uRes");
+    const uFocus = gl.getUniformLocation(program, "uFocus");
+    const uTime = gl.getUniformLocation(program, "uTime");
+    const uIntro = gl.getUniformLocation(program, "uIntro");
 
-    const world = buildWorld();
-    const screens = world.map((segments) => new Float32Array((segments.length / 6) * 4));
-    const buckets = world.map((segments) => new Int8Array(segments.length / 6));
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const animate = !reduce;
-    const light = (() => { const v = [-0.5, 0.55, 0.68]; const m = Math.hypot(...v); return v.map((n) => n / m); })();
-
-    let width = 0, height = 0, cx = 0, cy = 0, radius = 0, boxX = 0, boxY = 0, boxW = 0, boxH = 0;
-    let frame = 0, visible = true, last = 0, start = 0;
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    // The gas is soft, so it is rendered below CSS resolution and scaled up; slow GPUs go lower still.
+    let quality = 0.8;
+    let width = 0, height = 0, fx = 0.68, fy = 0.5;
+    let frame = 0, visible = true, start = 0, last = 0, spent = 0, drawn = 0, gap = 0;
     let targetX = 0, targetY = 0, px = 0, py = 0;
 
-    const measure = () => {
-      const style = getComputedStyle(host);
-      cx = width * readVar(style, "--globe-x", 0.68);
-      cy = height * readVar(style, "--globe-y", 0.5);
-      radius = Math.min(width * readVar(style, "--globe-rw", 0.25), height * readVar(style, "--globe-rh", 0.4));
+    const applySize = () => {
+      const scale = Math.min(1, (window.devicePixelRatio || 1) * quality);
+      surface.width = Math.max(1, Math.round(width * scale));
+      surface.height = Math.max(1, Math.round(height * scale));
+      gl.viewport(0, 0, surface.width, surface.height);
     };
-
     const draw = (time: number) => {
       if (!start) start = time;
-      const intro = animate ? Math.min(1, (time - start) / 1600) : 1;
-      const ease = 1 - Math.pow(1 - intro, 3);
-      px += (targetX - px) * 0.05;
-      py += (targetY - py) * 0.05;
-      const yaw = 2.2 + (animate ? time * 0.000032 : 0) + px * 0.35 + (1 - ease) * 0.5;
-      const tilt = -0.38 + py * 0.14;
-      const r = radius * (0.965 + 0.035 * ease);
-      const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosT = Math.cos(tilt), sinT = Math.sin(tilt);
-
-      context.clearRect(boxX, boxY, boxW, boxH);
-      context.globalAlpha = ease;
-
-      // Atmosphere and body: a lit sphere, never a glow.
-      const halo = context.createRadialGradient(cx, cy, r * 0.96, cx, cy, r * 1.18);
-      halo.addColorStop(0, "rgba(196,237,108,0.075)");
-      halo.addColorStop(1, "rgba(196,237,108,0)");
-      context.fillStyle = halo;
-      context.beginPath(); context.arc(cx, cy, r * 1.18, 0, Math.PI * 2); context.fill();
-      const body = context.createRadialGradient(cx - r * 0.42, cy - r * 0.48, r * 0.1, cx, cy, r * 1.02);
-      body.addColorStop(0, "#15231c");
-      body.addColorStop(0.55, "#0d1714");
-      body.addColorStop(1, "#080e10");
-      context.fillStyle = body;
-      context.beginPath(); context.arc(cx, cy, r, 0, Math.PI * 2); context.fill();
-      context.strokeStyle = "rgba(196,237,108,0.16)";
-      context.lineWidth = 1;
-      context.stroke();
-
-      context.lineCap = "round";
-      for (let s = 0; s < world.length; s++) {
-        const segments = world[s], screen = screens[s], bucket = buckets[s];
-        const count = bucket.length;
-        for (let n = 0; n < count; n++) {
-          const o = n * 6;
-          const x1 = segments[o] * cosY + segments[o + 2] * sinY;
-          const z1r = -segments[o] * sinY + segments[o + 2] * cosY;
-          const y1 = segments[o + 1] * cosT - z1r * sinT;
-          const z1 = segments[o + 1] * sinT + z1r * cosT;
-          if (z1 <= 0) { bucket[n] = -1; continue; }
-          const x2 = segments[o + 3] * cosY + segments[o + 5] * sinY;
-          const z2r = -segments[o + 3] * sinY + segments[o + 5] * cosY;
-          const y2 = segments[o + 4] * cosT - z2r * sinT;
-          const z2 = segments[o + 4] * sinT + z2r * cosT;
-          if (z2 <= 0) { bucket[n] = -1; continue; }
-          const lambert = Math.max(0, x1 * light[0] + y1 * light[1] + z1 * light[2]);
-          const limb = Math.min(1, z1 / 0.24);
-          const shade = (0.16 + 0.84 * lambert) * limb;
-          bucket[n] = Math.min(BUCKETS - 1, Math.floor(shade * BUCKETS));
-          const p = n * 4;
-          screen[p] = cx + x1 * r; screen[p + 1] = cy - y1 * r;
-          screen[p + 2] = cx + x2 * r; screen[p + 3] = cy - y2 * r;
-        }
-        context.lineWidth = STYLES[s].width;
-        for (let b = 0; b < BUCKETS; b++) {
-          context.beginPath();
-          let any = false;
-          for (let n = 0; n < count; n++) {
-            if (bucket[n] !== b) continue;
-            const p = n * 4;
-            context.moveTo(screen[p], screen[p + 1]);
-            context.lineTo(screen[p + 2], screen[p + 3]);
-            any = true;
-          }
-          if (!any) continue;
-          context.strokeStyle = `rgba(196,237,108,${(STYLES[s].alpha * (b + 0.5)) / BUCKETS})`;
-          context.stroke();
-        }
-      }
-      context.globalAlpha = 1;
+      const elapsed = animate ? (time - start) / 1000 : 0;
+      px += (targetX - px) * 0.04;
+      py += (targetY - py) * 0.04;
+      const w = surface.width, h = surface.height;
+      gl.uniform2f(uRes, w, h);
+      gl.uniform2f(uFocus, w * fx + px * h * 0.025, h * (1 - fy) - py * h * 0.025);
+      gl.uniform1f(uTime, elapsed);
+      gl.uniform1f(uIntro, animate ? Math.min(1, elapsed / 2.8) : 1);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
-
     const resize = new ResizeObserver(([entry]) => {
       width = entry.contentRect.width;
       height = entry.contentRect.height;
-      measure();
-      // The canvas only covers the globe and its halo: rasterizing the whole hero is the real cost.
-      const reach = radius * 1.2;
-      boxX = Math.max(0, Math.floor(cx - reach));
-      boxY = Math.max(0, Math.floor(cy - reach));
-      boxW = Math.max(1, Math.min(width, Math.ceil(cx + reach)) - boxX);
-      boxH = Math.max(1, Math.min(height, Math.ceil(cy + reach)) - boxY);
-      Object.assign(surface.style, { left: `${boxX}px`, top: `${boxY}px`, width: `${boxW}px`, height: `${boxH}px` });
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-      surface.width = Math.round(boxW * ratio);
-      surface.height = Math.round(boxH * ratio);
-      context.setTransform(ratio, 0, 0, ratio, -boxX * ratio, -boxY * ratio);
+      const style = getComputedStyle(host);
+      fx = readVar(style, "--realm-x", 0.68);
+      fy = readVar(style, "--realm-y", 0.5);
+      applySize();
       if (!animate) draw(0);
     });
     const tick = (time: number) => {
-      if (visible && !document.hidden && time - last > 24) { draw(time); last = time; }
+      if (visible && !document.hidden && time - last >= gap) {
+        // Frames slower than ~40 a second step the resolution down until they are not.
+        if (last && time - last < 1000) { spent += time - last; drawn++; }
+        if (drawn === 20) {
+          if (spent / drawn > 24 && quality > 0.35) { quality = Math.max(0.35, quality * 0.75); applySize(); }
+          // Without a usable GPU, hold each frame for a while rather than tie up the page.
+          else if (spent / drawn > 70) gap = 400;
+          spent = 0; drawn = 0;
+        }
+        draw(time);
+        last = time;
+      }
       frame = requestAnimationFrame(tick);
     };
     const pointerZone = host.parentElement ?? host;
@@ -247,6 +201,10 @@ export default function ArenaScene({ className = "" }: { className?: string }) {
       cancelAnimationFrame(frame);
       pointerZone.removeEventListener("pointermove", move);
       pointerZone.removeEventListener("pointerleave", leave);
+      gl.deleteBuffer(buffer);
+      gl.deleteProgram(program);
+      gl.deleteShader(vertex);
+      gl.deleteShader(fragment);
     };
   }, [reduce]);
 
