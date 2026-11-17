@@ -101,7 +101,7 @@ Last frame (29.967): the two cards at the edges, the centre opening.
 
 ### c05b-split, 30.0-36.0: "The same challenge. Another approach."
 SPLIT SCREEN on the brand slant: the same world on both halves, the STORM CITY (isometric city at
-night in a storm, comp/lib/worlds.js). 30.0 the seam opens from the centre. Both halves show identical
+night in a storm, comp/lib/world-city.js). 30.0 the seam opens from the centre. Both halves show identical
 starting state; 31.4-33.75 (w08) each team draws a different plan on it (left amber: secure the power
 plant first; right red-orange: rush the bridges), with labels 'ATLAS · PLAN' / 'VEGA · PLAN'. The camera
 moves mirror each other. 35.5-36.0 the seam slams shut.
@@ -113,12 +113,12 @@ to face. 37.64 'Assign your roles': role chips fly into our players: COORDINATIO
 CROSSING. 39.0 'PLAN LOCKED' stamp; 39.75 everything collapses to a line for the drop.
 
 ### c07a-coordinate, 40.0-44.0: COORDINATE (THE DROP)
-ICE STATION world (isometric low-poly research base on an ice shelf; snow; worlds.js). 40.0 drop hit.
+ICE STATION world (isometric low-poly research base on an ice shelf; snow; comp/lib/world-wild.js). 40.0 drop hit.
 Word 'Coordinate.' huge (40.3). The three players leave the base for three sites at once; three timers
 run in sync and all three sites light on the same beat (42.0). Camera: crane down from above.
 
 ### c07b-commit, 44.0-48.0: COMMIT
-DESERT CANYON world (top-down, dune flow-field and canyon hatching; worlds.js). The team route reaches a
+DESERT CANYON world (top-down, dune flow-field and canyon hatching; comp/lib/world-wild.js). The team route reaches a
 fork with three options; 44.3 'Commit.': one route locks with a stamp, the others burn off; the convoy
 of three markers accelerates down it. Camera: top-down slide following the route.
 
