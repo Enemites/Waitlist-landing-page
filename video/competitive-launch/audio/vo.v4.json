@@ -1,0 +1,108 @@
+[
+ {
+  "id": "w01",
+  "text": "Worlds imagined by AI.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "w02",
+  "text": "Shaped by your decisions.",
+  "voice": "af_heart",
+  "speed": 0.86
+ },
+ {
+  "id": "w03",
+  "text": "Now, face another team.",
+  "voice": "af_heart",
+  "speed": 0.92
+ },
+ {
+  "id": "w04",
+  "text": "Realms. Competitive.",
+  "voice": "af_heart",
+  "speed": 0.9,
+  "sentence_pause": 0.4
+ },
+ {
+  "id": "w05",
+  "text": "Bring friends. Or join a team.",
+  "voice": "af_heart",
+  "speed": 0.85
+ },
+ {
+  "id": "w06",
+  "text": "Share what you see. Decide how you'll work together.",
+  "voice": "af_heart",
+  "speed": 0.85
+ },
+ {
+  "id": "w07",
+  "text": "Two teams. The same starting conditions. One objective.",
+  "voice": "af_heart",
+  "speed": 0.95
+ },
+ {
+  "id": "w08",
+  "text": "The same challenge. Another approach.",
+  "voice": "af_heart",
+  "speed": 0.92
+ },
+ {
+  "id": "w09",
+  "text": "Meet the other side. Assign your roles.",
+  "voice": "af_heart",
+  "speed": 0.88
+ },
+ {
+  "id": "w10",
+  "text": "Coordinate.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "w11",
+  "text": "Commit.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "w12",
+  "text": "Adapt.",
+  "voice": "af_heart",
+  "speed": 0.9
+ },
+ {
+  "id": "w13",
+  "text": "Your decisions, and their moves, change what happens next.",
+  "voice": "af_heart",
+  "speed": 0.88
+ },
+ {
+  "id": "w14",
+  "text": "Every move, on the record.",
+  "voice": "af_heart",
+  "speed": 0.82
+ },
+ {
+  "id": "w15",
+  "text": "See whose strategy holds.",
+  "voice": "af_heart",
+  "speed": 0.88,
+  "phoneme_replace": {
+   "h\u02ccu\u02d0z": "h\u02c8u\u02d0z"
+  }
+ },
+ {
+  "id": "w16",
+  "text": "Bring this challenge to your group.",
+  "voice": "af_heart",
+  "speed": 0.82
+ },
+ {
+  "id": "w17",
+  "text": "Get match updates.",
+  "voice": "af_heart",
+  "speed": 0.9
+ }
+]
