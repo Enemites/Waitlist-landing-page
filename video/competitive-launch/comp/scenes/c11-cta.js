@@ -134,7 +134,7 @@
         el.style.color = color;
         const words = text.split(' ').map((w, i) => { if (i) el.appendChild(document.createTextNode(' ')); return ctx.el('span', '', el, w); });
         const m = measure(font, text, track);
-        el.style.left = (CX - (m.left + m.right) / 2 - m.left * 0 - 0.08 * HL - (m.left)).toFixed(2) + 'px';
+        el.style.left = (CX - (m.left + m.right) / 2).toFixed(2) + 'px';   // text origin (the mask's -.08em margin and .08em padding cancel)
         el.style.top = (base - baselineOffset(el)).toFixed(2) + 'px';
         return { wrap, el, words };
       }
@@ -164,7 +164,7 @@
       const wordBox = ctx.el('div', 'c11-line', lay);
       Object.assign(wordBox.style, { font: `640 ${LK.word}px/1 var(--display)`, letterSpacing: '-0.05em', color: C.ink });
       const wIn = ctx.el('span', '', wordBox, 'Realms');
-      wordBox.style.left = (left + markW + LK.gap - wm.left - 0.08 * LK.word).toFixed(2) + 'px';
+      wordBox.style.left = (left + markW + LK.gap - wm.left).toFixed(2) + 'px';
       const capH = measure(wf, 'R').asc;
       wordBox.style.top = (LK.y + capH / 2 - baselineOffset(wordBox)).toFixed(2) + 'px';
       tl.fromTo(wIn, { yPercent: 140 }, { yPercent: 0, duration: 0.7, ease: 'expo.out' }, T_LOCK + 0.12);
@@ -222,9 +222,8 @@
       const glow = ctx.svg('rect', { x: bx - 18, y: by - 18, width: BTN.w + 36, height: BTN.h + 36, rx: 22, fill: C.amber, opacity: 0 }, svg);
       svg.insertBefore(glow, svg.firstChild);
       ctx.onFrame((t) => {
-        let u = -1;
-        for (const t0 of [T_DOCK, 6.0, 8.0]) { const v = (t - t0) / (t0 === T_DOCK ? 0.9 : 1.4); if (v >= 0 && v <= 1) u = Math.max(u, v) * (t0 === T_DOCK ? 1 : 1) + (t0 === T_DOCK ? 0 : 0); }
-        const big = t < T_DOCK + 0.9;
+        let u = -1, big = false;
+        for (const t0 of [T_DOCK, 6.0, 8.0]) { const k = t0 === T_DOCK; const v = (t - t0) / (k ? 0.9 : 1.4); if (v >= 0 && v <= 1) { u = v; big = k; } }
         if (u < 0) pulse.setAttribute('opacity', 0);
         else {
           const e = 1 - Math.pow(1 - u, 2.4), grow = (big ? 34 : 18) * e;

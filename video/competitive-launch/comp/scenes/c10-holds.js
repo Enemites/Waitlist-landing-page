@@ -213,7 +213,7 @@
         const el = ctx.el('div', 'c10-line', typeLayer);
         el.style.color = color;
         const words = text.split(' ').map((w, i) => { if (i) el.appendChild(document.createTextNode(' ')); return ctx.el('span', '', el, w); });
-        el.style.left = (lineLeft - 0.08 * SIZE).toFixed(2) + 'px';
+        el.style.left = lineLeft.toFixed(2) + 'px';   // text origin (the mask's -.08em margin and .08em padding cancel)
         el.style.top = (base - baselineOffset(el)).toFixed(2) + 'px';
         return { el, words };
       }
