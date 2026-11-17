@@ -231,7 +231,7 @@
           pulse.setAttribute('width', (BTN.w + grow * 2).toFixed(2)); pulse.setAttribute('height', (BTN.h + grow * 2).toFixed(2));
           pulse.setAttribute('opacity', ((big ? 0.85 : 0.4) * (1 - u)).toFixed(3));
         }
-        const ga = t < T_DOCK ? 0 : 0.07 + 0.16 * Math.exp(-(t - T_DOCK) * 4) + 0.02 * Math.sin((t - T_DOCK) * 1.6);
+        const ga = t < T_DOCK ? 0 : 0.045 + 0.14 * Math.exp(-(t - T_DOCK) * 4) + 0.015 * Math.sin((t - T_DOCK) * 1.6);
         glow.setAttribute('opacity', ga.toFixed(3));
       });
 
@@ -252,11 +252,12 @@
 
       // ================= THE NODE: holds at centre, then docks =================
       const nsv = ctx.svg('svg', { class: 'brand-svg' }, root);
-      const N = NodeMark.create(ctx, { parent: nsv, x: CX, y: CY });
+      let N = null;                                       // (the setter runs before NodeMark's own onFrame)
       const P0 = [CX, CY], P1 = [560, 530], P2 = [540, 770], P3 = DOCK;
       const go = { u: 0 };
       tl.fromTo(go, { u: 0 }, { u: 1, duration: T_DOCK - T_LEAVE, ease: 'power3.inOut', immediateRender: false }, T_LEAVE);
       ctx.onFrame((t) => {
+        if (!N) return;
         const u = t < T_LEAVE ? 0 : go.u, v = 1 - u;
         N.p.x = v * v * v * P0[0] + 3 * v * v * u * P1[0] + 3 * v * u * u * P2[0] + u * u * u * P3[0];
         N.p.y = v * v * v * P0[1] + 3 * v * v * u * P1[1] + 3 * v * u * u * P2[1] + u * u * u * P3[1];
@@ -264,6 +265,7 @@
         N.p.a = 1 - seg(t, T_DOCK + 0.02, T_DOCK + 0.12);
         N.p.glow = 0.35 + 0.4 * Math.exp(-Math.pow((t - T_DOCK) / 0.12, 2));
       });
+      N = NodeMark.create(ctx, { parent: nsv, x: CX, y: CY });
     },
   });
 })();

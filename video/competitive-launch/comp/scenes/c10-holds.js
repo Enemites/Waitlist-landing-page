@@ -229,12 +229,23 @@
       tl.fromTo(drift, { s: 1 }, { s: 0.95, duration: T_OUT + 0.4 - (T_HIT + 0.3), ease: 'sine.inOut', immediateRender: false }, T_HIT + 0.3);
 
       // ---------------- the point (THE NODE), the objective's core and the headline's period ----------------
-      const N = NodeMark.create(ctx, { parent: svg, x: O[0], y: O[1], s: dotR / 6, glow: 0.6 });
-      const P = N.p;
-      P.pulse = 0;
       const pTo = { u: 0 };
       tl.fromTo(pTo, { u: 0 }, { u: 1, duration: T_END - T_GO, ease: 'power2.inOut', immediateRender: false }, T_GO);
       const sPeriod = dotR / 6;
+      // the point's proxy is set in an onFrame registered BEFORE NodeMark's own, so the mark draws this frame
+      const P = { x: O[0], y: O[1], s: sPeriod, a: 1, glow: 0.5, pulse: 0 };
+      ctx.onFrame((t) => {
+        const u = pTo.u;
+        P.x = lerp(O[0], CENTRE[0], u); P.y = lerp(O[1], CENTRE[1], u);
+        const holdPunch = t >= T_HOLDS ? 0.35 * Math.exp(-(t - T_HOLDS) * 9) : 0;
+        const preHit = t < T_HIT ? 1.15 : 1;
+        P.s = lerp(sPeriod, 1, ez('power2.inOut')(seg(t, T_GO + 0.2, T_END))) * (1 + holdPunch) * preHit;
+        P.glow = t < T_HIT ? 0.5 : lerp(0.5, 0.35, seg(t, T_GO, T_END));
+        P.pulse = t >= T_GO - 0.1 ? 1 : 0;
+        if (N) Object.assign(N.p, P);
+      });
+      let N = null;
+      N = NodeMark.create(ctx, { parent: svg, x: O[0], y: O[1], s: sPeriod, glow: 0.5 });
 
       ctx.onFrame((t) => {
         // ---- canvas ----
@@ -271,14 +282,7 @@
         // ---- type layer drift ----
         typeLayer.style.transform = sc === 1 ? '' : `scale(${sc.toFixed(5)})`;
 
-        // ---- the point ----
-        const u = pTo.u;
-        P.x = lerp(O[0], CENTRE[0], u); P.y = lerp(O[1], CENTRE[1], u);
-        const holdPunch = t >= T_HOLDS ? 0.35 * Math.exp(-(t - T_HOLDS) * 9) : 0;
-        const preHit = t < T_HIT ? 1.15 : 1;
-        P.s = lerp(sPeriod, 1, ez('power2.inOut')(seg(t, T_GO + 0.2, T_END))) * (1 + holdPunch) * preHit;
-        P.glow = t < T_HIT ? 0.5 : lerp(0.5, 0.35, seg(t, T_GO, T_END));
-        P.pulse = t >= T_GO - 0.1 ? 1 : 0;
+        // ---- the point (proxy set above; here only the ring/core attributes NodeMark does not own) ----
         // the ring is hidden while the point is a full stop; it comes back as the point becomes the seed
         const ringA = smooth(T_GO + 0.25, T_END - 0.1, t);
         N.ring.setAttribute('opacity', ringA.toFixed(3));
