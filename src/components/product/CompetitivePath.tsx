@@ -2,7 +2,7 @@ import { ArrowDownRight, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { scrollToWaitlist } from "../../lib/scroll";
 import CompetitiveFilm from "./CompetitiveFilm";
-import CompetitiveLegends from "./CompetitiveLegends";
+import { CompetitiveLegendInterlude, CompetitiveLegendsIntro, CompetitiveSymbolInterlude } from "./CompetitiveLegends";
 import CompetitiveMatchBoard from "./CompetitiveMatchBoard";
 
 const matchSteps = [
@@ -27,7 +27,12 @@ export default function CompetitivePath({ children }: { children?: ReactNode }) 
       </div>
     </section>
 
+    {/* The four history illustrations are spread along the path, each beside the step it speaks to. */}
+    <CompetitiveLegendsIntro />
+
     <CompetitiveFilm />
+
+    <CompetitiveSymbolInterlude symbol="leadership" />
 
     <section id="competitive-matchmaking" className="competitive-matchmaking" aria-labelledby="competitive-matchmaking-heading">
       <div className="product-container">
@@ -44,10 +49,12 @@ export default function CompetitivePath({ children }: { children?: ReactNode }) 
       </div>
     </section>
 
+    <CompetitiveLegendInterlude scene="teamwork" />
+
     {/* Insert the shared static screenshot collage section here, after matchmaking and before the invitation. */}
     {children}
 
-    <CompetitiveLegends />
+    <CompetitiveSymbolInterlude symbol="accountability" />
 
     <section className="competitive-invitation-section" aria-labelledby="competitive-invitation-heading">
       <div className="product-container"><div className="competitive-invitation"><h3 id="competitive-invitation-heading">Bring this challenge to your group.</h3><div><a href="#join-waitlist" className="competitive-waitlist-link" onClick={scrollToWaitlist}>Get match updates <ArrowRight size={18} aria-hidden="true" /></a><p>Follow team challenges and matchmaking as they take shape.</p></div></div></div>

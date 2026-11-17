@@ -1,15 +1,18 @@
-/* Competitive: strategy and teamwork, told through two scenes from history.
-   No frames. Each illustration dissolves into the page, lit around its leader,
-   and the two scenes zigzag across the section with their captions beside them. */
-.competitive-legends { padding: 86px 0 96px; border-top: 1px solid #51422e; background: #101012; overflow-x: clip; }
+/* Competitive: strategy and teamwork, told through four illustrations from history.
+   They are spread along the path as interludes, each beside the step it speaks to, alternating sides:
+   strategy after the match board, leadership after the film, teamwork after matchmaking, accountability after the match screens.
+   No frames. Scenes dissolve into the page, lit around their leader; symbols stand free as cut-outs. */
+.competitive-interlude { padding-block: clamp(56px, 7vw, 104px); overflow-x: clip; }
+.competitive-legends { padding: 86px 0 clamp(40px, 5vw, 72px); border-top: 1px solid #51422e; }
+.competitive-interlude + .competitive-film { padding-top: clamp(24px, 3vw, 40px); }
+.competitive-film + .competitive-interlude { padding-top: 0; }
 .competitive-legends-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .75fr); gap: 60px; align-items: end; padding-bottom: 30px; border-bottom: 1px solid #5a472f; }
 .competitive-legends-heading .product-eyebrow { font-size: 11px; line-height: 1.9; letter-spacing: .12em; }
 .product-site .competitive-legends-heading h2 { margin-top: 20px; font-size: clamp(39px, 4.1vw, 57px); font-weight: 600; line-height: 1.08; }
 .product-site .competitive-legends-heading > p { max-width: 360px; justify-self: end; font-size: 15px; line-height: 1.85; }
 
-.competitive-legend-stage { display: grid; margin-top: 8px; }
+.competitive-legends .competitive-legend-reveal { margin-top: 8px; }
 .competitive-legend-reveal { min-width: 0; }
-.competitive-legend-reveal + .competitive-legend-reveal { margin-top: clamp(-120px, -7vw, -48px); }
 .competitive-legend { position: relative; display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, .7fr); column-gap: clamp(20px, 3vw, 44px); align-items: center; margin: 0; }
 .competitive-legend[data-legend="teamwork"] { grid-template-columns: minmax(0, .7fr) minmax(0, 1.75fr); }
 .competitive-legend[data-legend="teamwork"] .competitive-legend-art { order: 2; }
@@ -36,9 +39,7 @@
 .competitive-legend[data-legend="teamwork"] > figcaption { justify-self: end; text-align: right; }
 .product-site .competitive-legend h3 { margin-top: 0; font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; line-height: 1.16; letter-spacing: -.045em; }
 
-/* Symbols: cut-out figures on the page itself, like the object beside the profile headline.
-   No mask and no frame; they sit side by side and stand on one shared baseline. */
-.competitive-symbols { display: grid; row-gap: clamp(64px, 8vw, 120px); margin-top: clamp(80px, 10vw, 140px); }
+/* Symbols: cut-out figures on the page itself, like the object beside the profile headline. No mask and no frame. */
 .competitive-symbol-reveal { min-width: 0; }
 /* Like the profile headline: copy on one side, the figure standing free on the other; the sides alternate. */
 .competitive-symbol { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr); column-gap: clamp(32px, 6vw, 96px); align-items: center; margin: 0; }
@@ -54,8 +55,8 @@
 .realms-entry-panel[data-entry="competitive"] .competitive-legends-heading .product-eyebrow { color: var(--entry-accent); }
 .realms-entry-panel[data-entry="competitive"] :is(.competitive-legend, .competitive-symbol) h3 { color: #eee5d7; }
 .realms-entry-panel[data-entry="competitive"] .competitive-legends-heading > p { color: #b8afa2; }
-.competitive-legends + .competitive-invitation-section { padding-top: 64px; }
-.competitive-legends + .competitive-invitation-section .competitive-invitation { padding-top: 0; border-top: 0; }
+.competitive-interlude + .competitive-invitation-section { padding-top: 24px; }
+.competitive-interlude + .competitive-invitation-section .competitive-invitation { padding-top: 0; border-top: 0; }
 
 @media (max-width: 1100px) {
   .competitive-legends-heading { gap: 40px; }
@@ -65,8 +66,7 @@
 @media (max-width: 900px) {
   .competitive-legends-heading { grid-template-columns: 1fr; gap: 22px; }
   .product-site .competitive-legends-heading > p { justify-self: start; }
-  .competitive-legend-stage { gap: 44px; margin-top: 0; }
-  .competitive-legend-reveal + .competitive-legend-reveal { margin-top: 0; }
+  .competitive-legends .competitive-legend-reveal { margin-top: 0; }
   .competitive-legend,
   .competitive-legend[data-legend="teamwork"] { grid-template-columns: 1fr; }
   .competitive-legend[data-legend="teamwork"] .competitive-legend-art { order: 0; }
@@ -75,7 +75,6 @@
   .competitive-legend[data-legend="teamwork"] .competitive-legend-art { margin-inline: -56px; }
   .competitive-legend > figcaption,
   .competitive-legend[data-legend="teamwork"] > figcaption { justify-self: start; text-align: left; max-width: 460px; margin-top: -34px; }
-  .competitive-symbols { row-gap: 64px; margin-top: 64px; }
   .competitive-symbol,
   .competitive-symbol[data-symbol="accountability"] { grid-template-columns: 1fr; row-gap: 24px; }
   .competitive-symbol > img,
@@ -84,21 +83,20 @@
   .competitive-symbol[data-symbol="accountability"] > figcaption { grid-column: 1; grid-row: 2; justify-self: start; }
 }
 @media (max-width: 767px) {
-  .competitive-legends { padding-block: 60px 66px; }
+  .competitive-interlude { padding-block: 44px; }
+  .competitive-legends { padding-block: 60px 28px; }
   .competitive-legends-heading { padding-bottom: 25px; }
   .competitive-legends-heading .product-eyebrow { font-size: 12px; letter-spacing: .06em; }
   .product-site .competitive-legends-heading h2 { font-size: clamp(36px, 8vw, 51px); line-height: 1.12; }
   .product-site .competitive-legends-heading > p { font-size: 14px; }
-  .competitive-legend-stage { gap: 36px; }
   .competitive-legend-art,
   .competitive-legend[data-legend="teamwork"] .competitive-legend-art { margin-inline: -24px; }
   .competitive-legend > figcaption,
   .competitive-legend[data-legend="teamwork"] > figcaption { margin-top: -22px; }
   .product-site .competitive-legend h3 { font-size: 25px; }
-  .competitive-symbols { row-gap: 52px; margin-top: 52px; }
   .realms-entry-panel[data-entry="competitive"] .competitive-symbol h3,
   .product-site .competitive-symbol h3 { font-size: 23px; }
-  .competitive-legends + .competitive-invitation-section { padding-top: 48px; }
+  .competitive-interlude + .competitive-invitation-section { padding-top: 12px; }
 }
 @media (max-width: 375px) {
   .product-site .competitive-legends-heading h2 { font-size: 34px; }

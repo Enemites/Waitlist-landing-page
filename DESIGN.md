@@ -104,3 +104,14 @@ The Competitive path opens with its launch film, right after the match board and
 - File: `public/assets/scene/realms-competitive-launch.mp4`, re-encoded from the 74-second 1080p master (68 MB) to 1280x720 H.264 CRF 29 with 96 kbps AAC and `+faststart`: about 11 MB. Small interface text in the film stays legible at this size.
 - Poster: `public/assets/realms/competitive-launch-poster.webp` (the "Realms Competitive" title frame at 14.5 s, about 17 KB).
 - Nothing loads before play (`preload="none"`), and the film never starts on its own, so it is unaffected by reduced-motion preferences. It has sound, so it plays only when the visitor presses "Play the film"; native controls then take over and focus moves to the video. Below 768px the play button moves to the frame's lower-left corner so it does not cover the title.
+
+## Competitive history illustrations spread along the path (2026-11)
+
+The four history illustrations no longer sit together in one block before the invitation. Each is now an interlude beside the step it speaks to, alternating sides, so the path reads plan, call, team, record:
+
+- Strategy ("One plan. Every rank behind it."), with the section heading "Every great plan needed a team.", right after the match board: the thesis before the film. Art left.
+- Leadership ("Make the call your team can follow."), right after the launch film, picking up its closing line "Make your next move." Figure right.
+- Teamwork ("Many minds. One problem."), after "Find your team. Then face another." Art right.
+- Accountability ("Every move, on the record."), after the match screens and just before the invitation. Figure left.
+
+`CompetitiveLegends.tsx` now exports `CompetitiveLegendsIntro`, `CompetitiveLegendInterlude` and `CompetitiveSymbolInterlude`; `CompetitivePath` places them. Interludes have no border or band of their own, so they sit on the panel background between sections. Copy, artwork and alt text are unchanged.
