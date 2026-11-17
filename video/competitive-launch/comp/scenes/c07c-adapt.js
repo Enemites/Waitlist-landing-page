@@ -23,7 +23,7 @@
   const W = 1920, H = 1080;
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
   const MONO = '"JetBrains Mono Variable", monospace';
-  const T_WORD = 0.3, T_WAVE = 0.5, T_BREAK = 0.78, T_RE = 1.05, T_ARRIVE = 1.9, T_STRIKE = 2.5, T_OUT = 3.55;
+  const T_WORD = 0.3, T_WAVE = 0.5, T_BREAK = 0.78, T_RE = 1.05, T_DOCK = 1.3, T_ARRIVE = 1.9, T_STRIKE = 2.5, T_OUT = 3.55;
 
   Film.scene({
     id: ID,
@@ -31,13 +31,14 @@
     build(ctx) {
       const { root, tl } = ctx;
       ctx.css(`[data-scene="${ID}"] { background: ${C.bg}; }
-        [data-scene="${ID}"] .c7-word { position:absolute; left:104px; top:676px; width:1100px; height:330px; }
-        [data-scene="${ID}"] .c7-mask { position:absolute; inset:0; overflow:hidden; }
-        [data-scene="${ID}"] .c7-in { position:absolute; left:0; top:0; width:100%; height:100%; }
-        [data-scene="${ID}"] .c7-l { position:absolute; left:0; top:0; font: 620 300px/1 var(--display); letter-spacing:-0.055em; color:${C.ink}; white-space:nowrap; padding: 0 .06em .14em; text-shadow: 0 0 40px rgba(11,12,14,.55); }
+        [data-scene="${ID}"] .c7-word { position:absolute; left:104px; top:0; width:1100px; height:330px; transform-origin: 0 0; }
+        [data-scene="${ID}"] .c7-l { position:absolute; left:0; top:0; font: 620 292px/1 var(--display); letter-spacing:-0.055em; color:${C.ink}; white-space:nowrap; text-shadow: 0 0 40px rgba(11,12,14,.55); }
+        [data-scene="${ID}"] .c7-l .ch { display:inline-block; transform-origin: 50% 80%; }
         [data-scene="${ID}"] .c7-l .st { color:${C.amber}; }
         [data-scene="${ID}"] .c7-l.ghost { color:${C.rival}; text-shadow:none; }
-        [data-scene="${ID}"] .c7-l.ghost .st { color:${C.rival}; }`);
+        [data-scene="${ID}"] .c7-l.ghost .st { color:${C.rival}; }
+        [data-scene="${ID}"] .c7-eb { position:absolute; left:120px; top:836px; display:flex; align-items:center; gap:14px; font: 600 22px/1 var(--mono); letter-spacing:.14em; color:${C.bone}; white-space:pre; text-shadow: 0 0 8px rgba(11,12,14,.95), 0 0 18px rgba(11,12,14,.9); }
+        [data-scene="${ID}"] .c7-eb i { width:12px; height:12px; background:${C.amber}; transform: rotate(45deg); display:block; }`);
 
       const city = WorldCity.create(ctx, {
         cam: { tx: 90, ty: -96, zoom: 1.85, yaw: 26, pitch: 41 },
@@ -75,7 +76,8 @@
       tl.fromTo(detour.p, { draw: 0 }, { draw: 1, duration: T_ARRIVE - T_RE, ease: 'power3.inOut' }, T_RE);
       city.relight(detour, { radius: 62 });
       // the old route's tail beyond the cut (to the objective) fades: the new route owns the arrival
-      tl.to(plan.p, { alpha: 0.35, duration: 0.4, ease: 'power2.out' }, T_RE + 0.4);
+      tl.to(plan.p, { arrowA: 0, duration: 0.15, ease: 'none' }, T_BREAK);
+      tl.to(plan.p, { draw: u1, duration: 0.45, ease: 'power2.in' }, T_RE + 0.2);
 
       // ---- Vega's move: the wave ----
       const VX = 590, VY = -150;
@@ -132,37 +134,42 @@
         label(g, 'REROUTE', rx - 40, ry + 70, C.amber, lab.re, true);
       });
 
-      // ---- the word ----
+      // ---- the word (the MAKE YOUR MOVE set, as c07a / c07b: 292 px slam, docks to 120 px under the label) ----
       const word = ctx.el('div', 'c7-word', root);
-      const mask = ctx.el('div', 'c7-mask', word);
-      const inner = ctx.el('div', 'c7-in', mask);
-      const html = 'Adapt<span class="st">.</span>';
-      const ghost = ctx.el('div', 'c7-l ghost', inner, html);
-      const top = ctx.el('div', 'c7-l', inner, html);
-      const bot = ctx.el('div', 'c7-l', inner, html);
-      // slice on the brand slant through the x-height: top piece / bottom piece
+      const layer = (cls) => { const el = ctx.el('div', cls, word); const chs = 'Adapt'.split('').map((c) => ctx.el('span', 'ch', el, c)); chs.push(ctx.el('span', 'ch st', el, '.')); return { el, chs }; };
+      const ghost = layer('c7-l ghost'), top = layer('c7-l'), bot = layer('c7-l');
+      gsap.set(word, { x: 0, y: 676, scale: 1 });
+      for (const Ly of [ghost, top, bot]) tl.fromTo(Ly.chs, { yPercent: -16, scale: 1.34, opacity: 0 }, { yPercent: 0, scale: 1, opacity: 1, duration: 0.4, ease: 'expo.out', stagger: 0.018 }, T_WORD - 0.04);
+      tl.to(word, { scale: 120 / 292, x: 16, y: 884, duration: 0.6, ease: 'expo.inOut' }, T_DOCK);
+      const eb = ctx.el('div', 'c7-eb', root, '<i></i><span></span>');
+      tl.fromTo(eb, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, ease: 'expo.out' }, T_DOCK + 0.4);
+      B.scrambleTo(tl, eb.querySelector('span'), 'MAKE YOUR MOVE · 03 / 03', T_DOCK + 0.4, 0.5);
+      tl.to([word, eb], { x: '-=700', opacity: 0, duration: 0.4, ease: 'expo.in' }, T_OUT + 0.02);
+      B.hud(ctx, { inset: 64, color: C.bone, tc: false, slug: '', drawIn: true, at: 0.05, ticks: true, alpha: 0.55, out: T_OUT + 0.1 });
+      // the hit: the word is sliced on the brand slant (top piece left, bottom piece right, a red-orange ghost),
+      // then snaps back together as the new route starts
       const TS = Math.tan((B.SLANT || 34) * Math.PI / 180);
-      const cutY = (x) => 190 - (x - 400) * TS * 0.42;
+      const cutY = (x) => 178 - (x - 400) * TS * 0.42;
       const poly = (above) => {
-        const xs = [-40, 1200];
-        const pts = xs.map((x) => `${x}px ${cutY(x).toFixed(1)}px`);
-        return above ? `polygon(-40px -40px, 1200px -40px, ${pts[1]}, ${pts[0]})` : `polygon(${pts[0]}, ${pts[1]}, 1200px 400px, -40px 400px)`;
+        const pts = [-40, 1200].map((x) => `${x}px ${cutY(x).toFixed(1)}px`);
+        return above ? `polygon(-40px -60px, 1200px -60px, ${pts[1]}, ${pts[0]})` : `polygon(${pts[0]}, ${pts[1]}, 1200px 420px, -40px 420px)`;
       };
-      top.style.clipPath = poly(true); bot.style.clipPath = poly(false);
-      tl.fromTo(inner, { yPercent: 102 }, { yPercent: 0, duration: 0.4, ease: 'expo.out' }, T_WORD);
-      tl.fromTo(word, { scale: 1.12, transformOrigin: '0% 100%' }, { scale: 1, duration: 0.5, ease: 'expo.out' }, T_WORD);
-      tl.to(inner, { yPercent: -104, duration: 0.32, ease: 'power3.in' }, T_OUT);
       const gl = { k: 0 };
       tl.fromTo(gl, { k: 0 }, { k: 1, duration: 0.05, ease: 'none', immediateRender: false }, T_BREAK);
       tl.to(gl, { k: 0, duration: 0.22, ease: 'expo.out' }, T_RE);
       ctx.onFrame((lt) => {
-        const k = gl.k;
+        const k = gl.k, on = k > 0.002;
+        // whole word in one layer when not sliced (no seam between the pieces)
+        top.el.style.clipPath = on ? poly(true) : 'none';
+        bot.el.style.display = on ? '' : 'none';
         const f = Math.floor(lt * 30);
-        const j = k > 0.01 ? (((f * 7919) % 13) / 13 - 0.5) * 10 * k : 0;
-        top.style.transform = k > 0.001 ? `translate(${(-30 * k + j).toFixed(1)}px, ${(-6 * k).toFixed(1)}px)` : '';
-        bot.style.transform = k > 0.001 ? `translate(${(22 * k - j * 0.5).toFixed(1)}px, ${(4 * k).toFixed(1)}px)` : '';
-        ghost.style.opacity = (0.85 * k).toFixed(3);
-        ghost.style.transform = `translate(${(14 * k + j).toFixed(1)}px, 0px)`;
+        const j = on ? (((f * 7919) % 13) / 13 - 0.5) * 10 * k : 0;
+        top.el.style.transform = on ? `translate(${(-30 * k + j).toFixed(1)}px, ${(-6 * k).toFixed(1)}px)` : '';
+        bot.el.style.clipPath = poly(false);
+        bot.el.style.transform = on ? `translate(${(22 * k - j * 0.5).toFixed(1)}px, ${(4 * k).toFixed(1)}px)` : '';
+        ghost.el.style.display = on ? '' : 'none';
+        ghost.el.style.opacity = (0.85 * k).toFixed(3);
+        ghost.el.style.transform = `translate(${(14 * k + j).toFixed(1)}px, 0px)`;
       });
     },
   });

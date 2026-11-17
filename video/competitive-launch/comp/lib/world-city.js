@@ -973,7 +973,7 @@
       const n = dense.length, cum = new Float64Array(n);
       for (let i = 1; i < n; i++) cum[i] = cum[i - 1] + Math.hypot(dense[i][0] - dense[i - 1][0], dense[i][1] - dense[i - 1][1]);
       const L = cum[n - 1];
-      const p = { draw: 0, tail: 0, alpha: 1, head: 1, march: 34, cut0: -1, cut1: -1, cutA: 0, glow: ro.glow, width: 1 };
+      const p = { draw: 0, tail: 0, alpha: 1, head: 1, march: 34, cut0: -1, cut1: -1, cutA: 0, glow: ro.glow, width: 1, arrowA: 1 };
       const h = { o: ro, pts: dense, cum, L, p, col: hexRgb(ro.color), lig: hexRgb(ro.light), sx: new Float64Array(n), sy: new Float64Array(n) };
       h.idx = (u) => { const d = clamp(u, 0, 1) * L; let lo = 0, hi = n - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (cum[m] <= d) lo = m; else hi = m; } return lo + (cum[hi] > cum[lo] ? (d - cum[lo]) / (cum[hi] - cum[lo]) : 0); };
       h.at = (u) => { const f = h.idx(u), i = Math.min(n - 2, Math.floor(f)), t = f - i; return [lerp(dense[i][0], dense[i + 1][0], t), lerp(dense[i][1], dense[i + 1][1], t)]; };
@@ -1034,7 +1034,7 @@
           const jx = (hash(i * 7 + Math.floor(lt * 15)) - 0.5) * 6 * P2.cutA, jy = (hash(i * 11 + Math.floor(lt * 15)) - 0.5) * 6 * P2.cutA;
           g.moveTo(h.sx[i] + jx, h.sy[i] + jy); g.lineTo(h.sx[j] + jx, h.sy[j] + jy);
         }
-        g.strokeStyle = rgba(COL.bone, 0.5 * A * (1 - 0.5 * P2.cutA)); g.lineWidth = 2; g.stroke();
+        g.strokeStyle = rgba(COL.amberD, 0.85 * A); g.lineWidth = 2.4; g.stroke();
       }
     }
     function routeTop(h, lt) {
@@ -1060,10 +1060,10 @@
         g.fillStyle = gr; g.fillRect(hx - R, hy - R, 2 * R, 2 * R);
         g.globalCompositeOperation = 'source-over';
       }
-      if (h.o.arrow) {
+      if (h.o.arrow && P2.arrowA > 0.01) {
         const a = 9 + 3 * zk;
         g.beginPath(); g.moveTo(hx - dx * a - dy * a * 0.62, hy - dy * a + dx * a * 0.62); g.lineTo(hx + dx * 2, hy + dy * 2); g.lineTo(hx - dx * a + dy * a * 0.62, hy - dy * a - dx * a * 0.62);
-        g.strokeStyle = rgba(h.lig, A); g.lineWidth = 3; g.lineJoin = 'miter'; g.lineCap = 'butt'; g.stroke();
+        g.strokeStyle = rgba(h.lig, A * P2.arrowA); g.lineWidth = 3; g.lineJoin = 'miter'; g.lineCap = 'butt'; g.stroke();
         g.lineJoin = 'round'; g.lineCap = 'round';
       }
       // break marks at the ends of a broken stretch

@@ -578,40 +578,40 @@
   },
   {
    "type": "ui_blip",
-   "at": 68.0,
+   "at": 69.75,
    "kind": "select",
    "freq": 587.33,
-   "gain_db": -7,
+   "gain_db": -9,
    "verb": {
     "hall": 0.35
    },
-   "label": "SONIC LOGO"
+   "label": "SONIC LOGO (after the last VO line)"
   },
   {
    "type": "ui_blip",
-   "at": 68.25,
+   "at": 70.0,
    "kind": "select",
    "freq": 698.46,
-   "gain_db": -7,
+   "gain_db": -9,
    "verb": {
     "hall": 0.35
    },
-   "label": "SONIC LOGO"
+   "label": "SONIC LOGO (after the last VO line)"
   },
   {
    "type": "ui_blip",
-   "at": 68.5,
+   "at": 70.25,
    "kind": "select",
    "freq": 880.0,
-   "gain_db": -7,
+   "gain_db": -9,
    "verb": {
     "hall": 0.35
    },
-   "label": "SONIC LOGO"
+   "label": "SONIC LOGO (after the last VO line)"
   },
   {
    "type": "resolve_swell",
-   "at": 68.0,
+   "at": 68.2,
    "chords": [
     "Dm(add9)"
    ],
@@ -621,6 +621,2109 @@
    "fade_out": 2.0,
    "gain_db": -6,
    "label": "resolve, rings out to about 72.5"
+  },
+  {
+   "type": "impact",
+   "at": 0.0,
+   "length": 0.6,
+   "size": 0.4,
+   "brightness": 0.6,
+   "sub_hz": 55,
+   "hpf": 40,
+   "gain_db": -14,
+   "label": "seed fires"
+  },
+  {
+   "type": "tick_one",
+   "at": 0.25,
+   "tone": 0.8,
+   "gain_db": -14,
+   "label": "second pulse"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 0.5,
+   "length": 0.35,
+   "gain_db": -20,
+   "label": "field pulled into the point"
+  },
+  {
+   "type": "data_chatter",
+   "at": 0.5,
+   "length": 0.4,
+   "density": 22,
+   "gain_db": -22,
+   "label": "w1 coastline: glyph chatter"
+  },
+  {
+   "type": "impact",
+   "at": 1.0,
+   "length": 0.5,
+   "size": 0.7,
+   "brightness": 0.2,
+   "sub_hz": 45,
+   "hpf": 35,
+   "gain_db": -17,
+   "label": "w2 mountains: rumble"
+  },
+  {
+   "type": "ui_blip",
+   "at": 1.5,
+   "kind": "confirm",
+   "freq": 1318.5,
+   "gain_db": -21,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "w3 orbit: metallic ring"
+  },
+  {
+   "type": "stamp",
+   "at": 2.0,
+   "weight": 0.35,
+   "gain_db": -19,
+   "label": "w4 archipelago: blocky click"
+  },
+  {
+   "type": "water_rush",
+   "at": 2.5,
+   "length": 0.5,
+   "intensity": 0.4,
+   "bubbles": 0.0,
+   "hpf": 2500,
+   "gain_db": -21,
+   "label": "w5 dunes: sand hiss"
+  },
+  {
+   "type": "ui_blip",
+   "at": 3.0,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -18,
+   "verb": {
+    "hall": 0.35
+   },
+   "label": "w6 floodgate: sonar ping"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 3.5,
+   "length": 0.35,
+   "direction": 1,
+   "gain_db": -24,
+   "label": "w7 forest: rustle"
+  },
+  {
+   "type": "glitch",
+   "at": 4.0,
+   "length": 0.15,
+   "character": 0.2,
+   "gain_db": -22,
+   "label": "w8 canyon: etched scratch"
+  },
+  {
+   "type": "data_chatter",
+   "at": 4.5,
+   "length": 0.35,
+   "density": 30,
+   "bits": 4,
+   "gain_db": -23,
+   "label": "w9 city: electric crackle"
+  },
+  {
+   "type": "whoosh",
+   "at": 5.0,
+   "length": 0.5,
+   "peak": 0.4,
+   "pitch": 0.6,
+   "weight": 0.5,
+   "gain_db": -19,
+   "label": "w10 weather: gust"
+  },
+  {
+   "type": "gate_clank",
+   "at": 5.5,
+   "size": 0.3,
+   "pitch": 1.4,
+   "latch": false,
+   "length": 0.5,
+   "fade_out": 0.25,
+   "gain_db": -20,
+   "label": "w11 ice: crack"
+  },
+  {
+   "type": "impact",
+   "at": 6.0,
+   "length": 0.7,
+   "size": 1.0,
+   "brightness": 0.25,
+   "sub_hz": 40,
+   "hpf": 30,
+   "gain_db": -14,
+   "label": "w12 volcano: boom"
+  },
+  {
+   "type": "whoosh",
+   "at": 1.17,
+   "length": 0.3,
+   "peak": 0.7,
+   "pitch": 1.3,
+   "weight": 0.3,
+   "gain_db": -19,
+   "label": "IMAGINED bursts out"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.08,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.113,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.146,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.179,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.212,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.245,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.278,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.311,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 5.344,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -26,
+   "label": "DECISIONS zip-lock"
+  },
+  {
+   "type": "impact",
+   "at": 6.5,
+   "length": 0.4,
+   "size": 0.4,
+   "brightness": 0.8,
+   "sub_hz": 70,
+   "hpf": 80,
+   "gain_db": -17,
+   "label": "catalogue snaps into the grid"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.5,
+   "kind": "tick",
+   "freq": 2000,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.53,
+   "kind": "tick",
+   "freq": 2060,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.56,
+   "kind": "tick",
+   "freq": 2120,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.59,
+   "kind": "tick",
+   "freq": 2180,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.62,
+   "kind": "tick",
+   "freq": 2240,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.65,
+   "kind": "tick",
+   "freq": 2300,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.68,
+   "kind": "tick",
+   "freq": 2360,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.71,
+   "kind": "tick",
+   "freq": 2420,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.74,
+   "kind": "tick",
+   "freq": 2480,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.77,
+   "kind": "tick",
+   "freq": 2540,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "ui_blip",
+   "at": 6.8,
+   "kind": "tick",
+   "freq": 2600,
+   "gain_db": -27,
+   "label": "tile lands"
+  },
+  {
+   "type": "data_chatter",
+   "at": 6.7,
+   "length": 0.25,
+   "density": 16,
+   "gain_db": -27,
+   "label": "tile labels"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 7.7,
+   "length": 0.45,
+   "gain_db": -17,
+   "label": "tiles sucked into the point"
+  },
+  {
+   "type": "tick_one",
+   "at": 7.7,
+   "tone": 0.7,
+   "gain_db": -14,
+   "label": "absorb"
+  },
+  {
+   "type": "glitch",
+   "at": 8.0,
+   "length": 0.08,
+   "character": 0.8,
+   "gain_db": -17,
+   "label": "split: tear"
+  },
+  {
+   "type": "whoosh",
+   "at": 8.07,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "pan": -0.5,
+   "gain_db": -20,
+   "label": "tokens snap to corners"
+  },
+  {
+   "type": "whoosh",
+   "at": 8.12,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "pan": 0.5,
+   "gain_db": -20,
+   "label": "tokens snap to corners"
+  },
+  {
+   "type": "stamp",
+   "at": 8.7,
+   "weight": 0.8,
+   "gain_db": -12,
+   "label": "word slams"
+  },
+  {
+   "type": "whoosh",
+   "at": 8.52,
+   "length": 0.2,
+   "peak": 0.9,
+   "pitch": 1.1,
+   "weight": 0.4,
+   "gain_db": -21
+  },
+  {
+   "type": "stamp",
+   "at": 9.07,
+   "weight": 0.8,
+   "gain_db": -12,
+   "label": "word slams"
+  },
+  {
+   "type": "whoosh",
+   "at": 8.89,
+   "length": 0.2,
+   "peak": 0.9,
+   "pitch": 1.1,
+   "weight": 0.4,
+   "gain_db": -21
+  },
+  {
+   "type": "stamp",
+   "at": 9.4,
+   "weight": 0.8,
+   "gain_db": -12,
+   "label": "word slams"
+  },
+  {
+   "type": "whoosh",
+   "at": 9.22,
+   "length": 0.2,
+   "peak": 0.9,
+   "pitch": 1.1,
+   "weight": 0.4,
+   "gain_db": -21
+  },
+  {
+   "type": "glitch",
+   "at": 10.0,
+   "length": 0.07,
+   "character": 0.6,
+   "gain_db": -20,
+   "label": "poster slices"
+  },
+  {
+   "type": "glitch",
+   "at": 10.25,
+   "length": 0.07,
+   "character": 0.6,
+   "gain_db": -20,
+   "label": "poster slices"
+  },
+  {
+   "type": "whoosh",
+   "at": 10.32,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.0,
+   "weight": 0.3,
+   "pan": -0.4,
+   "gain_db": -21,
+   "label": "bands fly off"
+  },
+  {
+   "type": "whoosh",
+   "at": 10.57,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.1,
+   "weight": 0.3,
+   "pan": 0.4,
+   "gain_db": -21,
+   "label": "bands fly off"
+  },
+  {
+   "type": "whoosh",
+   "at": 10.82,
+   "length": 0.3,
+   "peak": 0.6,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "pan": 0.0,
+   "gain_db": -21,
+   "label": "bands fly off"
+  },
+  {
+   "type": "impact",
+   "at": 11.75,
+   "length": 0.8,
+   "size": 0.8,
+   "brightness": 0.9,
+   "sub_hz": 55,
+   "hpf": 45,
+   "gain_db": -11,
+   "label": "collision flash"
+  },
+  {
+   "type": "whoosh",
+   "at": 12.06,
+   "length": 0.4,
+   "peak": 0.85,
+   "pitch": 0.9,
+   "weight": 0.4,
+   "pan": -0.6,
+   "gain_db": -19,
+   "label": "registrations converge"
+  },
+  {
+   "type": "whoosh",
+   "at": 12.08,
+   "length": 0.4,
+   "peak": 0.85,
+   "pitch": 0.9,
+   "weight": 0.4,
+   "pan": 0.6,
+   "gain_db": -19,
+   "label": "registrations converge"
+  },
+  {
+   "type": "stamp",
+   "at": 12.5,
+   "weight": 0.7,
+   "gain_db": -14,
+   "label": "lock on Realms"
+  },
+  {
+   "type": "ui_blip",
+   "at": 12.5,
+   "kind": "confirm",
+   "freq": 1760,
+   "gain_db": -22,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "glint"
+  },
+  {
+   "type": "stamp",
+   "at": 13.0,
+   "weight": 0.45,
+   "gain_db": -17,
+   "label": "Competitive registers"
+  },
+  {
+   "type": "data_chatter",
+   "at": 13.3,
+   "length": 0.4,
+   "density": 14,
+   "gain_db": -27,
+   "label": "TEAM AGAINST TEAM scramble"
+  },
+  {
+   "type": "whoosh",
+   "at": 15.69,
+   "length": 0.3,
+   "peak": 0.7,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "gain_db": -18,
+   "label": "slant wipe to ink"
+  },
+  {
+   "type": "whoosh",
+   "at": 15.925,
+   "length": 0.25,
+   "peak": 0.5,
+   "pitch": 1.5,
+   "weight": 0.15,
+   "gain_db": -22,
+   "label": "invite card springs up"
+  },
+  {
+   "type": "ui_blip",
+   "at": 16.15,
+   "kind": "type",
+   "gain_db": -24,
+   "label": "typing Nora"
+  },
+  {
+   "type": "ui_blip",
+   "at": 16.2,
+   "kind": "type",
+   "gain_db": -24,
+   "label": "typing Nora"
+  },
+  {
+   "type": "ui_blip",
+   "at": 16.25,
+   "kind": "type",
+   "gain_db": -24,
+   "label": "typing Nora"
+  },
+  {
+   "type": "ui_blip",
+   "at": 16.3,
+   "kind": "type",
+   "gain_db": -24,
+   "label": "typing Nora"
+  },
+  {
+   "type": "ui_blip",
+   "at": 16.5,
+   "kind": "select",
+   "freq": 1400,
+   "gain_db": -21,
+   "length": 0.1,
+   "label": "Invite click"
+  },
+  {
+   "type": "ui_blip",
+   "at": 16.54,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -21,
+   "label": "Invited"
+  },
+  {
+   "type": "ui_blip",
+   "at": 16.78,
+   "kind": "select",
+   "freq": 880,
+   "gain_db": -20,
+   "length": 0.12,
+   "label": "NC lands in the team bar"
+  },
+  {
+   "type": "whoosh",
+   "at": 17.38,
+   "length": 1.1,
+   "peak": 0.25,
+   "pitch": 1.4,
+   "weight": 0.2,
+   "gain_db": -22,
+   "label": "team board scroll"
+  },
+  {
+   "type": "ui_blip",
+   "at": 18.5,
+   "kind": "select",
+   "freq": 660,
+   "gain_db": -21,
+   "length": 0.1,
+   "label": "board settles"
+  },
+  {
+   "type": "ui_blip",
+   "at": 18.76,
+   "kind": "select",
+   "freq": 1400,
+   "gain_db": -21,
+   "length": 0.1,
+   "label": "Join click"
+  },
+  {
+   "type": "ui_blip",
+   "at": 18.84,
+   "kind": "select",
+   "freq": 987.77,
+   "gain_db": -20,
+   "length": 0.12,
+   "label": "EK pops in"
+  },
+  {
+   "type": "ui_blip",
+   "at": 19.0,
+   "kind": "confirm",
+   "freq": 1318.51,
+   "gain_db": -17,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "3/3 READY"
+  },
+  {
+   "type": "whoosh",
+   "at": 19.525,
+   "length": 0.5,
+   "peak": 0.85,
+   "pitch": 1.2,
+   "weight": 0.3,
+   "gain_db": -20,
+   "label": "row opens into the canvas"
+  },
+  {
+   "type": "ui_blip",
+   "at": 20.6,
+   "kind": "select",
+   "freq": 784,
+   "gain_db": -20,
+   "length": 0.12,
+   "label": "note drops"
+  },
+  {
+   "type": "ui_blip",
+   "at": 21.08,
+   "kind": "select",
+   "freq": 880,
+   "gain_db": -20,
+   "length": 0.12,
+   "label": "note drops"
+  },
+  {
+   "type": "ui_blip",
+   "at": 21.26,
+   "kind": "select",
+   "freq": 987.77,
+   "gain_db": -20,
+   "length": 0.12,
+   "label": "note drops"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 20.42,
+   "length": 0.56,
+   "direction": 1,
+   "gain_db": -27,
+   "label": "marker scribble"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 20.8,
+   "length": 0.5,
+   "direction": 1,
+   "gain_db": -27,
+   "label": "marker scribble"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 21.32,
+   "length": 0.3,
+   "direction": 1,
+   "gain_db": -27,
+   "label": "marker scribble"
+  },
+  {
+   "type": "whoosh",
+   "at": 21.856,
+   "length": 0.18,
+   "peak": 0.8,
+   "pitch": 1.6,
+   "weight": 0.15,
+   "gain_db": -23,
+   "label": "note dragged to lane"
+  },
+  {
+   "type": "whoosh",
+   "at": 21.926,
+   "length": 0.18,
+   "peak": 0.8,
+   "pitch": 1.6,
+   "weight": 0.15,
+   "gain_db": -23,
+   "label": "note dragged to lane"
+  },
+  {
+   "type": "whoosh",
+   "at": 21.996,
+   "length": 0.18,
+   "peak": 0.8,
+   "pitch": 1.6,
+   "weight": 0.15,
+   "gain_db": -23,
+   "label": "note dragged to lane"
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.48,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -26,
+   "label": "task line"
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.6,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -26,
+   "label": "task line"
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.72,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -26,
+   "label": "task line"
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.86,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -26,
+   "label": "task line"
+  },
+  {
+   "type": "ui_blip",
+   "at": 22.98,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -26,
+   "label": "task line"
+  },
+  {
+   "type": "ui_blip",
+   "at": 23.1,
+   "kind": "tick",
+   "freq": 2200,
+   "gain_db": -26,
+   "label": "task line"
+  },
+  {
+   "type": "ui_blip",
+   "at": 24.0,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -19,
+   "label": "agree check"
+  },
+  {
+   "type": "ui_blip",
+   "at": 24.25,
+   "kind": "confirm",
+   "freq": 1396.91,
+   "gain_db": -19,
+   "label": "agree check"
+  },
+  {
+   "type": "ui_blip",
+   "at": 24.5,
+   "kind": "confirm",
+   "freq": 1760.0,
+   "gain_db": -19,
+   "label": "agree check"
+  },
+  {
+   "type": "stamp",
+   "at": 25.0,
+   "weight": 0.6,
+   "gain_db": -15,
+   "label": "AGREED"
+  },
+  {
+   "type": "ui_blip",
+   "at": 25.0,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -18,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "AGREED chime"
+  },
+  {
+   "type": "tick_one",
+   "at": 26.0,
+   "tone": 0.7,
+   "gain_db": -14,
+   "label": "cut to the globe"
+  },
+  {
+   "type": "ui_blip",
+   "at": 26.3,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -18,
+   "verb": {
+    "hall": 0.35
+   },
+   "label": "ATLAS signal"
+  },
+  {
+   "type": "ui_blip",
+   "at": 26.5,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -18,
+   "verb": {
+    "hall": 0.35
+   },
+   "label": "VEGA signal"
+  },
+  {
+   "type": "whoosh",
+   "at": 26.5,
+   "length": 0.5,
+   "peak": 0.9,
+   "pitch": 1.3,
+   "weight": 0.25,
+   "direction": 1,
+   "gain_db": -20,
+   "label": "matchmaking arc draws"
+  },
+  {
+   "type": "impact",
+   "at": 27.0,
+   "length": 0.45,
+   "size": 0.45,
+   "brightness": 0.7,
+   "sub_hz": 60,
+   "hpf": 60,
+   "gain_db": -15,
+   "label": "MATCH FOUND locks"
+  },
+  {
+   "type": "whoosh",
+   "at": 27.255,
+   "length": 0.35,
+   "peak": 0.7,
+   "pitch": 1.6,
+   "weight": 0.2,
+   "gain_db": -21,
+   "label": "card dealt"
+  },
+  {
+   "type": "tick_one",
+   "at": 27.77,
+   "tone": 1.5,
+   "gain_db": -18,
+   "label": "card flips"
+  },
+  {
+   "type": "ui_blip",
+   "at": 27.86,
+   "kind": "tick",
+   "freq": 2000,
+   "gain_db": -25,
+   "label": "card rows"
+  },
+  {
+   "type": "ui_blip",
+   "at": 27.94,
+   "kind": "tick",
+   "freq": 2000,
+   "gain_db": -25,
+   "label": "card rows"
+  },
+  {
+   "type": "ui_blip",
+   "at": 28.07,
+   "kind": "tick",
+   "freq": 2000,
+   "gain_db": -25,
+   "label": "card rows"
+  },
+  {
+   "type": "ui_blip",
+   "at": 28.2,
+   "kind": "tick",
+   "freq": 2000,
+   "gain_db": -25,
+   "label": "card rows"
+  },
+  {
+   "type": "ui_blip",
+   "at": 28.48,
+   "kind": "tick",
+   "freq": 2000,
+   "gain_db": -25,
+   "label": "card rows"
+  },
+  {
+   "type": "gate_clank",
+   "at": 28.28,
+   "size": 0.2,
+   "pitch": 0.6,
+   "latch": false,
+   "length": 0.6,
+   "fade_out": 0.4,
+   "gain_db": -28,
+   "label": "distant lightning in the thumbnail"
+  },
+  {
+   "type": "whoosh",
+   "at": 28.9,
+   "length": 0.4,
+   "peak": 0.4,
+   "pitch": 1.1,
+   "weight": 0.35,
+   "direction": -1,
+   "gain_db": -20,
+   "label": "card duplicates and splits L/R"
+  },
+  {
+   "type": "whoosh",
+   "at": 28.9,
+   "length": 0.4,
+   "peak": 0.4,
+   "pitch": 1.1,
+   "weight": 0.35,
+   "direction": 1,
+   "gain_db": -20,
+   "label": "card duplicates and splits L/R"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 30.0,
+   "length": 0.5,
+   "gain_db": -20,
+   "label": "seam grows"
+  },
+  {
+   "type": "impact",
+   "at": 29.62,
+   "length": 0.9,
+   "size": 0.6,
+   "brightness": 0.2,
+   "sub_hz": 40,
+   "hpf": 30,
+   "gain_db": -22,
+   "label": "thunder on both cards"
+  },
+  {
+   "type": "impact",
+   "at": 30.0,
+   "length": 0.9,
+   "size": 0.6,
+   "brightness": 0.25,
+   "sub_hz": 42,
+   "hpf": 30,
+   "gain_db": -15,
+   "label": "thunder: the seam opens"
+  },
+  {
+   "type": "gate_clank",
+   "at": 30.0,
+   "size": 0.25,
+   "pitch": 1.6,
+   "latch": false,
+   "length": 0.4,
+   "fade_out": 0.2,
+   "gain_db": -22,
+   "label": "lightning crack"
+  },
+  {
+   "type": "water_rush",
+   "at": 30.0,
+   "length": 6.0,
+   "intensity": 0.3,
+   "bubbles": 0.3,
+   "hpf": 1200,
+   "fade_in": 0.1,
+   "gain_db": -28,
+   "label": "rain bed"
+  },
+  {
+   "type": "data_chatter",
+   "at": 30.3,
+   "length": 0.3,
+   "density": 14,
+   "gain_db": -28,
+   "label": "eyebrows scramble"
+  },
+  {
+   "type": "ui_blip",
+   "at": 30.5,
+   "kind": "select",
+   "freq": 1174.66,
+   "gain_db": -22,
+   "pan": -0.5,
+   "length": 0.12,
+   "label": "Atlas start pillar"
+  },
+  {
+   "type": "ui_blip",
+   "at": 30.52,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -22,
+   "pan": 0.5,
+   "label": "Vega start pillar"
+  },
+  {
+   "type": "ui_blip",
+   "at": 30.75,
+   "kind": "confirm",
+   "freq": 587.33,
+   "gain_db": -21,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "objective ring"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 31.4,
+   "length": 0.8,
+   "direction": 1,
+   "pan": -0.5,
+   "gain_db": -25,
+   "label": "Atlas route draws"
+  },
+  {
+   "type": "whoosh",
+   "at": 31.374,
+   "length": 0.22,
+   "peak": 0.8,
+   "pitch": 1.4,
+   "weight": 0.2,
+   "pan": 0.5,
+   "gain_db": -22,
+   "label": "Vega rushes the bridges"
+  },
+  {
+   "type": "whoosh",
+   "at": 31.414,
+   "length": 0.22,
+   "peak": 0.8,
+   "pitch": 1.4,
+   "weight": 0.2,
+   "pan": 0.5,
+   "gain_db": -22,
+   "label": "Vega rushes the bridges"
+  },
+  {
+   "type": "whoosh",
+   "at": 31.454,
+   "length": 0.22,
+   "peak": 0.8,
+   "pitch": 1.4,
+   "weight": 0.2,
+   "pan": 0.5,
+   "gain_db": -22,
+   "label": "Vega rushes the bridges"
+  },
+  {
+   "type": "ui_blip",
+   "at": 31.82,
+   "kind": "deny",
+   "freq": 784,
+   "gain_db": -25,
+   "pan": 0.5,
+   "label": "bridge ping"
+  },
+  {
+   "type": "ui_blip",
+   "at": 31.86,
+   "kind": "deny",
+   "freq": 784,
+   "gain_db": -25,
+   "pan": 0.5,
+   "label": "bridge ping"
+  },
+  {
+   "type": "ui_blip",
+   "at": 31.9,
+   "kind": "deny",
+   "freq": 784,
+   "gain_db": -25,
+   "pan": 0.5,
+   "label": "bridge ping"
+  },
+  {
+   "type": "riser",
+   "hit_at": 32.5,
+   "length": 0.4,
+   "pan": -0.5,
+   "gain_db": -22,
+   "label": "plant powers up"
+  },
+  {
+   "type": "whoosh",
+   "at": 32.64,
+   "length": 0.7,
+   "peak": 0.15,
+   "pitch": 1.0,
+   "weight": 0.35,
+   "direction": -1,
+   "pan": -0.5,
+   "gain_db": -19,
+   "label": "cameras swing apart on Another"
+  },
+  {
+   "type": "whoosh",
+   "at": 32.64,
+   "length": 0.7,
+   "peak": 0.15,
+   "pitch": 1.0,
+   "weight": 0.35,
+   "direction": 1,
+   "pan": 0.5,
+   "gain_db": -19,
+   "label": "cameras swing apart on Another"
+  },
+  {
+   "type": "ui_blip",
+   "at": 33.26,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -21,
+   "pan": 0.5,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "Vega converges"
+  },
+  {
+   "type": "ui_blip",
+   "at": 33.6,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -21,
+   "pan": -0.5,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "Atlas arrives"
+  },
+  {
+   "type": "impact",
+   "at": 34.5,
+   "length": 0.8,
+   "size": 0.5,
+   "brightness": 0.3,
+   "sub_hz": 45,
+   "hpf": 35,
+   "gain_db": -19,
+   "label": "second strike"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 35.93,
+   "length": 0.45,
+   "gain_db": -17,
+   "label": "seam slams shut"
+  },
+  {
+   "type": "stamp",
+   "at": 35.93,
+   "weight": 0.8,
+   "gain_db": -13,
+   "label": "seam slam"
+  },
+  {
+   "type": "glitch",
+   "at": 36.0,
+   "length": 0.08,
+   "character": 0.8,
+   "gain_db": -17,
+   "label": "frame bursts from the seam"
+  },
+  {
+   "type": "stamp",
+   "at": 36.3,
+   "weight": 0.5,
+   "gain_db": -17,
+   "pan": -0.4,
+   "label": "Atlas panel"
+  },
+  {
+   "type": "stamp",
+   "at": 36.33,
+   "weight": 0.5,
+   "gain_db": -17,
+   "pan": -0.4,
+   "label": "Atlas panel"
+  },
+  {
+   "type": "stamp",
+   "at": 36.37,
+   "weight": 0.5,
+   "gain_db": -17,
+   "pan": -0.4,
+   "label": "Atlas panel"
+  },
+  {
+   "type": "whoosh",
+   "at": 36.42,
+   "length": 0.3,
+   "peak": 0.8,
+   "pitch": 0.9,
+   "weight": 0.5,
+   "direction": -1,
+   "pan": 0.4,
+   "gain_db": -17,
+   "label": "Vega panels slam in"
+  },
+  {
+   "type": "impact",
+   "at": 36.76,
+   "length": 0.6,
+   "size": 0.7,
+   "brightness": 0.6,
+   "sub_hz": 55,
+   "hpf": 45,
+   "gain_db": -12,
+   "label": "face to face, VS"
+  },
+  {
+   "type": "whoosh",
+   "at": 37.39,
+   "length": 0.3,
+   "peak": 0.7,
+   "pitch": 1.4,
+   "weight": 0.2,
+   "gain_db": -22,
+   "label": "role tray rises"
+  },
+  {
+   "type": "ui_blip",
+   "at": 37.94,
+   "kind": "select",
+   "freq": 1174.66,
+   "gain_db": -18,
+   "length": 0.14,
+   "label": "role chip locks in"
+  },
+  {
+   "type": "ui_blip",
+   "at": 38.12,
+   "kind": "select",
+   "freq": 1396.91,
+   "gain_db": -18,
+   "length": 0.14,
+   "label": "role chip locks in"
+  },
+  {
+   "type": "ui_blip",
+   "at": 38.3,
+   "kind": "select",
+   "freq": 1760.0,
+   "gain_db": -18,
+   "length": 0.14,
+   "label": "role chip locks in"
+  },
+  {
+   "type": "riser",
+   "hit_at": 39.0,
+   "length": 0.6,
+   "gain_db": -20,
+   "label": "LOCKING PLAN bar"
+  },
+  {
+   "type": "stamp",
+   "at": 39.0,
+   "weight": 1.1,
+   "gain_db": -11,
+   "label": "PLAN LOCKED"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 39.95,
+   "length": 0.25,
+   "gain_db": -17,
+   "label": "collapse to a line"
+  },
+  {
+   "type": "water_rush",
+   "at": 40.0,
+   "length": 4.0,
+   "intensity": 0.35,
+   "bubbles": 0.0,
+   "hpf": 1500,
+   "fade_in": 0.05,
+   "gain_db": -26,
+   "label": "wind and snow bed"
+  },
+  {
+   "type": "whoosh",
+   "at": 40.0,
+   "length": 0.7,
+   "peak": 0.08,
+   "pitch": 0.7,
+   "weight": 0.6,
+   "gain_db": -16,
+   "label": "crane down"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.45,
+   "kind": "select",
+   "freq": 587.33,
+   "gain_db": -21,
+   "length": 0.2,
+   "label": "three markers leave at once"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.45,
+   "kind": "select",
+   "freq": 698.46,
+   "gain_db": -21,
+   "length": 0.2,
+   "label": "three markers leave at once"
+  },
+  {
+   "type": "ui_blip",
+   "at": 40.45,
+   "kind": "select",
+   "freq": 880.0,
+   "gain_db": -21,
+   "length": 0.2,
+   "label": "three markers leave at once"
+  },
+  {
+   "type": "ticks",
+   "bar": 20,
+   "beat": 0.9,
+   "bars": 0.775,
+   "subdiv": 4,
+   "accel": 1.6,
+   "tone": 1.3,
+   "intensity": 0.6,
+   "gain_db": -17,
+   "label": "synced timers"
+  },
+  {
+   "type": "data_chatter",
+   "at": 41.45,
+   "length": 0.25,
+   "density": 14,
+   "gain_db": -27,
+   "label": "section label"
+  },
+  {
+   "type": "impact",
+   "at": 42.0,
+   "length": 0.8,
+   "size": 0.9,
+   "brightness": 0.7,
+   "sub_hz": 55,
+   "hpf": 45,
+   "gain_db": -11,
+   "label": "SYNC: all three sites light"
+  },
+  {
+   "type": "ui_blip",
+   "at": 42.0,
+   "kind": "confirm",
+   "freq": 587.33,
+   "gain_db": -19,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "sync chord"
+  },
+  {
+   "type": "ui_blip",
+   "at": 42.0,
+   "kind": "confirm",
+   "freq": 698.46,
+   "gain_db": -19,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "sync chord"
+  },
+  {
+   "type": "ui_blip",
+   "at": 42.0,
+   "kind": "confirm",
+   "freq": 880.0,
+   "gain_db": -19,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "sync chord"
+  },
+  {
+   "type": "ui_blip",
+   "at": 42.5,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -24,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "ring ping"
+  },
+  {
+   "type": "ui_blip",
+   "at": 43.0,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -24,
+   "verb": {
+    "hall": 0.25
+   },
+   "label": "ring ping"
+  },
+  {
+   "type": "whoosh",
+   "at": 43.525,
+   "length": 0.5,
+   "peak": 0.85,
+   "pitch": 1.0,
+   "weight": 0.5,
+   "direction": 1,
+   "gain_db": -16,
+   "label": "fast pan right into the desert"
+  },
+  {
+   "type": "water_rush",
+   "at": 44.0,
+   "length": 4.0,
+   "intensity": 0.3,
+   "bubbles": 0.0,
+   "hpf": 3000,
+   "fade_in": 0.05,
+   "gain_db": -27,
+   "label": "blowing sand"
+  },
+  {
+   "type": "ui_blip",
+   "at": 44.04,
+   "kind": "tick",
+   "freq": 1800,
+   "gain_db": -23,
+   "label": "scan option"
+  },
+  {
+   "type": "ui_blip",
+   "at": 44.115,
+   "kind": "tick",
+   "freq": 1800,
+   "gain_db": -23,
+   "label": "scan option"
+  },
+  {
+   "type": "ui_blip",
+   "at": 44.19,
+   "kind": "tick",
+   "freq": 1800,
+   "gain_db": -23,
+   "label": "scan option"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 44.3,
+   "length": 0.2,
+   "gain_db": -19,
+   "label": "stamp coming down"
+  },
+  {
+   "type": "stamp",
+   "at": 44.3,
+   "weight": 1.2,
+   "gain_db": -10,
+   "label": "LOCKED stamp"
+  },
+  {
+   "type": "gate_clank",
+   "at": 44.3,
+   "size": 0.35,
+   "latch": true,
+   "length": 0.6,
+   "fade_out": 0.3,
+   "gain_db": -18,
+   "label": "lock click"
+  },
+  {
+   "type": "whoosh",
+   "at": 44.3,
+   "length": 1.1,
+   "peak": 0.3,
+   "pitch": 1.8,
+   "weight": 0.1,
+   "gain_db": -22,
+   "label": "light wave down the route"
+  },
+  {
+   "type": "glitch",
+   "at": 44.42,
+   "length": 0.7,
+   "character": 0.15,
+   "gain_db": -26,
+   "label": "rejected route burns off"
+  },
+  {
+   "type": "glitch",
+   "at": 44.5,
+   "length": 0.7,
+   "character": 0.15,
+   "gain_db": -26,
+   "label": "rejected route burns off"
+  },
+  {
+   "type": "riser",
+   "hit_at": 47.97,
+   "length": 3.0,
+   "gain_db": -17,
+   "label": "convoy accelerates"
+  },
+  {
+   "type": "whoosh",
+   "at": 47.5675,
+   "length": 0.45,
+   "peak": 0.85,
+   "pitch": 0.9,
+   "weight": 0.5,
+   "gain_db": -16,
+   "label": "push and race into 48.0"
+  },
+  {
+   "type": "water_rush",
+   "at": 48.0,
+   "length": 4.0,
+   "intensity": 0.35,
+   "bubbles": 0.3,
+   "hpf": 1200,
+   "fade_in": 0.05,
+   "gain_db": -27,
+   "label": "rain bed"
+  },
+  {
+   "type": "stamp",
+   "at": 48.3,
+   "weight": 0.9,
+   "gain_db": -12,
+   "label": "Adapt. slams in"
+  },
+  {
+   "type": "ui_blip",
+   "at": 48.38,
+   "kind": "deny",
+   "freq": 659.26,
+   "gain_db": -20,
+   "pan": 0.4,
+   "label": "Vega pillar"
+  },
+  {
+   "type": "riser",
+   "hit_at": 48.9,
+   "length": 0.4,
+   "gain_db": -20,
+   "label": "surge sweep"
+  },
+  {
+   "type": "tick_one",
+   "at": 48.55,
+   "tone": 0.6,
+   "gain_db": -21,
+   "label": "blocks die"
+  },
+  {
+   "type": "tick_one",
+   "at": 48.68,
+   "tone": 0.6,
+   "gain_db": -21,
+   "label": "blocks die"
+  },
+  {
+   "type": "tick_one",
+   "at": 48.81,
+   "tone": 0.6,
+   "gain_db": -21,
+   "label": "blocks die"
+  },
+  {
+   "type": "tick_one",
+   "at": 48.94,
+   "tone": 0.6,
+   "gain_db": -21,
+   "label": "blocks die"
+  },
+  {
+   "type": "tick_one",
+   "at": 49.07,
+   "tone": 0.6,
+   "gain_db": -21,
+   "label": "blocks die"
+  },
+  {
+   "type": "tick_one",
+   "at": 49.2,
+   "tone": 0.6,
+   "gain_db": -21,
+   "label": "blocks die"
+  },
+  {
+   "type": "glitch",
+   "at": 48.78,
+   "length": 0.18,
+   "character": 0.9,
+   "gain_db": -15,
+   "label": "route breaks: short circuit"
+  },
+  {
+   "type": "riser",
+   "hit_at": 49.9,
+   "length": 0.85,
+   "gain_db": -20,
+   "label": "new route draws"
+  },
+  {
+   "type": "ui_blip",
+   "at": 49.1,
+   "kind": "select",
+   "freq": 880,
+   "gain_db": -24,
+   "length": 0.08,
+   "label": "lights come back"
+  },
+  {
+   "type": "ui_blip",
+   "at": 49.24,
+   "kind": "select",
+   "freq": 960,
+   "gain_db": -24,
+   "length": 0.08,
+   "label": "lights come back"
+  },
+  {
+   "type": "ui_blip",
+   "at": 49.38,
+   "kind": "select",
+   "freq": 1040,
+   "gain_db": -24,
+   "length": 0.08,
+   "label": "lights come back"
+  },
+  {
+   "type": "ui_blip",
+   "at": 49.52,
+   "kind": "select",
+   "freq": 1120,
+   "gain_db": -24,
+   "length": 0.08,
+   "label": "lights come back"
+  },
+  {
+   "type": "ui_blip",
+   "at": 49.66,
+   "kind": "select",
+   "freq": 1200,
+   "gain_db": -24,
+   "length": 0.08,
+   "label": "lights come back"
+  },
+  {
+   "type": "ui_blip",
+   "at": 49.8,
+   "kind": "select",
+   "freq": 1280,
+   "gain_db": -24,
+   "length": 0.08,
+   "label": "lights come back"
+  },
+  {
+   "type": "data_chatter",
+   "at": 49.7,
+   "length": 0.25,
+   "density": 14,
+   "gain_db": -28,
+   "label": "03 / 03 label"
+  },
+  {
+   "type": "ui_blip",
+   "at": 49.9,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -18,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "route reaches the objective"
+  },
+  {
+   "type": "impact",
+   "at": 50.5,
+   "length": 0.8,
+   "size": 0.5,
+   "brightness": 0.3,
+   "sub_hz": 45,
+   "hpf": 35,
+   "gain_db": -19,
+   "label": "lightning on the landmark"
+  },
+  {
+   "type": "whoosh",
+   "at": 51.545,
+   "length": 0.5,
+   "peak": 0.85,
+   "pitch": 1.0,
+   "weight": 0.5,
+   "gain_db": -15,
+   "label": "speed-ramp push into the cut"
+  },
+  {
+   "type": "glitch",
+   "at": 52.0,
+   "length": 0.25,
+   "character": 0.5,
+   "gain_db": -17,
+   "label": "root flash, lightning leaders"
+  },
+  {
+   "type": "ui_blip",
+   "at": 52.4,
+   "kind": "select",
+   "freq": 2400,
+   "gain_db": -18,
+   "length": 0.08,
+   "label": "YOUR DECISION snip"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 52.42,
+   "length": 0.5,
+   "direction": -1,
+   "gain_db": -22,
+   "label": "lower half collapses"
+  },
+  {
+   "type": "impact",
+   "at": 53.3,
+   "length": 0.7,
+   "size": 0.6,
+   "brightness": 0.9,
+   "sub_hz": 48,
+   "hpf": 40,
+   "gain_db": -14,
+   "label": "THEIR MOVE: red bolt"
+  },
+  {
+   "type": "glitch",
+   "at": 53.3,
+   "length": 0.12,
+   "character": 0.9,
+   "gain_db": -20
+  },
+  {
+   "type": "whoosh",
+   "at": 53.68,
+   "length": 0.6,
+   "peak": 0.7,
+   "pitch": 1.1,
+   "weight": 0.4,
+   "gain_db": -19,
+   "label": "camera dives along the branch"
+  },
+  {
+   "type": "ui_blip",
+   "at": 54.5,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "ui_blip",
+   "at": 54.75,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "ui_blip",
+   "at": 55.0,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "ui_blip",
+   "at": 55.25,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "ui_blip",
+   "at": 55.5,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "ui_blip",
+   "at": 55.72,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "ui_blip",
+   "at": 55.85,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "ui_blip",
+   "at": 55.95,
+   "kind": "tick",
+   "freq": 1900,
+   "gain_db": -23,
+   "label": "fork flash"
+  },
+  {
+   "type": "reverse_cymbal",
+   "hit_at": 56.0,
+   "length": 0.4,
+   "gain_db": -17,
+   "label": "into the white bloom"
+  },
+  {
+   "type": "ui_blip",
+   "at": 56.04,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes the playhead"
+  },
+  {
+   "type": "ui_blip",
+   "at": 56.16,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes the playhead"
+  },
+  {
+   "type": "ui_blip",
+   "at": 56.38,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes the playhead"
+  },
+  {
+   "type": "ui_blip",
+   "at": 56.44,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes the playhead"
+  },
+  {
+   "type": "tick_one",
+   "at": 57.0,
+   "tone": 0.8,
+   "gain_db": -14,
+   "label": "stop: brackets snap"
+  },
+  {
+   "type": "typing",
+   "at": 57.04,
+   "length": 0.86,
+   "rate": 12,
+   "gain_db": -21,
+   "label": "event log types on"
+  },
+  {
+   "type": "stamp",
+   "at": 57.3,
+   "weight": 1.2,
+   "gain_db": -9,
+   "label": "ON THE RECORD stamp"
+  },
+  {
+   "type": "tape_scrub",
+   "at": 59.35,
+   "length": 0.65,
+   "direction": 1,
+   "gain_db": -18,
+   "label": "fast-forward"
+  },
+  {
+   "type": "ui_blip",
+   "at": 59.54,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes"
+  },
+  {
+   "type": "ui_blip",
+   "at": 59.77,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes"
+  },
+  {
+   "type": "ui_blip",
+   "at": 59.89,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes"
+  },
+  {
+   "type": "ui_blip",
+   "at": 59.96,
+   "kind": "tick",
+   "freq": 1600,
+   "gain_db": -24,
+   "label": "marker passes"
+  },
+  {
+   "type": "whoosh",
+   "at": 60.0,
+   "length": 1.0,
+   "peak": 0.95,
+   "pitch": 1.0,
+   "weight": 0.35,
+   "direction": 1,
+   "pan": -0.5,
+   "gain_db": -17,
+   "label": "ribbons converge"
+  },
+  {
+   "type": "whoosh",
+   "at": 60.0,
+   "length": 1.0,
+   "peak": 0.95,
+   "pitch": 1.0,
+   "weight": 0.35,
+   "direction": -1,
+   "pan": 0.5,
+   "gain_db": -17,
+   "label": "ribbons converge"
+  },
+  {
+   "type": "ui_blip",
+   "at": 61.0,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -16,
+   "verb": {
+    "hall": 0.4
+   },
+   "label": "ring shimmer"
+  },
+  {
+   "type": "ui_blip",
+   "at": 61.24,
+   "kind": "confirm",
+   "freq": 1174.66,
+   "gain_db": -19,
+   "verb": {
+    "hall": 0.3
+   },
+   "label": "holds: period pulse"
+  },
+  {
+   "type": "reverse_swell",
+   "hit_at": 63.95,
+   "length": 1.0,
+   "chord": "Dm",
+   "gain_db": -19,
+   "label": "point glides to centre"
+  },
+  {
+   "type": "ui_blip",
+   "at": 64.5,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -25,
+   "verb": {
+    "hall": 0.35
+   },
+   "label": "node pulse"
+  },
+  {
+   "type": "ui_blip",
+   "at": 66.0,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -25,
+   "verb": {
+    "hall": 0.35
+   },
+   "label": "node pulse"
+  },
+  {
+   "type": "ui_blip",
+   "at": 67.5,
+   "kind": "confirm",
+   "freq": 880,
+   "gain_db": -25,
+   "verb": {
+    "hall": 0.35
+   },
+   "label": "node pulse"
+  },
+  {
+   "type": "stamp",
+   "at": 67.0,
+   "weight": 0.5,
+   "gain_db": -17,
+   "label": "lockup"
+  },
+  {
+   "type": "data_chatter",
+   "at": 67.4,
+   "length": 0.3,
+   "density": 12,
+   "gain_db": -28,
+   "label": "COMPETITIVE scramble"
+  },
+  {
+   "type": "whoosh",
+   "at": 67.725,
+   "length": 0.5,
+   "peak": 0.85,
+   "pitch": 1.3,
+   "weight": 0.25,
+   "gain_db": -20,
+   "label": "point flies to the dock"
+  },
+  {
+   "type": "ui_blip",
+   "at": 68.2,
+   "kind": "select",
+   "freq": 1400,
+   "gain_db": -18,
+   "length": 0.1,
+   "label": "DOCK click"
   },
   {
    "type": "file",
