@@ -96,3 +96,11 @@ Casual is a place to explore, play and make worlds, with friends. It follows the
 - World Maker (`CasualWorldMaker`): a slot machine for place, moment and twist (twists include rivals and crews) that deals a white collectible card: the place's art under the moment's weather, a genre, a rarity, a premise and three first moves. "Send to a friend" copies `?world=place.moment.twist#casual-maker`; a friend who opens it sees "A friend sent you this world" and can remix it (place and moment held, new twist).
 - Secrets (`CasualGame`): a falling star over the arrived archive, a bottle in the opening's sea, an odd bulb on the machine. The only sign of the hunt is the locked place on the World Maker, with hints behind a disclosure. Finding all three adds the Upside-down Archive and a shine on every card. Progress is saved in this browser only, when something is found.
 - Scenes are drawn on a 1200 x 1000 canvas with `slice`, so one drawing serves the wide portal, the 9:16 reel and the 4:3 card. Motion and camera rules live in `casual-scenes.css`; under reduced motion, scenes show their final state.
+
+## Competitive launch film (2026-11)
+
+The Competitive path opens with its launch film, right after the match board and before "The way into a match" (`CompetitiveFilm`). It sits in one 16:9 frame in the Competitive amber palette, under a short heading ("Watch a match take shape."). Existing copy is unchanged.
+
+- File: `public/assets/scene/realms-competitive-launch.mp4`, re-encoded from the 74-second 1080p master (68 MB) to 1280x720 H.264 CRF 29 with 96 kbps AAC and `+faststart`: about 11 MB. Small interface text in the film stays legible at this size.
+- Poster: `public/assets/realms/competitive-launch-poster.webp` (the "Realms Competitive" title frame at 14.5 s, about 17 KB).
+- Nothing loads before play (`preload="none"`), and the film never starts on its own, so it is unaffected by reduced-motion preferences. It has sound, so it plays only when the visitor presses "Play the film"; native controls then take over and focus moves to the video. Below 768px the play button moves to the frame's lower-left corner so it does not cover the title.

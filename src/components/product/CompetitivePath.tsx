@@ -1,6 +1,7 @@
 import { ArrowDownRight, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { scrollToWaitlist } from "../../lib/scroll";
+import CompetitiveFilm from "./CompetitiveFilm";
 import CompetitiveLegends from "./CompetitiveLegends";
 import CompetitiveMatchBoard from "./CompetitiveMatchBoard";
 
@@ -25,6 +26,8 @@ export default function CompetitivePath({ children }: { children?: ReactNode }) 
         </figure>
       </div>
     </section>
+
+    <CompetitiveFilm />
 
     <section id="competitive-matchmaking" className="competitive-matchmaking" aria-labelledby="competitive-matchmaking-heading">
       <div className="product-container">
