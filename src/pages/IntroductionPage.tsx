@@ -76,7 +76,7 @@ const simulationFeatures = [
   {
     title: "Adaptive Dynamic Simulation",
     copy: "Dynamic simulation flow personalized for you in real-time.",
-    video: "/assets/scene/dynamic%20arena.mp4",
+    video: "/assets/scene/dynamic-arena.mp4",
   },
   {
     title: "Personalized Realms",
