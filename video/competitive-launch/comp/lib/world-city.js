@@ -790,7 +790,7 @@
       g.setTransform(1, 0, 0, 1, 0, 0);
       g.globalCompositeOperation = 'lighter'; g.lineCap = 'butt';
       const pass = (arr, col, lw, a) => { g.beginPath(); for (let q = 0; q < arr.length; q += 4) { g.moveTo(arr[q], arr[q + 1]); g.lineTo(arr[q + 2], arr[q + 3]); } g.strokeStyle = rgba(col, a); g.lineWidth = lw; g.stroke(); };
-      pass(edges, COL.amber, 7, 0.1 * k); pass(edges, COL.amberL, 1.6, 0.75 * k);
+      pass(edges, COL.amber, 6, 0.07 * k); pass(edges, COL.amberL, 1.5, 0.5 * k);
       pass(crown, COL.amber, 12, 0.14 * k); pass(crown, COL.amberL, 2, 0.95 * k);
       g.globalCompositeOperation = 'source-over';
     }

@@ -73,7 +73,7 @@
       }
 
       // ---- opening / closing (the seam) ----
-      tl.fromTo(open, { L: 0, R: 0 }, { L: 1500, R: 1500, duration: 0.7, ease: 'expo.out' }, 0.04);
+      tl.fromTo(open, { L: 40, R: 40 }, { L: 1500, R: 1500, duration: 0.7, ease: 'expo.out' }, 0);
       tl.to(open, { L: 0, R: 0, duration: 0.43, ease: 'power3.in' }, T_CLOSE);
       // cameras: pull out on the open, slow push, mirror whip on 'Another', push into the seam on the close
       for (const [c, s] of [[L, -1], [R, 1]]) {
@@ -82,7 +82,7 @@
         tl.to(c.cam, { yaw: 24.4 + s * 8, tx: -46 + s * 30, duration: 0.6, ease: 'expo.inOut' }, T_ANOTHER - 0.1);
         tl.to(c.cam, { zoom: 1.27, yaw: 24.4 + s * 10, duration: T_CLOSE - T_ANOTHER - 0.5, ease: 'sine.inOut' }, T_ANOTHER + 0.5);
         tl.to(c.cam, { zoom: 1.75, sx: s * HALF_X * 0.55, duration: 0.45, ease: 'power3.in' }, T_CLOSE);
-        tl.fromTo(c.look, { tint: 0 }, { tint: 1, duration: 0.6, ease: 'power2.out' }, T_ANOTHER);
+        tl.fromTo(c.look, { tint: 0 }, { tint: 0.6, duration: 0.6, ease: 'power2.out' }, T_ANOTHER);
       }
 
       // ---- markers (identical in both halves) ----
@@ -122,7 +122,7 @@
         tl.to(h.p, { draw: 1, duration: 0.5, ease: 'power3.inOut' }, T_ANOTHER + 0.02 * k);
       });
       // plan beats: the plant powers up (Atlas), the bridges ping (Vega)
-      const plantRing = L.marker({ kind: 'start', x: sx(10) + 6, y: sy(11) - 6, r: 92, color: C.amber });
+      const plantRing = L.marker({ kind: 'start', x: 120, y: 212, r: 72, color: C.amber });
       tl.fromTo(plantRing, { ring: 0.6, a: 0 }, { ring: 1, a: 1, duration: 0.5, ease: 'expo.out' }, T_PLAN + 0.8);
       tl.fromTo(plantRing, { pulse: 0 }, { pulse: 1, duration: 1.0, ease: 'none' }, T_PLAN + 0.8);
       tl.fromTo(L.look, { power: 0.3 }, { power: 1, duration: 0.5, ease: 'power2.out' }, T_PLAN + 0.78);
@@ -142,9 +142,9 @@
       const callouts = [];
       const callout = (city, o) => { const c = Object.assign({ p: { a: 0, u: 0 } }, o); callouts.push(c); return c; };
       const coA1 = callout(L, { at: [sx(10) - 60, sy(12) - 20, 0], text: 'SECURE POWER', num: '01', col: C.amber, dx: -250, dy: 30 });
-      const coA2 = callout(L, { at: [sx(11), M.riverY(sx(11)), 0], text: 'EAST BRIDGE', num: '02', col: C.amber, dx: 70, dy: 70 });
-      const coV1 = callout(R, { at: [sx(7), M.riverY(sx(7)) + 20, 0], text: 'RUSH THE BRIDGES', num: '01', col: C.rival, dx: -250, dy: 150 });
-      const coV2 = callout(R, { at: [sx(9) + 40, sy(8) - 10, 0], text: 'CONVERGE', num: '02', col: C.rival, dx: 120, dy: -60 });
+      const coA2 = callout(L, { at: [sx(11), M.riverY(sx(11)), 0], text: 'EAST BRIDGE', num: '02', col: C.amber, dx: -60, dy: -170 });
+      const coV1 = callout(R, { at: [sx(11), M.riverY(sx(11)) + 20, 0], text: 'RUSH THE BRIDGES', num: '01', col: C.rival, dx: -30, dy: 170 });
+      const coV2 = callout(R, { at: [sx(9) + 40, sy(8) - 10, 0], text: 'CONVERGE', num: '02', col: C.rival, dx: 50, dy: 150 });
       const coOL = callout(L, { at: [OB[0], OB[1], 0], text: 'OBJECTIVE', num: '', col: C.bone, dx: -210, dy: -40 });
       const coOR = callout(R, { at: [OB[0], OB[1], 0], text: 'OBJECTIVE', num: '', col: C.bone, dx: -210, dy: -40 });
       for (const [c, t] of [[coOL, 0.85], [coOR, 0.85], [coA1, T_PLAN + 0.82], [coV1, T_V + 0.4], [coV2, T_ANOTHER + 0.4], [coA2, T_ANOTHER + 0.3]]) {
@@ -191,7 +191,7 @@
       const lineA = ctx.svg('line', { stroke: C.amber, 'stroke-width': 2.5 }, sv);
       const lineV = ctx.svg('line', { stroke: C.rival, 'stroke-width': 2.5 }, sv);
       const hot = ctx.svg('line', { stroke: C.ink, 'stroke-width': 4, 'stroke-linecap': 'round' }, sv);
-      tl.fromTo(seam, { len: 0 }, { len: 1, duration: 0.22, ease: 'expo.out' }, 0);
+      tl.fromTo(seam, { len: 0.45 }, { len: 1, duration: 0.2, ease: 'expo.out' }, 0);
       tl.fromTo(seam, { flash: 1 }, { flash: 0, duration: 0.3, ease: 'power2.out' }, 0);
       tl.to(seam, { flash: 1, duration: 0.05, ease: 'none' }, T_CLOSE + 0.38);
       tl.to(seam, { len: 0, duration: 0.07, ease: 'power2.in' }, T_CLOSE + 0.43);

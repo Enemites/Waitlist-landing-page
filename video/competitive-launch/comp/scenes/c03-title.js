@@ -153,6 +153,7 @@
         topM.style.transform = `translate(${mT.toFixed(1)}px, ${(-4 * k2).toFixed(1)}px)`;
         botM.style.transform = `translate(${mB.toFixed(1)}px, ${(4 * k2).toFixed(1)}px)`;
         topM.style.visibility = botM.style.visibility = t >= T_MODE0 ? 'visible' : 'hidden';
+        topT.style.visibility = botT.style.visibility = t >= 1 / FPS - 1e-6 ? 'visible' : 'hidden'; // the hit frame is the flare alone
         const lk = t >= T_LOCK - 1e-6, lm = t >= T_MODE - 1e-6;
         topT.style.color = lk ? C.ink : C.amber; botT.style.color = lk ? C.ink : C.rival;
         botM.style.color = lm ? C.amber : C.rival;

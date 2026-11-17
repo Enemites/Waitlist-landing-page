@@ -40,7 +40,8 @@
  *   D.ROUTES { inbound, a, b, c } polylines (world): the road in, and the three options from the fork D.FORK
  *            (a: up onto the ridge, b: down the canyon = the committed route, c: across the dunes).
  *   D.at(route, s) -> [x, y, angle];  D.P.pt(x, y) -> [sx, sy];  D.P.zoom;  D.P.rot (radians)
- *   D.ground(fn) / D.top(fn) hooks as in the ice world;  D.look: sand (0..1), flash, dim
+ *   D.ground(fn) / D.top(fn) hooks as in the ice world (both get the motion blur); D.over(fn) draws after the blur
+ *            (things the camera tracks, which stay sharp);  D.look: sand (0..1), flash, dim
  * ---------------------------------------------------------------------------------------------------------------
  * Performance (measured, this machine, software raster): ice ~6-10 ms of script per frame, desert ~3-5 ms,
  * plus one large drawImage per ground layer at paint. Blur frames cost one full render per sample.
@@ -985,7 +986,8 @@
       const csp = camAt(Math.max(0, lt - dt));
       const P = iceProj(cs), Pp = iceProj(csp);
       // camera motion over the shutter, as a screen-space transform (this frame -> one shutter earlier)
-      const Tm = lt > dt ? affMul(Pp.affine(), affInv(P.affine())) : null;
+      // (on the first frame there is no past: mirror the motion of the next shutter so a cut can land moving)
+      const Tm = lt > dt ? affMul(Pp.affine(), affInv(P.affine())) : affMul(P.affine(), affInv(iceProj(camAt(lt + dt)).affine()));
       const mot = Tm ? affMotion(Tm) : 0;
       drawWorld(g, cs, lt);
       if (mot > 2.5) smear(g, canvas, bg2, buf, Tm, mot);
@@ -1205,7 +1207,7 @@
         if (!on && run >= 0) { tint.rect(R.X0 + run * CELL - CELL / 2, R.Y0 + j * CELL - CELL / 2, (i - run) * CELL, CELL + 0.6); run = -1; }
       }
     }
-    OPS.push({ path: tint, kind: 'fill', style: css(mixA(MAP, BONE, 0.07)) });
+    OPS.push({ path: tint, kind: 'fill', style: css(mixA(MAP, BONE, 0.07)), blur: 4 });
     const stip = [new Path2D(), new Path2D()];
     for (let k = 0; k < 160000; k++) {
       const x = r.range(R.X0, R.X0 + R.WW), y = r.range(R.Y0, R.Y0 + R.HH);
@@ -1285,7 +1287,7 @@
         if (!on && run >= 0) { floorP.rect(R.X0 + run * CELL - CELL / 2, R.Y0 + j * CELL - CELL / 2, (i - run) * CELL, CELL + 0.6); run = -1; }
       }
     }
-    OPS.unshift({ path: floorP, kind: 'fill', style: css(mixA(BG, MAP, 0.3)) });
+    OPS.unshift({ path: floorP, kind: 'fill', style: css(mixA(BG, MAP, 0.3)), blur: 5 });
     const wash = new Path2D(), peb = new Path2D();
     const pl = DM.ROUTES.b.pl;
     for (let k = -2; k <= 2; k++) {
@@ -1323,7 +1325,7 @@
       t.lineCap = 'round'; t.lineJoin = 'round';
       const sc = T.res < 1 ? 1 / Math.sqrt(T.res) : 1;   // keep fine lines visible on the low-res tile
       for (const op of OPS) {
-        if (op.kind === 'fill') { t.fillStyle = op.style; t.fill(op.path); continue; }
+        if (op.kind === 'fill') { t.fillStyle = op.style; t.filter = op.blur ? `blur(${(op.blur * T.res).toFixed(1)}px)` : 'none'; t.fill(op.path); t.filter = 'none'; continue; }
         t.strokeStyle = op.style; t.lineWidth = op.lw * sc; t.setLineDash(op.dash || []); t.stroke(op.path);
       }
       t.setLineDash([]);
@@ -1345,7 +1347,7 @@
     const { canvas, g } = ctx.canvas({ parent: o.parent, className: 'wild-desert' });
     const look = Object.assign({ sand: 1, flash: 0, dim: 0 }, o.look || {});
     const camAt = o.camAt;
-    const grounds = [], tops = [];
+    const grounds = [], tops = [], overs = [];
     let TEX = null;
     const buf = document.createElement('canvas'); buf.width = W; buf.height = H;
     const bg2 = buf.getContext('2d');
@@ -1353,7 +1355,7 @@
     const SAND = Array.from({ length: 520 }, () => ({ x: rs.range(DES.X0, DES.X0 + DES.WW), y: rs.range(DES.Y0, DES.Y0 + DES.HH), ph: rs(), sp: rs.range(60, 160), len: rs.range(6, 22), a: rs.range(0.25, 0.7) }));
     const D = {
       canvas, g, look, FORK: DM.FORK, ROUTES: DM.ROUTES, model: DM, P: null, at, slice,
-      ground(fn) { grounds.push(fn); return D; }, top(fn) { tops.push(fn); return D; },
+      ground(fn) { grounds.push(fn); return D; }, top(fn) { tops.push(fn); return D; }, over(fn) { overs.push(fn); return D; },
       line(gg, pts) { gg.beginPath(); pts.forEach((p, i) => { const q = D.P.pt(p[0], p[1]); if (i) gg.lineTo(q[0], q[1]); else gg.moveTo(q[0], q[1]); }); },
       camAt,
     };
@@ -1399,12 +1401,13 @@
       const cs = camAt(lt);
       const dt = o.shutter / 30;
       const P = desProj(cs);
-      const Tm = lt > dt ? affMul(desProj(camAt(lt - dt)).A, affInv(P.A)) : null;
+      const Tm = lt > dt ? affMul(desProj(camAt(lt - dt)).A, affInv(P.A)) : affMul(P.A, affInv(desProj(camAt(lt + dt)).A));
       const mot = Tm ? affMotion(Tm) : 0;
       drawWorld(g, cs, lt);
       if (mot > 2.5) smear(g, canvas, bg2, buf, Tm, mot);
       D.P = P;
       g.setTransform(1, 0, 0, 1, 0, 0);
+      for (const fn of overs) { g.save(); fn(g, lt, D); g.restore(); }
       if (look.dim > 0.001) { g.fillStyle = css(BG, look.dim); g.fillRect(0, 0, W, H); }
       if (look.flash > 0.001) { g.fillStyle = css([255, 250, 240], clamp(look.flash, 0, 1)); g.fillRect(0, 0, W, H); }
     });

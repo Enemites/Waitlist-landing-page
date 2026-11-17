@@ -29,8 +29,8 @@
   const SP = spring(0.62, 1.2);
   const rgba = B.rgba;
   const D2R = Math.PI / 180;
-  // the closing seam at frame centre: degrees from vertical (0 = vertical). Match c05b's opening seam here.
-  const SEAM_DEG = 0;
+  // the seam at frame centre: degrees from vertical, clockwise (top leans right). Match c05b's opening seam here.
+  const SEAM_DEG = 34;   // c05b's seam is at the brand slant (34 deg from vertical, top to the right)
 
   // globe
   const GC = { x: 960, y: 600, r: 340 };

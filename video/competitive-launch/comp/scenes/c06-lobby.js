@@ -274,11 +274,13 @@
 
       // the opening seam (first frames): a vertical line of light at frame centre that bursts the frame open
       const open = ctx.svg('svg', { class: 'brand-svg' }, root);
-      const openE = [0, 1].map(() => ctx.svg('rect', { x: 958, y: 0, width: 4, height: H, fill: C.ink, opacity: 0 }, open));
+      // c05b closes on a seam at the brand slant (34 deg from vertical, top to the right): open from that line
+      const TSL = Math.tan((B.SLANT || 34) * Math.PI / 180), XT = 960 + 540 * TSL, XB = 960 - 540 * TSL;
+      const openE = [0, 1].map(() => ctx.svg('line', { x1: XT, y1: 0, x2: XB, y2: H, stroke: C.ink, 'stroke-width': 6, 'stroke-linecap': 'round', opacity: 0 }, open));
       // the line of light (final frames)
       const line = ctx.svg('svg', { class: 'brand-svg' }, root);
-      const lineGlow = ctx.svg('rect', { x: 0, y: 540 - 14, width: W, height: 28, fill: C.amber, opacity: 0 }, line);
-      const lineCore = ctx.svg('rect', { x: 0, y: 540 - 1.5, width: W, height: 3, fill: C.ink, opacity: 0 }, line);
+      const lineGlow = ctx.svg('rect', { x: 0, y: 540 - 12, width: W, height: 24, fill: C.amberLight, opacity: 0 }, line);
+      const lineCore = ctx.svg('rect', { x: 0, y: 540 - 2, width: W, height: 4, fill: C.ink, opacity: 0 }, line);
 
       // ---------------------------------------------------------------------------------------
       // per frame
@@ -296,13 +298,13 @@
         const push = 1 + 0.035 * io3(seg(t, 3.1, 0.65));
         all.style.transform = `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) scale(${(push * sX).toFixed(4)}, ${(push * sY).toFixed(4)})`;
         all.style.filter = cu > 0 ? `brightness(${(1 + 2.5 * ce).toFixed(3)})` : 'none';
-        const ou = expoOut(seg(t, 0, 0.34)), half = 960 * ou;
-        all.style.clipPath = ou < 1 ? `inset(0px ${(960 - half).toFixed(1)}px 0px ${(960 - half).toFixed(1)}px)` : 'none';
+        const ou = expoOut(seg(t, 0, 0.34)), half = 1700 * ou;
+        all.style.clipPath = ou < 1 ? `polygon(${(XT - half).toFixed(1)}px 0px, ${(XT + half).toFixed(1)}px 0px, ${(XB + half).toFixed(1)}px ${H}px, ${(XB - half).toFixed(1)}px ${H}px)` : 'none';
         const oa = clamp(1 - t / 0.24, 0, 1);
-        openE.forEach((e, k) => { e.setAttribute('x', (k ? 960 + half - 2 : 960 - half - 2).toFixed(1)); e.setAttribute('opacity', (oa * oa).toFixed(3)); });
+        openE.forEach((e, k) => { const d = k ? half : -half; e.setAttribute('x1', (XT + d).toFixed(1)); e.setAttribute('x2', (XB + d).toFixed(1)); e.setAttribute('stroke-width', (6 - 3 * ou).toFixed(2)); e.setAttribute('opacity', (oa * oa).toFixed(3)); });
         const la = cu > 0 ? clamp((1 - sY) * 1.5, 0, 1) : 0;
         lineCore.setAttribute('opacity', la.toFixed(3));
-        lineGlow.setAttribute('opacity', (0.35 * la).toFixed(3));
+        lineGlow.setAttribute('opacity', (0.5 * la).toFixed(3));
         const lw = lerp(0.5, 1, expoOut(cu));
         lineCore.setAttribute('x', (960 - 960 * lw).toFixed(1)); lineCore.setAttribute('width', (W * lw).toFixed(1));
         lineGlow.setAttribute('x', (960 - 960 * lw).toFixed(1)); lineGlow.setAttribute('width', (W * lw).toFixed(1));

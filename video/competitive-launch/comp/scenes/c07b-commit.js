@@ -221,6 +221,10 @@
           g.fillText('LOCKED', 0, 2);
           g.restore();
         }
+      });
+      // markers ride with the camera: drawn after the motion blur so they stay crisp
+      D.over((g, lt, W2) => {
+        const P = W2.P;
         // markers: amber discs nose to tail, heading chevron on the lead
         const sl = sLead(lt);
         for (let m = 2; m >= 0; m--) {
@@ -245,13 +249,13 @@
       // ---- option labels (DOM, ride their lines), struck out as they burn -------------------------------------
       const LAB = [['A', 'RIDGE'], ['B', 'CANYON'], ['C', 'ERG']].map(([k, nm], i) => {
         const e = ctx.el('div', 'c7b-opt', root, `<span class="k">${k}</span><span class="n">${nm}</span><span class="x"></span>`);
-        return { e, n: e.querySelector('.n'), x: e.querySelector('.x'), s: [300, 330, 300][i] };
+        return { e, n: e.querySelector('.n'), x: e.querySelector('.x'), s: [300, 470, 300][i] };
       });
       ctx.onFrame((lt) => {
         const P = D.P; if (!P) return;
         LAB.forEach((L, i) => {
           const p = at2(OPT[i], L.s), q = P.pt(p[0], p[1]);
-          const off = i === 0 ? [-30, -58] : i === 1 ? [-20, -62] : [-10, 30];
+          const off = i === 0 ? [-30, -58] : i === 1 ? [-40, 26] : [-10, 30];
           L.e.style.transform = `translate(${(q[0] + off[0]).toFixed(1)}px, ${(q[1] + off[1]).toFixed(1)}px)`;
           const show = seg(lt, 0.02 + i * 0.05, 0.14 + i * 0.05);
           let op = show;
