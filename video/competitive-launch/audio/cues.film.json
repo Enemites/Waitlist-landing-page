@@ -424,17 +424,6 @@
    "label": "world cut inside the drop"
   },
   {
-   "type": "impact",
-   "at": 48.0,
-   "length": 0.6,
-   "size": 0.6,
-   "brightness": 0.6,
-   "sub_hz": 60,
-   "hpf": 60,
-   "gain_db": -12,
-   "label": "world cut inside the drop"
-  },
-  {
    "type": "bass_ostinato",
    "bar": 26,
    "bars": 2,
@@ -2208,15 +2197,16 @@
    "intensity": 0.35,
    "bubbles": 0.3,
    "hpf": 1200,
-   "fade_in": 0.05,
-   "gain_db": -27,
+   "fade_in": 0.8,
+   "gain_db": -29,
    "label": "rain bed"
   },
   {
    "type": "stamp",
    "at": 48.3,
    "weight": 0.9,
-   "gain_db": -12,
+   "gain_db": -17,
+   "hpf": 150,
    "label": "Adapt. slams in"
   },
   {
@@ -2224,7 +2214,7 @@
    "at": 48.38,
    "kind": "deny",
    "freq": 659.26,
-   "gain_db": -20,
+   "gain_db": -27,
    "pan": 0.4,
    "label": "Vega pillar"
   },
@@ -2280,10 +2270,11 @@
   {
    "type": "glitch",
    "at": 48.78,
-   "length": 0.18,
+   "length": 0.12,
    "character": 0.9,
-   "gain_db": -15,
-   "label": "route breaks: short circuit"
+   "gain_db": -25,
+   "hpf": 3000,
+   "label": "route breaks: short circuit (kept under the VO word)"
   },
   {
    "type": "riser",
@@ -2803,7 +2794,7 @@
    "at": 40.3,
    "bus": "vo",
    "label": "w10",
-   "gain_db": 0
+   "gain_db": 1.0
   },
   {
    "type": "file",
@@ -2811,7 +2802,7 @@
    "at": 44.3,
    "bus": "vo",
    "label": "w11",
-   "gain_db": 0
+   "gain_db": 1.0
   },
   {
    "type": "file",
@@ -2819,7 +2810,7 @@
    "at": 48.3,
    "bus": "vo",
    "label": "w12",
-   "gain_db": 0
+   "gain_db": 2.5
   },
   {
    "type": "file",

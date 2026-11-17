@@ -85,7 +85,8 @@ c('taiko', bar=20, bars=6, intensity=0.8, gain_db=-10)
 c('plucks', bar=20, bars=6, intensity=0.6, gain_db=-11)
 c('pad', bar=20, bars=6, intensity=0.5, gain_db=-11)
 c('ticks', bar=20, bars=6, subdiv=2, accent_every=4, intensity=0.85, gain_db=-9)
-for t in (44.0, 48.0): c('impact', at=t, length=0.6, size=0.6, brightness=0.6, sub_hz=60, hpf=60, gain_db=-12, label='world cut inside the drop')
+c('impact', at=44.0, length=0.6, size=0.6, brightness=0.6, sub_hz=60, hpf=60, gain_db=-12, label='world cut inside the drop')
+# 48.0 cut: carried by the push-and-race whoosh alone (an impact here read as a word before 'Adapt.')
 
 # ---- 52-56 FUTURES: peak --------------------------------------------------------------------------------
 c('bass_ostinato', bar=26, bars=2, intensity=1.0, gain_db=-6, bus='peak')
@@ -239,12 +240,12 @@ for t in (44.42, 44.5): c('glitch', at=t, length=0.7, character=0.15, gain_db=-2
 c('riser', hit_at=47.97, length=3.0, gain_db=-17, label='convoy accelerates')
 whoosh_peak(47.95, length=0.45, peak=0.85, pitch=0.9, weight=0.5, gain_db=-16, label='push and race into 48.0')
 # c07c-adapt 48-52 (storm city, the rival move)
-c('water_rush', at=48.0, length=4.0, intensity=0.35, bubbles=0.3, hpf=1200, fade_in=0.05, gain_db=-27, label='rain bed')
-c('stamp', at=48.3, weight=0.9, gain_db=-12, label='Adapt. slams in')
-blip(48.38, 'deny', 659.26, -20, pan=0.4, label='Vega pillar')
+c('water_rush', at=48.0, length=4.0, intensity=0.35, bubbles=0.3, hpf=1200, fade_in=0.8, gain_db=-29, label='rain bed')
+c('stamp', at=48.3, weight=0.9, gain_db=-17, hpf=150, label='Adapt. slams in')
+blip(48.38, 'deny', 659.26, -27, pan=0.4, label='Vega pillar')
 c('riser', hit_at=48.9, length=0.4, gain_db=-20, label='surge sweep')
 for i in range(6): c('tick_one', at=round(48.55 + 0.13 * i, 3), tone=0.6, gain_db=-21, label='blocks die')
-c('glitch', at=48.78, length=0.18, character=0.9, gain_db=-15, label='route breaks: short circuit')
+c('glitch', at=48.78, length=0.12, character=0.9, gain_db=-25, hpf=3000, label='route breaks: short circuit (kept under the VO word)')
 c('riser', hit_at=49.9, length=0.85, gain_db=-20, label='new route draws')
 for i in range(6): blip(round(49.1 + 0.14 * i, 3), 'select', 880 + 80 * i, -24, length=0.08, label='lights come back')
 c('data_chatter', at=49.7, length=0.25, density=14, gain_db=-28, label='03 / 03 label')
@@ -283,7 +284,7 @@ blip(68.2, 'select', 1400, -18, length=0.1, label='DOCK click')
 VO = {'w01': 1.00, 'w02': 4.50, 'w03': 8.40, 'w04': 12.50, 'w05': 16.40, 'w06': 20.60, 'w07': 26.30, 'w08': 31.40,
       'w09': 36.20, 'w10': 40.30, 'w11': 44.30, 'w12': 48.30, 'w13': 52.20, 'w14': 56.30, 'w15': 60.30, 'w16': 64.50,
       'w17': 68.20}
-VO_GAIN = {}
+VO_GAIN = {'w12': 2.5, 'w10': 1.0, 'w11': 1.0}
 for k, t in VO.items():
     cues.append({'type': 'file', 'path': os.path.join(a.vo_dir, k + '.wav'), 'at': t, 'bus': 'vo', 'label': k, 'gain_db': VO_GAIN.get(k, 0)})
 
