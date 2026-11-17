@@ -105,8 +105,7 @@
       botM.style.clipPath = `polygon(0 ${MSPLIT}px, ${W}px ${MSPLIT}px, ${W}px ${H}px, 0 ${H}px)`;
       topT.style.color = C.amber; botT.style.color = C.rival; topM.style.color = C.amber; botM.style.color = C.rival;
       // lock: ink on 12.5 (title), amber on 13.0 (mode)
-      tl.fromTo([topT, botT], { color: (i) => (i ? C.rival : C.amber) }, { color: C.ink, duration: 2 / FPS, ease: 'none', immediateRender: false }, T_LOCK);
-      tl.fromTo(botM, { color: C.rival }, { color: C.amber, duration: 2 / FPS, ease: 'none', immediateRender: false }, T_MODE);
+      // (colours are set per frame in onFrame: hard lock on the exact frame)
 
       // eyebrow
       const eye = ctx.el('div', 'c3-eye', grp, '');
@@ -154,6 +153,9 @@
         topM.style.transform = `translate(${mT.toFixed(1)}px, ${(-4 * k2).toFixed(1)}px)`;
         botM.style.transform = `translate(${mB.toFixed(1)}px, ${(4 * k2).toFixed(1)}px)`;
         topM.style.visibility = botM.style.visibility = t >= T_MODE0 ? 'visible' : 'hidden';
+        const lk = t >= T_LOCK - 1e-6, lm = t >= T_MODE - 1e-6;
+        topT.style.color = lk ? C.ink : C.amber; botT.style.color = lk ? C.ink : C.rival;
+        botM.style.color = lm ? C.amber : C.rival;
         grp.style.transformOrigin = `${CX}px ${CY}px`;
         grp.style.transform = `scale(${push.s.toFixed(5)})`;
 

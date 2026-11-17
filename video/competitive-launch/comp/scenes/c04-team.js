@@ -93,7 +93,7 @@
         ${S} .c04-note .tx { position:absolute; left:26px; bottom:24px; font:720 38px/1 var(--display); letter-spacing:-0.035em; white-space:nowrap; }
         ${S} .c04-task { position:absolute; left:32px; display:flex; align-items:center; gap:16px; font:600 27px/1 var(--display); letter-spacing:-0.02em; color:${CH}; white-space:nowrap; }
         ${S} .c04-task .bx { width:22px; height:22px; border-radius:7px; border:2.5px solid ${ch(0.3)}; box-sizing:border-box; flex:none; }
-        ${S} .c04-cur { position:absolute; left:0; top:0; will-change:transform; }
+        ${S} .c04-cur { position:absolute; left:0; top:0; }
         ${S} .c04-flag { position:absolute; left:24px; top:44px; height:40px; padding:0 16px; border-radius:12px; display:flex; align-items:center; font:700 23px/1 var(--display); letter-spacing:-0.01em; white-space:nowrap; box-shadow:0 0 0 2.5px ${INK}, 0 8px 18px -10px rgba(15,13,10,.5); }
       `);
 

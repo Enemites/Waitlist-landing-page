@@ -62,7 +62,7 @@
       const camAt = (t) => {
         const slide = eo(seg(t, 0, 0.42));
         const hold = { cx: FORK[0] + 330 + 40 * seg(t, 0.4, 1.2), cy: FORK[1] + 40, zoom: 0.8, rot: 0 };
-        let cx = lerp(hold.cx - 1500, hold.cx, slide), cy = hold.cy, zoom = lerp(0.72, 0.8, slide), rot = lerp(-4, 0, slide);
+        let cx = lerp(hold.cx - 1000, hold.cx, slide), cy = hold.cy, zoom = lerp(0.76, 0.8, slide), rot = lerp(-4, 0, slide);
         const f = p2(seg(t, T_GO + 0.1, T_GO + 0.9));
         if (f > 0) {
           const s = sLead(t);
