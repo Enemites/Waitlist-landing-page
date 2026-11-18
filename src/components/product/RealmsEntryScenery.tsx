@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 
 /**
  * Scenery around the entry map: each mode gets its own surroundings, not just a recolored map.
- * Casual is a moonlit night over distant ridges, Focused is a quiet lens drawn on one summit,
+ * Casual is a pale day moon over soft grey ridges, Focused is a quiet lens drawn on one summit,
  * Competitive is an arena with banners for both sides. All decorative.
  */
 
@@ -31,16 +31,16 @@ function CasualScenery() {
       <svg className="scn-ridges" viewBox="0 0 1440 240" preserveAspectRatio="none">
         <defs>
           <linearGradient id="scn-ridge-front" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#0a0e20" />
-            <stop offset="1" stopColor="#0c1123" />
+            <stop offset="0" stopColor="#fafafb" />
+            <stop offset="1" stopColor="#ffffff" />
           </linearGradient>
         </defs>
         <g className="scn-ridge scn-ridge--far">
-          <path d={ridge(1.2, 150, 120)} fill="#131a37" />
+          <path d={ridge(1.2, 150, 120)} fill="#ededf1" />
           <path d={ridge(1.2, 150, 120).replace(/Z$/, "")} className="scn-ridge-rim" />
         </g>
         <g className="scn-ridge scn-ridge--mid">
-          <path d={ridge(3.4, 190, 90)} fill="#0e142b" />
+          <path d={ridge(3.4, 190, 90)} fill="#f5f5f7" />
         </g>
         <path d={ridge(5.9, 226, 48)} fill="url(#scn-ridge-front)" />
       </svg>
