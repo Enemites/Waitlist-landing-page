@@ -1,13 +1,13 @@
 /* Panel-only themes. Shared hero, definition, navigation, and registration stay outside.
    Screen compositions consume the --entry-* contract without changing their pixels. */
-/* Casual: a neutral stage, like a video app. White, black and grey; colour comes from the worlds. */
+/* Casual: a white stage, like a video app's landing page. White, black and grey; colour comes from the worlds. */
 .realms-entry-panel[data-entry="casual"] {
-  --entry-accent: #ffffff;
-  --entry-bg: #0b0b0f;
-  --entry-muted: #a3a3ad;
-  --entry-ink: #f5f5f7;
-  --entry-line: #26262e;
-  --entry-surface: #141418;
+  --entry-accent: #0b0b0f;
+  --entry-bg: #ffffff;
+  --entry-muted: #55555f;
+  --entry-ink: #0b0b0f;
+  --entry-line: #e4e4e8;
+  --entry-surface: #f4f4f6;
   position: relative;
   isolation: isolate;
   background: var(--entry-bg);
@@ -37,22 +37,26 @@
 .realms-entry-panel[data-entry]:not([data-entry="focused"])::selection,
 .realms-entry-panel[data-entry]:not([data-entry="focused"]) ::selection { color: var(--entry-bg); background: var(--entry-accent); }
 
+/* Casual: on the white page the product shot gets a neutral shadow and a hairline, not a tinted glow. */
+.realms-entry-panel[data-entry="casual"] .realms-screen-composition::before { display: none; }
+.realms-entry-panel[data-entry="casual"] .realms-screen-frame { border-color: #0b0b0f14; background: #f4f4f6; box-shadow: 0 40px 90px -30px #0b0b0f59; }
+
 /* Casual: the invitation closes the path as a soft panel. */
 .realms-entry-panel[data-entry="casual"] .casual-invitation {
   padding: 29px 32px;
-  border: 1px solid #ffffff1a;
+  border: 1px solid #0b0b0f14;
   border-radius: 24px;
   background: var(--entry-surface);
 }
-.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { color: #fff; font-family: "Bricolage Grotesque Variable", sans-serif; font-weight: 800; letter-spacing: -.035em; }
-.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > p { color: #a3a3ad; line-height: 1.85; }
-.realms-entry-panel[data-entry="casual"] .casual-share { color: #d4d4dc; }
-.realms-entry-panel[data-entry="casual"] .casual-share:hover { color: #ffffff; }
-.realms-entry-panel[data-entry="casual"] .casual-access { color: var(--entry-accent); border-color: #ffffff59; }
-.realms-entry-panel[data-entry="casual"] .casual-access:hover { color: #ffffff; border-color: #ffffff; }
+.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > h3 { color: var(--entry-ink); font-family: "Bricolage Grotesque Variable", sans-serif; font-weight: 800; letter-spacing: -.035em; }
+.realms-entry-panel[data-entry="casual"] .casual-invitation-copy > p { color: var(--entry-muted); line-height: 1.85; }
+.realms-entry-panel[data-entry="casual"] .casual-share { color: #3f3f46; }
+.realms-entry-panel[data-entry="casual"] .casual-share:hover { color: var(--entry-ink); }
+.realms-entry-panel[data-entry="casual"] .casual-access { color: var(--entry-accent); border-color: #0b0b0f59; }
+.realms-entry-panel[data-entry="casual"] .casual-access:hover { color: var(--entry-ink); border-color: var(--entry-ink); }
 .realms-entry-panel[data-entry="casual"] .casual-share-feedback p { color: var(--entry-accent); }
-.realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #c9c9d1; }
-.realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: #f5f5f7; background: #111114; border-color: #ffffff33; border-radius: 10px; }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback label { color: #3f3f46; }
+.realms-entry-panel[data-entry="casual"] .casual-share-feedback input { color: var(--entry-ink); background: #ffffff; border-color: #0b0b0f33; border-radius: 10px; }
 
 /* Focused keeps its original product palette; only the newer layout treatment remains. */
 .realms-entry-panel[data-entry="focused"] .focused-entry-intro { padding-block: 48px 65px; }
