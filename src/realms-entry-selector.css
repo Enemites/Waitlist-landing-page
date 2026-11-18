@@ -190,13 +190,14 @@
   background-color: var(--mode-bg);
   transition: background-color .9s ease;
 }
+/* Casual matches its white panel below: a daylight map in black, white and grey. */
 .realms-entry[data-entry="casual"] {
-  --mode-bg: #0c1123;
-  --mode-accent: #b9b3f5;
-  --mode-muted: #a8b1c5;
-  --mode-line: #2a3149;
-  --mode-terrain: #3d4470;
-  --mode-trail: #646b94;
+  --mode-bg: #ffffff;
+  --mode-accent: #0b0b0f;
+  --mode-muted: #55555f;
+  --mode-line: #e4e4e8;
+  --mode-terrain: #c9c9d1;
+  --mode-trail: #b4b4bf;
 }
 .realms-entry[data-entry="competitive"] {
   --mode-bg: #0b0c0e;
@@ -445,3 +446,49 @@
   .realms-entry > .product-container { padding-bottom: 84px; }
   .scn-ridges, .scn-arena { height: 72px; }
 }
+
+/* ---------- Casual daylight ----------
+   The selector takes on the Casual panel's white stage: ink type and routes, grey contours, a pale
+   day moon over soft grey ridges. Route accents darken so they still read on white. */
+.realms-entry .realms-entry-heading h2 { transition: color .6s ease; }
+.realms-atmos::after { transition: opacity .9s ease; }
+.realms-entry[data-entry="casual"] .realms-atmos::after { opacity: 0; }
+.realms-entry[data-entry="casual"] .realms-entry-heading h2 { color: #0b0b0f; }
+.realms-entry[data-entry="casual"] > .product-container,
+.realms-entry[data-entry="casual"] .route-selector {
+  --route-casual: #0b0b0f;
+  --route-focused: #5f8a12;
+  --route-competitive: #b07a23;
+}
+.realms-entry[data-entry="casual"] .route-map-terrain--casual { opacity: 0; }
+.realms-entry[data-entry="casual"] .route-selector[data-selected="casual"] .route-map-terrain--casual { opacity: .55; }
+.realms-entry[data-entry="casual"] .route .route-marker { fill: #a3a3ad; }
+.realms-entry[data-entry="casual"] .route .route-marker--open { fill: #fff; stroke: #a3a3ad; }
+.realms-entry[data-entry="casual"] .route.is-selected .route-marker { fill: var(--accent); }
+.realms-entry[data-entry="casual"] .route.is-selected .route-marker--open { fill: #fff; stroke: var(--accent); }
+.realms-entry[data-entry="casual"] .route-label { fill: #8e8e98; stroke: #fff; }
+.realms-entry[data-entry="casual"] .route.is-selected .route-label { fill: #0b0b0f; }
+.realms-entry[data-entry="casual"] .route-rival { stroke: #a3a3ad; }
+.realms-entry[data-entry="casual"] .route.is-selected .route-rival { stroke: var(--accent); }
+.realms-entry[data-entry="casual"] .route-start { fill: #0b0b0f; }
+.realms-entry[data-entry="casual"] .route-start-ring { stroke: #0b0b0f; }
+.realms-entry[data-entry="casual"] .route-tab { color: #6b6b75; }
+.realms-entry[data-entry="casual"] .route-tab-reason { color: #8e8e98; }
+.realms-entry[data-entry="casual"] .route-tab[aria-selected="true"] { color: #0b0b0f; background: linear-gradient(180deg, #0b0b0f0a, transparent 85%); }
+.realms-entry[data-entry="casual"] .route-tab[aria-selected="true"] .route-tab-reason { color: #3f3f46; }
+@media (hover: hover) {
+  .realms-entry[data-entry="casual"] .route:not(.is-selected):hover .route-label { fill: #3f3f46; }
+  .realms-entry[data-entry="casual"] .route:not(.is-selected):hover .route-marker--open { fill: #fff; }
+  .realms-entry[data-entry="casual"] .route-tab[aria-selected="false"]:hover { color: #0b0b0f; }
+}
+.realms-entry[data-entry="casual"] .realms-atmos-layer--casual { background: radial-gradient(ellipse 55% 60% at 80% -5%, #0b0b0f08, transparent 70%); }
+.realms-entry[data-entry="casual"] .realms-atmos-layer--casual::after { background: radial-gradient(ellipse 35% 30% at 50% 50%, #0b0b0f06, transparent 70%); }
+.realms-entry[data-entry="casual"] .scn-moon { box-shadow: inset -.27em .1em 0 0 #d4d4dc; filter: none; }
+.realms-entry[data-entry="casual"] .scn-moon::before { background: radial-gradient(closest-side, #0b0b0f08, transparent); }
+.realms-entry[data-entry="casual"] .scn-cloud { background: radial-gradient(closest-side, #0b0b0f0f, transparent); }
+.realms-entry[data-entry="casual"] .scn-ridge--far > path:first-child { fill: #ededf1; }
+.realms-entry[data-entry="casual"] .scn-ridge--mid > path { fill: #f5f5f7; }
+.realms-entry[data-entry="casual"] .scn-ridges > path { fill: #ffffff; }
+.realms-entry[data-entry="casual"] .scn-ridge-rim { stroke: #0b0b0f; stroke-opacity: .12; }
+.realms-entry[data-entry="casual"] .amb-star { fill: #a3a3ad; }
+.realms-entry[data-entry="casual"] .amb-comet { stroke: #8e8e98; }
