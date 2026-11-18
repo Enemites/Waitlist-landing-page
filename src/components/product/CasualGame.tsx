@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { Sparkles, Trophy, KeyRound } from "lucide-react";
+import { Footprints, KeyRound, Sparkles } from "lucide-react";
 
 /*
  * The light game layer that runs across the Casual path: three secrets hidden around the page and
- * the endings of each playable opening to collect, with a toast when something is found. There is
+ * a trail of the moves the player made in each opening, with a toast when something is found. The
+ * trail is something lived through, never a list to complete, so it carries no totals. There is
  * no floating counter; the World Maker's locked place is where the hunt shows itself.
  * Progress is kept in this browser only, as a convenience; the page works the same without it.
  */
@@ -72,7 +73,7 @@ export function CasualGameProvider({ children }: { children: ReactNode }) {
     if (now.endings.includes(id)) return;
     const endings = [...now.endings, id];
     commit({ ...now, endings });
-    toast({ kind: "ending", title: "New ending", detail: `${name} · ${endings.length} of 9` });
+    toast({ kind: "ending", title: "Added to your trail", detail: name });
   }, [toast]);
 
   const unlocked = progress.secrets.length === SECRET_IDS.length;
@@ -82,7 +83,7 @@ export function CasualGameProvider({ children }: { children: ReactNode }) {
     {children}
     <div className="casual-toasts" aria-live="polite">
       {toasts.map(t => <div key={t.id} className="casual-toast" data-kind={t.kind}>
-        <span className="casual-toast-icon" aria-hidden="true">{t.kind === "secret" ? <Sparkles size={18} /> : t.kind === "ending" ? <Trophy size={18} /> : <KeyRound size={18} />}</span>
+        <span className="casual-toast-icon" aria-hidden="true">{t.kind === "secret" ? <Sparkles size={18} /> : t.kind === "ending" ? <Footprints size={18} /> : <KeyRound size={18} />}</span>
         <span><strong>{t.title}</strong><span>{t.detail}</span></span>
       </div>)}
     </div>

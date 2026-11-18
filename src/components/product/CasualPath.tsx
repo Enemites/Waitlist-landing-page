@@ -2,7 +2,7 @@ import { useRef, useState, type ReactNode } from "react";
 import { ArrowUpRight, Check, Copy } from "lucide-react";
 import { scrollToWaitlist } from "../../lib/scroll";
 import CasualPortal from "./CasualPortal";
-import CasualReel from "./CasualReel";
+import CasualReel, { type PlayId } from "./CasualReel";
 import CasualWorldMaker, { type PlaceId } from "./CasualWorldMaker";
 import { CasualGameProvider } from "./CasualGame";
 
@@ -11,11 +11,17 @@ export default function CasualPath({ children }: { children?: ReactNode }) {
   const [shareUrl, setShareUrl] = useState("");
   const shareInput = useRef<HTMLInputElement>(null);
   const [makerRequest, setMakerRequest] = useState<{ place: PlaceId; nonce: number }>();
+  const [playRequest, setPlayRequest] = useState<{ world: PlayId; nonce: number }>();
 
-  // Picking a world in the feed deals it on the World Maker.
+  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+  // A playable world in the feed opens in the reel; any other world is dealt on the World Maker.
   const pickWorld = (place: PlaceId) => {
     setMakerRequest(current => ({ place, nonce: (current?.nonce ?? 0) + 1 }));
-    document.getElementById("casual-maker")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+    scrollTo("casual-maker");
+  };
+  const playWorld = (world: PlayId) => {
+    setPlayRequest(current => ({ world, nonce: (current?.nonce ?? 0) + 1 }));
+    scrollTo("casual-signal");
   };
 
   async function copyWorldLink() {
@@ -38,15 +44,15 @@ export default function CasualPath({ children }: { children?: ReactNode }) {
   }
 
   return <CasualGameProvider><div className="casual-path">
-    <CasualPortal onPick={pickWorld} />
-    <CasualReel />
+    <CasualPortal onPick={pickWorld} onPlay={playWorld} />
+    <CasualReel request={playRequest} />
     <CasualWorldMaker request={makerRequest} />
 
     {/* Static screen illustration is inserted here by the page composition. */}
     {children}
 
     <div className="product-container casual-invitation">
-      <div className="casual-invitation-copy"><h3>Play it with a friend.</h3><p>Send them the same opening. See who finds all three endings first.</p></div>
+      <div className="casual-invitation-copy"><h3>Play it with a friend.</h3><p>Send them the same opening and see which way they take it.</p></div>
       <div className="casual-invitation-actions"><button type="button" className="casual-share" onClick={copyWorldLink}>{shareState === "copied" ? <Check size={16} strokeWidth={1.5} aria-hidden="true" /> : <Copy size={16} strokeWidth={1.5} aria-hidden="true" />}{shareState === "copied" ? "Link copied" : "Copy world link"}</button><a className="casual-access" href="#join-waitlist" onClick={scrollToWaitlist}>Request early access <ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true" /></a></div>
       <div className="casual-share-feedback" aria-live="polite">{shareState === "copied" && <p>The world link is ready to share.</p>}{shareState === "manual" && <div><label htmlFor="casual-world-link">Copy this link to share the world</label><input id="casual-world-link" ref={shareInput} type="url" readOnly value={shareUrl} onFocus={(event) => event.currentTarget.select()} /></div>}</div>
     </div>
