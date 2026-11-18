@@ -135,9 +135,16 @@
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-bars > i:first-child::before { content: ""; display: block; width: 100%; height: 100%; background: #fff; transform-origin: left; animation: casual-scale-fill 6s linear infinite; }
 .casual-portal-reel-genre { position: absolute; z-index: 1; top: 22px; left: 10px; padding: 3px 8px; border-radius: 999px; color: var(--ui); background: #00000059; backdrop-filter: blur(6px); font: 600 10.5px/1.3 var(--display); opacity: calc(1 - var(--e) * 3); }
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-genre { top: 24px; left: 14px; font-size: 12px; }
-.casual-portal-reel-name { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 7px; font: 700 12px/1.2 var(--display); text-shadow: 0 1px 10px #000c; }
-.casual-portal-reel-name::before { content: ""; flex: none; width: 0; height: 0; border-block: 4px solid transparent; border-left: 7px solid #fff; }
-.casual-portal-reel[data-world="archive"] .casual-portal-reel-name { font-size: 15px; left: 16px; bottom: 16px; opacity: calc(1 - var(--e) * 3); }
+.casual-portal-reel-name { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-shadow: 0 1px 10px #000c; }
+/* The situation leads; the name and length sit under it. */
+.casual-portal-reel-name > b { font: 800 13px/1.15 var(--display); letter-spacing: -.01em; }
+.casual-portal-reel-name > small { display: flex; align-items: center; gap: 6px; font: 600 10.5px/1.2 var(--display); opacity: .85; }
+.casual-portal-reel-name > small::before { content: ""; flex: none; width: 0; height: 0; border-block: 3.5px solid transparent; border-left: 6px solid #fff; }
+/* A world that opens on the World Maker is made, not played: a plus instead of a play mark. */
+.casual-portal-reel-name[data-kind="make"] > small::before { content: "+"; width: auto; height: auto; border: 0; font-weight: 800; line-height: 1; }
+.casual-portal-reel[data-world="archive"] .casual-portal-reel-name { left: 16px; right: 16px; bottom: 16px; opacity: calc(1 - var(--e) * 3); }
+.casual-portal-reel[data-world="archive"] .casual-portal-reel-name > b { font-size: 17px; }
+.casual-portal-reel[data-world="archive"] .casual-portal-reel-name > small { font-size: 12px; }
 .casual-portal-world { position: absolute; inset: 0; z-index: 1; overflow: hidden; background: #07080f; }
 .casual-portal:not([data-ready="true"]) .casual-portal-world { display: none; }
 .casual-portal-camera { position: absolute; inset: 0; transform-origin: 0 0; will-change: transform; }
@@ -211,7 +218,7 @@
 .casual-reel-segments i { display: block; width: 0; height: 100%; border-radius: inherit; background: #fff; }
 .casual-reel-segments [data-state="done"] i { width: 100%; }
 .casual-reel-segments [data-state="active"] i { animation: casual-fill linear forwards; }
-.casual-reel[data-beat="choose"] .casual-reel-segments [data-state="active"] i { width: 100%; animation: casual-wait 700ms ease-in-out infinite alternate; }
+.casual-reel[data-beat="choose"] .casual-reel-segments [data-state="active"] i:not([style]) { width: 100%; animation: casual-wait 700ms ease-in-out infinite alternate; }
 .casual-reel[data-beat="outcome"] .casual-reel-segments [data-state="active"] i { width: 100%; animation: none; }
 .casual-reel-meta { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
 .casual-reel-avatar { width: 32px; height: 32px; border-radius: 50%; box-shadow: 0 0 0 2px #000, 0 0 0 3.5px #fff; background: radial-gradient(circle at 38% 34%, #f6f4ff, #b9b3f5 55%, #5d5a86); }
@@ -222,13 +229,6 @@
 .realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-meta span { color: #ffffffb3; font-size: 11px; }
 .casual-reel-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: #fff; background: #ffffff1f; }
 .casual-reel-icon:hover { background: #ffffff38; }
-.casual-reel-hud { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; padding: 6px 10px; border-radius: 999px; color: #ffffffd9; background: #0000008c; }
-.casual-reel-hud > span { display: inline-flex; align-items: center; gap: 5px; }
-.casual-reel-hud-cells > i { width: 14px; height: 8px; border-radius: 3px; background: #ffffff33; transition: background-color 300ms ease; }
-.casual-reel-hud-cells > i[data-on="true"] { background: #fff; }
-.casual-reel-hud-meter { flex: 1; max-width: 140px; }
-.casual-reel-hud-meter > b { flex: 1; height: 6px; overflow: hidden; border-radius: 6px; background: #ffffff2e; }
-.casual-reel-hud-meter > b > i { display: block; height: 100%; border-radius: inherit; background: #fff; transition: width 1.6s cubic-bezier(.45,0,.2,1) .8s; }
 .casual-reel-tap { position: absolute; z-index: 2; top: 120px; bottom: 0; background: transparent; cursor: pointer; }
 .casual-reel-tap-back { left: 0; width: 30%; }
 .casual-reel-tap-next { right: 0; width: 70%; }
@@ -247,7 +247,6 @@
 .casual-reel-after button:first-child { color: var(--ink); background: #fff; }
 .casual-reel-after button:hover, .casual-reel-continue:hover { transform: translateY(-1px); }
 .casual-reel-after button:active, .casual-reel-continue:active { transform: scale(.94); }
-.casual-reel-after .casual-reel-restart { width: 40px; padding: 0; }
 .casual-reel-continue { margin-top: 14px; }
 .casual-reel-choices { position: absolute; z-index: 4; inset: 0; pointer-events: none; }
 .casual-reel-hotspot { position: absolute; display: flex; align-items: center; gap: 8px; padding: 0; background: transparent; pointer-events: auto; transform: translate(-11px, -50%); animation: casual-pop 520ms var(--spring) both; }
@@ -256,6 +255,10 @@
 .casual-reel-hotspot[data-side="left"] { flex-direction: row-reverse; transform: translate(calc(-100% + 11px), -50%); }
 .casual-reel-hotspot > i { position: relative; flex: none; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 5px #ffffff40, 0 4px 14px #00000080; }
 .casual-reel-hotspot > i::after { content: ""; position: absolute; inset: -7px; border: 1.5px solid #fff; border-radius: 50%; animation: casual-ping 1.6s cubic-bezier(.2,.6,.35,1) infinite; }
+/* The move the world makes if nobody taps: its ring fills with the bar, then it happens. */
+.casual-reel-hotspot > i:has(.casual-reel-countdown)::after { display: none; }
+.casual-reel-countdown { position: absolute; inset: -9px; width: 40px; height: 40px; overflow: visible; transform: rotate(-90deg); filter: drop-shadow(0 0 1.5px #0b0b0fb3); animation-name: casual-countdown; animation-timing-function: linear; animation-fill-mode: forwards; }
+.casual-reel-countdown circle { fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1; }
 .casual-reel-hotspot > span { padding: 8px 12px; border-radius: 12px; color: var(--ink); background: #fff; box-shadow: 0 10px 24px -8px #000000b3; font: 700 12.5px/1.1 var(--display); white-space: nowrap; transform: rotate(-2deg); transition: transform 220ms var(--spring); }
 .casual-reel-hotspot:nth-child(2) > span { transform: rotate(1.5deg); }
 .casual-reel-hotspot:hover > span { transform: rotate(0) scale(1.08); }
@@ -281,17 +284,13 @@
 .casual-reel-rail [data-active="true"] .casual-reel-rail-icon { border-color: var(--ink); color: var(--ui); background: var(--ink); transform: scale(1.12); }
 .casual-reel-side { grid-area: side; max-width: 350px; }
 .casual-reel-explain { animation: casual-caption-in 500ms var(--spring) both; }
-.realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-explain h3 { color: var(--ink); font: 800 clamp(26px, 2.4vw, 34px)/1.05 var(--display); letter-spacing: -.04em; }
-.realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-explain p { margin-top: 14px; color: #3f3f46; font-size: 15px; line-height: 1.75; }
-.casual-endings { margin-top: 30px; padding: 18px; border: 1px solid #0b0b0f14; border-radius: 22px; background: var(--panel); }
-.realms-entry-panel[data-entry="casual"] .casual-path .casual-endings-title { display: flex; align-items: center; gap: 8px; color: var(--ink); font: 700 14px/1.2 var(--display); }
-.casual-endings-title > b { margin-left: auto; }
-.casual-endings ul { display: grid; gap: 8px; margin-top: 14px; }
-.casual-endings li { display: flex; align-items: center; gap: 12px; color: #6b6b75; font: 600 13.5px/1.2 var(--display); }
-.casual-endings-badge { display: grid; place-items: center; width: 34px; height: 34px; border: 1.5px dashed #0b0b0f40; border-radius: 50%; }
-.casual-endings li[data-found="true"] { color: var(--ink); }
-.casual-endings li[data-found="true"] .casual-endings-badge { border: 0; color: var(--ui); background: var(--ink); animation: casual-pop 600ms var(--spring) both; }
-.realms-entry-panel[data-entry="casual"] .casual-path .casual-endings-total { margin-top: 14px; padding-top: 12px; border-top: 1px solid #0b0b0f14; color: #6b6b75; font-size: 12px; }
+.realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-explain { color: #55555f; font: 600 15px/1.6 var(--display); }
+/* The trail: only what this player lived through, and no count of what is missing. */
+.casual-trail { margin-top: 24px; padding: 18px; border: 1px solid #0b0b0f14; border-radius: 22px; background: var(--panel); animation: casual-caption-in 500ms var(--spring) both; }
+.realms-entry-panel[data-entry="casual"] .casual-path .casual-trail-title { display: flex; align-items: center; gap: 8px; color: #6b6b75; font: 600 12.5px/1.2 var(--display); }
+.casual-trail ul { display: grid; gap: 8px; margin-top: 12px; }
+.casual-trail li { color: var(--ink); font: 700 15px/1.3 var(--display); letter-spacing: -.01em; animation: casual-pop 600ms var(--spring) both; }
+.realms-entry-panel[data-entry="casual"] .casual-path .casual-trail-more { margin-top: 12px; color: #6b6b75; font-size: 12.5px; }
 
 /* ---------- The World Maker ---------- */
 .casual-maker { padding-block: 130px 40px; scroll-margin-top: 40px; }
@@ -417,6 +416,7 @@
 @keyframes casual-scale-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes casual-fill { from { width: 0; } to { width: 100%; } }
 @keyframes casual-wait { from { opacity: .4; } to { opacity: 1; } }
+@keyframes casual-countdown { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes casual-caption-in { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes casual-reel-in { from { opacity: 0; transform: translateY(40px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes casual-pop { from { opacity: 0; scale: .4; } to { opacity: 1; scale: 1; } }
@@ -490,7 +490,12 @@
   .casual-portal-actions { margin-top: 18px; gap: 10px; }
   .casual-portal-actions .casual-btn { min-height: 48px; padding: 0 20px; font-size: 15px; }
   .casual-portal-reel-body { border-radius: 15px; }
-  .casual-portal-reel-name { left: 8px; right: 8px; bottom: 8px; font-size: 10px; }
+  .casual-portal-reel-name { left: 8px; right: 8px; bottom: 8px; gap: 2px; }
+  .casual-portal-reel-name > b { font-size: 10.5px; }
+  .casual-portal-reel-name > small { font-size: 9px; gap: 4px; }
+  .casual-portal-reel[data-world="archive"] .casual-portal-reel-name { left: 10px; right: 10px; bottom: 10px; }
+  .casual-portal-reel[data-world="archive"] .casual-portal-reel-name > b { font-size: 13px; }
+  .casual-portal-reel[data-world="archive"] .casual-portal-reel-name > small { font-size: 10px; }
   .casual-portal-reel-genre { top: 18px; left: 7px; font-size: 9px; }
   .casual-portal-arrival { left: 24px; right: 24px; bottom: 36px; }
   .realms-entry-panel[data-entry="casual"] .casual-path .casual-portal-arrival-name { font-size: clamp(46px, 14vw, 66px); }
@@ -506,7 +511,7 @@
   .casual-reel-rail { justify-self: center; width: min(100%, 380px); justify-content: space-between; }
   .casual-reel-rail button { min-width: 0; }
   .casual-reel-side { justify-self: center; width: min(100%, 380px); max-width: none; }
-  .realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-explain p { font-size: 14.5px; }
+  .realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-explain { font-size: 14.5px; }
   .casual-maker { padding-block: 90px 20px; }
   .casual-maker-heading { margin-bottom: 30px; text-align: left; }
   .realms-entry-panel[data-entry="casual"] .casual-path .casual-maker-heading > p:last-child { margin-left: 0; font-size: 14.5px; }

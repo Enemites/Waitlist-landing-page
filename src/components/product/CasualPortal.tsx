@@ -3,27 +3,33 @@ import { ArrowDownRight, Play } from "lucide-react";
 import CasualWorldPoster, { type WorldId } from "./CasualWorldPoster";
 import TidalArchiveScene from "./TidalArchiveScene";
 import { CasualSecret } from "./CasualGame";
+import type { PlayId } from "./CasualReel";
 
 /*
  * The way in. A hand of worlds in different moods floats like a feed and leans toward the pointer;
- * hovering one lifts it and quiets the rest, and picking one sends it to the World Maker. Scrolling opens the middle
+ * hovering one lifts it and quiets the rest. Each card leads with its situation, not its name, and a
+ * playable world says how long it takes. Picking a playable world opens it in the reel; any other
+ * world is dealt on the World Maker, so a card never promises more than it opens. Scrolling opens the middle
  * one, the Tidal Archive, from a reel into the whole screen. The open world is one full-bleed layer
  * whose clip and camera are driven by scroll, so nothing re-renders while scrolling.
  */
 
 // The feed mixes moods: friends and kites, a chase, the quiet archive, a snowball war, a funfair after dark.
-const reels: { world: WorldId | "archive"; size: "s" | "m" | "l"; name: string; genre: string; shift: number }[] = [
-  { world: "kites", size: "s", name: "Kite Hill", genre: "With friends", shift: 52 },
-  { world: "rooftop", size: "m", name: "Rooftop Relay", genre: "Action", shift: -34 },
-  { world: "archive", size: "l", name: "The Tidal Archive", genre: "Mystery", shift: 0 },
-  { world: "snowball", size: "m", name: "Snowball Siege", genre: "Team battle", shift: 38 },
-  { world: "funfair", size: "s", name: "Midnight Funfair", genre: "Spooky", shift: -46 },
+// Neighbours differ in what you do, not only in colour. A playable world's hook is its opening situation,
+// short enough for a small card; a world that opens on the World Maker says so, since it opens no scripted scene.
+const reels: { world: WorldId | "archive"; size: "s" | "m" | "l"; name: string; genre: string; hook: string; shift: number }[] = [
+  { world: "kites", size: "s", name: "Kite Hill", genre: "With friends", hook: "Make a day on the hill.", shift: 52 },
+  { world: "rooftop", size: "m", name: "Rooftop Relay", genre: "Action", hook: "A drone is on your tail.", shift: -34 },
+  { world: "archive", size: "l", name: "The Tidal Archive", genre: "Mystery", hook: "The relay is blinking. Nobody's there.", shift: 0 },
+  { world: "snowball", size: "m", name: "Snowball Siege", genre: "Team battle", hook: "Your wall is half down.", shift: 38 },
+  { world: "funfair", size: "s", name: "Midnight Funfair", genre: "Spooky", hook: "Make a night at the fair.", shift: -46 },
 ];
+const playable = (world: WorldId | "archive"): world is PlayId => world === "archive" || world === "rooftop" || world === "snowball";
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 const ease = (t: number) => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
 
-export default function CasualPortal({ onPick }: { onPick?: (world: WorldId) => void }) {
+export default function CasualPortal({ onPick, onPlay }: { onPick?: (world: WorldId) => void; onPlay?: (world: PlayId) => void }) {
   const section = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const world = useRef<HTMLDivElement>(null);
@@ -110,7 +116,7 @@ export default function CasualPortal({ onPick }: { onPick?: (world: WorldId) => 
   };
 
   const choose = (world: WorldId | "archive") => {
-    if (world === "archive") document.getElementById("casual-signal")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+    if (playable(world)) onPlay?.(world);
     else onPick?.(world);
   };
 
@@ -121,11 +127,11 @@ export default function CasualPortal({ onPick }: { onPick?: (world: WorldId) => 
           const side = index < 2 ? -1 : index > 2 ? 1 : 0;
           return <div key={reel.world} className="casual-portal-reel" data-size={reel.size} data-world={reel.world} style={{ "--shift": `${reel.shift}px`, "--side": side, "--bob": `${index * -1.3}s`, "--depth": `${[.9, .6, 0, .6, .9][index]}` } as CSSProperties}>
             <div className="casual-portal-reel-float">
-              <button type="button" className="casual-portal-reel-body" ref={reel.world === "archive" ? slot : undefined} onClick={() => choose(reel.world)} aria-label={reel.world === "archive" ? `Play ${reel.name}` : `Spin up a world in ${reel.name}`}>
+              <button type="button" className="casual-portal-reel-body" ref={reel.world === "archive" ? slot : undefined} onClick={() => choose(reel.world)} aria-label={playable(reel.world) ? `Play ${reel.name}, about 30 seconds: ${reel.hook}` : `Spin up a world in ${reel.name} on the World Maker`}>
                 {reel.world === "archive" ? <span className="casual-portal-fallback"><TidalArchiveScene beat="arrive" /></span> : <CasualWorldPoster world={reel.world} />}
                 <span className="casual-portal-reel-bars" style={{ "--fill": `${30 + index * 13}%` } as CSSProperties}><i /><i /><i /></span>
                 <span className="casual-portal-reel-genre">{reel.genre}</span>
-                <span className="casual-portal-reel-name">{reel.name}</span>
+                <span className="casual-portal-reel-name" data-kind={playable(reel.world) ? "play" : "make"}><b>{reel.hook}</b><small>{reel.name} · {playable(reel.world) ? "30s" : "World Maker"}</small></span>
               </button>
             </div>
           </div>;
@@ -141,7 +147,7 @@ export default function CasualPortal({ onPick }: { onPick?: (world: WorldId) => 
       <div className="casual-portal-copy">
         <p className="casual-eyebrow">Casual / Follow the unknown</p>
         <h2 id="casual-portal-heading">Pick a world. <span>Jump in.<svg viewBox="0 0 220 24" aria-hidden="true"><path d="M4 16c18-10 30-10 42 0s26 10 40 0 28-10 42 0 26 10 40 0 26-10 48-2" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></svg></span></h2>
-        <p>A quiet mystery at sea. A chase across the rooftops. A snowball war with your friends. Every world waits on your move.</p>
+        <p>A quiet mystery at sea. A chase across the rooftops. A snowball war with your friends. Tap in to change it, or just watch it play.</p>
         <div className="casual-portal-actions">
           <a className="casual-btn" href="#casual-signal">Play an opening <ArrowDownRight size={18} strokeWidth={2.4} aria-hidden="true" /></a>
           <a className="casual-btn casual-btn-ghost" href="#casual-maker">Make a world</a>
