@@ -3,22 +3,17 @@ import { ArrowUpRight, Check, Copy } from "lucide-react";
 import { scrollToWaitlist } from "../../lib/scroll";
 import CasualPortal from "./CasualPortal";
 import CasualReel, { type PlayId } from "./CasualReel";
-import CasualWorldMaker, { type PlaceId } from "./CasualWorldMaker";
+import CasualWorldMaker from "./CasualWorldMaker";
 import { CasualGameProvider } from "./CasualGame";
 
 export default function CasualPath({ children }: { children?: ReactNode }) {
   const [shareState, setShareState] = useState<"idle" | "copied" | "manual">("idle");
   const [shareUrl, setShareUrl] = useState("");
   const shareInput = useRef<HTMLInputElement>(null);
-  const [makerRequest, setMakerRequest] = useState<{ place: PlaceId; nonce: number }>();
   const [playRequest, setPlayRequest] = useState<{ world: PlayId; nonce: number }>();
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
-  // A playable world in the feed opens in the reel; any other world is dealt on the World Maker.
-  const pickWorld = (place: PlaceId) => {
-    setMakerRequest(current => ({ place, nonce: (current?.nonce ?? 0) + 1 }));
-    scrollTo("casual-maker");
-  };
+  // A card in the feed opens the same moment in the reel.
   const playWorld = (world: PlayId) => {
     setPlayRequest(current => ({ world, nonce: (current?.nonce ?? 0) + 1 }));
     scrollTo("casual-signal");
@@ -44,9 +39,9 @@ export default function CasualPath({ children }: { children?: ReactNode }) {
   }
 
   return <CasualGameProvider><div className="casual-path">
-    <CasualPortal onPick={pickWorld} onPlay={playWorld} />
+    <CasualPortal onPlay={playWorld} />
     <CasualReel request={playRequest} />
-    <CasualWorldMaker request={makerRequest} />
+    <CasualWorldMaker />
 
     {/* Static screen illustration is inserted here by the page composition. */}
     {children}

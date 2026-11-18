@@ -1,35 +1,31 @@
 import { useEffect, useRef, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 import { ArrowDownRight, Play } from "lucide-react";
-import CasualWorldPoster, { type WorldId } from "./CasualWorldPoster";
 import TidalArchiveScene from "./TidalArchiveScene";
+import { PlayableScene } from "./CasualWorldScenes";
 import { CasualSecret } from "./CasualGame";
-import type { PlayId } from "./CasualReel";
+import { openings, type PlayId } from "./CasualReel";
 
 /*
  * The way in. A hand of worlds in different moods floats like a feed and leans toward the pointer;
- * hovering one lifts it and quiets the rest. Each card leads with its situation, not its name, and a
- * playable world says how long it takes. Picking a playable world opens it in the reel; any other
- * world is dealt on the World Maker, so a card never promises more than it opens. Scrolling opens the middle
+ * hovering one lifts it and quiets the rest. The feed holds only worlds you can play, and each card
+ * is that world's own first frame and first line, not a poster: picking it opens the same moment in
+ * the reel. Scrolling opens the middle
  * one, the Tidal Archive, from a reel into the whole screen. The open world is one full-bleed layer
  * whose clip and camera are driven by scroll, so nothing re-renders while scrolling.
  */
 
-// The feed mixes moods: friends and kites, a chase, the quiet archive, a snowball war, a funfair after dark.
-// Neighbours differ in what you do, not only in colour. A playable world's hook is its opening situation,
-// short enough for a small card; a world that opens on the World Maker says so, since it opens no scripted scene.
-const reels: { world: WorldId | "archive"; size: "s" | "m" | "l"; name: string; genre: string; hook: string; shift: number }[] = [
-  { world: "kites", size: "s", name: "Kite Hill", genre: "With friends", hook: "Make a day on the hill.", shift: 52 },
-  { world: "rooftop", size: "m", name: "Rooftop Relay", genre: "Action", hook: "A drone is on your tail.", shift: -34 },
-  { world: "archive", size: "l", name: "The Tidal Archive", genre: "Mystery", hook: "The relay is blinking. Nobody's there.", shift: 0 },
-  { world: "snowball", size: "m", name: "Snowball Siege", genre: "Team battle", hook: "Your wall is half down.", shift: 38 },
-  { world: "funfair", size: "s", name: "Midnight Funfair", genre: "Spooky", hook: "Make a night at the fair.", shift: -46 },
+// Three moods, three ways to decide: a quiet mystery, a timed chase, a team call (docs/CASUAL-PRODUCT-EXAMPLES.md).
+const reels: { world: PlayId; size: "m" | "l"; name: string; genre: string; shift: number }[] = [
+  { world: "rooftop", size: "m", name: "Rooftop Relay", genre: "Action", shift: -34 },
+  { world: "archive", size: "l", name: "The Tidal Archive", genre: "Mystery", shift: 0 },
+  { world: "snowball", size: "m", name: "Snowball Siege", genre: "Team battle", shift: 38 },
 ];
-const playable = (world: WorldId | "archive"): world is PlayId => world === "archive" || world === "rooftop" || world === "snowball";
+const CENTRE = 1;
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 const ease = (t: number) => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
 
-export default function CasualPortal({ onPick, onPlay }: { onPick?: (world: WorldId) => void; onPlay?: (world: PlayId) => void }) {
+export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => void }) {
   const section = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const world = useRef<HTMLDivElement>(null);
@@ -115,23 +111,19 @@ export default function CasualPortal({ onPick, onPlay }: { onPick?: (world: Worl
     });
   };
 
-  const choose = (world: WorldId | "archive") => {
-    if (playable(world)) onPlay?.(world);
-    else onPick?.(world);
-  };
 
   return <section ref={section} className="casual-portal" aria-labelledby="casual-portal-heading">
     <div ref={stage} className="casual-portal-stage" onPointerMove={onPointerMove}>
       <div className="casual-portal-feed">
         {reels.map((reel, index) => {
-          const side = index < 2 ? -1 : index > 2 ? 1 : 0;
-          return <div key={reel.world} className="casual-portal-reel" data-size={reel.size} data-world={reel.world} style={{ "--shift": `${reel.shift}px`, "--side": side, "--bob": `${index * -1.3}s`, "--depth": `${[.9, .6, 0, .6, .9][index]}` } as CSSProperties}>
+          const side = Math.sign(index - CENTRE);
+          return <div key={reel.world} className="casual-portal-reel" data-size={reel.size} data-world={reel.world} style={{ "--shift": `${reel.shift}px`, "--side": side, "--bob": `${index * -1.3}s`, "--depth": `${Math.abs(side) * .6}` } as CSSProperties}>
             <div className="casual-portal-reel-float">
-              <button type="button" className="casual-portal-reel-body" ref={reel.world === "archive" ? slot : undefined} onClick={() => choose(reel.world)} aria-label={playable(reel.world) ? `Play ${reel.name}, about 30 seconds: ${reel.hook}` : `Spin up a world in ${reel.name} on the World Maker`}>
-                {reel.world === "archive" ? <span className="casual-portal-fallback"><TidalArchiveScene beat="arrive" /></span> : <CasualWorldPoster world={reel.world} />}
+              <button type="button" className="casual-portal-reel-body" ref={reel.world === "archive" ? slot : undefined} onClick={() => onPlay?.(reel.world)} aria-label={`Play ${reel.name}: ${openings[reel.world]}`}>
+                {reel.world === "archive" ? <span className="casual-portal-fallback"><TidalArchiveScene beat="arrive" /></span> : <PlayableScene world={reel.world} beat="arrive" choice={null} />}
                 <span className="casual-portal-reel-bars" style={{ "--fill": `${30 + index * 13}%` } as CSSProperties}><i /><i /><i /></span>
                 <span className="casual-portal-reel-genre">{reel.genre}</span>
-                <span className="casual-portal-reel-name" data-kind={playable(reel.world) ? "play" : "make"}><b>{reel.hook}</b><small>{reel.name} · {playable(reel.world) ? "30s" : "World Maker"}</small></span>
+                <span className="casual-portal-reel-name"><b>{openings[reel.world]}</b><small>{reel.name}</small></span>
               </button>
             </div>
           </div>;
@@ -140,14 +132,14 @@ export default function CasualPortal({ onPick, onPlay }: { onPick?: (world: Worl
 
       <div ref={world} className="casual-portal-world">
         <div ref={camera} className="casual-portal-camera">
-          <TidalArchiveScene beat="arrive" label="The Tidal Archive at night: an archive stands half in the sea against a low moon, a relay blinking on its roof, a thin crossing back to the shore." />
+          <TidalArchiveScene beat="arrive" label="The Tidal Archive at night: an archive stands half in the sea against a low moon. In its lit doorway someone swings a lamp toward you, standing with a torch at the end of a half-sunk crossing." />
         </div>
       </div>
 
       <div className="casual-portal-copy">
         <p className="casual-eyebrow">Casual / Follow the unknown</p>
         <h2 id="casual-portal-heading">Pick a world. <span>Jump in.<svg viewBox="0 0 220 24" aria-hidden="true"><path d="M4 16c18-10 30-10 42 0s26 10 40 0 28-10 42 0 26 10 40 0 26-10 48-2" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></svg></span></h2>
-        <p>A quiet mystery at sea. A chase across the rooftops. A snowball war with your friends. Tap in to change it, or just watch it play.</p>
+        <p>Someone at sea is waiting for you. A drone won't leave you alone. The other team is hiding something.</p>
         <div className="casual-portal-actions">
           <a className="casual-btn" href="#casual-signal">Play an opening <ArrowDownRight size={18} strokeWidth={2.4} aria-hidden="true" /></a>
           <a className="casual-btn casual-btn-ghost" href="#casual-maker">Make a world</a>
@@ -157,7 +149,7 @@ export default function CasualPortal({ onPick, onPlay }: { onPick?: (world: Worl
       <div className="casual-portal-arrival">
         <p className="casual-portal-arrival-kicker"><span>Level 01</span><em>Mystery</em></p>
         <p className="casual-portal-arrival-name">The Tidal Archive</p>
-        <p className="casual-portal-arrival-line">A rising tide. One power reserve. Where would you go first?</p>
+        <p className="casual-portal-arrival-line">{openings.archive} The tide is coming in.</p>
         <a className="casual-btn casual-portal-start" href="#casual-signal">Press start <Play size={16} fill="currentColor" aria-hidden="true" /></a>
       </div>
       <CasualSecret id="falling-star" className="casual-falling-star" label="A falling star over the archive"><i /></CasualSecret>

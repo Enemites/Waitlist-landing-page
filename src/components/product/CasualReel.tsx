@@ -5,12 +5,14 @@ import { PlayableScene } from "./CasualWorldScenes";
 import { CasualBurst, CasualSecret, useCasualGame } from "./CasualGame";
 
 /*
- * A feed of playable openings, each in a different mood: a quiet mystery at sea, a rooftop chase,
- * and a snowball war you play with a team. Every opening runs like a story (segments, tap left or
- * right, pause) and is worth watching without a single tap. The third beat offers a move made by
- * tapping a spot in the world; if nobody taps, the world takes its own default when the bar runs
- * out. A move lands with a flash and what it changed, and the moves you made yourself join your
- * trail. Interface stays white on dark; colour belongs to the worlds.
+ * A feed of playable openings, each built to a content contract in docs/CASUAL-PRODUCT-EXAMPLES.md:
+ * a quiet mystery where the place already knows you, a rooftop chase that turns out to be a drone
+ * returning your label, and a snowball war where one kid on the other team is building your team a
+ * snowman. Every opening runs like a story (segments, tap left or right, pause) and is worth watching
+ * without a single tap. At the decision the world keeps moving: the default move's ring fills, and
+ * how long it waits is part of the world (the rooftop barely waits). A move lands with what it
+ * changed, and the moves you made yourself join your trail. Interface stays white on dark; colour
+ * belongs to the worlds.
  */
 
 type Beat = ArchiveBeat;
@@ -23,66 +25,78 @@ type Playable = {
   name: string;
   genre: string;
   story: Record<"arrive" | "signal" | "choose", Caption>;
-  /** The move the world makes when nobody taps before the bar runs out. */
+  /** How long the decision waits before the world takes its default. */
+  decideMs: number;
+  /** The move the world makes when nobody taps, and how the outcome is introduced then. */
   fallback: string;
+  fallbackKicker: string;
   choices: Choice[];
 };
 
-// One line of situation per beat; the stakes are on screen before the decision is.
+// One line of situation per beat. The scenes carry the people, the odd detail and its resolution.
 const playables: Playable[] = [
   {
     id: "archive", name: "The Tidal Archive", genre: "Mystery",
     story: {
-      arrive: { kicker: "Arrive", title: "You wash up at a flooded archive.", body: "Something on its roof is still blinking." },
-      signal: { kicker: "Listen", title: "Someone inside is calling the shore.", body: "The relay pulses, then goes quiet. The tide is coming in." },
-      choose: { kicker: "Your move", title: "Power for one light. Which one?", body: "Tap a light. Wait, and the tide takes you down the channel." },
+      arrive: { kicker: "Arrive", title: "Someone is waving a lamp at you.", body: "From an archive the sea is swallowing." },
+      signal: { kicker: "Look up", title: "The roof light blinks like your torch.", body: "Same rhythm. You've never been here." },
+      choose: { kicker: "Your move", title: "The tide is at your ankles.", body: "She's still waving." },
     },
-    fallback: "channel",
+    decideMs: 9000,
+    fallback: "wave", fallbackKicker: "You kept still",
     choices: [
-      { key: "relay", move: "Wake the relay", title: "A voice answers.", body: "Someone on the far shore heard you. Behind you, the tide takes the crossing.", trail: "You answered the signal.", stats: [{ label: "Ally found", good: true }, { label: "Power spent", good: false }, { label: "Crossing lost", good: false }], x: 660, y: 284, side: "right" },
-      { key: "crossing", move: "Raise the crossing", title: "The way back holds.", body: "The crossing rises clear of the water. Inside the archive, the signal goes dark.", trail: "You kept the way home open.", stats: [{ label: "Way home", good: true }, { label: "Power spent", good: false }, { label: "Signal lost", good: false }], x: 532, y: 546, side: "right" },
-      { key: "channel", move: "Follow the lower channel", title: "You keep the power.", body: "A line of stones leads to a service passage below the waterline. The tide keeps rising.", trail: "You found the passage below.", stats: [{ label: "Secret passage", good: true }, { label: "Power kept", good: true }, { label: "Tide rising", good: false }], x: 800, y: 616, side: "left" },
+      { key: "wave", move: "Wave your torch", title: "She was waiting for you.", body: "Ines lifts her lamp, and the crossing rises out of the sea toward you.", trail: "Ines knows your face.", stats: [{ label: "A way in", good: true }, { label: "Someone who knew", good: true }, { label: "Tide rising", good: false }], x: 660, y: 512, side: "left" },
+      { key: "read", move: "Read the roof light", title: "The far shore answers.", body: "In your torch's rhythm. The archive has been sending it for years.", trail: "You know the archive's signal.", stats: [{ label: "Signal answered", good: true }, { label: "A bigger mystery", good: true }, { label: "Crossing under", good: false }], x: 660, y: 284, side: "left" },
+      { key: "descend", move: "Step down to the arch", title: "Your torch is already here.", body: "The stones light up to an arch. Inside hangs a torch just like yours.", trail: "You found your own torch.", stats: [{ label: "Secret passage", good: true }, { label: "Your torch", good: true }, { label: "Alone below", good: false }], x: 800, y: 616, side: "left" },
     ],
   },
   {
     id: "rooftop", name: "Rooftop Relay", genre: "Action",
     story: {
-      arrive: { kicker: "Arrive", title: "Three roofs to go. The clock is running.", body: "The package is yours to deliver before sunset." },
-      signal: { kicker: "Look up", title: "A drone is hunting you.", body: "Its light sweeps the roof. It hasn't seen you yet." },
-      choose: { kicker: "Your move", title: "It's coming this way. Move!", body: "Tap a way off. Freeze, and you duck inside." },
+      arrive: { kicker: "Arrive", title: "A drone is diving at you.", body: "And you've got the package." },
+      signal: { kicker: "Look", title: "Something is hanging from it.", body: "Someone on the far roof is steering." },
+      choose: { kicker: "Now", title: "It's right on top of you.", body: "No time to think." },
     },
-    fallback: "hide",
+    decideMs: 3800,
+    fallback: "hide", fallbackKicker: "You froze",
     choices: [
-      { key: "jump", move: "Jump the gap", title: "You fly.", body: "You clear the gap with a foot to spare. The drone loses you in the sun.", trail: "You jumped the gap.", stats: [{ label: "Lost the drone", good: true }, { label: "Fastest route", good: true }, { label: "Out of breath", good: false }], x: 605, y: 700, side: "right" },
-      { key: "zip", move: "Ride the line", title: "Clean getaway. Literally.", body: "You hook the line and slide across in a storm of shirts. The drone follows the socks.", trail: "You rode the laundry line.", stats: [{ label: "Decoy", good: true }, { label: "Style", good: true }, { label: "Someone's laundry", good: false }], x: 601, y: 561, side: "right" },
-      { key: "hide", move: "Duck inside", title: "Gone.", body: "The door clicks shut. The drone circles twice, then gives up. You're going to be late.", trail: "You outwaited the drone.", stats: [{ label: "Unseen", good: true }, { label: "Safe", good: true }, { label: "Late for the drop", good: false }], x: 366, y: 572, side: "right" },
+      { key: "jump", move: "Jump the gap", title: "You fly. So does the drone.", body: "It drops the card on your package mid-air: Pip's address. It was helping.", trail: "Pip saw you fly.", stats: [{ label: "Cleared the gap", good: true }, { label: "Label back", good: true }, { label: "Out of breath", good: false }], x: 605, y: 700, side: "right" },
+      { key: "zip", move: "Ride the line", title: "Clean getaway. Literally.", body: "The drone tangles in the laundry and drops the card on your box. Pip can't stop laughing.", trail: "You rode the laundry line.", stats: [{ label: "Label back", good: true }, { label: "Style", good: true }, { label: "Someone's shirt", good: false }], x: 601, y: 561, side: "right" },
+      { key: "hide", move: "Duck inside", title: "The drone knocks.", body: "It lands at the door and slides the card under it. \"You dropped this!\" says Pip.", trail: "Pip's drone found you anyway.", stats: [{ label: "Label back", good: true }, { label: "Safe", good: true }, { label: "Late for the drop", good: false }], x: 366, y: 572, side: "right" },
     ],
   },
   {
     id: "snowball", name: "Snowball Siege", genre: "Team battle",
     story: {
-      arrive: { kicker: "Arrive", title: "Snow day. Your fort is half built.", body: "You're team red. Blue has more snowballs, and better aim." },
-      signal: { kicker: "Heads up", title: "Incoming! Your team looks at you.", body: "One more volley and the wall comes down." },
-      choose: { kicker: "Your call", title: "They'll follow your lead.", body: "Tap a plan. No call, and they build the wall." },
+      arrive: { kicker: "Arrive", title: "Blue is pelting your fort.", body: "And one of them isn't throwing." },
+      signal: { kicker: "Look", title: "Kit is building something.", body: "Behind blue's wall. In your team's red." },
+      choose: { kicker: "Your call", title: "One more volley and your wall falls.", body: "Your whole team is looking at you." },
     },
-    fallback: "build",
+    decideMs: 8000,
+    fallback: "build", fallbackKicker: "Nobody called it",
     choices: [
-      { key: "charge", move: "Charge together", title: "Full send.", body: "The whole team runs out yelling. Half of you get hit. The blue flag is yours.", trail: "You led the charge.", stats: [{ label: "Flag captured", good: true }, { label: "Team spirit", good: true }, { label: "Soaked", good: false }], x: 600, y: 712, side: "right" },
-      { key: "build", move: "Build the wall higher", title: "Fortress mode.", body: "You stack blocks while your teammate throws cover. Nothing gets through. Nobody gets anywhere, either.", trail: "You held the fort.", stats: [{ label: "Wall ×2", good: true }, { label: "Everyone safe", good: true }, { label: "Stalemate", good: false }], x: 396, y: 628, side: "right" },
-      { key: "truce", move: "Call a truce", title: "Everybody wins.", body: "Both teams meet in the middle and build the biggest snowman this hill has ever seen.", trail: "You made peace on the hill.", stats: [{ label: "New friends", good: true }, { label: "Snowman", good: true }, { label: "No winner", good: false }], x: 822, y: 574, side: "left" },
+      { key: "charge", move: "Charge together", title: "The flag is yours.", body: "So was the snowman Kit was making you. It's flat now.", trail: "You took the flag.", stats: [{ label: "Flag captured", good: true }, { label: "Team charged as one", good: true }, { label: "Snowman flattened", good: false }], x: 600, y: 712, side: "right" },
+      { key: "build", move: "Build the wall higher", title: "Nothing gets through.", body: "Over blue's wall, Kit's snowman in your red scarf waves at you.", trail: "Kit waved at your fort.", stats: [{ label: "Wall doubled", good: true }, { label: "Everyone dry", good: true }, { label: "Nobody wins", good: false }], x: 396, y: 628, side: "right" },
+      { key: "truce", move: "Call a truce", title: "It was for you.", body: "Kit rolls out a snowman in your team's scarf. Both teams finish it together.", trail: "Kit is on your side now.", stats: [{ label: "New friends", good: true }, { label: "Snowman finished", good: true }, { label: "No flag", good: false }], x: 735, y: 560, side: "left" },
     ],
   },
 ];
 
+/** The first line of each world, which is also what its card in the feed says. */
+export const openings = Object.fromEntries(playables.map(p => [p.id, p.story.arrive.title])) as Record<PlayId, string>;
+
+/** Trail entries are versioned with the story, so a returning visitor never sees a line they didn't live. */
+const trailId = (world: PlayId, key: string) => `${world}:${key}:2`;
+
 const beats: Beat[] = ["arrive", "signal", "choose", "outcome"];
-// The decision waits a little longer than a story beat, then the world moves on by itself.
-const BEAT_MS: Record<Beat, number> = { arrive: 6500, signal: 6500, choose: 8000, outcome: 0 };
+// Story beats run on their own. The decision waits as long as its world does (Playable.decideMs).
+const STORY_MS = 6500;
 
 const mechanics = [
-  { beat: "arrive", icon: MoonStar, label: "Arrive", line: "It starts mid-scene." },
-  { beat: "signal", icon: RadioTower, label: "Notice", line: "The world shows you what's at stake." },
-  { beat: "choose", icon: Split, label: "Decide", line: "Tap the world, or let it move on." },
-  { beat: "outcome", icon: Waves, label: "Live with it", line: "Your move changes what happens." },
+  { beat: "arrive", icon: MoonStar, label: "Arrive" },
+  { beat: "signal", icon: RadioTower, label: "Notice" },
+  { beat: "choose", icon: Split, label: "Decide" },
+  { beat: "outcome", icon: Waves, label: "Live with it" },
 ] as const;
 
 /** Positions as percentages of the 9:16 reel, which shows canvas x 318.75-881.25. */
@@ -126,12 +140,13 @@ export default function CasualReel({ request }: { request?: { world: PlayId; non
   // Only moves the player made themselves join the trail; a default the world took is not theirs.
   useEffect(() => {
     if (beat !== "outcome" || !choice || auto) return;
-    const timer = window.setTimeout(() => findEnding(`${world.id}:${choice.key}`, choice.trail), 1400);
+    const timer = window.setTimeout(() => findEnding(trailId(world.id, choice.key), choice.trail), 1400);
     return () => window.clearTimeout(timer);
   }, [beat, choice, auto, world.id, findEnding]);
 
   // Under reduced motion nothing moves on by itself, so the decision never times out.
-  const timed = (b: Beat) => BEAT_MS[b] > 0 && !(b === "choose" && reduce);
+  const timed = (b: Beat) => b === "choose" ? !reduce : b !== "outcome";
+  const beatMs = (b: Beat) => b === "choose" ? world.decideMs : STORY_MS;
   const playing = inView && !paused && timed(beat);
 
   const go = (next: Beat) => {
@@ -181,19 +196,18 @@ export default function CasualReel({ request }: { request?: { world: PlayId; non
   }
 
   const caption = choice && beat === "outcome"
-    ? { kicker: auto ? `No call · ${choice.move}` : choice.move, title: choice.title, body: choice.body }
+    ? { kicker: auto ? `${world.fallbackKicker} · ${choice.move}` : choice.move, title: choice.title, body: choice.body }
     : world.story[beat === "outcome" ? "choose" : beat];
-  const active = mechanics[index];
   const nextWorld = playables[(worldIndex + 1) % playables.length];
   // The trail holds what this browser has lived through in this world, and nothing else.
-  const trail = world.choices.filter(c => endings.includes(`${world.id}:${c.key}`));
+  const trail = world.choices.filter(c => endings.includes(trailId(world.id, c.key)));
 
   return <section id="casual-signal" className="casual-reel-section" aria-labelledby="casual-reel-heading">
     <div className="product-container casual-reel-layout">
       <div className="casual-reel-intro">
         <p className="casual-eyebrow">Play an opening</p>
         <h2 id="casual-reel-heading">Feels like a reel. <span>Plays like a game.</span></h2>
-        <p>Three worlds, about 30 seconds each. Watch it play out, or tap the world and change how it ends.</p>
+        <p>A lamp that knows you. A drone with the wrong idea. A snowball war with a secret.</p>
       </div>
 
       <div className="casual-reel-column">
@@ -205,7 +219,7 @@ export default function CasualReel({ request }: { request?: { world: PlayId; non
             <div className="casual-reel-top">
               <div className="casual-reel-segments" aria-hidden="true">
                 {beats.map((b, i) => <span key={b} data-state={i < index ? "done" : i === index ? "active" : "next"}>
-                  <i key={i === index ? round : undefined} style={i === index && timed(b) ? { animationDuration: `${BEAT_MS[b]}ms`, animationPlayState: playing ? "running" : "paused" } : undefined} onAnimationEnd={i === index && timed(b) ? advance : undefined} />
+                  <i key={i === index ? round : undefined} style={i === index && timed(b) ? { animationDuration: `${beatMs(b)}ms`, animationPlayState: playing ? "running" : "paused" } : undefined} onAnimationEnd={i === index && timed(b) ? advance : undefined} />
                 </span>)}
               </div>
               <div className="casual-reel-meta">
@@ -227,7 +241,7 @@ export default function CasualReel({ request }: { request?: { world: PlayId; non
               {world.choices.map(c => {
                 const fallback = c.key === world.fallback;
                 return <button key={c.key} type="button" className="casual-reel-hotspot" data-side={c.side} data-default={fallback} style={{ left: spot(c).x, top: spot(c).y }} onClick={() => choose(c.key)} aria-label={fallback && timed("choose") ? `${c.move} (happens if you don't choose)` : undefined}>
-                  <i aria-hidden="true">{fallback && timed("choose") && <svg key={round} className="casual-reel-countdown" viewBox="0 0 40 40" style={{ animationDuration: `${BEAT_MS.choose}ms`, animationPlayState: playing ? "running" : "paused" }}><circle cx="20" cy="20" r="17" pathLength={1} /></svg>}</i>
+                  <i aria-hidden="true">{fallback && timed("choose") && <svg key={round} className="casual-reel-countdown" viewBox="0 0 40 40" style={{ animationDuration: `${world.decideMs}ms`, animationPlayState: playing ? "running" : "paused" }}><circle cx="20" cy="20" r="17" pathLength={1} /></svg>}</i>
                   <span>{c.move}</span>
                 </button>;
               })}
@@ -276,7 +290,6 @@ export default function CasualReel({ request }: { request?: { world: PlayId; non
         })}
       </ol>
       <div className="casual-reel-side">
-        <p className="casual-reel-explain" key={active.beat}>{active.line}</p>
         {trail.length > 0 && <div className="casual-trail">
           <p className="casual-trail-title"><Footprints size={16} aria-hidden="true" />Your trail in {world.name}</p>
           <ul>{trail.map(c => <li key={c.key}>{c.trail}</li>)}</ul>

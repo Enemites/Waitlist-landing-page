@@ -63,7 +63,6 @@
   --my: 0;
   --rl: clamp(200px, 19vw, 290px);
   --rm: calc(var(--rl) * .7);
-  --rs: calc(var(--rl) * .56);
   --gap: 18px;
   --focus-x: 70%;
   --focus-y: 53%;
@@ -85,7 +84,8 @@
   display: flex;
   align-items: center;
   gap: var(--gap);
-  transform: translate(calc(-1 * (var(--rs) + var(--rm) + 2 * var(--gap) + var(--rl) / 2)), -50%);
+  /* Three cards: the Tidal Archive sits on the focus point, one card either side. */
+  transform: translate(calc(-1 * (var(--rm) + var(--gap) + var(--rl) / 2)), -50%);
 }
 .casual-portal-reel {
   flex: none;
@@ -93,7 +93,6 @@
   transform: translate(calc(var(--side) * var(--e) * 40vw), var(--shift)) rotate(calc(var(--side) * var(--e) * 14deg));
   opacity: calc(1 - var(--e) * 1.25);
 }
-.casual-portal-reel[data-size="s"] { width: var(--rs); }
 .casual-portal-reel[data-size="l"] { width: var(--rl); opacity: 1; }
 .casual-portal-reel-float { position: relative; }
 .casual-portal-reel:not([data-world="archive"]) .casual-portal-reel-float { animation: casual-bob 5s ease-in-out var(--bob) infinite alternate; }
@@ -140,8 +139,6 @@
 .casual-portal-reel-name > b { font: 800 13px/1.15 var(--display); letter-spacing: -.01em; }
 .casual-portal-reel-name > small { display: flex; align-items: center; gap: 6px; font: 600 10.5px/1.2 var(--display); opacity: .85; }
 .casual-portal-reel-name > small::before { content: ""; flex: none; width: 0; height: 0; border-block: 3.5px solid transparent; border-left: 6px solid #fff; }
-/* A world that opens on the World Maker is made, not played: a plus instead of a play mark. */
-.casual-portal-reel-name[data-kind="make"] > small::before { content: "+"; width: auto; height: auto; border: 0; font-weight: 800; line-height: 1; }
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-name { left: 16px; right: 16px; bottom: 16px; opacity: calc(1 - var(--e) * 3); }
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-name > b { font-size: 17px; }
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-name > small { font-size: 12px; }
@@ -283,10 +280,8 @@
 .casual-reel-rail [data-active="true"] button { color: var(--ink); }
 .casual-reel-rail [data-active="true"] .casual-reel-rail-icon { border-color: var(--ink); color: var(--ui); background: var(--ink); transform: scale(1.12); }
 .casual-reel-side { grid-area: side; max-width: 350px; }
-.casual-reel-explain { animation: casual-caption-in 500ms var(--spring) both; }
-.realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-explain { color: #55555f; font: 600 15px/1.6 var(--display); }
 /* The trail: only what this player lived through, and no count of what is missing. */
-.casual-trail { margin-top: 24px; padding: 18px; border: 1px solid #0b0b0f14; border-radius: 22px; background: var(--panel); animation: casual-caption-in 500ms var(--spring) both; }
+.casual-trail { margin-top: 0; padding: 18px; border: 1px solid #0b0b0f14; border-radius: 22px; background: var(--panel); animation: casual-caption-in 500ms var(--spring) both; }
 .realms-entry-panel[data-entry="casual"] .casual-path .casual-trail-title { display: flex; align-items: center; gap: 8px; color: #6b6b75; font: 600 12.5px/1.2 var(--display); }
 .casual-trail ul { display: grid; gap: 8px; margin-top: 12px; }
 .casual-trail li { color: var(--ink); font: 700 15px/1.3 var(--display); letter-spacing: -.01em; animation: casual-pop 600ms var(--spring) both; }
@@ -511,7 +506,6 @@
   .casual-reel-rail { justify-self: center; width: min(100%, 380px); justify-content: space-between; }
   .casual-reel-rail button { min-width: 0; }
   .casual-reel-side { justify-self: center; width: min(100%, 380px); max-width: none; }
-  .realms-entry-panel[data-entry="casual"] .casual-path .casual-reel-explain { font-size: 14.5px; }
   .casual-maker { padding-block: 90px 20px; }
   .casual-maker-heading { margin-bottom: 30px; text-align: left; }
   .realms-entry-panel[data-entry="casual"] .casual-path .casual-maker-heading > p:last-child { margin-left: 0; font-size: 14.5px; }
