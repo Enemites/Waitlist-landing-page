@@ -5,7 +5,10 @@ import { Figure, particles, poses, ridge, seeded } from "./casualArt";
  * More moods than night and quiet: a hill of kites with friends, a rooftop chase, a snowball war
  * between two teams, a funfair after dark, and a dive with something enormous passing overhead.
  * Rooftop Relay and Snowball Siege are playable in the reel: they take the story beat and the
- * choice and move their people accordingly. Colour lives here, in the worlds, not in the interface.
+ * choice and move their people accordingly. Each playable scene carries its own odd detail (a card
+ * under the drone, a snowman in the wrong colour) and shows how it resolves for every choice, so the
+ * story reads with the captions hidden. See docs/CASUAL-PRODUCT-EXAMPLES.md.
+ * Colour lives here, in the worlds, not in the interface.
  */
 
 export type SceneBeat = "arrive" | "signal" | "choose" | "outcome";
@@ -113,17 +116,29 @@ export function RooftopRelay({ id, beat = "arrive", choice = null }: { id: Id; b
       <g className="rr-laundry">
         <path d="M548 566l22 4-3 30-20-3Z" fill="#46c2ff" /><path d="M590 572h26l-4 24h-18Z" fill="#ffffff" /><path d="M636 566l22-6 6 24-22 6Z" fill="#ffd23f" /><path d="M674 548l16-8 8 22-16 8Z" fill="#7cf29a" />
       </g>
-      {/* The drone and its searchlight */}
+      {/* Pip, on the far roof, steering the drone */}
+      <g className="rr-pip">
+        <Figure pose={outcome ? poses.cheer : poses.ready} x={796} y={561} s={.6} color="#16060f" flip>
+          {!outcome && <rect x="22" y="-22" width="16" height="10" rx="3" fill="#16060f" />}
+        </Figure>
+      </g>
+      {/* The drone, its searchlight, and the card it carries: the address label off your package */}
       <g className="rr-drone">
-        <path className="rr-beam" d="M760 352L560 640H660Z" fill="#fff8d8" opacity=".18" />
-        <path d="M734 336h52M740 330v-8M780 330v-8" stroke="#2c1020" strokeWidth="5" strokeLinecap="round" />
-        <rect x="744" y="334" width="32" height="18" rx="6" fill="#2c1020" />
-        <circle className="rr-drone-light" cx="760" cy="355" r="5" fill="#ff2d55" />
+        <g className="rr-drone-hover">
+          <path className="rr-beam" d="M760 352L560 640H660Z" fill="#fff8d8" opacity=".18" />
+          <path d="M760 352v24" stroke="#2c1020" strokeWidth="2" />
+          <g className="rr-card"><rect x="747" y="376" width="26" height="18" rx="2" fill="#ffffff" /><path d="M752 382h16M752 388h10" stroke="#ff5a3c" strokeWidth="2" /></g>
+          <path d="M734 336h52M740 330v-8M780 330v-8" stroke="#2c1020" strokeWidth="5" strokeLinecap="round" />
+          <rect x="744" y="334" width="32" height="18" rx="6" fill="#2c1020" />
+          <circle className="rr-drone-light" cx="760" cy="355" r="5" fill="#ff2d55" />
+        </g>
       </g>
       {/* The runner, carrying the package */}
       <g className="rr-runner">
-        <Figure pose={outcome === "jump" ? poses.leap : outcome === "zip" ? poses.hang : outcome === "hide" ? poses.walk : beat === "choose" || beat === "signal" ? poses.ready : poses.stand} x={0} y={0} s={.82} color="#16060f" flip={outcome === "hide"}>
+        <Figure pose={outcome === "jump" ? poses.leap : outcome === "zip" ? poses.hang : outcome === "hide" ? poses.walk : beat === "arrive" ? poses.crouch : poses.ready} x={0} y={0} s={.82} color="#16060f" flip={outcome === "hide"}>
           <rect x="-24" y="-46" width="20" height="18" rx="3" fill="#ffd23f" />
+          {/* The empty spot where the label was */}
+          <rect x="-20" y="-42" width="12" height="8" rx="1" fill="none" stroke="#c99a1e" strokeWidth="1.6" strokeDasharray="2 2" />
         </Figure>
       </g>
       <g className="rr-speed" stroke="#fff4dc" strokeWidth="4" strokeLinecap="round" opacity="0"><path d="M480 520h-60M470 545h-90M486 495h-44" /></g>
@@ -138,6 +153,8 @@ export function SnowballSiege({ id, beat = "arrive", choice = null }: { id: Id; 
   const random = seeded(72);
   const pines = Array.from({ length: 22 }, (_, i) => { const x = -20 + i * 58 + random() * 24; return { x, y: hills.at(x) + 6, h: 40 + random() * 34 }; });
   const ink = "#24294a";
+  const red = "#7a1f2b";
+  const blue = "#1f2f6b";
   return <g className="ss-world" data-beat={beat} data-outcome={outcome ?? "none"}>
     <defs>
       <linearGradient id={id("ss-sky")} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#f39cbf" /><stop offset=".55" stopColor="#ffcfae" /><stop offset="1" stopColor="#fff0de" /></linearGradient>
@@ -149,6 +166,16 @@ export function SnowballSiege({ id, beat = "arrive", choice = null }: { id: Id; 
       <g fill="#8a98cc">{pines.map((p, i) => <path key={i} d={`M${p.x} ${p.y}l${p.h * .36} 0l-${p.h * .36} -${p.h}l-${p.h * .36} ${p.h}Z`} />)}</g>
       <path d="M-20 1000V668C300 650 900 650 1220 668V1000Z" fill="#f6f8ff" />
       <g fill="#dde4fa"><ellipse cx="420" cy="720" rx="150" ry="16" /><ellipse cx="800" cy="716" rx="150" ry="16" /><ellipse cx="600" cy="860" rx="260" ry="26" /></g>
+      {/* Kit's snowman, behind blue's wall, in your team's red scarf */}
+      <g className="ss-kit-snowman" style={outcome === "truce" ? at(-226, 92) : outcome === "charge" ? at(-96, 52) : at(0, 0)}>
+        <g className="ss-kit-snowman-body">
+          <circle cx="826" cy="652" r="30" fill="#fff" stroke="#c4cff0" strokeWidth="2" />
+          <circle cx="826" cy="604" r="20" fill="#fff" stroke="#c4cff0" strokeWidth="2" />
+          <path d="M806 620q20 10 40 0v8q-20 10-40 0Z" fill="#ff5a5f" /><path d="M836 624l8 22h-9l-5-20Z" fill="#ff5a5f" />
+          <path d="M826 604l14 4-14 3Z" fill="#ff8a3d" /><circle cx="820" cy="598" r="2.2" fill={ink} /><circle cx="832" cy="598" r="2.2" fill={ink} />
+          <path className="ss-kit-snowman-arm" d="M846 640l26-30M866 616l10-4M866 616l2-10" stroke="#5a3412" strokeWidth="4" strokeLinecap="round" fill="none" />
+        </g>
+      </g>
       {/* Forts, with a second course that only goes up if the wall is built higher */}
       {[{ x: 330, flag: "#ff5a5f" }, { x: 740, flag: "#3d7bff" }].map((f, i) => <g key={i}>
         <path d={`M${f.x + (i ? 112 : 18)} 690V560`} stroke={ink} strokeWidth="4" />
@@ -159,16 +186,15 @@ export function SnowballSiege({ id, beat = "arrive", choice = null }: { id: Id; 
           {i === 0 && <g className="ss-extra">{[0, 1, 2].map(k => <rect key={k} x={f.x + k * 32 + 8} y="614" width="32" height="26" rx="5" />)}</g>}
         </g>
       </g>)}
-      {/* Your team (left) and theirs (right) */}
+      {/* Your team (left): you and Bo. Theirs (right): Rex throwing, and Kit, back to the fight. */}
       <g className="ss-team ss-left" style={outcome === "charge" ? at(150, 0) : outcome === "truce" ? at(110, 0) : at(0, 0)}>
-        <Figure pose={outcome === "truce" ? poses.cheer : beat === "signal" ? poses.crouch : poses.throw} x={480} y={640} s={.8} color={ink} />
-        <Figure pose={outcome === "truce" || outcome === "charge" ? poses.cheer : poses.crouch} x={420} y={648} s={.72} color={ink} />
+        <Figure pose={outcome === "truce" ? poses.cheer : outcome === "build" ? poses.crouch : beat === "signal" ? poses.crouch : poses.throw} x={480} y={640} s={.8} color={red} />
+        <Figure pose={outcome === "truce" || outcome === "charge" ? poses.cheer : outcome === "build" ? poses.pull : poses.crouch} x={420} y={648} s={.72} color={red} />
       </g>
       <g className="ss-team ss-right" style={outcome === "truce" ? at(-110, 0) : at(0, 0)}>
-        <Figure pose={outcome === "truce" ? poses.cheer : poses.throw} x={724} y={640} s={.8} color={ink} flip />
-        <Figure pose={outcome === "truce" ? poses.cheer : poses.crouch} x={790} y={648} s={.72} color={ink} flip />
+        <Figure pose={outcome === "truce" ? poses.cheer : outcome === "charge" ? poses.crouch : poses.throw} x={724} y={640} s={.8} color={blue} flip={outcome !== "charge"} />
+        <Figure className="ss-kit" pose={outcome === "truce" || outcome === "build" ? poses.cheer : poses.crouch} x={786} y={652} s={.66} color={blue} flip={outcome === "build"} />
       </g>
-      <g className="ss-snowman"><circle cx="600" cy="676" r="26" fill="#fff" stroke="#c4cff0" strokeWidth="2" /><circle cx="600" cy="634" r="18" fill="#fff" stroke="#c4cff0" strokeWidth="2" /><path d="M600 634l14 4-14 3Z" fill="#ff8a3d" /><circle cx="595" cy="629" r="2.2" fill={ink} /><circle cx="605" cy="629" r="2.2" fill={ink} /></g>
       {/* Snowballs in the air */}
       <g className="ss-volley" fill="#ffffff" stroke="#b9c6ee" strokeWidth="2">
         <circle className="ss-ball ss-ball-1" cx="0" cy="0" r="9" /><circle className="ss-ball ss-ball-2" cx="0" cy="0" r="8" /><circle className="ss-ball ss-ball-3" cx="0" cy="0" r="10" />
@@ -249,10 +275,10 @@ export function TheDeep({ id }: { id: Id }) {
 }
 
 /** A playable world as a standalone picture for the reel. */
-export function PlayableScene({ world, beat, choice, label }: { world: "rooftop" | "snowball"; beat: SceneBeat; choice: string | null; label: string }) {
+export function PlayableScene({ world, beat, choice, label }: { world: "rooftop" | "snowball"; beat: SceneBeat; choice: string | null; label?: string }) {
   const uid = useId().replace(/:/g, "");
   const id = (name: string) => `ps-${uid}-${name}`;
-  return <svg className="playable-scene" data-world={world} viewBox="0 0 1200 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label={label}>
+  return <svg className="playable-scene" data-world={world} viewBox="0 0 1200 1000" preserveAspectRatio="xMidYMid slice" role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
     {world === "rooftop" ? <RooftopRelay id={id} beat={beat} choice={choice} /> : <SnowballSiege id={id} beat={beat} choice={choice} />}
   </svg>;
 }

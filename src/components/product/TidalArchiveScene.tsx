@@ -1,21 +1,24 @@
 import { useId } from "react";
-import { seeded } from "./casualArt";
+import { Figure, poses, seeded } from "./casualArt";
 
 /*
  * The Tidal Archive, drawn once on a 1200 x 1000 canvas and shown with "slice", so it fills a wide
- * portal and a 9:16 reel alike. The camera moves with the story beat and the world answers the choice:
- * a voice answers from the far shore, the crossing rises, or stepping stones light the way below.
+ * portal and a 9:16 reel alike. You stand at the end of a half-sunk crossing with a torch; Ines swings
+ * a lamp at you from the archive's lit doorway; the relay on the roof blinks in your torch's rhythm.
+ * The camera moves with the story beat and the world answers the choice: Ines raises the crossing
+ * for you, the far shore answers in your rhythm, or the stones light the way to an arch where a torch
+ * like yours is already hanging. See docs/CASUAL-PRODUCT-EXAMPLES.md.
  */
 
 export type ArchiveBeat = "arrive" | "signal" | "choose" | "outcome";
-export type ArchiveChoice = "relay" | "crossing" | "channel";
+export type ArchiveChoice = "wave" | "read" | "descend";
 
 const HORIZON = 560;
 const MOON = { x: 640, y: 330, r: 118 };
 export const ARCHIVE_POINTS: Record<ArchiveChoice, { x: number; y: number }> = {
-  relay: { x: 660, y: 284 },
-  crossing: { x: 532, y: 546 },
-  channel: { x: 800, y: 616 },
+  wave: { x: 660, y: 512 },
+  read: { x: 660, y: 284 },
+  descend: { x: 800, y: 616 },
 };
 
 type Row = { open: string; glint: string; delay: number };
@@ -120,11 +123,19 @@ export default function TidalArchiveScene({ beat = "arrive", choice = null, labe
           <path d={`M470 ${HORIZON - 7}L604 ${HORIZON - 11}v6L470 ${HORIZON - 1}Z`} fill="#0a0b12" />
           <path d={`M470 ${HORIZON - 7}L604 ${HORIZON - 11}`} stroke="#8a84c8" strokeWidth="1.4" />
           <g className="tas-crossing-lights" fill="#e6e3ff"><circle cx="496" cy={HORIZON - 12} r="3" /><circle cx="532" cy={HORIZON - 13} r="3" /><circle cx="568" cy={HORIZON - 14} r="3" /></g>
+          {/* You, with a torch that flickers in an uneven rhythm */}
+          <g className="tas-you">
+            <Figure pose={outcome === "wave" ? poses.cheer : poses.stand} x={516} y={HORIZON - 26} s={.3} color="#d5d0ff" width={12}>
+              <path d={outcome === "wave" ? "M26-86l6-24" : "M14-8l10-30"} stroke="#d5d0ff" strokeWidth="7" strokeLinecap="round" />
+              <circle className="tas-rhythm" cx={outcome === "wave" ? 33 : 25} cy={outcome === "wave" ? -116 : -44} r="9" fill="#ffd27a" />
+            </Figure>
+          </g>
         </g>
 
         {/* The lower channel: a rock under the archive's east wing, a sandbar, an opening at the waterline */}
         <path d={`M736 ${HORIZON + 6}C770 ${HORIZON + 20} 820 ${HORIZON + 34} 862 ${HORIZON + 86}L872 ${HORIZON + 104}H724Z`} fill="#0b0c14" />
         <path d="M772 640v-20a28 28 0 0 1 56 0v20Z" className="tas-arch" fill="#1b1c33" />
+        <g className="tas-arch-torch"><circle cx="800" cy="618" r="14" fill="#ffd27a" opacity=".35" /><path d="M800 640v-16" stroke="#0a0b12" strokeWidth="4" strokeLinecap="round" /><circle className="tas-rhythm" cx="800" cy="618" r="6.5" fill="#ffb347" /></g>
         <g className="tas-stones">
           {stones.map((stone, i) => <g key={i}>
             <ellipse cx={stone.x} cy={stone.y + stone.w * .18} rx={stone.w} ry={stone.w * .3} fill="#090a12" />
@@ -140,8 +151,15 @@ export default function TidalArchiveScene({ beat = "arrive", choice = null, labe
           <path d={`M720 ${HORIZON - 12}V468h52v${HORIZON - 12 - 468}Z`} fill="#0c0d15" />
           <path d={`M600 ${HORIZON - 12}V430h20v-20h80v20h20v38h52v${HORIZON - 12 - 468}`} fill="none" stroke="#c9c4fb" strokeWidth="1.6" opacity=".75" />
           <g fill="#20223a"><rect x="614" y="446" width="7" height="30" /><rect x="630" y="446" width="7" height="30" /><rect x="684" y="446" width="7" height="30" /><rect x="700" y="446" width="7" height="30" /><rect x="734" y="482" width="6" height="22" /><rect x="750" y="482" width="6" height="22" /></g>
-          <circle className="tas-reserve-glow" cx="660" cy="522" r="26" fill={url("glow")} />
-          <rect className="tas-reserve" x="651" y="512" width="18" height="22" rx="2" fill="#e6e3ff" />
+          <circle className="tas-door-glow" cx="660" cy="522" r="34" fill={url("glow")} />
+          <rect x="646" y="500" width="28" height={HORIZON - 12 - 500} rx="2" fill="#e6e3ff" />
+          {/* Ines, in the doorway, swinging her lamp toward you */}
+          <Figure pose={outcome === "wave" ? poses.cheer : poses.pull} x={660} y={HORIZON - 28} s={.24} color="#0a0b12" width={14} flip />
+          {/* Her lamp, drawn at world scale so its swing reads: it swings out over the water toward you */}
+          <g className="tas-lamp">
+            <circle cx="648" cy="510" r="13" fill="#ffd27a" opacity=".35" />
+            <circle cx="648" cy="510" r="6" fill="#ffb347" />
+          </g>
           <path d="M660 410V290M647 336h26M651 312h18" stroke="#0a0b12" strokeWidth="4.5" />
           <path d="M662 410V290" stroke="#c9c4fb" strokeWidth="1.2" opacity=".7" />
         </g>
@@ -151,7 +169,7 @@ export default function TidalArchiveScene({ beat = "arrive", choice = null, labe
           <circle cx="660" cy="284" r="10" /><circle cx="660" cy="284" r="10" /><circle cx="660" cy="284" r="10" />
         </g>
         <circle className="tas-beacon-halo" cx="660" cy="284" r="12" fill="#d5d0ff" opacity=".35" />
-        <circle className="tas-beacon" cx="660" cy="284" r="5" fill="#ffffff" />
+        <circle className="tas-beacon tas-rhythm" cx="660" cy="284" r="5" fill="#ffffff" />
 
         {/* The tide, which rises with some choices */}
         <g mask={url("tide-mask")}>
