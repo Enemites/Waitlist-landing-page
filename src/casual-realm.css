@@ -140,6 +140,8 @@
 .casual-portal-reel-name > b { font: 800 13px/1.15 var(--display); letter-spacing: -.01em; }
 .casual-portal-reel-name > small { display: flex; align-items: center; gap: 6px; font: 600 10.5px/1.2 var(--display); opacity: .85; }
 .casual-portal-reel-name > small::before { content: ""; flex: none; width: 0; height: 0; border-block: 3.5px solid transparent; border-left: 6px solid #fff; }
+/* A world that opens on the World Maker is made, not played: a plus instead of a play mark. */
+.casual-portal-reel-name[data-kind="make"] > small::before { content: "+"; width: auto; height: auto; border: 0; font-weight: 800; line-height: 1; }
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-name { left: 16px; right: 16px; bottom: 16px; opacity: calc(1 - var(--e) * 3); }
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-name > b { font-size: 17px; }
 .casual-portal-reel[data-world="archive"] .casual-portal-reel-name > small { font-size: 12px; }
@@ -255,7 +257,7 @@
 .casual-reel-hotspot > i::after { content: ""; position: absolute; inset: -7px; border: 1.5px solid #fff; border-radius: 50%; animation: casual-ping 1.6s cubic-bezier(.2,.6,.35,1) infinite; }
 /* The move the world makes if nobody taps: its ring fills with the bar, then it happens. */
 .casual-reel-hotspot > i:has(.casual-reel-countdown)::after { display: none; }
-.casual-reel-countdown { position: absolute; inset: -9px; width: 40px; height: 40px; overflow: visible; transform: rotate(-90deg); animation-name: casual-countdown; animation-timing-function: linear; animation-fill-mode: forwards; }
+.casual-reel-countdown { position: absolute; inset: -9px; width: 40px; height: 40px; overflow: visible; transform: rotate(-90deg); filter: drop-shadow(0 0 1.5px #0b0b0fb3); animation-name: casual-countdown; animation-timing-function: linear; animation-fill-mode: forwards; }
 .casual-reel-countdown circle { fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1; }
 .casual-reel-hotspot > span { padding: 8px 12px; border-radius: 12px; color: var(--ink); background: #fff; box-shadow: 0 10px 24px -8px #000000b3; font: 700 12.5px/1.1 var(--display); white-space: nowrap; transform: rotate(-2deg); transition: transform 220ms var(--spring); }
 .casual-reel-hotspot:nth-child(2) > span { transform: rotate(1.5deg); }
