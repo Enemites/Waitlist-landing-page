@@ -154,9 +154,12 @@ export default function TidalArchiveScene({ beat = "arrive", choice = null, labe
           <circle className="tas-door-glow" cx="660" cy="522" r="34" fill={url("glow")} />
           <rect x="646" y="500" width="28" height={HORIZON - 12 - 500} rx="2" fill="#e6e3ff" />
           {/* Ines, in the doorway, swinging her lamp toward you */}
-          <Figure pose={outcome === "wave" ? poses.cheer : poses.pull} x={660} y={HORIZON - 28} s={.24} color="#0a0b12" width={14} flip>
-            <circle className="tas-lamp" cx={outcome === "wave" ? 26 : 24} cy={outcome === "wave" ? -92 : -90} r="14" fill="#ffd27a" />
-          </Figure>
+          <Figure pose={outcome === "wave" ? poses.cheer : poses.pull} x={660} y={HORIZON - 28} s={.24} color="#0a0b12" width={14} flip />
+          {/* Her lamp, drawn at world scale so its swing reads: it swings out over the water toward you */}
+          <g className="tas-lamp">
+            <circle cx="648" cy="510" r="13" fill="#ffd27a" opacity=".35" />
+            <circle cx="648" cy="510" r="6" fill="#ffb347" />
+          </g>
           <path d="M660 410V290M647 336h26M651 312h18" stroke="#0a0b12" strokeWidth="4.5" />
           <path d="M662 410V290" stroke="#c9c4fb" strokeWidth="1.2" opacity=".7" />
         </g>

@@ -139,7 +139,7 @@ export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => v
       <div className="casual-portal-copy">
         <p className="casual-eyebrow">Casual / Follow the unknown</p>
         <h2 id="casual-portal-heading">Pick a world. <span>Jump in.<svg viewBox="0 0 220 24" aria-hidden="true"><path d="M4 16c18-10 30-10 42 0s26 10 40 0 28-10 42 0 26 10 40 0 26-10 48-2" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></svg></span></h2>
-        <p>Someone at sea is waiting for you. A drone won't leave you alone. The other team is hiding something.</p>
+        <p>A lamp over a flooding sea. A drone diving at a courier. A snowman in the other team's fort.</p>
         <div className="casual-portal-actions">
           <a className="casual-btn" href="#casual-signal">Play an opening <ArrowDownRight size={18} strokeWidth={2.4} aria-hidden="true" /></a>
           <a className="casual-btn casual-btn-ghost" href="#casual-maker">Make a world</a>

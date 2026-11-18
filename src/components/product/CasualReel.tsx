@@ -45,7 +45,7 @@ const playables: Playable[] = [
     decideMs: 9000,
     fallback: "wave", fallbackKicker: "You kept still",
     choices: [
-      { key: "wave", move: "Wave your torch", title: "She was waiting for you.", body: "Ines lifts her lamp, and the crossing rises out of the sea toward you.", trail: "Ines knows your face.", stats: [{ label: "A way in", good: true }, { label: "Someone who knew", good: true }, { label: "Tide rising", good: false }], x: 660, y: 512, side: "left" },
+      { key: "wave", move: "Wave your torch", title: "She was waiting for you.", body: "Ines lifts her lamp, and the crossing rises out of the sea toward you.", trail: "Ines knows your face.", stats: [{ label: "A way in", good: true }, { label: "Someone who knew", good: true }, { label: "Tide rising", good: false }], x: 522, y: 466, side: "right" },
       { key: "read", move: "Read the roof light", title: "The far shore answers.", body: "In your torch's rhythm. The archive has been sending it for years.", trail: "You know the archive's signal.", stats: [{ label: "Signal answered", good: true }, { label: "A bigger mystery", good: true }, { label: "Crossing under", good: false }], x: 660, y: 284, side: "left" },
       { key: "descend", move: "Step down to the arch", title: "Your torch is already here.", body: "The stones light up to an arch. Inside hangs a torch just like yours.", trail: "You found your own torch.", stats: [{ label: "Secret passage", good: true }, { label: "Your torch", good: true }, { label: "Alone below", good: false }], x: 800, y: 616, side: "left" },
     ],
@@ -62,7 +62,7 @@ const playables: Playable[] = [
     choices: [
       { key: "jump", move: "Jump the gap", title: "You fly. So does the drone.", body: "It drops the card on your package mid-air: Pip's address. It was helping.", trail: "Pip saw you fly.", stats: [{ label: "Cleared the gap", good: true }, { label: "Label back", good: true }, { label: "Out of breath", good: false }], x: 605, y: 700, side: "right" },
       { key: "zip", move: "Ride the line", title: "Clean getaway. Literally.", body: "The drone tangles in the laundry and drops the card on your box. Pip can't stop laughing.", trail: "You rode the laundry line.", stats: [{ label: "Label back", good: true }, { label: "Style", good: true }, { label: "Someone's shirt", good: false }], x: 601, y: 561, side: "right" },
-      { key: "hide", move: "Duck inside", title: "The drone knocks.", body: "It lands at the door and slides the card under it. \"You dropped this!\" says Pip.", trail: "Pip's drone found you anyway.", stats: [{ label: "Label back", good: true }, { label: "Safe", good: true }, { label: "Late for the drop", good: false }], x: 366, y: 572, side: "right" },
+      { key: "hide", move: "Duck inside", title: "The drone knocks.", body: "It lands at the door and slides the card under it. \"You dropped this!\" says Pip.", trail: "Pip's drone found you anyway.", stats: [{ label: "Label back", good: true }, { label: "Safe", good: true }, { label: "Late for the drop", good: false }], x: 366, y: 500, side: "right" },
     ],
   },
   {
@@ -76,8 +76,8 @@ const playables: Playable[] = [
     fallback: "build", fallbackKicker: "Nobody called it",
     choices: [
       { key: "charge", move: "Charge together", title: "The flag is yours.", body: "So was the snowman Kit was making you. It's flat now.", trail: "You took the flag.", stats: [{ label: "Flag captured", good: true }, { label: "Team charged as one", good: true }, { label: "Snowman flattened", good: false }], x: 600, y: 712, side: "right" },
-      { key: "build", move: "Build the wall higher", title: "Nothing gets through.", body: "Over blue's wall, Kit's snowman in your red scarf waves at you.", trail: "Kit waved at your fort.", stats: [{ label: "Wall doubled", good: true }, { label: "Everyone dry", good: true }, { label: "Nobody wins", good: false }], x: 396, y: 628, side: "right" },
-      { key: "truce", move: "Call a truce", title: "It was for you.", body: "Kit rolls out a snowman in your team's scarf. Both teams finish it together.", trail: "Kit is on your side now.", stats: [{ label: "New friends", good: true }, { label: "Snowman finished", good: true }, { label: "No flag", good: false }], x: 735, y: 560, side: "left" },
+      { key: "build", move: "Build the wall higher", title: "Nothing gets through.", body: "Over blue's wall, Kit's snowman in your red scarf waves at you.", trail: "Kit waved at your fort.", stats: [{ label: "Wall doubled", good: true }, { label: "Everyone dry", good: true }, { label: "Nobody wins", good: false }], x: 396, y: 568, side: "right" },
+      { key: "truce", move: "Call a truce", title: "It was for you.", body: "Kit rolls out a snowman in your team's scarf. Both teams finish it together.", trail: "Kit is on your side now.", stats: [{ label: "New friends", good: true }, { label: "Snowman finished", good: true }, { label: "No flag", good: false }], x: 735, y: 500, side: "left" },
     ],
   },
 ];
@@ -207,7 +207,7 @@ export default function CasualReel({ request }: { request?: { world: PlayId; non
       <div className="casual-reel-intro">
         <p className="casual-eyebrow">Play an opening</p>
         <h2 id="casual-reel-heading">Feels like a reel. <span>Plays like a game.</span></h2>
-        <p>A lamp that knows you. A drone with the wrong idea. A snowball war with a secret.</p>
+        <p>A lamp swinging over the sea. A drone that won't let go. A snowman in the wrong colours.</p>
       </div>
 
       <div className="casual-reel-column">

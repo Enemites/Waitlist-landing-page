@@ -52,7 +52,7 @@ fakta_pengikat:
 benih_kejutan: The roof relay blinks the same broken rhythm as your own torch.
 pilihan:
   - label: Wave your torch
-    menempel_pada: Ines in the doorway
+    menempel_pada: Your torch, raised toward Ines in the doorway
     rasa: warm
     akibat:
       umpan_balik: Ines lifts her lamp high.
@@ -121,19 +121,19 @@ pilihan:
     rasa: funny
     akibat:
       umpan_balik: You hook the line and slide.
-      perubahan: The drone tangles in the laundry and comes down wearing a shirt; the card lands on your box with a sock; Pip laughs.
+      perubahan: The drone catches in the laundry line beside you and the card drops onto your box; Pip cheers on the far roof.
       rasa: Absurd escape.
   - label: Duck inside
     menempel_pada: The stairwell door
     rasa: clever
     akibat:
       umpan_balik: The door shuts.
-      perubahan: The drone lands at the door and pushes the card under it; Pip's voice comes through its speaker.
+      perubahan: The drone lands at the door with the card; Pip calls out "You dropped this!"
       rasa: Clever, then sheepish.
 default:
   akibat: You freeze and duck inside (the Duck outcome, captioned "You froze").
 resolusi_kejutan: The drone was never hunting you. It is Pip's, chasing you to give back the address label that fell off the package - which is for Pip.
-jejak: Jump - "Pip saw you fly." Ride - "You delivered a sock too." Duck - "Pip's drone found you anyway."
+jejak: Jump - "Pip saw you fly." Ride - "You rode the laundry line." Duck - "Pip's drone found you anyway."
 sinyal_sosial:
   sumber_data: none
   tampilan: none
@@ -209,7 +209,7 @@ gap, not a pass.
 
 | # | Item | Archive | Rooftop | Snowball |
 |---|---|---|---|---|
-| 1 | Situation readable from the first frame without text | Partial: a figure in a lit doorway swings a lamp at a small figure with a torch; at phone card size both are tiny | Pass: you crouched with a package, a drone with a card diving at you | Pass: two teams, a snowball volley, one blue kid turned toward a snowman |
+| 1 | Situation readable from the first frame without text | Partial: a figure in a lit doorway swings a lamp out over the water toward a small figure with a torch; readable at reel size, but at phone card size both people are tiny | Pass: you crouched with a package, a drone with a card diving at you | Pass: two teams, a snowball volley, one blue kid turned toward a snowman |
 | 2 | People who want different things | Pass (you, Ines) | Pass (you, Pip) | Pass (Bo, Rex, Kit) |
 | 3 | Stakes clear | Pass: the tide line and the half-sunk crossing | Pass: the drone closing in | Pass: your wall and your flag |
 | 4 | Value without input (default) | Pass: Ines raises the crossing anyway | Pass: you freeze, duck inside, the drone knocks | Pass: the team builds, Kit's snowman waves |
