@@ -1,29 +1,57 @@
-import { useEffect, useRef, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { ArrowDownRight, Play } from "lucide-react";
-import TidalArchiveScene from "./TidalArchiveScene";
-import { PlayableScene } from "./CasualWorldScenes";
 import { CasualSecret } from "./CasualGame";
-import { openings, type PlayId } from "./CasualReel";
+import { type PlayId } from "./CasualReel";
+import CasualPortalArt from "./CasualPortalScenes";
 
 /*
- * The way in. A hand of worlds in different moods floats like a feed and leans toward the pointer;
- * hovering one lifts it and quiets the rest. The feed holds only worlds you can play, and each card
- * is that world's own first frame and first line, not a poster: picking it opens the same moment in
- * the reel. Scrolling opens the middle
- * one, the Tidal Archive, from a reel into the whole screen. The open world is one full-bleed layer
- * whose clip and camera are driven by scroll, so nothing re-renders while scrolling.
+ * The way in. Three high-craft procedural Canvas 2D worlds float like a live mobile feed;
+ * hovering one lifts it smoothly via GPU-only transforms. Clicking any card opens that world
+ * in the playable reel below. Scrolling smoothly expands the centre world (Signal Zero) from
+ * its phone frame into the full viewport using a single cached GPU canvas texture at 60fps.
  */
 
-// Three moods, three ways to decide: a quiet mystery, a timed chase, a team call (docs/CASUAL-PRODUCT-EXAMPLES.md).
-const reels: { world: PlayId; size: "m" | "l"; name: string; genre: string; shift: number }[] = [
-  { world: "rooftop", size: "m", name: "Rooftop Relay", genre: "Action", shift: -34 },
-  { world: "archive", size: "l", name: "The Tidal Archive", genre: "Mystery", shift: 0 },
-  { world: "snowball", size: "m", name: "Snowball Siege", genre: "Team battle", shift: 38 },
+type PortalReel = {
+  world: PlayId;
+  size: "m" | "l";
+  name: string;
+  genre: string;
+  hook: string;
+  shift: number;
+};
+
+const reels: PortalReel[] = [
+  {
+    world: "rooftop",
+    size: "m",
+    name: "Midnight Vault",
+    genre: "Heist · 90s",
+    hook: "The laser grid resets in 12 seconds. Your crew just locked you inside.",
+    shift: -28,
+  },
+  {
+    world: "archive",
+    size: "l",
+    name: "Signal Zero",
+    genre: "Sci-Fi · Ep. 01",
+    hook: "The space station went dark. One airlock is opening from the outside.",
+    shift: 0,
+  },
+  {
+    world: "snowball",
+    size: "m",
+    name: "Crownfall",
+    genre: "Arena · 4 Players",
+    hook: "The bridge collapses behind you. Only one seat left on the drop-ship.",
+    shift: 32,
+  },
 ];
+
 const CENTRE = 1;
+const FEATURED_REEL = reels[CENTRE];
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
-const ease = (t: number) => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+const smoothstep = (t: number) => t * t * (3 - 2 * t);
 
 export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => void }) {
   const section = useRef<HTMLElement>(null);
@@ -35,20 +63,22 @@ export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => v
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
-    let start = { top: 0, right: 0, bottom: 0, left: 0, cx: 0, cy: 0, scale: .7, fx: 0, fy: 0 };
+    let lastProgress = -1;
+    let lastOpen: boolean | null = null;
+    let lastArrived: boolean | null = null;
+    let start = { top: 0, right: 0, bottom: 0, left: 0 };
 
     const measure = () => {
       if (!stage.current || !slot.current) return;
       const s = stage.current.getBoundingClientRect();
       const r = slot.current.getBoundingClientRect();
-      const cover = Math.max(s.width / 1200, s.height / 1000);
-      // The reel shows about 640 canvas rows at first, centred just under the moon.
-      const scale = Math.min(1, Math.max(.4, r.height / 640 / cover));
       start = {
-        top: r.top - s.top, right: s.right - r.right, bottom: s.bottom - r.bottom, left: r.left - s.left,
-        cx: r.left - s.left + r.width / 2, cy: r.top - s.top + r.height / 2, scale,
-        fx: s.width / 2 + (610 - 600) * cover, fy: s.height / 2 + (470 - 500) * cover,
+        top: Math.max(0, r.top - s.top),
+        right: Math.max(0, s.right - r.right),
+        bottom: Math.max(0, s.bottom - r.bottom),
+        left: Math.max(0, r.left - s.left),
       };
+      lastProgress = -1;
     };
 
     const render = () => {
@@ -57,18 +87,30 @@ export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => v
       const rect = section.current.getBoundingClientRect();
       const range = Math.max(1, rect.height - window.innerHeight);
       const progress = clamp(-rect.top / range);
-      const e = ease(clamp((progress - .05) / .62));
+      if (Math.abs(progress - lastProgress) < 0.0005) return;
+      lastProgress = progress;
+
+      const e = smoothstep(clamp((progress - 0.04) / 0.64));
       const k = 1 - e;
       const radius = 22 * k;
+
       world.current.style.clipPath = `inset(${(start.top * k).toFixed(1)}px ${(start.right * k).toFixed(1)}px ${(start.bottom * k).toFixed(1)}px ${(start.left * k).toFixed(1)}px round ${radius.toFixed(1)}px)`;
-      const scale = start.scale + (1 - start.scale) * e;
-      const tx = (start.cx - start.scale * start.fx) * k;
-      const ty = (start.cy - start.scale * start.fy) * k;
-      camera.current.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+      const scale = 1.05 - 0.05 * e;
+      camera.current.style.transform = `translate3d(0, 0, 0) scale(${scale.toFixed(4)})`;
+
       stage.current.style.setProperty("--e", e.toFixed(3));
-      stage.current.style.setProperty("--arrive", clamp((progress - .6) / .2).toFixed(3));
-      stage.current.dataset.open = e > .5 ? "true" : "false";
-      stage.current.dataset.arrived = progress > .62 ? "true" : "false";
+      stage.current.style.setProperty("--arrive", smoothstep(clamp((progress - 0.56) / 0.24)).toFixed(3));
+
+      const isOpen = e > 0.5;
+      if (isOpen !== lastOpen) {
+        lastOpen = isOpen;
+        stage.current.dataset.open = isOpen ? "true" : "false";
+      }
+      const isArrived = progress > 0.58;
+      if (isArrived !== lastArrived) {
+        lastArrived = isArrived;
+        stage.current.dataset.arrived = isArrived ? "true" : "false";
+      }
     };
 
     const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
@@ -97,33 +139,20 @@ export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => v
     };
   }, []);
 
-  const lean = useRef(0);
-  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse" || lean.current) return;
-    const { clientX, clientY } = event;
-    lean.current = requestAnimationFrame(() => {
-      lean.current = 0;
-      const node = stage.current;
-      if (!node) return;
-      const r = node.getBoundingClientRect();
-      node.style.setProperty("--mx", (((clientX - r.left) / r.width) * 2 - 1).toFixed(3));
-      node.style.setProperty("--my", (((clientY - r.top) / r.height) * 2 - 1).toFixed(3));
-    });
-  };
-
-
   return <section ref={section} className="casual-portal" aria-labelledby="casual-portal-heading">
-    <div ref={stage} className="casual-portal-stage" onPointerMove={onPointerMove}>
+    <div ref={stage} className="casual-portal-stage">
       <div className="casual-portal-feed">
         {reels.map((reel, index) => {
           const side = Math.sign(index - CENTRE);
-          return <div key={reel.world} className="casual-portal-reel" data-size={reel.size} data-world={reel.world} style={{ "--shift": `${reel.shift}px`, "--side": side, "--bob": `${index * -1.3}s`, "--depth": `${Math.abs(side) * .6}` } as CSSProperties}>
+          return <div key={reel.world} className="casual-portal-reel" data-size={reel.size} data-world={reel.world} style={{ "--shift": `${reel.shift}px`, "--side": side, "--bob": `${index * -1.4}s` } as CSSProperties}>
             <div className="casual-portal-reel-float">
-              <button type="button" className="casual-portal-reel-body" ref={reel.world === "archive" ? slot : undefined} onClick={() => onPlay?.(reel.world)} aria-label={`Play ${reel.name}: ${openings[reel.world]}`}>
-                {reel.world === "archive" ? <span className="casual-portal-fallback"><TidalArchiveScene beat="arrive" /></span> : <PlayableScene world={reel.world} beat="arrive" choice={null} />}
-                <span className="casual-portal-reel-bars" style={{ "--fill": `${30 + index * 13}%` } as CSSProperties}><i /><i /><i /></span>
+              <button type="button" className="casual-portal-reel-body" ref={reel.world === "archive" ? slot : undefined} onClick={() => onPlay?.(reel.world)} aria-label={`Play ${reel.name}: ${reel.hook}`}>
+                {reel.world === "archive"
+                  ? <span className="casual-portal-fallback"><CasualPortalArt world="archive" /></span>
+                  : <CasualPortalArt world={reel.world} />}
+                <span className="casual-portal-reel-bars" style={{ "--fill": `${32 + index * 14}%` } as CSSProperties}><i /><i /><i /></span>
                 <span className="casual-portal-reel-genre">{reel.genre}</span>
-                <span className="casual-portal-reel-name"><b>{openings[reel.world]}</b><small>{reel.name}</small></span>
+                <span className="casual-portal-reel-name"><b>{reel.hook}</b><small>{reel.name}</small></span>
               </button>
             </div>
           </div>;
@@ -132,14 +161,14 @@ export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => v
 
       <div ref={world} className="casual-portal-world">
         <div ref={camera} className="casual-portal-camera">
-          <TidalArchiveScene beat="arrive" label="The Tidal Archive at night: an archive stands half in the sea against a low moon. In its lit doorway someone swings a lamp toward you, standing with a torch at the end of a half-sunk crossing." />
+          <CasualPortalArt world="archive" wide />
         </div>
       </div>
 
       <div className="casual-portal-copy">
-        <p className="casual-eyebrow">Casual / Follow the unknown</p>
+        <p className="casual-eyebrow">Casual / Instant Play</p>
         <h2 id="casual-portal-heading">Pick a world. <span>Jump in.<svg viewBox="0 0 220 24" aria-hidden="true"><path d="M4 16c18-10 30-10 42 0s26 10 40 0 28-10 42 0 26 10 40 0 26-10 48-2" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></svg></span></h2>
-        <p>A lamp over a flooding sea. A drone diving at a courier. A snowman in the other team's fort.</p>
+        <p>Swipe into a living world in seconds. One choice, instant consequences, zero tutorial walls.</p>
         <div className="casual-portal-actions">
           <a className="casual-btn" href="#casual-signal">Play an opening <ArrowDownRight size={18} strokeWidth={2.4} aria-hidden="true" /></a>
           <a className="casual-btn casual-btn-ghost" href="#casual-maker">Make a world</a>
@@ -147,12 +176,12 @@ export default function CasualPortal({ onPlay }: { onPlay?: (world: PlayId) => v
       </div>
 
       <div className="casual-portal-arrival">
-        <p className="casual-portal-arrival-kicker"><span>Level 01</span><em>Mystery</em></p>
-        <p className="casual-portal-arrival-name">The Tidal Archive</p>
-        <p className="casual-portal-arrival-line">{openings.archive} The tide is coming in.</p>
+        <p className="casual-portal-arrival-kicker"><span>Episode 01</span><em>Sci-Fi</em></p>
+        <p className="casual-portal-arrival-name">{FEATURED_REEL.name}</p>
+        <p className="casual-portal-arrival-line">{FEATURED_REEL.hook}</p>
         <a className="casual-btn casual-portal-start" href="#casual-signal">Press start <Play size={16} fill="currentColor" aria-hidden="true" /></a>
       </div>
-      <CasualSecret id="falling-star" className="casual-falling-star" label="A falling star over the archive"><i /></CasualSecret>
+      <CasualSecret id="falling-star" className="casual-falling-star" label="A falling star over Signal Zero"><i /></CasualSecret>
       <div className="casual-portal-progress" aria-hidden="true"><i /></div>
     </div>
   </section>;

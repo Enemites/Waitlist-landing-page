@@ -123,9 +123,9 @@
 .competitive-film-frame { position: relative; margin: 0; aspect-ratio: 16/9; overflow: hidden; border: 1px solid #4a3c2b; border-radius: 2px; background: #0b0a09; }
 .competitive-film-frame > video { display: block; width: 100%; height: 100%; object-fit: cover; background: #0b0a09; }
 .competitive-film-frame > video:focus-visible { outline: 2px solid var(--entry-accent, #efbd70); outline-offset: -2px; }
-.competitive-film-play { position: absolute; left: 50%; bottom: clamp(18px,4%,34px); transform: translateX(-50%); display: inline-flex; align-items: center; gap: 14px; min-height: 52px; padding: 0 20px 0 8px; border: 1px solid rgba(239,189,112,.55); border-radius: 999px; background: rgba(16,14,12,.78); backdrop-filter: blur(6px); color: #f4ead9; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: background-color .2s ease, border-color .2s ease; }
+.product-site button.competitive-film-play, .competitive-film-play { position: absolute; left: 0; right: 0; bottom: clamp(18px,4%,34px); width: fit-content; margin-inline: auto; transform: none; display: inline-flex; align-items: center; gap: 14px; min-height: 52px; padding: 0 20px 0 8px; border: 1px solid rgba(239,189,112,.55); border-radius: 999px; background: rgba(16,14,12,.78); backdrop-filter: blur(6px); color: #f4ead9; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: background-color .2s ease, border-color .2s ease; }
 .competitive-film-play:hover { background: rgba(28,23,17,.9); border-color: var(--entry-accent, #efbd70); }
-.competitive-film-play:active { transform: translateX(-50%) translateY(1px); }
+.product-site button.competitive-film-play:not(:disabled):active, .competitive-film-play:active { transform: none; }
 .competitive-film-play:focus-visible { outline: 2px solid var(--entry-accent, #efbd70); outline-offset: 4px; }
 .competitive-film-play-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--entry-accent, #efbd70); color: #251c10; }
 .competitive-film-play-icon svg { margin-left: 2px; }
@@ -134,8 +134,8 @@
   .competitive-film { padding-bottom: 56px; }
   .competitive-film-heading { display: block; margin-bottom: 20px; }
   .product-site .competitive-film-heading h2 { text-align: left; margin-top: 14px; font-size: clamp(28px,7.5vw,36px); }
-  .competitive-film-play { left: 10px; bottom: 10px; transform: none; min-height: 44px; gap: 10px; padding: 0 14px 0 4px; font-size: 13px; }
-  .competitive-film-play:active { transform: translateY(1px); }
+  .product-site button.competitive-film-play, .competitive-film-play { left: 10px; right: auto; bottom: 10px; margin-inline: 0; transform: none; min-height: 44px; gap: 10px; padding: 0 14px 0 4px; font-size: 13px; }
+  .product-site button.competitive-film-play:not(:disabled):active, .competitive-film-play:active { transform: none; }
   .competitive-film-play-icon { width: 34px; height: 34px; }
   .competitive-film-duration { display: none; }
 }

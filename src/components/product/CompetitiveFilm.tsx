@@ -15,7 +15,7 @@ export default function CompetitiveFilm() {
     if (!el) return;
     void el.play().catch(() => {});
     // The play button unmounts on this click; keep keyboard focus on the now-controllable video.
-    requestAnimationFrame(() => el.focus());
+    requestAnimationFrame(() => el.focus({ preventScroll: true }));
   };
 
   return <section className="competitive-film" aria-labelledby="competitive-film-heading">

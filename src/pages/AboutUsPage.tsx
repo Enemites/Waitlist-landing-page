@@ -112,7 +112,7 @@ const AboutUsPage = () => {
                className="max-w-3xl py-8 sm:py-12"
             >
               <motion.p variants={itemVariants} className="nova-mono mb-4 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-[0.18em] text-[#73776E]">
-                About Enemites
+                About Realms
               </motion.p>
               <motion.h1 variants={itemVariants} className="nova-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] sm:leading-[1.05] tracking-tight text-[#272C27]">
                 Built by students who needed <span className="nova-gradient-x">better realms</span>.
@@ -314,7 +314,7 @@ const AboutUsPage = () => {
             <div className="relative z-10">
               <p className="nova-mono mb-3 sm:mb-6 text-[10px] sm:text-[11.5px] font-medium uppercase tracking-wider text-[#B8593B]">Still building</p>
               <h2 className="nova-display max-w-3xl text-xl sm:text-3xl md:text-5xl font-medium leading-[1.15] text-[#272C27]">
-                Enemites is not a finished monument. Realms is being tested with real students.
+                Realms is not a finished monument. Realms is being tested with real students.
               </h2>
               <div className="mt-6 sm:mt-10 flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-[#DAD6CB] pt-6 sm:pt-10">
                 <p className="max-w-xl text-xs sm:text-sm md:text-base leading-relaxed text-[#62675E]">
